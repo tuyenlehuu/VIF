@@ -11,6 +11,9 @@ This system will use:
 - REST
 - Git
 - Angular 2+
+- Gulp
+- Sass
+- Bower
 
 Some tool:
 - Spring Tool Suite
