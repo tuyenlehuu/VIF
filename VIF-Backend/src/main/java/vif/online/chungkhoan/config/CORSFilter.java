@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-public class CORSFilter implements Filter {
-	public CORSFilter() {
+//@Configuration
+public class CORSFilter{
+	/*public CORSFilter() {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -40,5 +40,5 @@ public class CORSFilter implements Filter {
 	}
 
 	public void destroy() {
-	}
+	}*/
 }
