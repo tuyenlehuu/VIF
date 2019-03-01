@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { config } from '../config/application.config';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -12,10 +13,14 @@ export class OauthService {
   isLoggedIn = false;
   redirectUrl: string;
   private url = config.apiUrl + '/oauth/token';
-  constructor(private router: Router, private http: Http) { }
+  constructor(private router: Router, private http: HttpClient) { }
 
 
   login(username: string, password: string): boolean {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Authorization', config.requestAuthorization);
+
     // const headers = new Headers();
     // headers.append('Content-Type', 'application/x-www-form-urlencoded');
     // headers.append('Authorization', config.requestAuthorization);
