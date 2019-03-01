@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { OauthService } from '../../services/oauth.service';
 import { Router } from '@angular/router';
+import { config } from '../../config/application.config';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +16,15 @@ export class LoginComponent {
   }
 
   login(){
-    let result = this.oauthService.login(this.username, this.password);
-    if(result){
-      this.router.navigate(['/dashboard']);
-    }else{
-      this.router.navigate(['/login']);
-      this.isLoginFail = true;
-    }
+    this.oauthService.login(this.username, this.password).pipe(first())
+    .subscribe(
+      data =>{
+        this.router.navigate(['/dashboard']);
+      },
+      error => {
+        this.router.navigate(['/login']);
+        this.isLoginFail = true;
+      }
+    );
   }
 }

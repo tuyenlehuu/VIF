@@ -6,7 +6,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -58,7 +58,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     TabsModule.forRoot(),
     ChartsModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
