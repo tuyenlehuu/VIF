@@ -42,6 +42,8 @@ public class Customer implements Serializable {
 
 	@Column(name = "TOTAL_CCQ")
 	private BigDecimal totalCcq;
+	
+	
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> users = new ArrayList<>();

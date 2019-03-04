@@ -27,39 +27,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import vif.online.chungkhoan.entities.Cophieu;
-import vif.online.chungkhoan.services.CophieuService;
+import vif.online.chungkhoan.entities.ShareMaster;
+import vif.online.chungkhoan.services.ShareMasterService;
 
 @Controller
 @RequestMapping("cophieu")
-public class CophieuController {
+public class ShareMasterController {
 
 	@Autowired
-	private CophieuService cophieuService;
+	private ShareMasterService cophieuService;
 
 	@Autowired
 	private Environment env;
 
 	@GetMapping("/code/{code}")
-	public ResponseEntity<Cophieu> getCophieuByCode(@PathVariable("code") String code) {
-		Cophieu cp = cophieuService.getCophieuByCode(code);
-		return new ResponseEntity<Cophieu>(cp, HttpStatus.OK);
+	public ResponseEntity<ShareMaster> getCophieuByCode(@PathVariable("code") String code) {
+		ShareMaster cp = cophieuService.getCophieuByCode(code);
+		return new ResponseEntity<ShareMaster>(cp, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cophieu> getCophieuById(@PathVariable("id") Integer id) {
-		Cophieu cp = cophieuService.getCophieuById(id);
-		return new ResponseEntity<Cophieu>(cp, HttpStatus.OK);
+	public ResponseEntity<ShareMaster> getCophieuById(@PathVariable("id") Integer id) {
+		ShareMaster cp = cophieuService.getCophieuById(id);
+		return new ResponseEntity<ShareMaster>(cp, HttpStatus.OK);
 	}
 
 	@GetMapping("getAlls")
-	public ResponseEntity<List<Cophieu>> getAllCophieu() {
-		List<Cophieu> list = cophieuService.getAllCophieu();
-		return new ResponseEntity<List<Cophieu>>(list, HttpStatus.OK);
+	public ResponseEntity<List<ShareMaster>> getAllCophieu() {
+		List<ShareMaster> list = cophieuService.getAllCophieu();
+		return new ResponseEntity<List<ShareMaster>>(list, HttpStatus.OK);
 	}
 
 	@PostMapping("add")
-	public ResponseEntity<Void> addArticle(@RequestBody Cophieu cp, UriComponentsBuilder builder) {
+	public ResponseEntity<Void> addArticle(@RequestBody ShareMaster cp, UriComponentsBuilder builder) {
 		boolean flag = cophieuService.addCophieu(cp);
 		if (flag == false) {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
@@ -70,9 +70,9 @@ public class CophieuController {
 	}
 
 	@PutMapping("update")
-	public ResponseEntity<Cophieu> updateUser(@RequestBody Cophieu cp) {
+	public ResponseEntity<ShareMaster> updateUser(@RequestBody ShareMaster cp) {
 		cophieuService.updateCophieu(cp);
-		return new ResponseEntity<Cophieu>(cp, HttpStatus.OK);
+		return new ResponseEntity<ShareMaster>(cp, HttpStatus.OK);
 	}
 
 	@DeleteMapping("delete/{code}")
@@ -94,14 +94,14 @@ public class CophieuController {
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
 
-	public void syncDataCp(CophieuService cpService, String urlOrigin) throws IOException {
+	public void syncDataCp(ShareMasterService cpService, String urlOrigin) throws IOException {
 		Document doc = Jsoup.connect(urlOrigin).maxBodySize(0).timeout(20000).get();
 		Elements elements = doc.select("tbody#sortable tr");
 		// elements.remove(0);
 		List<Element> lstElements = elements.subList(2, elements.size());
-		Map<String, Cophieu> mapCophieu = new HashMap<>();
+		Map<String, ShareMaster> mapCophieu = new HashMap<>();
 		for (Element e : lstElements) {
-			Cophieu cophieu = new Cophieu();
+			ShareMaster cophieu = new ShareMaster();
 			Element td = e.select("td").get(0);
 			Elements aLst = td.getElementsByTag("a");
 			if (aLst != null && aLst.size() > 0) {
@@ -126,13 +126,13 @@ public class CophieuController {
 			}
 		}
 		
-		List<Cophieu> listFromDB = cophieuService.getAllCophieu();
+		List<ShareMaster> listFromDB = cophieuService.getAllCophieu();
 		if(listFromDB == null || listFromDB.size() <= 0) {
-			for(Map.Entry<String, Cophieu> entry : mapCophieu.entrySet()) {
+			for(Map.Entry<String, ShareMaster> entry : mapCophieu.entrySet()) {
 				cpService.addCophieu(entry.getValue());
 			}
 		}else {
-			for (Cophieu mCpDB : listFromDB) {
+			for (ShareMaster mCpDB : listFromDB) {
 				String currentPrice = mapCophieu.get(mCpDB.getCpCode()).getCpPrice();
 				if(currentPrice.equals(mCpDB.getCpPrice())) {
 					continue;

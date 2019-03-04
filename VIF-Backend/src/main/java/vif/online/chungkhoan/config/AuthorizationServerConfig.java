@@ -3,8 +3,9 @@ package vif.online.chungkhoan.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -65,6 +66,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore)
-		.authenticationManager(authenticationManager);
+		.authenticationManager(authenticationManager)
+		.exceptionTranslator(exception ->{
+			if (exception instanceof OAuth2Exception) {
+                OAuth2Exception oAuth2Exception = (OAuth2Exception) exception;
+                return ResponseEntity
+                        .status(oAuth2Exception.getHttpErrorCode())
+                        .body(new CustomOauthException(oAuth2Exception.getMessage()));
+            } else {
+                throw exception;
+            }
+		});
 	}
 }

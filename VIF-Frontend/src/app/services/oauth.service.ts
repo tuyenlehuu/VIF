@@ -4,46 +4,53 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { config } from '../config/application.config';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { User } from '../models/User.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class OauthService {
-  redirectUrl: string;
-  private url = config.apiUrl + '/oauth/token';
-  constructor(private router: Router, private http: HttpClient) { }
+    private currentUserSubject: BehaviorSubject<User>;
+    public currentUser: Observable<User>;
+    redirectUrl: string;
+    private url = config.apiUrl + '/oauth/token';
 
-  login(username: string, password: string){
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': config.contentType,
-        'Authorization': config.requestAuthorization
-      })
-    };
+    constructor(private router: Router, private http: HttpClient) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
 
-    let creds = 'username=' + username + '&password=' + password + '&grant_type=password';
-    // return this.http.post(this.url, creds, httpOptions).subscribe(data => {
-    //   localStorage.setItem(config.session, JSON.stringify(data));
-    // }, (error) => {
-    //   console.log('error in', error);
-    // });
-    return this.http.post<any>(this.url, creds, httpOptions).pipe(map(data=>{
-      localStorage.setItem(config.session, JSON.stringify(data));
-    }));
-    
-    // .subscribe(data => {
-    //   localStorage.setItem(config.session, JSON.stringify(data));
-    // }, (error) => {
-    //   console.log('error in', error);
-    // });
-  }
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
 
-  logout() {
-    // remove os dados da sessão do armazenamento local
-    localStorage.removeItem(config.session);
-    this.router.navigate(['/login']);
-  }
+    login(username: string, password: string) {
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': config.contentType,
+                'Authorization': config.requestAuthorization
+            })
+        };
+
+        let creds = 'username=' + username + '&password=' + password + '&grant_type=password';
+        return this.http.post<any>(this.url, creds, httpOptions).pipe(map(user => {
+            localStorage.setItem(config.session, JSON.stringify(user));
+            if (user && user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem(config.currentUser, JSON.stringify(user));
+                this.currentUserSubject.next(user);
+            }
+            return user;
+        }));
+    }
+
+    logout() {
+        localStorage.removeItem(config.currentUser);
+        localStorage.removeItem(config.session);
+        this.currentUserSubject.next(null);
+        this.router.navigate(['/login']);
+    }
 }

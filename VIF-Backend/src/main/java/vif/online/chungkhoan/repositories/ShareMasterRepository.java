@@ -3,9 +3,9 @@ package vif.online.chungkhoan.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import vif.online.chungkhoan.entities.Cophieu;
+import vif.online.chungkhoan.entities.ShareMaster;
 
 @Repository
-public interface CophieuRepository extends JpaRepository<Cophieu, Integer> {
+public interface ShareMasterRepository extends JpaRepository<ShareMaster, Integer> {
 
 }

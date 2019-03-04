@@ -7,38 +7,38 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
-import vif.online.chungkhoan.dao.CophieuDao;
-import vif.online.chungkhoan.entities.Cophieu;
+import vif.online.chungkhoan.dao.ShareMasterDao;
+import vif.online.chungkhoan.entities.ShareMaster;
 
 @Transactional
 @Repository
-public class CophieuDaoImpl implements CophieuDao {
+public class ShareMasterDaoImpl implements ShareMasterDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Cophieu> getAllCophieus() {
+	public List<ShareMaster> getAllCophieus() {
 		// TODO Auto-generated method stub
 		String hql = "FROM Cophieu as c ORDER BY c.cpCode asc";
-		return (List<Cophieu>) entityManager.createQuery(hql).getResultList();
+		return (List<ShareMaster>) entityManager.createQuery(hql).getResultList();
 	}
 
 	@Override
-	public Cophieu getCophieuById(int cophieuId) {
+	public ShareMaster getCophieuById(int cophieuId) {
 		// TODO Auto-generated method stub
-		return entityManager.find(Cophieu.class, cophieuId);
+		return entityManager.find(ShareMaster.class, cophieuId);
 	}
 
 	@Override
-	public void addCophieu(Cophieu cophieu) {
+	public void addCophieu(ShareMaster cophieu) {
 		// TODO Auto-generated method stub
 		entityManager.persist(cophieu);
 	}
 
 	@Override
-	public void updateCophieu(Cophieu Cophieu) {
+	public void updateCophieu(ShareMaster Cophieu) {
 		// TODO Auto-generated method stub
 		entityManager.flush();
 	}
@@ -50,7 +50,7 @@ public class CophieuDaoImpl implements CophieuDao {
 	}
 
 	@Override
-	public boolean cophieuExists(Cophieu cophieu) {
+	public boolean cophieuExists(ShareMaster cophieu) {
 		// TODO Auto-generated method stub
 		String hql = "FROM Cophieu as c WHERE c.cpCode = :cophieuCode";
 		int count = entityManager.createQuery(hql).setParameter("cophieuCode", cophieu.getCpCode()).getResultList()
@@ -59,11 +59,11 @@ public class CophieuDaoImpl implements CophieuDao {
 	}
 
 	@Override
-	public Cophieu getCophieuByCode(String code) {
+	public ShareMaster getCophieuByCode(String code) {
 		// TODO Auto-generated method stub
 		String hql = "FROM Cophieu as c WHERE c.cpCode = :mcode";
 		@SuppressWarnings("unchecked")
-		List<Cophieu> lstResult = entityManager.createQuery(hql).setParameter("mcode", code).getResultList();
+		List<ShareMaster> lstResult = entityManager.createQuery(hql).setParameter("mcode", code).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {
 			return lstResult.get(0);
 		}

@@ -4,30 +4,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vif.online.chungkhoan.dao.CophieuDao;
-import vif.online.chungkhoan.entities.Cophieu;
-import vif.online.chungkhoan.services.CophieuService;
+import vif.online.chungkhoan.dao.ShareMasterDao;
+import vif.online.chungkhoan.entities.ShareMaster;
+import vif.online.chungkhoan.services.ShareMasterService;
 
 @Service
-public class CophieuServiceImpl implements CophieuService {
+public class ShareMasterServiceImpl implements ShareMasterService {
 
 	@Autowired
-	CophieuDao cpDao;
+	ShareMasterDao cpDao;
 
 	@Override
-	public List<Cophieu> getAllCophieu() {
+	public List<ShareMaster> getAllCophieu() {
 		// TODO Auto-generated method stub
 		return cpDao.getAllCophieus();
 	}
 
 	@Override
-	public Cophieu getCophieuById(int id) {
+	public ShareMaster getCophieuById(int id) {
 		// TODO Auto-generated method stub
 		return cpDao.getCophieuById(id);
 	}
 
 	@Override
-	public synchronized boolean addCophieu(Cophieu cophieu) {
+	public synchronized boolean addCophieu(ShareMaster cophieu) {
 		// TODO Auto-generated method stub
 		if (cpDao.cophieuExists(cophieu)) {
 			return false;
@@ -38,7 +38,7 @@ public class CophieuServiceImpl implements CophieuService {
 	}
 
 	@Override
-	public void updateCophieu(Cophieu cophieu) {
+	public void updateCophieu(ShareMaster cophieu) {
 		// TODO Auto-generated method stub
 		cpDao.updateCophieu(cophieu);
 	}
@@ -50,7 +50,7 @@ public class CophieuServiceImpl implements CophieuService {
 	}
 
 	@Override
-	public Cophieu getCophieuByCode(String code) {
+	public ShareMaster getCophieuByCode(String code) {
 		// TODO Auto-generated method stub
 		return cpDao.getCophieuByCode(code);
 	}

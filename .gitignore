@@ -3,3 +3,6 @@
 VIF-Backend/target/classes/META-INF/MANIFEST.MF
 VIF-Backend/target/classes/META-INF/maven/chungkhoan.vif/VIF-Backend/pom.properties
 *.class
+*.class
+*.class
+*.MF
