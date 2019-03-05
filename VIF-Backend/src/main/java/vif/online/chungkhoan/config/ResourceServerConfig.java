@@ -27,6 +27,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		return new RestAuthenticationFailureHandler();
 	}
 	
+	@Bean
+	RestAccessDeniedHandler accessDeniedHandler() {
+		return new RestAccessDeniedHandler();
+	}
+
+	@Bean
+	RestAuthenticationEntryPoint authenticationEntryPoint() {
+		return new RestAuthenticationEntryPoint();
+	}
+	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.anonymous().disable()
@@ -34,6 +44,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.antMatchers("/user/**").access("hasRole('ADMIN')")
 		.antMatchers("/cophieu/**").authenticated()
 		.and()
-		.exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+		.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+		.authenticationEntryPoint(authenticationEntryPoint());
 	}
 }
