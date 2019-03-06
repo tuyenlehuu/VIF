@@ -2,11 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { User } from '../../models/User.model';
+import { UserService } from '../../services/user.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
+  users: User[] = [];
+
+  constructor(private userService:UserService){}
 
   radioModel: string = 'Month';
 
@@ -385,5 +391,10 @@ export class DashboardComponent implements OnInit {
       this.mainChartData2.push(this.random(80, 100));
       this.mainChartData3.push(65);
     }
+
+    this.userService.getAll().pipe(first()).subscribe(users=>{
+      this.users = users;
+      console.log("all user is: ", users);
+    });
   }
 }

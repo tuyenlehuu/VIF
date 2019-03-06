@@ -60,6 +60,10 @@ export const routes: Routes = [
       {
         path: 'charts',
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      },
+      {
+        path: 'user-management',
+        loadChildren: './views/user-management/user.module#UserModule'
       }
       // ,{
       //   path: 'base',

@@ -53,6 +53,15 @@ export const navItems: NavData[] = [
     name: 'Charts',
     url: '/charts',
     icon: 'icon-pie-chart'
+  },
+  {
+      title: true,
+      name: 'Danh mục'
+  },
+  {
+    name: 'Quản lý User',
+    url: '/user-management',
+    icon: 'icon-pie-chart'
   }
   // ,{
   //   title: true,

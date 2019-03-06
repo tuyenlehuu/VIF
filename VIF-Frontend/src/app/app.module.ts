@@ -6,7 +6,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -23,6 +23,9 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OauthService } from './services/oauth.service';
+import { UserService } from './services/user.service';
+import { JWTInterceptor } from './helpers/jwt.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -73,7 +76,10 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     useClass: HashLocationStrategy
   },
   AuthGuard,
-  OauthService
+  OauthService,
+  UserService,
+  { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [ AppComponent ]
 })

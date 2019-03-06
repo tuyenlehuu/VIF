@@ -36,14 +36,18 @@ export class OauthService {
         };
 
         let creds = 'username=' + username + '&password=' + password + '&grant_type=password';
-        return this.http.post<any>(this.url, creds, httpOptions).pipe(map(user => {
-            localStorage.setItem(config.session, JSON.stringify(user));
-            if (user && user.token) {
+        return this.http.post<any>(this.url, creds, httpOptions).pipe(map(token => {
+            localStorage.setItem(config.session, JSON.stringify(token));
+            if (token && token.access_token) {
+                var mUser: User = new User();
+                mUser.username = token.username;
+                mUser.role = token.authorities[0].authority;
+                mUser.token = token.access_token;
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem(config.currentUser, JSON.stringify(user));
-                this.currentUserSubject.next(user);
+                localStorage.setItem(config.currentUser, JSON.stringify(mUser));
+                this.currentUserSubject.next(mUser);
             }
-            return user;
+            return mUser;
         }));
     }
 
