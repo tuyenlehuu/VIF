@@ -1,41 +1,53 @@
 package vif.online.chungkhoan.helper;
 
 public class ApiResponse {
-	private int status;
-	private String message;
-	private Object result;
+	private int code;
+	private Boolean status;
+	private String errors;
+	private Object data;
 	
-	public ApiResponse(int status, String message, Object result) {
+	public ApiResponse(int code, String errors, Object data) {
 		super();
-		this.status = status;
-		this.message = message;
-		this.result = result;
+		this.code = code;
+		this.errors = errors;
+		this.data = data;
 	}
 	
-	public ApiResponse(int status, String message) {
+	public ApiResponse(int code, String errors) {
 		super();
-		this.status = status;
-		this.message = message;
+		this.code = code;
+		this.errors = errors;
 	}
 
-	public int getStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-	public String getMessage() {
-		return message;
+
+	public int getCode() {
+		return code;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+
+	public void setCode(int code) {
+		this.code = code;
 	}
-	public Object getResult() {
-		return result;
+
+	public String getErrors() {
+		return errors;
 	}
-	public void setResult(Object result) {
-		this.result = result;
+
+	public void setErrors(String errors) {
+		this.errors = errors;
 	}
-	
-	
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
 }

@@ -23,7 +23,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint{
 			AuthenticationException authException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		ApiResponse res = new ApiResponse(401, "Unauthorised");
-		res.setMessage("Unauthorised");
+		res.setErrors(authException.getMessage());
+		res.setStatus(false);
         OutputStream out = response.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, res);

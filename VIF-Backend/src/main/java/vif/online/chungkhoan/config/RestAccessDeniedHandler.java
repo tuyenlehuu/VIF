@@ -22,12 +22,12 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler{
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		ApiResponse res = new ApiResponse(403, "Access Denied");
-        res.setMessage("Access Denied");
+		ApiResponse res = new ApiResponse(403, "For Bidden. Access Denied");
+        res.setErrors(accessDeniedException.getMessage());
+        res.setStatus(false);
         OutputStream out = response.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, res);
         out.flush();
 	}
-
 }

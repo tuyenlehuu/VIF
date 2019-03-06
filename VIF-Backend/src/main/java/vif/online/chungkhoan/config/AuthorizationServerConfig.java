@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -73,5 +75,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints.tokenStore(tokenStore)
 		.authenticationManager(authenticationManager)
 		.tokenEnhancer(tokenEnhancer());
+		endpoints.exceptionTranslator(exception -> {
+            if (exception instanceof OAuth2Exception) {
+                OAuth2Exception oAuth2Exception = (OAuth2Exception) exception;
+                return ResponseEntity
+                        .status(oAuth2Exception.getHttpErrorCode())
+                        .body(new CustomOauthException(oAuth2Exception.getMessage(), oAuth2Exception.getHttpErrorCode()));
+            } else {
+                throw exception;
+            }
+        });
 	}
 }
