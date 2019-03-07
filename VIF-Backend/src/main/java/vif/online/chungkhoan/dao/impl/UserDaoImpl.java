@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import vif.online.chungkhoan.dao.UserDao;
@@ -15,14 +18,17 @@ import vif.online.chungkhoan.entities.User;
 public class UserDaoImpl implements UserDao{
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		String hql = "FROM User as u ORDER BY u.username asc";
-		return (List<User>) entityManager.createQuery(hql).getResultList();
-	}
+	/*
+	 * @SuppressWarnings("unchecked")
+	 * 
+	 * @Override public List<User> getAllUsers() { // TODO Auto-generated method
+	 * stub String hql = "FROM User as u ORDER BY u.username asc"; return
+	 * (List<User>) entityManager.createQuery(hql).getResultList(); }
+	 */
 
 	@Override
 	public User getUserById(int id) {
@@ -45,6 +51,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean addUser(User user) {
 		// TODO Auto-generated method stub
+		user.setPassword(passwordEncoder.encode(user.returnPassword()));
 		entityManager.persist(user);
 		return true;
 	}

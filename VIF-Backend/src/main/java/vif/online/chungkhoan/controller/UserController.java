@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.repositories.UserRepository;
 import vif.online.chungkhoan.services.UserService;
 
 /**
@@ -28,6 +29,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username) {
@@ -43,7 +47,8 @@ public class UserController {
 
 	@GetMapping("getAlls")
 	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> list = userService.getAllUsers();
+		List<User> list = userRepository.findAll();
+		
 		return new ResponseEntity<List<User>>(list, HttpStatus.OK);
 	}
 	
@@ -55,7 +60,7 @@ public class UserController {
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
 
 	@PutMapping("update")

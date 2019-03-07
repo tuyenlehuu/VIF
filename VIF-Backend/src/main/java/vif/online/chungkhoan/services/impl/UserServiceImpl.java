@@ -20,11 +20,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private UserDao userDao;
 	
-	@Override
-	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return userDao.getAllUsers();
-	}
+//	@Override
+//	public List<User> getAllUsers() {
+//		// TODO Auto-generated method stub
+//		return userDao.getAllUsers();
+//	}
 
 	@Override
 	public User getUserById(int id) {

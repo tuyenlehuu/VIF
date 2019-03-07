@@ -11,8 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="user", uniqueConstraints = { @UniqueConstraint(columnNames = { "USER_NAME" }) })
@@ -117,6 +118,7 @@ public class User implements Serializable{
 		return password;
 	}
 
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
