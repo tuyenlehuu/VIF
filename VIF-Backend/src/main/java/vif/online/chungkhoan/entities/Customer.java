@@ -42,11 +42,12 @@ public class Customer implements Serializable {
 
 	@Column(name = "TOTAL_CCQ")
 	private BigDecimal totalCcq;
-	
-	
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> users = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<InvestorHistory> investorHistorylst = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -102,5 +103,13 @@ public class Customer implements Serializable {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public List<InvestorHistory> getInvestorHistorylst() {
+		return investorHistorylst;
+	}
+
+	public void setInvestorHistorylst(List<InvestorHistory> investorHistorylst) {
+		this.investorHistorylst = investorHistorylst;
 	}
 }
