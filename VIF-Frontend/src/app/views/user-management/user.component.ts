@@ -8,13 +8,13 @@ import { first } from 'rxjs/operators';
 })
 export class UserComponent implements OnInit {
   users: User[] = [];
+  myId = 1991;
 
   constructor(private userService:UserService){}
 
   ngOnInit(): void {
     this.userService.getAll().pipe(first()).subscribe(users=>{
       this.users = users;
-      console.log("all user is: ", users);
     });
   }
 }

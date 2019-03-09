@@ -1,1 +1,14 @@
 // Here you can add other styles
+// .card-header > i {
+//     vertical-align: -webkit-baseline-middle;
+// }
+
+.card-header > span {
+    vertical-align: -webkit-baseline-middle;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.asterisk{
+    color: red;
+}

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { UserComponent } from './user.component';
+import { CEUserComponent } from './create.edit.user.component';
 import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
@@ -15,6 +16,6 @@ import { UserRoutingModule } from './user-routing.module';
     CommonModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ UserComponent ]
+  declarations: [ UserComponent, CEUserComponent ]
 })
 export class UserModule { }

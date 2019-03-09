@@ -49,7 +49,7 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Trang chủ'
     },
     canActivate: [AuthGuard],
     children: [
@@ -65,6 +65,10 @@ export const routes: Routes = [
         path: 'user-management',
         loadChildren: './views/user-management/user.module#UserModule'
       }
+      // ,{
+      //   path: 'ce-user-management',
+      //   loadChildren: './views/user-management/user.module#UserModule'
+      // }
       // ,{
       //   path: 'base',
       //   loadChildren: './views/base/base.module#BaseModule'

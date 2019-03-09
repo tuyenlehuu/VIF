@@ -8,4 +8,11 @@ export class User {
     isOnline: number;
     isDeleted: number;
     token: string;
+
+    public constructor() {
+        this.isOnline = 0;
+        this.isDeleted = 0;
+        this.role = '-1';
+        this.activeFlg = -1;
+    }
 }

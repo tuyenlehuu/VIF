@@ -1,0 +1,130 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-user-plus"></i>
+    <strong>Tạo mới user</strong>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Tên đăng nhập<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="user.username" name="UserName" class="form-control" id="username-id"
+                placeholder="Nhập vào tên đăng nhập">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offset-md-2 col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Mật khẩu<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input type="password" [(ngModel)]="user.password" name="password" class="form-control" id="pass-id"
+                placeholder="Nhập vào mật khẩu">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Email<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input type="text" [(ngModel)]="user.email" name="email" class="form-control" id="email-id" placeholder="Nhập vào email">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offset-md-2 col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Nhập lại mật khẩu<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input type="password" class="form-control" id="pass-confirm-id" placeholder="Nhập lại mật khẩu">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Quyền<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <select id="select1" name="select1" class="form-control" [(ngModel)]="user.role">
+                <option [ngValue]="r.value" *ngFor="let r of roles">{{r.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offset-md-2 col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Địa chỉ</label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input type="text" class="form-control" id="address-id" placeholder="Nhập vào tên địa chỉ">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Ngày sinh</label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <input class="form-control" id="date-input" type="date" name="date-input" placeholder="date">
+              <!-- <span class="help-block">Please enter a valid date</span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="offset-md-2 col-md-5">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="company">Trạng thái<span class="asterisk">&#42;</span></label>
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <select id="select-status" name="selectStatus" class="form-control" [(ngModel)]="user.activeFlg">
+                <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--End-->
+  </div>
+
+  <div class="card-footer">
+    <button class="btn btn-primary" (click)="addNewUser()">Lưu</button>
+    <button class="btn btn-secondary">Hủy bỏ</button>
+  </div>
+
+</div>
