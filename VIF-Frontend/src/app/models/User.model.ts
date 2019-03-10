@@ -8,6 +8,9 @@ export class User {
     isOnline: number;
     isDeleted: number;
     token: string;
+    customerId: string;
+    address: string;
+    birthday: Date;
 
     public constructor() {
         this.isOnline = 0;

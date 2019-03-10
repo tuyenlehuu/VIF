@@ -15,21 +15,24 @@
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody *ngIf="users.length > 0">
                             <tr *ngFor="let user of users">
                                 <td>{{user.username}}</td>
                                 <td>{{user.email}}</td>
-                                <td>{{user.role}}</td>
-                                <td>{{user.activeFlg}}</td>
+                                <td>{{user.role=='ROLE_ADMIN'?'Quản trị viên':user.role=='ROLE_USER'?'Nhà đầu tư':'Khách'}}</td>
+                                <td>{{user.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
+                                <td><a [routerLink]="['/user-management/ce-user-management', user.id]"><i class="fa fa-pencil"></i></a></td>
                             </tr>
                         </tbody>
                         <tbody *ngIf="users.length <= 0">
                             <span>Empty Item</span>
                         </tbody>
                     </table>
-                    <ul class="pagination" *ngIf="users.length > 0">
+                    <hr />
+                    <ul style="float:right;" class="pagination" *ngIf="users.length > 0">
                         <li class="page-item"><a class="page-link" href="#">Prev</a></li>
                         <li class="page-item active">
                             <a class="page-link" href="#">1</a>

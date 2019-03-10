@@ -26,7 +26,7 @@ export class CEUserComponent implements OnInit {
         },
         {
             name: 'Khách',
-            value: 'GUEST'
+            value: 'ROLE_GUEST'
         }
     ];
 
@@ -45,16 +45,24 @@ export class CEUserComponent implements OnInit {
         }
     ];
 
-    constructor(private route: ActivatedRoute, private userService: UserService) { }
+    constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
     ngOnInit(): void {
         // this.sub = this.route
         //     .data
         //     .subscribe(v => console.log(v));
         this.id = this.route.snapshot.params['id'];
+        this.userService.getById(this.id).subscribe((res: User)=>{
+            this.user = res;
+        })
     }
 
     addNewUser(){
-        console.log("new user: ", this.user);
+        // this.userService.register(this.user).subscribe(res => {
+        //     this.router.navigate(['/user-management']);
+        //   }, (err) => {
+        //     console.log(err);
+        //   });
+        console.log("current user: ", this.user);
     }
 }

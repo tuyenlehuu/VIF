@@ -31,28 +31,38 @@ export interface NavData {
 
 export const navItems: NavData[] = [
   {
-    name: 'Dashboard',
+    name: 'Tổng quan',
     url: '/dashboard',
     icon: 'icon-speedometer'
   },
   {
-    title: true,
-    name: 'Theme'
-  },
-  {
-    name: 'Colors',
+    name: 'Báo cáo tài sản',
     url: '/theme/colors',
-    icon: 'icon-drop'
+    icon: 'icon-note'
   },
   {
-    name: 'Typography',
+    title: true,
+    name: 'Quản lý quỹ'
+  },
+  {
+    name: 'Quản lý đầu tư',
+    url: '/theme/typography',
+    icon: 'fa fa-credit-card-alt'
+  },
+  {
+    name: 'Quản lý nhà đầu tư',
+    url: '/charts',
+    icon: 'icon-graph'
+  },
+  {
+    name: 'Phê duyệt đầu tư',
     url: '/theme/typography',
     icon: 'icon-pencil'
   },
   {
-    name: 'Charts',
-    url: '/charts',
-    icon: 'icon-pie-chart'
+    name: 'Lịch sử đầu tư',
+    url: '/theme/typography',
+    icon: 'icon-calendar'
   },
   {
       title: true,
@@ -61,7 +71,7 @@ export const navItems: NavData[] = [
   {
     name: 'Quản lý User',
     url: '/user-management',
-    icon: 'icon-pie-chart'
+    icon: 'icon-user'
   }
   // ,{
   //   title: true,
