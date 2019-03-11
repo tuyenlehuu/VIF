@@ -8,12 +8,14 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { UserComponent } from './user.component';
 import { CEUserComponent } from './create.edit.user.component';
 import { UserRoutingModule } from './user-routing.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
     FormsModule,
     UserRoutingModule,
     CommonModule,
+    ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],
   declarations: [ UserComponent, CEUserComponent ]

@@ -69,9 +69,16 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@DeleteMapping("delete/{code}")
-	public ResponseEntity<Void> deleteUser(@PathVariable("code") String userName) {
-		userService.deleteUser(userName);
+	@DeleteMapping("deleteByName/{username}")
+	public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String userName) {
+		userService.deleteUserByUsername(userName);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteById/{id}")
+	public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
+		userRepository.deleteById(id);
+//		userService.deleteUserById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

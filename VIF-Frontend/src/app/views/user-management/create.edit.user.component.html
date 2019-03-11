@@ -10,6 +10,7 @@
     </span>
     
   </div>
+  <!--[Start] Create User-->
   <div class="card-body" *ngIf="id==0">
     <div class="row">
       <div class="col-md-5">
@@ -19,7 +20,7 @@
           </div>
           <div class="col-md-9">
             <div class="form-group">
-              <input type="text" [(ngModel)]="user.username" name="UserName" class="form-control" id="username-id"
+              <input type="text" [(ngModel)]="user.username" name="username" class="form-control" id="username-id"
                 placeholder="Nhập vào tên đăng nhập">
             </div>
           </div>
@@ -85,34 +86,6 @@
       <div class="offset-md-2 col-md-5">
         <div class="row">
           <div class="col-md-3">
-            <label for="company">Địa chỉ</label>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <input type="text" class="form-control" id="address-id" placeholder="Nhập vào tên địa chỉ">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-5">
-        <div class="row">
-          <div class="col-md-3">
-            <label for="company">Ngày sinh</label>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <input class="form-control" id="date-input" type="date" name="date-input" placeholder="date">
-              <!-- <span class="help-block">Please enter a valid date</span> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="offset-md-2 col-md-5">
-        <div class="row">
-          <div class="col-md-3">
             <label for="company">Trạng thái<span class="asterisk">&#42;</span></label>
           </div>
           <div class="col-md-9">
@@ -125,12 +98,11 @@
         </div>
       </div>
     </div>
-
-    <!--End-->
+    <!--[End] Create User-->
   </div>
 
-  <!-- Edit User -->
-  <div class="card-body" *ngIf="id>0">
+  <!--[Start] Edit User -->
+  <div class="card-body" *ngIf="user && id>0">
     <div class="row">
       <div class="col-md-5">
         <div class="row">
@@ -139,7 +111,7 @@
           </div>
           <div class="col-md-9">
             <div class="form-group">
-              <input type="text" [(ngModel)]="user.username" name="UserName" class="form-control" id="username-id"
+              <input type="text" [(ngModel)]="user.username" name="usernameEdit" class="form-control" id="username-edit-id"
                 placeholder="Nhập vào tên đăng nhập" disabled>
             </div>
           </div>
@@ -177,34 +149,6 @@
       <div class="offset-md-2 col-md-5">
         <div class="row">
           <div class="col-md-3">
-            <label for="company">Địa chỉ</label>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <input type="text" [(ngModel)]="user.address" name="address-user" class="form-control" id="address-id" placeholder="Nhập vào tên địa chỉ">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-5">
-        <div class="row">
-          <div class="col-md-3">
-            <label for="company">Ngày sinh</label>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <input class="form-control" [(ngModel)]="user.birthday" name="birthday-user" id="date-input" type="date" name="date-input" placeholder="date">
-              <!-- <span class="help-block">Please enter a valid date</span> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="offset-md-2 col-md-5">
-        <div class="row">
-          <div class="col-md-3">
             <label for="company">Trạng thái<span class="asterisk">&#42;</span></label>
           </div>
           <div class="col-md-9">
@@ -217,12 +161,11 @@
         </div>
       </div>
     </div>
-
-    <!--End-->
   </div>
+  <!--[End] Edit User-->
 
   <div class="card-footer">
-    <button class="btn btn-primary" (click)="addNewUser()">Lưu</button>
+    <button class="btn btn-primary" (click)="saveUser()">Lưu</button>
     <button class="btn btn-secondary" routerLink="/user-management">Hủy bỏ</button>
   </div>
 

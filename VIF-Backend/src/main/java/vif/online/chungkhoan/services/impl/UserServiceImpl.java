@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	}
 
 	@Override
-	public void deleteUser(String user_name) {
+	public void deleteUserByUsername(String user_name) {
 		// TODO Auto-generated method stub
 		userDao.deleteUser(user_name);
 	}

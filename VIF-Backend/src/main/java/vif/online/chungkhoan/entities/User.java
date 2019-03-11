@@ -1,7 +1,6 @@
 package vif.online.chungkhoan.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,13 +53,6 @@ public class User implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
-    
-    @Column(name = "ADDRESS")
-    private String address;
-    
-    @Column(name = "BITHDAY", columnDefinition = "DATETIME")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date birthday;
 	
 	public Integer getId() {
 		return id;
@@ -135,22 +125,6 @@ public class User implements Serializable{
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public Date getBirthday() {
-		return birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
 	}
 
 	public String getPassword() {

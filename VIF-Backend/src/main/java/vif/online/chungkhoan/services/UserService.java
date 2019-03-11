@@ -8,6 +8,6 @@ public interface UserService {
 	User getUserByUserName(String user_name);
     boolean addUser(User user);
     void updateUser(User user);
-    void deleteUser(String user_name);
+    void deleteUserByUsername(String user_name);
     boolean authenUser(String username, String password);
 }

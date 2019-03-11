@@ -20,14 +20,14 @@ export class UserService{
     }
 
     update(user: User) {
-        return this.http.put(`${config.apiUrl}/user`, user); 
+        return this.http.put(`${config.apiUrl}/user/update`, user); 
     }
 
     deleteById(id: number) {
-        return this.http.delete(`${config.apiUrl}/user/${id}`);
+        return this.http.delete(`${config.apiUrl}/user/deleteById/${id}`);
     }
 
     deleteByUsername(username: string) {
-        return this.http.delete(`${config.apiUrl}/user/${username}`);
+        return this.http.delete(`${config.apiUrl}/user/deleteByName/${username}`);
     }
 }

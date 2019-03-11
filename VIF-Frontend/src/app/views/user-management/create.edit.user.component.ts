@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     templateUrl: 'create.edit.user.component.html'
 })
 export class CEUserComponent implements OnInit {
-    user: User = new User();
+    user: User;
     sub: any;
     id: any;
     roles = [
@@ -52,17 +52,31 @@ export class CEUserComponent implements OnInit {
         //     .data
         //     .subscribe(v => console.log(v));
         this.id = this.route.snapshot.params['id'];
-        this.userService.getById(this.id).subscribe((res: User)=>{
-            this.user = res;
-        })
+        if (this.id > 0) {
+            this.userService.getById(this.id).subscribe((res: User) => {
+                this.user = res;
+                console.log("current user: ", this.user);
+            })
+        } else {
+            this.user = new User();
+        }
     }
 
-    addNewUser(){
-        // this.userService.register(this.user).subscribe(res => {
-        //     this.router.navigate(['/user-management']);
-        //   }, (err) => {
-        //     console.log(err);
-        //   });
-        console.log("current user: ", this.user);
+    saveUser() {
+        if(this.id >0){
+            // update user
+            this.userService.update(this.user).subscribe(res=>{
+                console.log("new user: ", res);
+                this.router.navigate(['/user-management']);
+            }, (err) =>{
+                console.log(err);
+            });
+        }else{
+            this.userService.register(this.user).subscribe(res => {
+                this.router.navigate(['/user-management']);
+            }, (err) => {
+                console.log(err);
+            });
+        }
     }
 }

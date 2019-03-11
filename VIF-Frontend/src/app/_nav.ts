@@ -36,7 +36,7 @@ export const navItems: NavData[] = [
     icon: 'icon-speedometer'
   },
   {
-    name: 'Báo cáo tài sản',
+    name: 'Quản lý tài sản',
     url: '/theme/colors',
     icon: 'icon-note'
   },
@@ -45,22 +45,31 @@ export const navItems: NavData[] = [
     name: 'Quản lý quỹ'
   },
   {
-    name: 'Quản lý đầu tư',
+    name: 'Giao dịch đầu tư',
     url: '/theme/typography',
     icon: 'fa fa-credit-card-alt'
   },
   {
-    name: 'Quản lý nhà đầu tư',
-    url: '/charts',
-    icon: 'icon-graph'
-  },
-  {
     name: 'Phê duyệt đầu tư',
-    url: '/theme/typography',
+    url: '/charts',
     icon: 'icon-pencil'
   },
   {
-    name: 'Lịch sử đầu tư',
+    name: 'Lịch sử quỹ đầu tư',
+    url: '/theme/typography',
+    icon: 'icon-calendar'
+  },
+  {
+    title: true,
+    name: 'Quản lý NĐT'
+  },
+  {
+    name: 'Giao dịch NĐT',
+    url: '/theme/typography',
+    icon: 'fa fa-credit-card-alt'
+  },
+  {
+    name: 'Lịch sử NĐT',
     url: '/theme/typography',
     icon: 'icon-calendar'
   },
@@ -71,6 +80,11 @@ export const navItems: NavData[] = [
   {
     name: 'Quản lý User',
     url: '/user-management',
+    icon: 'icon-user'
+  },
+  {
+    name: 'Quản lý NĐT',
+    url: '/theme/colors',
     icon: 'icon-user'
   }
   // ,{
