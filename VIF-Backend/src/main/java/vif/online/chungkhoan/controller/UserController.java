@@ -1,6 +1,7 @@
 package vif.online.chungkhoan.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.repositories.UserRepository;
 import vif.online.chungkhoan.services.UserService;
 
@@ -46,10 +49,14 @@ public class UserController {
 	}
 
 	@GetMapping("getAlls")
-	public ResponseEntity<List<User>> getAllUsers() {
+	public ResponseEntity<ApiResponse> getAllUsers() {
+		ApiResponse object = new ApiResponse();
 		List<User> list = userRepository.findAll();
-		
-		return new ResponseEntity<List<User>>(list, HttpStatus.OK);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	
 	@PostMapping("add")

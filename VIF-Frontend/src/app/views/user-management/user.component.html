@@ -18,7 +18,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody *ngIf="users.length > 0">
+                        <tbody *ngIf="users && users.length > 0">
                             <tr *ngFor="let user of users">
                                 <td>{{user.username}}</td>
                                 <td>{{user.email}}</td>
@@ -30,12 +30,12 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody *ngIf="users.length <= 0">
+                        <tbody *ngIf="!users || (users && users.length <= 0)">
                             <span>Empty Item</span>
                         </tbody>
                     </table>
                     <hr />
-                    <ul style="float:right;" class="pagination" *ngIf="users.length > 0">
+                    <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
                         <li class="page-item"><a class="page-link" href="#">Prev</a></li>
                         <li class="page-item active">
                             <a class="page-link" href="#">1</a>

@@ -3,6 +3,8 @@ import { User } from '../../models/User.model';
 import { UserService } from '../../services/user.service';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { config } from '../../config/application.config';
 
 @Component({
     templateUrl: 'create.edit.user.component.html'
@@ -45,7 +47,7 @@ export class CEUserComponent implements OnInit {
         }
     ];
 
-    constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
+    constructor(private route: ActivatedRoute, private userService: UserService, private router: Router, private toastrService: ToastrService) { }
 
     ngOnInit(): void {
         // this.sub = this.route
@@ -63,20 +65,36 @@ export class CEUserComponent implements OnInit {
     }
 
     saveUser() {
-        if(this.id >0){
+        if (this.id > 0) {
             // update user
-            this.userService.update(this.user).subscribe(res=>{
-                console.log("new user: ", res);
-                this.router.navigate(['/user-management']);
-            }, (err) =>{
-                console.log(err);
-            });
-        }else{
-            this.userService.register(this.user).subscribe(res => {
+            this.userService.update(this.user).subscribe(res => {
+                // console.log("new user: ", res);
+                this.showSuccess('Cập nhật thành công');
                 this.router.navigate(['/user-management']);
             }, (err) => {
+                this.showError('Cập nhật user không thành công!');
+                console.log(err);
+            });
+        } else {
+            this.userService.register(this.user).subscribe(res => {
+                this.showSuccess('Thêm mới thành công');
+                this.router.navigate(['/user-management']);
+            }, (err) => {
+                this.showError('Thêm mới user không thành công!');
                 console.log(err);
             });
         }
+    }
+
+    showSuccess(mes: string) {
+        this.toastrService.success('', mes, {
+            timeOut: config.timeoutToast
+        });
+    }
+
+    showError(mes: string) {
+        this.toastrService.error('', mes, {
+            timeOut: config.timeoutToast
+        });
     }
 }

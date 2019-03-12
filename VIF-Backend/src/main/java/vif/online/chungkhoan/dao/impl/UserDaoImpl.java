@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
@@ -60,6 +60,7 @@ public class UserDaoImpl implements UserDao{
 	public void updateUser(User user) {
 		// TODO Auto-generated method stub
 		entityManager.flush();
+//		entityManager.getTransaction().commit();
 	}
 
 	@Override

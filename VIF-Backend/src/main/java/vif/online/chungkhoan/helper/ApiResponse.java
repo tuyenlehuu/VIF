@@ -19,6 +19,11 @@ public class ApiResponse {
 		this.errors = errors;
 	}
 
+	public ApiResponse() {
+		// TODO Auto-generated constructor stub
+		super();
+	}
+
 	public Boolean getStatus() {
 		return status;
 	}
