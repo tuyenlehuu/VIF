@@ -45,10 +45,10 @@ public class User implements Serializable{
     private String role;
     
     @Column(name = "IS_ONLINE")
-    private Integer isOnline;
+    private Integer isOnline = 0;
     
     @Column(name = "IS_DELETED")
-    private Integer isDeleted;
+    private Integer isDeleted = 0;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")

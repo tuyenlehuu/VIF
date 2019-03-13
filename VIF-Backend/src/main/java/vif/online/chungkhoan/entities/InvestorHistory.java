@@ -21,6 +21,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="investor_history", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class InvestorHistory implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
