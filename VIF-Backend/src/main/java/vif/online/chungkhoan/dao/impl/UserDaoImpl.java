@@ -1,11 +1,15 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.beans.Beans;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +64,9 @@ public class UserDaoImpl implements UserDao{
 	public void updateUser(User user) {
 		// TODO Auto-generated method stub
 		entityManager.flush();
-//		entityManager.getTransaction().commit();
+		User mUser = entityManager.find(User.class, user.getId());
+		user.setPassword(mUser.returnPassword());
+		entityManager.merge(user);
 	}
 
 	@Override

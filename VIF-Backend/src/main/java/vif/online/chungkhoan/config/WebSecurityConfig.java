@@ -60,7 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().anonymous().disable().authorizeRequests()
-		.antMatchers("/api-docs/**").permitAll();
+		.antMatchers("/api-docs/**").permitAll()
+		.antMatchers("/public/**").permitAll();
 		// add filter
 //		.and()
 //		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class);

@@ -43,6 +43,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.authorizeRequests()
 		.antMatchers("/user/**").access("hasRole('ADMIN')")
 		.antMatchers("/cophieu/**").authenticated()
+		.antMatchers("/customer/**").authenticated()
 		.and()
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
 		.authenticationEntryPoint(authenticationEntryPoint());
