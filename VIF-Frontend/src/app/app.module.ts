@@ -28,6 +28,7 @@ import { OauthService } from './services/oauth.service';
 import { UserService } from './services/user.service';
 import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -66,7 +67,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,

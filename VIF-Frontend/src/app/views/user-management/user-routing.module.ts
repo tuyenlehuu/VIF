@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     // component: UserComponent,
     data: {
-      title: 'Quản lý user'
+      title: 'Quản lý user' 
     },
     children: [
       {

@@ -43,7 +43,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<User> getCophieuById(@PathVariable("id") Integer id) {
+	public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
 		User cp = userService.getUserById(id);
 		return new ResponseEntity<User>(cp, HttpStatus.OK);
 	}

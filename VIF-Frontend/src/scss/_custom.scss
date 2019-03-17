@@ -3,24 +3,46 @@
 //     vertical-align: -webkit-baseline-middle;
 // }
 
-.card-header > span {
-    vertical-align: -webkit-baseline-middle;
-    font-size: 15px;
-    font-weight: 600;
+.card-header>span {
+  vertical-align: -webkit-baseline-middle;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.asterisk{
-    color: red;
-}
-.card-footer{
-    background-color: white;
-    .btn{
-        width: 100px;
-    }
+.asterisk {
+  color: red;
 }
 
-#toast-container > div {
-    opacity:1;
+.card-footer {
+  background-color: white;
+
+  .btn {
+    width: 100px;
+  }
 }
 
-.toast-error { background-color: rgb(245, 72, 63) !important; } .toast-success { background-color: rgb(84, 209, 84) !important;}
+#toast-container>div {
+  opacity: 1;
+}
+
+.toast-error {
+  background-color: rgb(245, 72, 63) !important;
+}
+
+.toast-success {
+  background-color: rgb(84, 209, 84) !important;
+}
+
+.alert {
+    position: relative;
+    padding: unset;
+    margin-bottom: 0;
+    border: none;
+    /* border-radius: 0.25rem; */
+}
+
+.alert-danger {
+    color: #f90505;
+    background-color: #fff;
+    border: none;
+}

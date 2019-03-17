@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 // import { ChartsModule } from 'ng2-charts/ng2-charts';
 // import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -16,8 +16,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     UserRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ReactiveFormsModule
   ],
-  declarations: [ UserComponent, CEUserComponent ]
+  declarations: [UserComponent, CEUserComponent]
 })
 export class UserModule { }

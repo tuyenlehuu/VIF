@@ -14,13 +14,13 @@ import { ResponseObject } from '../../models/Response.model';
 export class UserComponent implements OnInit {
   users: User[] = [];
   modalRef: BsModalRef;
-  myId = 1991;
+  // myId = 1991;
 
   constructor(private userService:UserService, private modalService: BsModalService, private toastrService: ToastrService){}
 
   ngOnInit(): void {
     this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
-      console.log("data: ", respons);
+      // console.log("data: ", respons);
       this.users = respons.data;
     });
   }
@@ -33,9 +33,9 @@ export class UserComponent implements OnInit {
   deleteUser(){
     // console.log("Start delete: ", this.modalRef.content);
     this.userService.deleteById(this.modalRef.content).subscribe(res=>{
-      this.showSuccess('Cập nhật thành công');
-      this.userService.getAll().pipe(first()).subscribe(users=>{
-        this.users = users;
+      this.showSuccess('Xóa thành công');
+      this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
+        this.users = respons.data;
       });
     }, catchError=>{
       console.log("result: ", catchError);
