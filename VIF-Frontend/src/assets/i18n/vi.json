@@ -1,0 +1,44 @@
+{
+  "vif": {
+    "user": {
+        "title1": "Quản lý người dùng",
+        "title2": "Tạo mới người dùng",
+        "title3": "Cập nhật người dùng",
+        "username": "Tên đăng nhập",
+        "username_placeholder": "Nhập vào tên đăng nhập",
+        "email": "Email",
+        "email_placeholder": "Nhập vào Email",
+        "password": "Mật khẩu",
+        "password_placeholder": "Nhập vào mật khẩu",
+        "confirm_password": "Nhập lại mật khẩu",
+        "role": "Quyền",
+        "status": "Trạng thái",
+        "action": "Hành động"
+    },
+    "global":{
+        "button":{
+            "add": "Thêm mới",
+            "cancel": "Hủy bỏ",
+            "update": "Cập nhật",
+            "delete": "Xóa",
+            "accept": "Đồng ý",
+            "save": "Lưu"
+        },
+        "other":{
+            "emptyItem":"Không có bản ghi",
+            "confirmDel": "Bạn có thực sự muốn xóa user?",
+            "note": "Lưu ý"
+        }
+    },
+    "message":{
+        "username_require": "*Tên đăng nhập là bắt buộc",
+        "email_require": "*Email là bắt buộc",
+        "email_invalid": "*Email không đúng định dạng",
+        "password_require": "*Mật khẩu là bắt buộc",
+        "password_minlength": "*Mật khẩu tối thiểu phải có 8 ký tự",
+        "password_notmatch": "*Mật khẩu không khớp nhau!",
+        "role_require": "*Phân quyền là bắt buộc",
+        "status_require": "*Trạng thái là bắt buộc"
+    }
+  }
+}
