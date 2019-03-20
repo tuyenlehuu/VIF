@@ -22,7 +22,8 @@
             "update": "Cập nhật",
             "delete": "Xóa",
             "accept": "Đồng ý",
-            "save": "Lưu"
+            "save": "Lưu",
+            "search": "Tìm kiếm"
         },
         "other":{
             "emptyItem":"Không có bản ghi",

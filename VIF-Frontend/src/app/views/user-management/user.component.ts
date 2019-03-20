@@ -9,43 +9,85 @@ import { config } from '../../config/application.config';
 import { ResponseObject } from '../../models/Response.model';
 
 @Component({
-  templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
-  users: User[] = [];
-  modalRef: BsModalRef;
-  // myId = 1991;
+    users: User[] = [];
+    modalRef: BsModalRef;
+    userSearch: User = new User();
+    roles = [
+        {
+            name: 'Chọn quyền',
+            value: '-1'
+        },
+        {
+            name: 'Quản trị viên',
+            value: 'ROLE_ADMIN'
+        },
+        {
+            name: 'Nhà đầu tư',
+            value: 'ROLE_USER'
+        },
+        {
+            name: 'Khách',
+            value: 'ROLE_GUEST'
+        }
+    ];
 
-  constructor(private userService:UserService, private modalService: BsModalService, private toastrService: ToastrService){}
+    status = [
+        {
+            name: 'Chọn trạng thái',
+            value: -1
+        },
+        {
+            name: 'Hoạt động',
+            value: 1
+        },
+        {
+            name: 'Ngừng hoạt động',
+            value: 0
+        }
+    ];
 
-  ngOnInit(): void {
-    this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
-      // console.log("data: ", respons);
-      this.users = respons.data;
-    });
-  }
+    constructor(private userService: UserService, private modalService: BsModalService, private toastrService: ToastrService) { }
 
-  confirmDel(template: TemplateRef<any>, userId: string){
-    this.modalRef = this.modalService.show(template);
-    this.modalRef.content = userId;
-  }
+    ngOnInit(): void {
+        // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
+        //     // console.log("data: ", respons);
+        //     this.users = respons.data;
+        // });
+        this.search();
+    }
 
-  deleteUser(){
-    // console.log("Start delete: ", this.modalRef.content);
-    this.userService.deleteById(this.modalRef.content).subscribe(res=>{
-      this.showSuccess('Xóa thành công');
-      this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
-        this.users = respons.data;
-      });
-    }, catchError=>{
-      console.log("result: ", catchError);
-    });
-    this.modalRef.hide();
-  }
+    confirmDel(template: TemplateRef<any>, userId: string) {
+        this.modalRef = this.modalService.show(template);
+        this.modalRef.content = userId;
+    }
 
-  showSuccess(mes: string) {
-    this.toastrService.success('', mes, {
-        timeOut: config.timeoutToast
-    });
-}
+    deleteUser() {
+        // console.log("Start delete: ", this.modalRef.content);
+        this.userService.deleteById(this.modalRef.content).subscribe(res => {
+            this.showSuccess('Xóa thành công');
+            this.userService.getAll().pipe(first()).subscribe((respons: any) => {
+                this.users = respons.data;
+            });
+        }, catchError => {
+            console.log("result: ", catchError);
+        });
+        this.modalRef.hide();
+    }
+
+    showSuccess(mes: string) {
+        this.toastrService.success('', mes, {
+            timeOut: config.timeoutToast
+        });
+    }
+
+    search() {
+        // console.log("userSearch: ", this.userSearch);
+        this.userService.getUsersByCondition(this.userSearch, null).pipe(first()).subscribe((respons: any) => {
+            this.users = respons.data;
+            // console.log("data: ", respons);
+        });
+    }
 }

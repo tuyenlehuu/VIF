@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.User;
@@ -22,20 +23,19 @@ import vif.online.chungkhoan.repositories.UserRepository;
 import vif.online.chungkhoan.services.UserService;
 
 /**
- * @author TUYENLH
- * UserController
+ * @author TUYENLH UserController
  */
 
 @Controller
 @RequestMapping("user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username) {
 		User user = userService.getUserByUserName(username);
@@ -51,14 +51,35 @@ public class UserController {
 	@GetMapping("getAlls")
 	public ResponseEntity<ApiResponse> getAllUsers() {
 		ApiResponse object = new ApiResponse();
-		List<User> list = userRepository.findAll();
+		List<User> list = userService.getAllUsers();
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
 		object.setData(list);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
-	
+
+	@GetMapping("getUsersByCondition")
+	public ResponseEntity<ApiResponse> SearchUserByCondition(@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "pageSize", required = true) int pageSize,
+			@RequestParam(value = "columnSortName", required = false) String columnSortName,
+			@RequestParam(value = "asc", required = false) Boolean asc,
+			@RequestParam(value = "username", required = false) String username,
+			@RequestParam(value = "activeFlg", required = false) Integer activeFlg,
+			@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "role", required = false) String role) {
+		ApiResponse object = new ApiResponse();
+		List<User> list = userService.SearchUserByCondition(page, pageSize, columnSortName, asc, username, activeFlg, email, role);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		object.setPage(page);
+		object.setPageSize(pageSize);
+		object.setTotalRow(userService.getAllUsers().size());
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+
 	@PostMapping("add")
 	public ResponseEntity<Void> addUser(@RequestBody User user, UriComponentsBuilder builder) {
 		boolean flag = userService.addUser(user);
@@ -81,10 +102,10 @@ public class UserController {
 		userService.deleteUserByUsername(userName);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("deleteById/{id}")
 	public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
-		userRepository.deleteById(id);
+		userService.deleteUserById(id);
 //		userService.deleteUserById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
