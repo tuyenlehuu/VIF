@@ -25,4 +25,6 @@ public interface UserDao {
 			Integer activeFlg, String email, String role);
 
 	void deleteUserById(Integer id);
+
+	int getRowCount(String username, Integer activeFlg, String email, String role);
 }

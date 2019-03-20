@@ -7,6 +7,7 @@ import { error } from '@angular/compiler/src/util';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { ResponseObject } from '../../models/Response.model';
+import { Pager } from '../../models/Pager';
 
 @Component({
     templateUrl: 'user.component.html'
@@ -15,6 +16,10 @@ export class UserComponent implements OnInit {
     users: User[] = [];
     modalRef: BsModalRef;
     userSearch: User = new User();
+
+    p: number = 1;
+    total: number;
+    pageSize: number = 5;
     roles = [
         {
             name: 'Chọn quyền',
@@ -56,7 +61,20 @@ export class UserComponent implements OnInit {
         //     // console.log("data: ", respons);
         //     this.users = respons.data;
         // });
-        this.search();
+        // this.search();
+        this.getPage(1);
+    }
+
+    getPage(page: number) {
+        var pager: Pager = new Pager();
+        pager.page = page;
+        pager.pageSize = this.pageSize;
+        this.userService.getUsersByCondition(this.userSearch, pager).pipe(first()).subscribe((respons: any) => {
+            this.users = respons.data;
+            this.total = respons.totalRow;
+            this.p = page;
+            // console.log("data: ", respons);
+        });
     }
 
     confirmDel(template: TemplateRef<any>, userId: string) {
@@ -68,9 +86,10 @@ export class UserComponent implements OnInit {
         // console.log("Start delete: ", this.modalRef.content);
         this.userService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
-            this.userService.getAll().pipe(first()).subscribe((respons: any) => {
-                this.users = respons.data;
-            });
+            // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
+            //     this.users = respons.data;
+            // });
+            this.getPage(1);
         }, catchError => {
             console.log("result: ", catchError);
         });
@@ -85,9 +104,6 @@ export class UserComponent implements OnInit {
 
     search() {
         // console.log("userSearch: ", this.userSearch);
-        this.userService.getUsersByCondition(this.userSearch, null).pipe(first()).subscribe((respons: any) => {
-            this.users = respons.data;
-            // console.log("data: ", respons);
-        });
+        this.getPage(1);
     }
 }

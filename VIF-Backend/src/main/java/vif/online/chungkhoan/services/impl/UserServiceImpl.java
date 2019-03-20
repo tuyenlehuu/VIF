@@ -96,4 +96,10 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		userDao.deleteUserById(id);
 	}
 
+	@Override
+	public int getRowCount(String username, Integer activeFlg, String email, String role) {
+		// TODO Auto-generated method stub
+		return userDao.getRowCount(username, activeFlg, email, role);
+	}
+
 }

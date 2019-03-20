@@ -70,13 +70,14 @@ public class UserController {
 			@RequestParam(value = "role", required = false) String role) {
 		ApiResponse object = new ApiResponse();
 		List<User> list = userService.SearchUserByCondition(page, pageSize, columnSortName, asc, username, activeFlg, email, role);
+		int rowCount = userService.getRowCount(username, activeFlg, email, role);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
 		object.setData(list);
 		object.setPage(page);
 		object.setPageSize(pageSize);
-		object.setTotalRow(userService.getAllUsers().size());
+		object.setTotalRow(rowCount);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 

@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,23 +120,27 @@ public class UserDaoImpl implements UserDao{
 		
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		
-		select.where(criteriaBuilder.equal(from.get("isDeleted"), 0));
+List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		predicates.add(criteriaBuilder.equal(from.get("isDeleted"), 0));
 		
 		if(username != null && !username.equals("")) {
-			select.where(criteriaBuilder.equal(from.get("username"), username));
+			predicates.add(criteriaBuilder.equal(from.get("username"), username));
 		}
 		
 		if(activeFlg != null) {
-			select.where(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
 		}
 		
 		if(email != null && !email.equals("")) {
-			select.where(criteriaBuilder.equal(from.get("email"), email));
+			predicates.add(criteriaBuilder.equal(from.get("email"), email));
 		}
 		
 		if(role != null && !role.equals("")) {
-			select.where(criteriaBuilder.equal(from.get("role"), role));
+			predicates.add(criteriaBuilder.equal(from.get("role"), role));
 		}
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
 		
 		if(columnSortName != null && !columnSortName.equals("")) {
 			if(asc== null || asc) {
@@ -152,5 +158,43 @@ public class UserDaoImpl implements UserDao{
 		List<User> lstResult = query.getResultList();
 
 		return lstResult;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getRowCount(String username, Integer activeFlg, String email, String role) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<User> from = criteriaQuery.from(User.class);
+		
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		predicates.add(criteriaBuilder.equal(from.get("isDeleted"), 0));
+		
+		if(username != null && !username.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("username"), username));
+		}
+		
+		if(activeFlg != null) {
+			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+		}
+		
+		if(email != null && !email.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("email"), email));
+		}
+		
+		if(role != null && !role.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("role"), role));
+		}
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
+		
+		Query query = entityManager.createQuery(select);
+
+		List<User> lstResult = query.getResultList();
+		return lstResult.size();
 	}
 }

@@ -33,7 +33,7 @@ export class UserService{
         if(userCondition.activeFlg && userCondition.activeFlg !== -1){
             url = url + "&activeFlg=" + userCondition.activeFlg;
         }
-        // console.log("url: ", url);
+        console.log("url: ", url);
         return this.http.get<any>(url);
     }
 

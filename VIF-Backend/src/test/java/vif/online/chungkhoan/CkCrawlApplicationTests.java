@@ -1,4 +1,4 @@
-package chungkhoan.crawl.CKCrawl;
+package vif.online.chungkhoan;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -21,6 +21,8 @@ public interface UserService {
 
 	List<User> SearchUserByCondition(int page, int pageSize, String columnSortName, Boolean asc, String username,
 			Integer activeFlg, String email, String role);
+	
+	int getRowCount(String username, Integer activeFlg, String email, String role);
 
 	void deleteUserById(Integer id);
 }
