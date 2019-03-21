@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.repositories.CustomerRepository;
+import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("customer")
@@ -19,9 +20,12 @@ public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@Autowired
+	private CustomerService customerService;
+	
 	@GetMapping("getAlls")
 	public ResponseEntity<List<Customer>> getAllUsers() {
-		List<Customer> list = customerRepository.findAll();
+		List<Customer> list = customerService.getAllCustomers();
 		return new ResponseEntity<List<Customer>>(list, HttpStatus.OK);
 	}
 }
