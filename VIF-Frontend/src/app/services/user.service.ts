@@ -26,14 +26,14 @@ export class UserService{
             url = url + "&email=" + userCondition.email;
         }
 
-        if(userCondition.role && userCondition.role!= '-1'){
+        if(userCondition.role !=null && userCondition.role!= '-1'){
             url = url + "&role=" + userCondition.role;
         }
 
-        if(userCondition.activeFlg && userCondition.activeFlg !== -1){
+        if(userCondition.activeFlg !=null && userCondition.activeFlg !== -1){
             url = url + "&activeFlg=" + userCondition.activeFlg;
         }
-        console.log("url: ", url);
+        // console.log("url: ", url);
         return this.http.get<any>(url);
     }
 

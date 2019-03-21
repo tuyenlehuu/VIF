@@ -29,8 +29,7 @@ import { UserService } from './services/user.service';
 import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { AppTranslationModule } from './app.translation.module';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -70,7 +69,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppTranslationModule
   ],
   declarations: [
     AppComponent,
