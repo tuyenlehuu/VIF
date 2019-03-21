@@ -7,6 +7,8 @@ import { error } from '@angular/compiler/src/util';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { ResponseObject } from '../../models/Response.model';
+import { CustomerService } from '../../services/customer.service';
+import { Customer } from '../../models/Customer.model';
 
 @Component({
     templateUrl: 'investor-trans.component.html',
@@ -14,14 +16,19 @@ import { ResponseObject } from '../../models/Response.model';
 })
 export class InvestorTransComponent implements OnInit {
     isBuyScreen: boolean = true;
+    customers: Customer[] = [];
+    customerSelectedId: number;
 
-    constructor(private modalService: BsModalService, private toastrService: ToastrService) { }
+    constructor(private modalService: BsModalService, private toastrService: ToastrService, private customerService: CustomerService) { }
 
     ngOnInit(): void {
-        // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
-        //     // console.log("data: ", respons);
-        //     this.users = respons.data;
-        // });
+        this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
+            // console.log("data: ", respons);
+            this.customers = respons;
+            if(this.customers){
+                this.customerSelectedId = this.customers[0].id;
+            }
+        });
         // this.search();
     }
 
@@ -36,6 +43,30 @@ export class InvestorTransComponent implements OnInit {
             this.isBuyScreen = true;
         }else{
             this.isBuyScreen = false;
+        }
+    }
+
+    buyCCQ(){
+        console.log("this.customerSelectedId", this.customerSelectedId);
+    }
+
+    sellCCQ(){
+
+    }
+
+    saveCCQ(){
+        if(this.isBuyScreen){
+            this.buyCCQ();
+        }else{
+            this.sellCCQ();
+        }
+    }
+
+    cancelProcess(){
+        if(this.isBuyScreen){
+
+        }else{
+
         }
     }
 }

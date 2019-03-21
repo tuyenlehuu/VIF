@@ -30,6 +30,7 @@ import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from './app.translation.module';
+import { CustomerService } from './services/customer.service';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -87,6 +88,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AuthGuard,
   OauthService,
   UserService,
+  CustomerService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
