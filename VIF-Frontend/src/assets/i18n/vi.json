@@ -63,7 +63,12 @@
         "money": "Số tiền",
         "money_placeholder": "Nhập vào số tiền đầu tư",
         "price_CCQ": "Giá CCQ",
-        "price_CCQ_placeholder": "Nhập vào đơn giá CCQ"
+        "price_CCQ_placeholder": "Nhập vào đơn giá CCQ",
+        "amount_CCQ_zero": "*Số CCQ phải lớn hơn 0!",
+        "amount_CCQ_required": "*Số CCQ không được để trống!",
+        "money_zero": "*Số tiền phải lớn hơn 0!",
+        "money_required": "*Số tiền không được để trống!",
+        "price_zero": "Giá phải lớn hơn 0"
     }
   }
 }

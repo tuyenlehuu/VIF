@@ -64,23 +64,36 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				BigDecimal oldMoney = asset.getCurrentPrice();
 				asset.setCurrentPrice(oldMoney.add(money));
 				assetService.updateAsset(asset);
-
-				// Insert into table Transaction_History
-				TransactionHistory transHistory = new TransactionHistory();
-				transHistory.setActiveFlg(1);
-				transHistory.setAmount(money);
-				transHistory.setAsset(asset);
-				transHistory.setFeeType(null);
-				transHistory.setCreateDate(new Date());
-				transHistory.setDescription(customer.getFullName() + " invest money to VIF");
-				transHistory.setLastUpdate(new Date());
-				transHistory.setPrice(new BigDecimal(0));
-				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-				transHistory.setTypeOfTransaction("A"); // A: Thêm; B: Bớt; C: Cổ tức tiền; S: Cổ tức cổ phiếu
-				transHistoryDao.addTransactionHistory(transHistory);
 			} else {
-				return false;
+				Asset newAsset = new Asset();
+				newAsset.setAssetCode(IContaints.ASSET_CODE.CASH);
+				newAsset.setActiveFlg(1);
+				newAsset.setAssetName("Tien mat");
+				newAsset.setAmount(new BigDecimal(0));
+				newAsset.setBranchCode(null);
+				newAsset.setCurrentPrice(money);
+				newAsset.setDescription("Chung chi quy VIF");
+				newAsset.setOrginalPrice(new BigDecimal(0));
+
+				GroupAsset groupAsset = new GroupAsset();
+				groupAsset.setId(1);
+				newAsset.setGroupAsset(groupAsset);
+				assetService.addAsset(newAsset);
 			}
+			
+			// Insert into table Transaction_History
+			TransactionHistory transHistory = new TransactionHistory();
+			transHistory.setActiveFlg(1);
+			transHistory.setAmount(money);
+			transHistory.setAsset(asset);
+			transHistory.setFeeType(null);
+			transHistory.setCreateDate(new Date());
+			transHistory.setDescription(customer.getFullName() + " invest money to VIF");
+			transHistory.setLastUpdate(new Date());
+			transHistory.setPrice(new BigDecimal(0));
+			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+			transHistory.setTypeOfTransaction("A"); // A: Thêm; B: Bớt; C: Cổ tức tiền; S: Cổ tức cổ phiếu
+			transHistoryDao.addTransactionHistory(transHistory);
 
 			// 4. Add amount of CCQ in table Asset. If not exist, insert new recored
 			Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);

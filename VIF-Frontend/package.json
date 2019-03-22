@@ -39,6 +39,7 @@
     "mutationobserver-shim": "^0.3.3",
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.2.0",
+    "ngx-currency": "^1.5.1",
     "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.2.1",
     "ngx-toastr": "^9.1.2",

@@ -11,6 +11,7 @@ import { CustomerService } from '../../services/customer.service';
 import { Customer } from '../../models/Customer.model';
 import { InvestorTransService } from '../../services/investor.transaction.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotEqualZero } from '../../helpers/function.share';
 
 @Component({
     templateUrl: 'investor-trans.component.html',
@@ -27,25 +28,17 @@ export class InvestorTransComponent implements OnInit {
 
     constructor(private modalService: BsModalService, private toastrService: ToastrService, 
         private customerService: CustomerService, private investorTransService: InvestorTransService, 
-        private fb: FormBuilder) {
-            this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
-                this.customers = respons;
-                if (this.customers) {
-                    this.customerSelectedId = this.customers[0].id;
-                    console.log("data: ", this.customerSelectedId);
-                    this.createBuyForm();
-                    // this.createSellForm();
-                }
-            });
-        
+        private fb: FormBuilder) {        
     }
 
     createBuyForm() {
         this.buyForm = this.fb.group({
             bCustomerSelectedId: [this.customerSelectedId, Validators.required],
-            bAmountCCQ: [0, Validators.required],
+            bAmountCCQ: [{value: 0, disabled: true}, Validators.required],
             bMoney: [0, Validators.required],
             bPrice: [0, Validators.required]
+        },{
+            validator: [NotEqualZero('bAmountCCQ'), NotEqualZero('bMoney'), NotEqualZero('bPrice')]
         });
     }
 
@@ -53,8 +46,10 @@ export class InvestorTransComponent implements OnInit {
         this.sellForm = this.fb.group({
             sCustomerSelectedId: [this.customerSelectedId, Validators.required],
             sAmountCCQ: [0, Validators.required],
-            sMoney: [0, Validators.required],
+            sMoney: [{value: 0, disabled: true}, Validators.required],
             sPrice: [0, Validators.required]
+        },{
+            validator: [NotEqualZero('sAmountCCQ'), NotEqualZero('sMoney'), NotEqualZero('sPrice')]
         });
     }
 
@@ -64,12 +59,15 @@ export class InvestorTransComponent implements OnInit {
             this.customers = respons;
             if (this.customers) {
                 this.customerSelectedId = this.customers[0].id;
+                // console.log("data: ", this.customerSelectedId);
+                this.createBuyForm();
             }
         });
-        // this.search();
     }
 
     get buyCCQForm() { return this.buyForm.controls; }
+
+    get sellCCQForm() { return this.sellForm.controls; }
 
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
@@ -97,6 +95,7 @@ export class InvestorTransComponent implements OnInit {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
                 this.showSuccess("Đầu tư thành công!");
+                this.resetForm();
             } else {
                 this.showError("Đầu tư thất bại. Vui lòng liên hệ quản trị viên!");
             }
@@ -104,10 +103,11 @@ export class InvestorTransComponent implements OnInit {
     }
 
     sellCCQ() {
-        this.investorTransService.sellCCQ(this.customerSelectedId, 500, 10000).pipe(first()).subscribe((respons: any) => {
+        this.investorTransService.sellCCQ(this.customerSelectedId, this.sellForm.value.sAmountCCQ, this.sellForm.value.sPrice).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
                 this.showSuccess("Rút vốn thành công!");
+                this.resetForm();
             } else {
                 this.showError("Rút vốn thất bại. Vui lòng liên hệ quản trị viên!");
             }
@@ -132,11 +132,22 @@ export class InvestorTransComponent implements OnInit {
         }
     }
 
-    cancelProcess() {
+    resetForm() {
         if (this.isBuyScreen) {
             this.createBuyForm();
         } else {
             this.createSellForm();
         }
+    }
+
+    onKeyBPrice(event: any){
+        if (this.buyForm.invalid) {
+            return;
+        }
+        var mMoney = this.buyForm.value.bMoney;
+        var currentPrice = event.target.value;
+        currentPrice = currentPrice.toString().replace(',','');
+        console.log("currentPrice", currentPrice);
+        this.buyCCQForm.bAmountCCQ.setValue(mMoney/currentPrice);
     }
 }
