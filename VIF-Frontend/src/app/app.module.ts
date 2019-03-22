@@ -31,6 +31,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
+import { InvestorTransService } from './services/investor.transaction.service';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -91,6 +92,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   CustomerService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  InvestorTransService,
   ],
   bootstrap: [ AppComponent ]
 })

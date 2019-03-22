@@ -34,7 +34,7 @@ public class TransactionHistory implements Serializable{
     private String typeOfTransaction;
 	
 	@Column(name = "FEE_TYPE")
-	private String assetName;
+	private String feeType;
 	
 	@Column(name = "DESCRIPTION")
 	private String description;
@@ -89,12 +89,12 @@ public class TransactionHistory implements Serializable{
 		this.typeOfTransaction = typeOfTransaction;
 	}
 
-	public String getAssetName() {
-		return assetName;
+	public String getFeeType() {
+		return feeType;
 	}
 
-	public void setAssetName(String assetName) {
-		this.assetName = assetName;
+	public void setFeeType(String feeType) {
+		this.feeType = feeType;
 	}
 
 	public String getDescription() {

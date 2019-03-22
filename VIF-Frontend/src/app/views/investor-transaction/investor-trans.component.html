@@ -19,152 +19,159 @@
           <!--end button buy/ sell-->
           <!--start buy screen-->
           <div *ngIf="isBuyScreen" class="buy-screen pt-4" style="text-align: center;">
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.customer' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                        <select id="select1" name="select1" class="form-control" [(ngModel)]="customerSelectedId">
-                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.username}}</option>
+            <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group" *ngIf="customers.length >0">
+                        <select id="select1" name="select1" class="form-control" formControlName="bCustomerSelectedId">
+                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.fullName}}</option>
                         </select>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="pass-id" readonly>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="amount-buy-id" formControlName="bAmountCCQ">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.money' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="username-id"
-                        placeholder="{{'vif.investor_trans.money_placeholder' | translate}}">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.money' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="money-buy-id" formControlName="bMoney"
+                          placeholder="{{'vif.investor_trans.money_placeholder' | translate}}">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="username-id"
-                        placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="price-buy-id" formControlName="bPrice"
+                          placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row mt-3">
-              <div class="offset-md-3 col-md-6 col-xs-12 my-button">
-                <button type="button" class="btn btn-success" (click)="saveCCQ()">{{'vif.global.button.buy' | translate}}</button>
-                <button type="button" class="btn btn-secondary" (click)="cancelProcess()">{{'vif.global.button.cancel' | translate}}</button>
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button type="submit" class="btn btn-success">{{'vif.global.button.buy' | translate}}</button>
+                  <button type="button" class="btn btn-secondary"
+                    (click)="cancelProcess()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
           <!--end buy screen-->
 
           <!--start sell screen-->
           <div *ngIf="!isBuyScreen" class="buy-screen pt-4" style="text-align: center;">
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.customer' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <select id="select1" name="select1" class="form-control" [(ngModel)]="customerSelectedId">
-                        <option [ngValue]="c.id" *ngFor="let c of customers">{{c.username}}</option>
-                      </select>
+            <form [formGroup]="sellForm" (ngSubmit)="saveCCQ()">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <select id="select1" name="select1" class="form-control" formControlName="sCustomerSelectedId">
+                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.fullName}}</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="amount-sell-id" placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}" >
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="amount-sell-id" formControlName="sAmountCCQ"
+                          placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.money' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="username-id" readonly>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.money' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="money-sell-id" formControlName="sMoney" readonly>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="offset-md-3 col-md-6 col-xs-12">
-                <div class="row">
-                  <div class="col-md-3 my-label">
-                    <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
-                        class="asterisk">&#42;</span></label>
-                  </div>
-                  <div class="col-md-9">
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="username-id"
-                        placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="price-id" formControlName="sPrice"
+                          placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="row mt-3">
-              <div class="offset-md-3 col-md-6 col-xs-12 my-button">
-                <button type="button" class="btn btn-danger" (click)="saveCCQ()">{{'vif.global.button.sell' | translate}}</button>
-                <button type="button" class="btn btn-secondary" (click)="cancelProcess()">{{'vif.global.button.cancel' | translate}}</button>
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button type="submit" class="btn btn-danger">{{'vif.global.button.sell' | translate}}</button>
+                  <button type="button" class="btn btn-secondary"
+                    (click)="cancelProcess()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
           <!--end sell screen-->
         </div>

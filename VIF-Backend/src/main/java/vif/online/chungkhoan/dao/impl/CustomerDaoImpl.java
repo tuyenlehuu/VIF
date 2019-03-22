@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,7 +30,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer getCustomerById(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(Customer.class, id);
 	}
 
 	@Override
@@ -60,6 +61,20 @@ public class CustomerDaoImpl implements CustomerDao{
 	public void deleteCustomerById(Integer id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ) {
+		// TODO Auto-generated method stub
+		Customer cus = entityManager.find(Customer.class, customer.getId());
+		if(cus != null) {
+			cus.setOrginalCCQPrice(newCCQPrice);
+			cus.setTotalCcq(newTotalCCQ);
+			entityManager.merge(cus);
+			return true;
+		}
+		
+		return false;
 	}
 
 }

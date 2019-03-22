@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Customer;
@@ -18,4 +19,6 @@ List<Customer> getAllCustomers();
 	void deleteCustomerByCode(String code);
 
 	void deleteCustomerById(Integer id);
+
+	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
 }

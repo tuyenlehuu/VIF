@@ -120,7 +120,7 @@ public class UserDaoImpl implements UserDao{
 		
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		
-List<Predicate> predicates = new ArrayList<Predicate>();
+		List<Predicate> predicates = new ArrayList<Predicate>();
 		
 		predicates.add(criteriaBuilder.equal(from.get("isDeleted"), 0));
 		

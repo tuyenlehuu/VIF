@@ -34,14 +34,17 @@ public class InvestorHistory implements Serializable{
 	@Column(name = "CODE", nullable=false)
     private String code;
 	
-//	@Column(name = "USER_NAME", nullable=false)
-//    private String username;
-	
-	@Column(name = "AMOUNT_CCQ")
+	@Column(name = "AMOUNT_CCQ", nullable=false)
 	private BigDecimal amountCCQ;
 	
-	@Column(name = "PRICE_OF_CCQ")
+	@Column(name = "PRICE_OF_CCQ", nullable=false)
 	private BigDecimal priceOfCCQ;
+	
+	@Column(name = "AMOUNT_CCQ_BEFORE", nullable=false)
+	private BigDecimal amountCCQBefore;
+	
+	@Column(name = "PRICE_OF_CCQ_BEFORE", nullable=false)
+	private BigDecimal priceOfCCQBefore;
 	
 	@Column(name = "TYPE_OF_TRANSACTION")
     private String typeOfTransaction;
@@ -121,5 +124,21 @@ public class InvestorHistory implements Serializable{
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public BigDecimal getAmountCCQBefore() {
+		return amountCCQBefore;
+	}
+
+	public void setAmountCCQBefore(BigDecimal amountCCQBefore) {
+		this.amountCCQBefore = amountCCQBefore;
+	}
+
+	public BigDecimal getPriceOfCCQBefore() {
+		return priceOfCCQBefore;
+	}
+
+	public void setPriceOfCCQBefore(BigDecimal priceOfCCQBefore) {
+		this.priceOfCCQBefore = priceOfCCQBefore;
 	}
 }
