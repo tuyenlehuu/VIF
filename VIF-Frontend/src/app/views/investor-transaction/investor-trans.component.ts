@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { User } from '../../models/User.model';
+import { BuySellCCQ } from '../../models/BuySelCCQ.model';
 import { UserService } from '../../services/user.service';
 import { first, catchError } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -28,7 +28,7 @@ export class InvestorTransComponent implements OnInit {
 
     constructor(private modalService: BsModalService, private toastrService: ToastrService, 
         private customerService: CustomerService, private investorTransService: InvestorTransService, 
-        private fb: FormBuilder) {        
+        private fb: FormBuilder) {      
     }
 
     createBuyForm() {
@@ -91,7 +91,12 @@ export class InvestorTransComponent implements OnInit {
     }
 
     buyCCQ() {
-        this.investorTransService.buyCCQ(this.buyForm.value.bCustomerSelectedId, this.buyForm.value.bMoney, this.buyForm.value.bPrice).pipe(first()).subscribe((respons: any) => {
+        let buyCCQObject: BuySellCCQ = new BuySellCCQ();
+        buyCCQObject.customerId = this.buyForm.value.bCustomerSelectedId;
+        buyCCQObject.money = this.buyForm.value.bMoney;
+        buyCCQObject.priceCCQ = this.buyForm.value.bPrice;
+
+        this.investorTransService.buyCCQ(buyCCQObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
                 this.showSuccess("Đầu tư thành công!");
@@ -103,7 +108,12 @@ export class InvestorTransComponent implements OnInit {
     }
 
     sellCCQ() {
-        this.investorTransService.sellCCQ(this.customerSelectedId, this.sellForm.value.sAmountCCQ, this.sellForm.value.sPrice).pipe(first()).subscribe((respons: any) => {
+        let sellCCQObject: BuySellCCQ = new BuySellCCQ();
+        sellCCQObject.customerId = this.sellForm.value.sCustomerSelectedId;
+        sellCCQObject.amountCCQ = this.sellForm.value.sAmountCCQ;
+        sellCCQObject.priceCCQ = this.sellForm.value.sPrice;
+
+        this.investorTransService.sellCCQ(sellCCQObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
                 this.showSuccess("Rút vốn thành công!");
@@ -147,7 +157,19 @@ export class InvestorTransComponent implements OnInit {
         var mMoney = this.buyForm.value.bMoney;
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',','');
-        console.log("currentPrice", currentPrice);
+        // console.log("currentPrice", currentPrice);
         this.buyCCQForm.bAmountCCQ.setValue(mMoney/currentPrice);
     }
+
+    onKeySPrice(event: any){
+        if (this.sellForm.invalid) {
+            return;
+        }
+        var mAmountCCQ = this.sellForm.value.sAmountCCQ;
+        var currentPrice = event.target.value;
+        currentPrice = currentPrice.toString().replace(',','');
+        // console.log("currentPrice", currentPrice);
+        this.sellCCQForm.sMoney.setValue(mAmountCCQ*currentPrice);
+    }
+
 }

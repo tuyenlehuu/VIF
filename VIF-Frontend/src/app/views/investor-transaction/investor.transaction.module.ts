@@ -8,15 +8,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
 import { NgxCurrencyModule } from "ngx-currency";
+import { NgSelectModule } from '@ng-select/ng-select';
 
 export const customCurrencyMaskConfig = {
-  align: "right",
-  allowNegative: true,
+  align: "left",
+  allowNegative: false,
   allowZero: true,
   decimal: ".",
   precision: 2,
   prefix: "",
-  suffix: "",
+  suffix: "", 
   thousands: ",",
   nullable: false
 };
@@ -31,7 +32,8 @@ export const customCurrencyMaskConfig = {
     ReactiveFormsModule,
     AppTranslationModule,
     NgxPaginationModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    NgSelectModule
   ],
   declarations: [InvestorTransComponent]
 })
