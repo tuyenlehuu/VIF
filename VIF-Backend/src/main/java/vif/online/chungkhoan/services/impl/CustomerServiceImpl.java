@@ -57,10 +57,4 @@ public class CustomerServiceImpl implements CustomerService{
 		customerDao.deleteCustomerById(id);
 	}
 
-	@Override
-	public Customer getCustomerUserByUserName(String name) {
-		// TODO Auto-generated method stub
-		return customerDao.getCustomerByUserName(name);
-	}
-
 }

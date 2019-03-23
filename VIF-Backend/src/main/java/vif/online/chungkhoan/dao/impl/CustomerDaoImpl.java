@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
-import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
@@ -30,42 +29,14 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public Customer getCustomerById(int id) {
 		// TODO Auto-generated method stub
-		String hql = "FROM Customer as c WHERE c.id = :id";
-		@SuppressWarnings("unchecked")
-		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("id", id).getResultList();
-		if (lstResult != null && lstResult.size() > 0) {
-			return lstResult.get(0);
-		}
 		return null;
 	}
 
 	@Override
 	public Customer getCustomerByCode(String code) {
-		String hql = "FROM Customer as c WHERE c.code = :code";
-		@SuppressWarnings("unchecked")
-		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("code", code).getResultList();
-		if (lstResult != null && lstResult.size() > 0) {
-			return lstResult.get(0);
-		}
+		// TODO Auto-generated method stub
 		return null;
-		
 	}
-	
-	
-	@Override
-	public Customer getCustomerByUserName(String name) {
-		String hql = "FROM Customer as c WHERE c.username = :name";
-		@SuppressWarnings("unchecked")
-		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("name",name).getResultList();
-		if (lstResult != null && lstResult.size() > 0) {
-			return lstResult.get(0);
-		}
-		return null;
-		
-	}
-	
-	
-	
 
 	@Override
 	public boolean addCustomer(Customer customer) {

@@ -10,8 +10,6 @@ List<Customer> getAllCustomers();
 	Customer getCustomerById(int id);
 
 	Customer getCustomerByCode(String code);
-	
-	Customer getCustomerByUserName (String name);
 
 	boolean addCustomer(Customer customer);
 
