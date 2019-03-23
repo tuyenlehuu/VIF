@@ -18,4 +18,6 @@ public interface CustomerService {
 	void deleteCustomerByCode(String code);
 
 	void deleteCustomerById(Integer id);
+
+	Customer getCustomerUserByUserName(String name);
 }
