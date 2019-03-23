@@ -42,7 +42,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		http.anonymous().disable()
 		.authorizeRequests()
 		.antMatchers("/user/**").access("hasRole('ADMIN')")
-//		.antMatchers("/cophieu/**").authenticated()
+		.antMatchers("/cophieu/**").authenticated()
 		.antMatchers("/customer/**").authenticated()
 		.and()
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
