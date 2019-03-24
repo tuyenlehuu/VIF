@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Customer getCustomerUserByFullName(String name) {
+	public Customer getCustomerByFullName(String name) {
 		// TODO Auto-generated method stub
 		return customerDao.getCustomerByFullName(name);
 	}

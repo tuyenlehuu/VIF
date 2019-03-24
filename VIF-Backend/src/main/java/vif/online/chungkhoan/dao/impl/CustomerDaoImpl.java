@@ -54,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	
 	@Override
 	public Customer getCustomerByFullName(String name) {
-		String hql = "FROM Customer as c WHERE c.fullname = :name";
+		String hql = "FROM Customer as c WHERE c.fullName = :name";
 		@SuppressWarnings("unchecked")
 		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("name",name).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {
@@ -69,25 +69,26 @@ public class CustomerDaoImpl implements CustomerDao{
 
 	@Override
 	public boolean addCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return false;
+		entityManager.persist(customer);
+		return true;
 	}
 
 	@Override
 	public void updateCustomer(Customer customer) {
-		// TODO Auto-generated method stub
+		entityManager.flush();
+		entityManager.merge(customer);
 		
 	}
 
 	@Override
 	public void deleteCustomerByCode(String code) {
-		// TODO Auto-generated method stub
+		entityManager.remove(getCustomerByCode(code));
 		
 	}
 
 	@Override
 	public void deleteCustomerById(Integer id) {
-		// TODO Auto-generated method stub
+		entityManager.remove(getCustomerById(id));
 		
 	}
 

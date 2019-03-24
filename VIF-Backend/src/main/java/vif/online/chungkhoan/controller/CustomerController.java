@@ -3,12 +3,18 @@ package vif.online.chungkhoan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
@@ -41,7 +47,7 @@ public class CustomerController {
 	
 	@GetMapping("fullname/{name}")
 	public ResponseEntity<Customer> getCustomerByFullName(@PathVariable("name") String name) {
-		Customer customer = customerService.getCustomerByCode(name);
+		Customer customer = customerService.getCustomerByFullName(name);
 		return new ResponseEntity(customer, HttpStatus.OK);
 	}
 
@@ -56,4 +62,35 @@ public class CustomerController {
 		object.setData(list);
 		return new ResponseEntity<List<Customer>>(list, HttpStatus.OK);
 	}
+	
+	@PostMapping("add")
+	public ResponseEntity<Void> addUser(@RequestBody Customer customer, UriComponentsBuilder builder) {
+		boolean flag = customerService.addCustomer(customer);
+		if (flag == false) {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(builder.path("/customer/id/{id}").buildAndExpand(customer.getId()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+	}
+	
+	@PutMapping("update")
+	public ResponseEntity<Customer> updateUser(@RequestBody Customer customer) {
+		customerService.updateCustomer(customer);
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteByCode/{code}")
+	public ResponseEntity<Void> deleteCustomerByCode(@PathVariable("code") String code) {
+		customerService.deleteCustomerByCode(code);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	
+	@DeleteMapping("deleteById/{id}")
+	public ResponseEntity<Void> deleteCustomerByCode(@PathVariable("id") int id) {
+		customerService.deleteCustomerById(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 }
