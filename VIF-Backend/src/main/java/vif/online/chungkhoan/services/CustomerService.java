@@ -19,5 +19,5 @@ public interface CustomerService {
 
 	void deleteCustomerById(Integer id);
 
-	Customer getCustomerUserByUserName(String name);
+	Customer getCustomerUserByFullName(String name);
 }

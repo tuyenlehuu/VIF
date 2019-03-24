@@ -11,7 +11,7 @@ List<Customer> getAllCustomers();
 
 	Customer getCustomerByCode(String code);
 	
-	Customer getCustomerByUserName (String name);
+	Customer getCustomerByFullName (String name);
 
 	boolean addCustomer(Customer customer);
 

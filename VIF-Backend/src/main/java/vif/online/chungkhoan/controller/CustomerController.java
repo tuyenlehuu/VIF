@@ -39,7 +39,7 @@ public class CustomerController {
 	}
 	
 	
-	@GetMapping("username/{name}")
+	@GetMapping("fullname/{name}")
 	public ResponseEntity<Customer> getCustomerByFullName(@PathVariable("name") String name) {
 		Customer customer = customerService.getCustomerByCode(name);
 		return new ResponseEntity(customer, HttpStatus.OK);

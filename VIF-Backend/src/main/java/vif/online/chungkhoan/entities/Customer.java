@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
@@ -33,6 +35,9 @@ public class Customer implements Serializable {
 
 	@Column(name = "USER_NAME", nullable = false)
 	private String username;
+	
+	@Column(name = "CODE", nullable = false)
+	private String code;
 
 	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
@@ -60,8 +65,11 @@ public class Customer implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date signContractDate;
 	
-	@Column(name = "IDENTITY_DOCUMENT")
-	private String identityDoc;
+	@Column(name = "IDENTITY_DOCUMENT_FRONT")
+	private String identityDocFront;
+	
+	@Column(name = "IDENTITY_DOCUMENT_BACK")
+	private String identityDocBack;
 	
 	@Column(name = "ACTIVE_FLG", nullable = false)
     private Integer activeFlg = 1;
@@ -128,11 +136,76 @@ public class Customer implements Serializable {
 		this.users = users;
 	}
 
+	@JsonIgnore
 	public List<InvestorHistory> getInvestorHistorylst() {
 		return investorHistorylst;
 	}
 
 	public void setInvestorHistorylst(List<InvestorHistory> investorHistorylst) {
 		this.investorHistorylst = investorHistorylst;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public BigDecimal getOrginalCCQPrice() {
+		return orginalCCQPrice;
+	}
+
+	public void setOrginalCCQPrice(BigDecimal orginalCCQPrice) {
+		this.orginalCCQPrice = orginalCCQPrice;
+	}
+
+	public String getIdentityNumber() {
+		return identityNumber;
+	}
+
+	public void setIdentityNumber(String identityNumber) {
+		this.identityNumber = identityNumber;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Date getSignContractDate() {
+		return signContractDate;
+	}
+
+	public void setSignContractDate(Date signContractDate) {
+		this.signContractDate = signContractDate;
+	}
+
+	public String getIdentityDocFront() {
+		return identityDocFront;
+	}
+
+	public void setIdentityDocFront(String identityDocFront) {
+		this.identityDocFront = identityDocFront;
+	}
+
+	public String getIdentityDocBack() {
+		return identityDocBack;
+	}
+
+	public void setIdentityDocBack(String identityDocBack) {
+		this.identityDocBack = identityDocBack;
+	}
+
+	public Integer getActiveFlg() {
+		return activeFlg;
+	}
+
+	public void setActiveFlg(Integer activeFlg) {
+		this.activeFlg = activeFlg;
 	}
 }

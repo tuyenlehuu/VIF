@@ -53,8 +53,8 @@ public class CustomerDaoImpl implements CustomerDao{
 	
 	
 	@Override
-	public Customer getCustomerByUserName(String name) {
-		String hql = "FROM Customer as c WHERE c.username = :name";
+	public Customer getCustomerByFullName(String name) {
+		String hql = "FROM Customer as c WHERE c.fullname = :name";
 		@SuppressWarnings("unchecked")
 		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("name",name).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {
