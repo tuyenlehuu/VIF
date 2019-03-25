@@ -1,5 +1,8 @@
 package vif.online.chungkhoan.dao.impl;
 
+
+import java.math.BigDecimal;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
+
 import vif.online.chungkhoan.entities.User;
+
+
 
 @Transactional
 @Repository
@@ -36,11 +42,13 @@ public class CustomerDaoImpl implements CustomerDao{
 		if (lstResult != null && lstResult.size() > 0) {
 			return lstResult.get(0);
 		}
-		return null;
+		return entityManager.find(Customer.class, id);
+
 	}
 
 	@Override
 	public Customer getCustomerByCode(String code) {
+
 		String hql = "FROM Customer as c WHERE c.code = :code";
 		@SuppressWarnings("unchecked")
 		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("code", code).getResultList();
@@ -52,18 +60,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	}
 	
 	
-	@Override
-	public Customer getCustomerByFullName(String name) {
-		String hql = "FROM Customer as c WHERE c.fullName = :name";
-		@SuppressWarnings("unchecked")
-		List<Customer> lstResult = entityManager.createQuery(hql).setParameter("name",name).getResultList();
-		if (lstResult != null && lstResult.size() > 0) {
-			return lstResult.get(0);
-		}
-		return null;
-		
-	}
-	
+
 	
 	
 
@@ -72,7 +69,9 @@ public class CustomerDaoImpl implements CustomerDao{
 		entityManager.persist(customer);
 		customer.setCode(customer.getCode()+customer.getId().toString());
 		return true;
+
 	}
+
 
 	@Override
 	public void updateCustomer(Customer customer) {
@@ -82,10 +81,12 @@ public class CustomerDaoImpl implements CustomerDao{
 		//mCustomer.setId();
 		customer.setUsers(mCustomer.getUsers());
 		entityManager.merge(customer);
+
 	}
 
 	@Override
 	public void deleteCustomerByCode(String code) {
+
 		Customer mCustomer = getCustomerByCode(code);
 		mCustomer.setActiveFlg(0);
 		
@@ -94,8 +95,22 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public void deleteCustomerById(Integer id) {
 		Customer mCustomer = getCustomerById(id);
-		mCustomer.setActiveFlg(0);
+		mCustomer.setActiveFlg(0);		
+	}
+
+	@Override
+	public boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ) {
+		// TODO Auto-generated method stub
+		Customer cus = entityManager.find(Customer.class, customer.getId());
+		if(cus != null) {
+			cus.setOrginalCCQPrice(newCCQPrice);
+			cus.setTotalCcq(newTotalCCQ);
+			entityManager.merge(cus);
+			return true;
+		}
 		
+		return false;
+
 	}
 
 }

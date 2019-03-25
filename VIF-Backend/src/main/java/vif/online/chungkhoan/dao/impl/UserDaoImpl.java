@@ -1,15 +1,17 @@
 package vif.online.chungkhoan.dao.impl;
 
-import java.beans.Beans;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +28,15 @@ public class UserDaoImpl implements UserDao{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @Override public List<User> getAllUsers() { // TODO Auto-generated method
-	 * stub String hql = "FROM User as u ORDER BY u.username asc"; return
-	 * (List<User>) entityManager.createQuery(hql).getResultList(); }
-	 */
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		String hql = "FROM User as u WHERE u.isDeleted = 0 ORDER BY u.username asc";
+		return (List<User>) entityManager.createQuery(hql).getResultList();
+	}
+	 
 
 	@Override
 	public User getUserById(int id) {
@@ -63,22 +67,34 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void updateUser(User user) {
 		// TODO Auto-generated method stub
-		entityManager.flush();
+//		entityManager.flush();
 		User mUser = entityManager.find(User.class, user.getId());
 		user.setPassword(mUser.returnPassword());
 		entityManager.merge(user);
 	}
 
 	@Override
-	public void deleteUser(String user_name) {
+	public void deleteUserByUsername(String user_name) {
 		// TODO Auto-generated method stub
-		entityManager.remove(getUserByUserName(user_name));
+//		entityManager.remove(getUserByUserName(user_name));
+		User mUser = getUserByUserName(user_name);
+		mUser.setIsDeleted(1);
+		entityManager.merge(mUser);
+	}
+	
+	@Override
+	public void deleteUserById(Integer id) {
+		// TODO Auto-generated method stub
+		User mUser = entityManager.find(User.class, id);
+		mUser.setIsDeleted(1);
+		entityManager.merge(mUser);
 	}
 
 	@Override
 	public boolean userExists(User user) {
 		// TODO Auto-generated method stub
-		return false;
+		String hql = "FROM User as u WHERE u.isDeleted = 0 AND u.username = :username";
+		return entityManager.createQuery(hql).setParameter("username", user.getUsername()).getResultList().size() >0?true:false;
 	}
 
 	@Override
@@ -91,5 +107,94 @@ public class UserDaoImpl implements UserDao{
 			return true;
 		}
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> SearchUserByCondition(int page, int pageSize, String columnSortName, Boolean asc, String username,
+			Integer activeFlg, String email, String role) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<User> from = criteriaQuery.from(User.class);
+		
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		predicates.add(criteriaBuilder.equal(from.get("isDeleted"), 0));
+		
+		if(username != null && !username.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("username"), username));
+		}
+		
+		if(activeFlg != null) {
+			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+		}
+		
+		if(email != null && !email.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("email"), email));
+		}
+		
+		if(role != null && !role.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("role"), role));
+		}
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
+		
+		if(columnSortName != null && !columnSortName.equals("")) {
+			if(asc== null || asc) {
+				select.orderBy(criteriaBuilder.asc(from.get(columnSortName)));
+			}else {
+				select.orderBy(criteriaBuilder.desc(from.get(columnSortName)));
+			}
+		}
+		
+		Query query = entityManager.createQuery(criteriaQuery);
+		if (page >= 0 && pageSize >= 0) {
+			query.setFirstResult((page - 1) * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		List<User> lstResult = query.getResultList();
+
+		return lstResult;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getRowCount(String username, Integer activeFlg, String email, String role) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<User> from = criteriaQuery.from(User.class);
+		
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		predicates.add(criteriaBuilder.equal(from.get("isDeleted"), 0));
+		
+		if(username != null && !username.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("username"), username));
+		}
+		
+		if(activeFlg != null) {
+			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+		}
+		
+		if(email != null && !email.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("email"), email));
+		}
+		
+		if(role != null && !role.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("role"), role));
+		}
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
+		
+		Query query = entityManager.createQuery(select);
+
+		List<User> lstResult = query.getResultList();
+		return lstResult.size();
 	}
 }

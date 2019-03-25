@@ -21,7 +21,7 @@ public class ShareMasterDaoImpl implements ShareMasterDao {
 	@Override
 	public List<ShareMaster> getAllCophieus() {
 		// TODO Auto-generated method stub
-		String hql = "FROM Cophieu as c ORDER BY c.cpCode asc";
+		String hql = "FROM ShareMaster as c ORDER BY c.cpCode asc";
 		return (List<ShareMaster>) entityManager.createQuery(hql).getResultList();
 	}
 
@@ -52,7 +52,7 @@ public class ShareMasterDaoImpl implements ShareMasterDao {
 	@Override
 	public boolean cophieuExists(ShareMaster cophieu) {
 		// TODO Auto-generated method stub
-		String hql = "FROM Cophieu as c WHERE c.cpCode = :cophieuCode";
+		String hql = "FROM ShareMaster as c WHERE c.cpCode = :cophieuCode";
 		int count = entityManager.createQuery(hql).setParameter("cophieuCode", cophieu.getCpCode()).getResultList()
 				.size();
 		return count > 0 ? true : false;
@@ -61,7 +61,7 @@ public class ShareMasterDaoImpl implements ShareMasterDao {
 	@Override
 	public ShareMaster getCophieuByCode(String code) {
 		// TODO Auto-generated method stub
-		String hql = "FROM Cophieu as c WHERE c.cpCode = :mcode";
+		String hql = "FROM ShareMaster as c WHERE c.cpCode = :mcode";
 		@SuppressWarnings("unchecked")
 		List<ShareMaster> lstResult = entityManager.createQuery(hql).setParameter("mcode", code).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {

@@ -65,7 +65,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Giao dịch NĐT',
-    url: '/theme/typography',
+    url: '/investor-transaction',
     icon: 'fa fa-credit-card-alt'
   },
   {

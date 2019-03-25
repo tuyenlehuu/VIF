@@ -58,40 +58,20 @@ export const routes: Routes = [
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
-        path: 'charts',
-        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+        path: 'investor-transaction',
+        loadChildren: './views/investor-transaction/investor.transaction.module#InvestorTransModule'
       },
       {
         path: 'user-management',
         loadChildren: './views/user-management/user.module#UserModule'
       }
-      // ,{
-      //   path: 'ce-user-management',
-      //   loadChildren: './views/user-management/user.module#UserModule'
-      // }
-      // ,{
-      //   path: 'base',
-      //   loadChildren: './views/base/base.module#BaseModule'
-      // },
-      // {
-      //   path: 'buttons',
-      //   loadChildren: './views/buttons/buttons.module#ButtonsModule'
-      // },
-      // {
-      //   path: 'icons',
-      //   loadChildren: './views/icons/icons.module#IconsModule'
-      // },
-      // {
-      //   path: 'notifications',
-      //   loadChildren: './views/notifications/notifications.module#NotificationsModule'
-      // },
-      // {
-      //   path: 'widgets',
-      //   loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      // }
       ,{
         path: 'theme',
         loadChildren: './views/theme/theme.module#ThemeModule'
+      },
+      {
+        path: 'charts',
+        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
       }
     ]
   },

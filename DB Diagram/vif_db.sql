@@ -1,55 +1,61 @@
--- MySQL dump 10.16  Distrib 10.1.37-MariaDB, for Win32 (AMD64)
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: vif_db
--- ------------------------------------------------------
--- Server version	10.1.37-MariaDB
+-- Host: 127.0.0.1
+-- Generation Time: Mar 23, 2019 at 12:56 PM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `vif_db`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `app_param`
 --
 
-DROP TABLE IF EXISTS `app_param`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `app_param` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prop_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prop_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `prop_value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `prop_value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `app_param`
 --
 
-LOCK TABLES `app_param` WRITE;
-/*!40000 ALTER TABLE `app_param` DISABLE KEYS */;
-/*!40000 ALTER TABLE `app_param` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `app_param` (`id`, `description`, `prop_key`, `prop_type`, `prop_value`) VALUES
+(1, 'Phí mua CP', 'BUY_FEE', '2', '0.15'),
+(2, 'Phí bán CP', 'SELL_FEE', '2', '0.25'),
+(3, 'Phí bán CCQ', 'CCQ_FEE_SHORT', '1', '2'),
+(4, 'Phí bán CCQ', 'CCQ_FEE_MIDIUM', '1', '10'),
+(5, 'Phí bán CCQ', 'CCQ_FEE_LONG', '1', '5'),
+(6, 'Thuế TNCN cổ tức tiền mặt', 'DEVIDEN_CASH_FEE', '3', '5');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `asset`
 --
 
-DROP TABLE IF EXISTS `asset`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `asset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `active_flg` int(11) DEFAULT NULL,
   `amount` decimal(19,2) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -58,224 +64,1772 @@ CREATE TABLE `asset` (
   `current_price` decimal(19,2) NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `orginal_price` decimal(19,2) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK4j6x7n7n6xkqxx9mxurbqbss6` (`group_id`),
-  CONSTRAINT `FK4j6x7n7n6xkqxx9mxurbqbss6` FOREIGN KEY (`group_id`) REFERENCES `group_asset` (`id`)
+  `group_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `asset`
 --
 
-LOCK TABLES `asset` WRITE;
-/*!40000 ALTER TABLE `asset` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asset` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `asset` (`id`, `active_flg`, `amount`, `code`, `name`, `branch_code`, `current_price`, `description`, `orginal_price`, `group_id`) VALUES
+(1, 1, '0.00', 'CASH', 'Tiền mặt', NULL, '0.00', 'Chung chi quy VIF', '0.00', 1),
+(2, 1, '0.00', 'VIF_CCQ', 'CCQ phát hành', NULL, '0.00', 'Chung chi quy VIF', '0.00', 5),
+(3, 1, '0.00', 'IT_RT', 'Quỹ đối tác đầu tư IT&RT', NULL, '0.00', 'Quỹ đối tác đầu tư IT&RT', '0.00', 2);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `asset_history`
 --
 
-DROP TABLE IF EXISTS `asset_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `asset_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `active_flg` int(11) NOT NULL,
   `amount` decimal(19,2) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` decimal(19,2) NOT NULL,
   `update_date` datetime DEFAULT NULL,
   `asset_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK322cepv7u4b2ch4r0g7ciehbj` (`asset_id`),
-  CONSTRAINT `FK322cepv7u4b2ch4r0g7ciehbj` FOREIGN KEY (`asset_id`) REFERENCES `asset` (`id`)
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `orginal_price` decimal(19,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `asset_history`
 --
 
-LOCK TABLES `asset_history` WRITE;
-/*!40000 ALTER TABLE `asset_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asset_history` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `asset_history` (`id`, `active_flg`, `amount`, `name`, `price`, `update_date`, `asset_id`, `code`, `orginal_price`) VALUES
+(1, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-21 00:00:00', 1, 'CASH', '0.00'),
+(2, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-21 00:00:00', NULL, 'IT_RT', '0.00'),
+(3, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-22 00:00:00', 1, 'CASH', '0.00'),
+(4, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-22 00:00:00', NULL, 'IT_RT', '0.00'),
+(5, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-23 00:00:00', 1, 'CASH', '0.00'),
+(6, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-23 00:00:00', NULL, 'IT_RT', '0.00'),
+(7, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-24 00:00:00', 1, 'CASH', '0.00'),
+(8, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-24 00:00:00', NULL, 'IT_RT', '0.00'),
+(9, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-25 00:00:00', 1, 'CASH', '0.00'),
+(10, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-25 00:00:00', NULL, 'IT_RT', '0.00'),
+(11, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-26 00:00:00', 1, 'CASH', '0.00'),
+(12, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-26 00:00:00', NULL, 'IT_RT', '0.00'),
+(13, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-27 00:00:00', 1, 'CASH', '0.00'),
+(14, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-27 00:00:00', NULL, 'IT_RT', '0.00'),
+(15, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-28 00:00:00', 1, 'CASH', '0.00'),
+(16, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-28 00:00:00', NULL, 'IT_RT', '0.00'),
+(17, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-29 00:00:00', 1, 'CASH', '0.00'),
+(18, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-29 00:00:00', NULL, 'IT_RT', '0.00'),
+(19, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-30 00:00:00', 1, 'CASH', '0.00'),
+(20, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-30 00:00:00', NULL, 'IT_RT', '0.00'),
+(21, 0, '5000000.00', 'Tiền mặt', '1.00', '2018-10-31 00:00:00', 1, 'CASH', '0.00'),
+(22, 0, '724.64', 'Quỹ đối tác đầu tư IT&RT', '20700.00', '2018-10-31 00:00:00', NULL, 'IT_RT', '0.00');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `branch`
 --
 
-DROP TABLE IF EXISTS `branch`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `branch` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `active_flg` int(11) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `branch`
 --
 
-LOCK TABLES `branch` WRITE;
-/*!40000 ALTER TABLE `branch` DISABLE KEYS */;
-/*!40000 ALTER TABLE `branch` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `branch` (`id`, `active_flg`, `code`, `name`) VALUES
+(1, 1, 'BANK', 'Ngân Hàng'),
+(2, 1, 'FOOD_BEVERAGE', 'Đồ ăn & thức uống'),
+(3, 1, 'ENERGY', 'Năng lượng'),
+(4, 1, 'CONSTRUCTOR_REAL_ESTATE', 'Xây dựng, Bất động sản'),
+(5, 1, 'STEEL', 'Sắt thép'),
+(6, 1, 'CHEMICAL', 'Hóa chất'),
+(7, 1, 'AIR_CARRIAGE_LOGISTIC', 'Hàng không, Vận tải, Logistic'),
+(8, 1, 'HEATH_CARE', 'Chăm sóc sức khỏe');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `customer`
 --
 
-DROP TABLE IF EXISTS `customer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `active_flg` int(11) DEFAULT NULL,
+  `id` bigint(20) NOT NULL,
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date_of_birth` datetime DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `identity_document` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total_ccq` decimal(19,2) DEFAULT NULL,
+  `active_flg` int(11) NOT NULL,
+  `date_of_birth` datetime DEFAULT NULL,
   `identity_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `orginal_ccq_price` decimal(19,2) DEFAULT NULL,
   `sign_contract_date` datetime NOT NULL,
-  `total_ccq` decimal(19,2) DEFAULT NULL,
-  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `identity_document_back` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identity_document_front` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_ccq_price` decimal(19,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `customer`
 --
 
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `customer` (`id`, `avatar`, `email`, `full_name`, `total_ccq`, `active_flg`, `date_of_birth`, `identity_number`, `orginal_ccq_price`, `sign_contract_date`, `code`, `identity_document_back`, `identity_document_front`, `last_ccq_price`) VALUES
+(1, NULL, 'tuyenlh@gmail.com', 'Lê Hữu Tuyên', '0.00', 1, NULL, '125343196', '0.00', '2019-03-21 00:00:00', 'VIF1A0101', '/upload/identity/VIF1A0101_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00'),
+(2, NULL, 'admin@vifonline.com.vn', 'Admin VIF', '0.00', 1, NULL, '000000000', '0.00', '2019-03-23 00:00:00', 'VIFADMIN', NULL, NULL, '0.00'),
+(3, NULL, 'hieubx@gmail.com', 'Bùi Xuân Hiếu', '0.00', 1, NULL, '123456789', '0.00', '2019-03-23 00:00:00', 'VIF1A0102', '/upload/identity/VIF1A0102_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `group_asset`
 --
 
-DROP TABLE IF EXISTS `group_asset`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `group_asset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `active_flg` int(11) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type_of_asset` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  `type_of_asset` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `group_asset`
 --
 
-LOCK TABLES `group_asset` WRITE;
-/*!40000 ALTER TABLE `group_asset` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_asset` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `group_asset` (`id`, `active_flg`, `code`, `name`, `type_of_asset`) VALUES
+(1, 1, 'CASH', 'Tiền mặt', '1'),
+(2, 1, 'SECURITIES', 'Chứng khoán', '2'),
+(3, 1, 'DEBT', 'Nợ', '3'),
+(4, 1, 'OTHER', 'Tài sản khác', '4'),
+(5, 1, 'CCQ_VIF', 'CCQ VIF phát hành', '5');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `hibernate_sequence`
 --
 
-DROP TABLE IF EXISTS `hibernate_sequence`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `hibernate_sequence`
 --
 
-LOCK TABLES `hibernate_sequence` WRITE;
-/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (1);
-/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+(4675);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `investor_history`
 --
 
-DROP TABLE IF EXISTS `investor_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `investor_history` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `amount_ccq` decimal(19,2) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `create_date` datetime DEFAULT NULL,
   `last_update` datetime DEFAULT NULL,
   `price_of_ccq` decimal(19,2) DEFAULT NULL,
   `type_of_transaction` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKheyn6ffnc35o9qlwawiup1h4w` (`customer_id`),
-  CONSTRAINT `FKheyn6ffnc35o9qlwawiup1h4w` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
+  `customer_id` bigint(20) DEFAULT NULL,
+  `amount_ccq_before` decimal(19,2) NOT NULL,
+  `price_of_ccq_before` decimal(19,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `investor_history`
---
-
-LOCK TABLES `investor_history` WRITE;
-/*!40000 ALTER TABLE `investor_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `investor_history` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `sharemaster`
 --
 
-DROP TABLE IF EXISTS `sharemaster`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sharemaster` (
   `id` int(11) NOT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `current_price` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_update` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `last_update` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `sharemaster`
 --
 
-LOCK TABLES `sharemaster` WRITE;
-/*!40000 ALTER TABLE `sharemaster` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sharemaster` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `sharemaster` (`id`, `code`, `name`, `current_price`, `last_update`) VALUES
+(3117, 'SD2', 'Công ty Cổ phần Sông Đà 2', '5.30', NULL),
+(3118, 'SD1', 'Công ty Cổ phần Sông Đà 1', '2', NULL),
+(3119, 'SCS', 'Công ty Cổ phần Dịch vụ Hàng hóa Sài Gòn', '146', NULL),
+(3120, 'BBC', 'Công ty Cổ phần Bibica', '67', NULL),
+(3121, 'SD4', 'Công ty Cổ phần Sông Đà 4', '6.50', NULL),
+(3122, 'SCR', 'Công ty Cổ phần Địa ốc Sài Gòn Thương Tín', '7.46', NULL),
+(3123, 'SD3', 'Công ty Cổ phần Sông Đà 3', '2.40', NULL),
+(3124, 'SD6', 'Công ty Cổ phần Sông Đà 6', '3.80', NULL),
+(3125, 'SD5', 'Công ty Cổ phần Sông Đà 5', '6.40', NULL),
+(3126, 'SD8', 'Công ty Cổ phần Sông Đà 8', '0', NULL),
+(3127, 'SD7', 'Công ty Cổ phần Sông Đà 7', '3.30', NULL),
+(3128, 'SCY', 'Công ty Cổ phần Đóng tàu Sông Cấm', '13', NULL),
+(3129, 'SD9', 'Công ty Cổ phần Sông Đà 9', '6.60', NULL),
+(3130, 'BBM', 'Công ty Cổ phần Bia Hà Nội - Nam Định', '10.70', NULL),
+(3131, 'SDB', 'Công ty Cổ phần Sông Đà 207', '2', NULL),
+(3132, 'SDA', 'Công ty Cổ phần Simco Sông Đà', '5.10', NULL),
+(3133, 'SDD', 'Công ty Cổ phần Đầu tư và Xây lắp Sông Đà', '1.60', NULL),
+(3134, 'BBS', 'Công ty Cổ phần VICEM Bao bì Bút Sơn', '10.60', NULL),
+(3135, 'SDC', 'Công ty Cổ phần Tư vấn sông Đà', '15', NULL),
+(3136, 'BBT', 'Công ty Cổ phần Bông Bạch Tuyết', '17.60', NULL),
+(3137, 'SDE', 'Công ty Cổ phần Kỹ thuật điện Sông Đà', '1.50', NULL),
+(3138, 'SDH', 'Công ty Cổ phần Xây dựng hạ tầng sông Đà', '1.20', NULL),
+(3139, 'SDG', 'Công ty Cổ phần SADICO Cần Thơ', '24.30', NULL),
+(3140, 'SDJ', 'Công ty Cổ phần Sông Đà 25', '8', NULL),
+(3141, 'SDI', 'Công ty Cổ phần Đầu tư và Phát triển Đô thị Sài Đồng', '56.10', NULL),
+(3142, 'SDK', 'Công ty Cổ phần Cơ khí Luyện kim', '35.50', NULL),
+(3143, 'SDN', 'Công ty Cổ phần Sơn Đồng Nai', '37.60', NULL),
+(3144, 'SDP', 'Công ty cổ phần SDP', '0', NULL),
+(3145, 'BCB', 'Công ty cổ phần 397', '10.10', NULL),
+(3146, 'SDT', 'Công ty Cổ phần Sông Đà 10', '4.80', NULL),
+(3147, 'BCC', 'Công ty Cổ phần Xi măng Bỉm Sơn', '6.90', NULL),
+(3148, 'SDV', 'Công ty Cổ phần Dịch vụ Sonadezi', '20', NULL),
+(3149, 'BCE', 'Công ty Cổ phần Xây dựng và Giao thông Bình Dương', '6.37', NULL),
+(3150, 'SDU', 'Công ty Cổ phần Đầu tư xây dựng và Phát triển đô thị Sông Đà', '9', NULL),
+(3151, 'SDX', 'Công ty Cổ phần phòng cháy chữa cháy và đầu tư xây dựng Sông Đà', '6.80', NULL),
+(3152, 'BCG', 'Công ty Cổ phần Bamboo Capital', '5.76', NULL),
+(3153, 'SDY', 'Công ty Cổ phần Xi măng Elecem', '7.50', NULL),
+(3154, 'BCM', 'Tổng Công ty Đầu tư và Phát triển Công nghiệp - CTCP', '24', NULL),
+(3155, 'BCP', 'Công ty Cổ phần Dược Becamex', '8.70', NULL),
+(3156, 'SEA', 'Tổng Công ty Thủy sản Việt Nam – Công ty cổ phần', '12.90', NULL),
+(3157, 'SEB', 'Công ty Cổ phần Đầu tư và Phát triển điện miền Trung', '29', NULL),
+(3158, 'SED', 'Công ty Cổ phần Đầu tư và Phát triển giáo dục Phương Nam', '17.10', NULL),
+(3159, 'FLC', 'Công ty Cổ phần Tập đoàn FLC', '5.32', NULL),
+(3160, 'SEP', 'Công ty Cổ phần Tổng Công ty Thương mại Quảng Trị', '10', NULL),
+(3161, 'BDC', 'Tổng Công ty Xây dựng Bạch Đằng', '8.90', NULL),
+(3162, 'BDB', 'Công ty Cổ phần Sách và Thiết bị Bình Định', '10.50', NULL),
+(3163, 'BDG', 'CÔNG TY CỔ PHẦN MAY MẶC BÌNH DƯƠNG', '40', NULL),
+(3164, 'BDF', 'Công ty Cổ phần Giày Bình Định', '11', NULL),
+(3165, 'BDP', 'Công ty cổ phần Biệt thự và Khách sạn Biển Đông Phương', '10', NULL),
+(3166, 'SFC', 'Công ty Cổ phần Nhiên Liệu Sài Gòn', '22', NULL),
+(3167, 'BDT', 'Công ty cổ phần Xây lắp và Vật liệu xây dựng Đồng Tháp', '10.90', NULL),
+(3168, 'BDW', 'Công ty Cổ phần Cấp thoát nước Bình Định', '10.90', NULL),
+(3169, 'SFG', 'Công ty Cổ phần phân bón Miền Nam', '13', NULL),
+(3170, 'SFI', 'Công ty Cổ phần Đại lý Vận tải SAFI', '28.45', NULL),
+(3171, 'SFN', 'Công ty Cổ phần Dệt lưới Sài Gòn', '34', NULL),
+(3172, 'FMC', 'Công ty Cổ phần Thực phẩm Sao Ta', '29.50', NULL),
+(3173, 'BED', 'Công ty Cổ phần Sách và Thiết bị trường học Đà Nẵng', '30.50', NULL),
+(3174, 'BEL', 'CÔNG TY CỔ PHẦN ĐIỆN TỬ BIÊN HÒA', '15.70', NULL),
+(3175, 'SGC', 'Công ty Cổ phần Xuất nhập khẩu Sa Giang', '100', NULL),
+(3176, 'SGD', 'Công ty Cổ phần Sách Giáo dục tại thành phố Hồ Chí Minh', '9.40', NULL),
+(3177, 'SGH', 'Công ty Cổ phần Khách sạn Sài Gòn', '68', NULL),
+(3178, 'JVC', 'Công ty Cổ phần Thiết bị Y tế Việt Nhật', '3.07', NULL),
+(3179, 'SGO', 'Công ty Cổ phần Dầu thực vật Sài Gòn', '0', NULL),
+(3180, 'SGN', 'Công ty cổ phần Phục vụ Mặt đất Sài Gòn', '129.50', NULL),
+(3181, 'SGP', 'Công ty Cổ phần Cảng Sài Gòn', '9', NULL),
+(3182, 'BFC', 'Công ty Cổ phần Phân bón Bình Điền', '21.30', NULL),
+(3183, 'SGS', 'Công ty Cổ phần vận tải biển Sài Gòn', '23.50', NULL),
+(3184, 'X18', 'Công ty Cổ phần Xi măng X18', '3.20', NULL),
+(3185, 'SGR', 'Công ty Cổ phần Địa ốc Sài Gòn', '19', NULL),
+(3186, 'SGT', 'Công ty Cổ phần Công nghệ Viễn thông Sài Gòn', '5.35', NULL),
+(3187, 'SHB', 'Ngân hàng Thương mại Cổ phần Sài Gòn - Hà Nội', '7.60', NULL),
+(3188, 'SHA', 'Công ty Cổ phần Sơn Hà Sài Gòn', '5.75', NULL),
+(3189, 'SHC', 'Công ty Cổ phần Hàng hải Sài Gòn', '5.20', NULL),
+(3190, 'SHG', 'Tổng Công ty Cổ phần Sông Hồng', '2.60', NULL),
+(3191, 'SHI', 'Công ty Cổ phần Quốc tế Sơn Hà', '8.59', NULL),
+(3192, 'X20', 'Công ty cổ phần X20', '10', NULL),
+(3193, 'SHN', 'Công ty Cổ phần Đầu tư Tổng hợp Hà Nội', '9.40', NULL),
+(3194, 'SHP', 'Công ty Cổ phần Thủy điện miền Nam', '23.50', NULL),
+(3195, 'FOC', 'Công ty cổ phần Dịch vụ Trực tuyến FPT', '139', NULL),
+(3196, 'X26', 'Công ty cổ phần 26', '17.50', NULL),
+(3197, 'SHS', 'Công ty Cổ phần Chứng khoán Sài Gòn Hà Nội', '12.10', NULL),
+(3198, 'SHX', 'Công ty cổ phần Sài Gòn Hỏa xa', '14.60', NULL),
+(3199, 'SIC', 'Công ty Cổ phần ANI', '12.60', NULL),
+(3200, 'FOX', 'Công ty Cổ phần Viễn thông FPT', '51', NULL),
+(3201, 'SID', 'Công ty Cổ phần Đầu tư Phát triển Sài Gòn CO.OP', '16.60', NULL),
+(3202, 'SII', 'Công ty Cổ phần Hạ tầng Nước Sài Gòn', '16.70', NULL),
+(3203, 'BGW', 'Công ty Cổ phần Nước sạch Bắc Giang', '10', NULL),
+(3204, 'BHA', 'Công ty Cổ phần Thủy điện Bắc Hà', '17.20', NULL),
+(3205, 'SJ1', 'Công ty Cổ phần Nông nghiệp Hùng Hậu', '22.30', NULL),
+(3206, 'BHC', 'Công ty Cổ phần Bê tông Biên Hòa', '2.30', NULL),
+(3207, 'BHG', 'Công ty TNHH MTV Chè Biển Hồ', '12', NULL),
+(3208, 'SIV', 'Công ty Cổ phần SIVICO', '48', NULL),
+(3209, 'BHK', 'Công ty cổ phần Bia Hà Nội - Kim Bài', '12', NULL),
+(3210, 'G20', 'Công ty Cổ phần Đầu tư Dệt may Vĩnh Phúc', '0', NULL),
+(3211, 'BHN', 'Tổng Công ty Cổ phần Bia - Rượu - Nước giải khát Hà Nội', '80.80', NULL),
+(3212, 'FPT', 'Công ty Cổ phần FPT', '45.20', NULL),
+(3213, 'BHP', 'Công ty Cổ phần Bia Hà Nội - Hải Phòng', '6', NULL),
+(3214, 'SJD', 'Công ty Cổ phần Thủy Điện Cần Đơn', '21.30', NULL),
+(3215, 'SJC', 'Công ty Cổ phần Sông Đà 1.01', '2.60', NULL),
+(3216, 'SJF', 'Công Ty Cổ phần Đầu tư Sao Thái Dương', '3.95', NULL),
+(3217, 'SJE', 'Công ty Cổ phần Sông Đà 11', '26.50', NULL),
+(3218, 'BHT', 'Công ty Cổ phần Đầu tư Xây dựng Bạch Đằng TMC', '2.70', NULL),
+(3219, 'SJG', 'Tổng Công ty Sông Đà - Công ty TNHH một thành viên', '4.70', NULL),
+(3220, 'BHV', 'Công ty Cổ phần Viglacera Bá Hiến', '5.10', NULL),
+(3221, 'SJM', 'Công ty Cổ phần Sông Đà 19', '1.40', NULL),
+(3222, 'BID', 'Ngân hàng Thương mại Cổ phần Đầu tư và Phát triển Việt Nam', '34', NULL),
+(3223, 'SJS', 'Công ty Cổ phần Đầu tư Phát triển Đô thị và Khu công nghiệp Sông Đà', '22', NULL),
+(3224, 'BIC', 'Tổng Công ty Cổ phần Bảo Hiểm Ngân hàng Đầu tư và Phát triển Việt Nam', '25.25', NULL),
+(3225, 'BII', 'Công ty Cổ phần Đầu tư và Phát triển Công nghiệp Bảo Thư', '0', NULL),
+(3226, 'WSB', 'Công ty Cổ phần Bia Sài Gòn - Miền Tây', '46.30', NULL),
+(3227, 'BIO', 'Công ty cổ phần Vắc Xin và Sinh phẩm Nha Trang', '10', NULL),
+(3228, 'G36', 'Tổng công ty 36 - CTCP', '5.20', NULL),
+(3229, 'SKG', 'Công ty Cổ phần Tàu cao tốc Superdong – Kiên Giang', '14.85', NULL),
+(3230, 'SKH', 'Công ty Cổ phần Nước giải khát Sanest Khánh Hòa', '23', NULL),
+(3231, 'OCH', 'Công ty Cổ phần Khách sạn và Dịch vụ Đại Dương', '5.40', NULL),
+(3232, 'WSS', 'Công ty Cổ phần Chứng khoán phố Wall', '2.90', NULL),
+(3233, 'FRC', 'Công ty cổ phần Lâm đặc sản Xuất khẩu Quảng Nam', '15.30', NULL),
+(3234, 'SKN', 'Công ty cổ phần Nước giải khát Sanna Khánh Hòa', '7.50', NULL),
+(3235, 'SKV', 'Công ty Cổ phần Nước Giải khát Yến sào Khánh Hòa', '23', NULL),
+(3236, 'FRM', 'Công ty Cổ phần Lâm nghiệp Sài Gòn', '5.30', NULL),
+(3237, 'WTC', 'Công ty Cổ phần Vân tải thủy - Vinacomin', '4.40', NULL),
+(3238, 'FRT', 'Công ty cổ phần Bán lẻ Kỹ thuật số FPT', '60.10', NULL),
+(3239, 'SLC', 'Công ty cổ phần dịch vụ xuất khẩu lao động và chuyên gia', '17.60', NULL),
+(3240, 'WTN', 'Công ty cổ phần Cấp thoát nước Tây Ninh', '10', NULL),
+(3241, 'FSC', 'Công ty cổ phần Chứng khoán Yuanta Việt Nam', '0', NULL),
+(3242, 'SLS', 'Công ty Cổ phần Mía đường Sơn La', '47.50', NULL),
+(3243, 'BKC', 'Công ty Cổ phần Khoáng sản Bắc Kạn', '9.10', NULL),
+(3244, 'FT1', 'Công ty cổ phần Phụ tùng máy số 1', '41.40', NULL),
+(3245, 'FSO', 'Công ty cổ phần Cơ khí đóng tàu thủy sản Việt Nam', '15', NULL),
+(3246, 'SMA', 'Công ty Cổ phần Thiết bị phụ tùng Sài Gòn', '12.80', NULL),
+(3247, 'SMC', 'Công ty Cổ phần đầu tư thương mại SMC', '15.30', NULL),
+(3248, 'SMB', 'Công ty Cổ phần Bia Sài Gòn - Miền Trung', '32.80', NULL),
+(3249, 'SMN', 'Công ty Cổ phần sách và thiết bị giáo dục miền Nam', '9.90', NULL),
+(3250, 'X77', 'Công ty cổ phần Thành An 77', '0', NULL),
+(3251, 'FTI', 'Công ty Cổ phần Công nghiệp - Thương mại Hữu Nghị', '2.50', NULL),
+(3252, 'SMT', 'Công ty Cổ phần Sametel', '23.80', NULL),
+(3253, 'BLF', 'Công ty Cổ phần Thủy sản Bạc Liêu', '3.40', NULL),
+(3254, 'FTM', 'Công ty Cổ phần Đầu tư và Phát triển Đức Quân', '15.40', NULL),
+(3255, 'BLI', 'Tổng Công ty Cổ phần Bảo Hiểm Bảo Long', '6.70', NULL),
+(3256, 'FTS', 'Công ty Cổ phần Chứng khoán FPT', '16.85', NULL),
+(3257, 'BLN', 'Công ty cổ phần Vận tải và dịch vụ Liên Ninh', '7.10', NULL),
+(3258, 'SNC', 'Công ty Cổ phần Xuất nhập khẩu Thủy sản Năm Căn', '14.70', NULL),
+(3259, 'BLT', 'Công ty Cổ phần Lương thực Bình Định', '12.60', NULL),
+(3260, 'BLW', 'Công ty cổ phần Cấp nước Bạc Liêu', '12', NULL),
+(3261, 'BMD', 'Công ty Cổ phần Môi trường và Dịch vụ Đô thị Bình Thuận', '5.10', NULL),
+(3262, 'BMC', 'Công ty Cổ phần Khoáng sản Bình Định', '14.60', NULL),
+(3263, 'BMF', 'Công ty Cổ phần Vật liệu xây dựng và Chất đốt Đồng Nai', '47.60', NULL),
+(3264, 'BMG', 'Công ty cổ phần May Bình Minh', '14.70', NULL),
+(3265, 'BMJ', 'Công ty Cổ phần Khoáng sản Becamex', '11.60', NULL),
+(3266, 'SNZ', 'Tổng Công ty Cổ phần Phát triển khu Công Nghiệp', '12', NULL),
+(3267, 'BMI', 'Tổng Công ty Cổ phần Bảo Minh', '22.20', NULL),
+(3268, 'BMN', 'Công ty cổ phần 715', '7.40', NULL),
+(3269, 'BMP', 'Công ty Cổ phần nhựa Bình Minh', '49', NULL),
+(3270, 'BMS', 'Công ty Cổ phần Chứng Khoán Bảo Minh', '6.40', NULL),
+(3271, 'OGC', 'Công ty Cổ phần Tập đoàn Đại Dương', '3.99', NULL),
+(3272, 'BMV', 'Công ty Cổ phần Bột mỳ Vinafood 1', '10', NULL),
+(3273, 'SON', 'Công ty cổ phần Cung ứng Nhân lực Quốc tế và Thương mại', '9.10', NULL),
+(3274, 'SP2', 'Công ty cổ phần Thủy điện Sử Pán 2', '8.50', NULL),
+(3275, 'T12', 'Công ty Cổ phần Thương mại Dịch vụ Tràng Thi', '27.70', NULL),
+(3276, 'SPB', 'Công ty cổ phần Sợi Phú Bài', '37.20', NULL),
+(3277, 'SPA', 'Công ty cổ phần Bao bì Sài Gòn', '9', NULL),
+(3278, 'SPD', 'Công ty Cổ phần Xuất nhập khẩu Thủy sản miền Trung', '5.20', NULL),
+(3279, 'SPC', 'Công ty Cổ phần Bảo vệ thực vật Sài Gòn', '20', NULL),
+(3280, 'BNW', 'Công ty cổ phần Nước sạch Bắc Ninh', '10', NULL),
+(3281, 'SPH', 'Công ty Cổ phần xuất nhập khẩu thủy sản Hà Nội', '13.40', NULL),
+(3282, 'SPI', 'Công ty Cổ phần SPI', '0', NULL),
+(3283, 'SPM', 'Công ty Cổ phần S.P.M', '13.45', NULL),
+(3284, 'SPP', 'Công ty Cổ phần Bao bì Nhựa Sài Gòn', '3.70', NULL),
+(3285, 'SPV', 'Công ty cổ phần Thủy Đặc Sản', '9.80', NULL),
+(3286, 'SQC', 'Công ty Cổ phần Khoáng sản Sài Gòn - Quy Nhơn', '82', NULL),
+(3287, 'C12', 'Công ty Cổ phần Cầu 12', '13.80', NULL),
+(3288, 'KAC', 'Công ty Cổ phần Đầu tư Địa ốc Khang An', '16', NULL),
+(3289, 'OIL', 'Tổng Công ty Dầu Việt Nam – Công ty cổ phần', '15', NULL),
+(3290, 'BPC', 'Công ty Cổ phần Vicem Bao bì Bỉm sơn', '17', NULL),
+(3291, 'SRB', 'Công ty Cổ phần Tập đoàn SARA', '2', NULL),
+(3292, 'C22', 'Công ty Cổ phần 22', '31', NULL),
+(3293, 'SRA', 'Công ty Cổ phần Sara Việt Nam', '18.80', NULL),
+(3294, 'C21', 'Công ty Cổ phần Thế kỷ 21', '26.10', NULL),
+(3295, 'SRC', 'Công ty Cổ phần Cao su Sao vàng', '17.75', NULL),
+(3296, 'SRF', 'Công ty Cổ phần Kỹ Nghệ Lạnh', '12.80', NULL),
+(3297, 'BPW', 'Công ty Cổ phần Cấp thoát nước Bình Phước', '10', NULL),
+(3298, 'KBC', 'Tổng Công ty Phát triển Đô thị Kinh Bắc', '14.60', NULL),
+(3299, 'KBE', 'Công ty Cổ phần Sách - Thiết bị Trường học Kiên Giang', '17.50', NULL),
+(3300, 'BQB', 'Công ty Cổ phần Bia Hà Nội - Quảng Bình', '5', NULL),
+(3301, 'SRT', 'Công ty cổ phần Vận tải Đường sắt Sài Gòn', '4.60', NULL),
+(3302, 'SSC', 'Công ty Cổ phần Giống cây trồng miền Nam', '64.80', NULL),
+(3303, 'C32', 'Công ty Cổ phần Đầu tư Xây dựng 3-2', '28.15', NULL),
+(3304, 'SSG', 'Công ty Cổ phần Vận tải biển Hải Âu', '1.60', NULL),
+(3305, 'C36', 'Công ty Cổ phần Quản Lý và Xây dựng công trình giao thông 236', '12.70', NULL),
+(3306, 'SSF', 'Công ty Cổ phần Giày Sài Gòn', '2.90', NULL),
+(3307, 'SSI', 'Công ty Cổ phần chứng khoán Sài Gòn', '28.25', NULL),
+(3308, 'KCB', 'Công ty Cổ phần Khoáng Sản Luyện Kim Cao Bằng', '3.40', NULL),
+(3309, 'KCE', 'Công ty Cổ phần Bê tông Ly tâm Điện lực Khánh Hòa', '18', NULL),
+(3310, 'SSM', 'Công ty Cổ phần Chế tạo kết cấu thép VNECO.SSM', '6.10', NULL),
+(3311, 'SSN', 'Công ty Cổ phần xuất nhập khẩu thủy sản Sài Gòn', '9.10', NULL),
+(3312, 'BRC', 'Công ty Cổ phần Cao su Bến Thành', '9.44', NULL),
+(3313, 'SSU', 'Công ty Cổ phần Môi trường Đô thị Sóc Sơn', '6.90', NULL),
+(3314, 'ST8', 'Công ty Cổ phần Siêu Thanh', '17', NULL),
+(3315, 'STB', 'Ngân hàng Thương mại Cổ phần Sài Gòn Thương Tín', '13.05', NULL),
+(3316, 'BRS', 'Công ty Cổ phần Dịch vụ Đô thị Bà Rịa', '14', NULL),
+(3317, 'BRR', 'Công ty Cổ phần Cao su Bà Rịa', '8.80', NULL),
+(3318, 'STC', 'Công ty Cổ phần Sách và Thiết bị trường học TP Hồ Chí Minh', '15.70', NULL),
+(3319, 'C47', 'Công ty Cổ phần Xây dựng 47', '14.80', NULL),
+(3320, 'STG', 'Công ty Cổ phần Kho vận miền Nam', '16.50', NULL),
+(3321, 'STL', 'Công ty Cổ phần Sông Đà - Thăng Long', '2', NULL),
+(3322, 'KDC', 'Công ty Cổ phần tập đoàn Kido', '20.60', NULL),
+(3323, 'STK', 'Công ty Cổ phần Sợi thế kỷ', '18.35', NULL),
+(3324, 'KDF', 'Công ty cổ phần Thực phẩm Đông lạnh KIDO', '18.60', NULL),
+(3325, 'KDH', 'Công ty Cổ phần Đầu tư và Kinh doanh Nhà Khang Điền', '31', NULL),
+(3326, 'STP', 'Công ty Cổ phần công nghiệp thương mại Sông Đà', '7.20', NULL),
+(3327, 'BSA', 'Công ty cổ phần Thủy điện Buôn Đôn', '16.70', NULL),
+(3328, 'BSD', 'Công ty cổ phần Bia, Rượu Sài Gòn - Đồng Xuân', '38.50', NULL),
+(3329, 'STT', 'Công ty Cổ phần Vận chuyển Sài Gòn Tourist', '7.10', NULL),
+(3330, 'BSC', 'Công ty Cổ phần Dịch vụ Bến Thành', '15.50', NULL),
+(3331, 'STS', 'Công ty Cổ phần Dịch vụ Vận tải Sài Gòn', '14', NULL),
+(3332, 'STV', 'Công ty Cổ phần Chế tác đá Việt Nam', '14.40', NULL),
+(3333, 'KDM', 'Công ty cổ phần Đầu tư HP Việt Nam', '3.30', NULL),
+(3334, 'STU', 'Công ty Cổ phần Môi trường và Công trình Đô thị Sơn Tây', '10.70', NULL),
+(3335, 'BSH', 'Công ty Cổ phần Bia Sài Gòn - Hà Nội', '24.80', NULL),
+(3336, 'C4G', 'Tổng Công ty Xây dựng Công trình Giao thông 4 - CTCP', '8.80', NULL),
+(3337, 'BSG', 'Công ty cổ phần Xe khách Sài Gòn', '9.60', NULL),
+(3338, 'STW', 'Công ty cổ phần Cấp nước Sóc Trăng', '6.90', NULL),
+(3339, 'BSI', 'Công ty Cổ phần Chứng khoán Ngân hàng Đầu tư và Phát triển Việt Nam', '10.20', NULL),
+(3340, 'BSL', 'Công ty Cổ phần Bia Sài Gòn - Sông Lam', '12.60', NULL),
+(3341, 'BSP', 'Công ty Cổ phần Bia Sài Gòn - Phú Thọ', '19', NULL),
+(3342, 'BT1', 'Công ty cổ phần bảo vệ thực vật 1 Trung Ương', '16.60', NULL),
+(3343, 'BSR', 'Công ty cổ phần Lọc – Hóa dầu Bình Sơn', '14.10', NULL),
+(3344, 'BSQ', 'Công ty cổ phần Bia Sài Gòn - Quảng Ngãi', '23', NULL),
+(3345, 'BST', 'Công ty Cổ phần Sách - Thiết bị Bình Thuận', '50.10', NULL),
+(3346, 'BT6', 'Công ty Cổ phần Beton 6', '1.50', NULL),
+(3347, 'SUM', 'Công ty cổ phần Đo đạc và Khoáng sản', '10.10', NULL),
+(3348, 'BTC', 'Công ty Cổ phần cơ khí và xây dựng Bình Triệu', '58', NULL),
+(3349, 'BTB', 'Công ty Cổ phần Bia Hà Nội - Thái Bình', '6.30', NULL),
+(3350, 'BTD', 'Công ty cổ phần Bê tông Ly tâm Thủ Đức', '14', NULL),
+(3351, 'BTG', 'Công ty Cổ phần Bao bì Tiền Giang', '5.60', NULL),
+(3352, 'BTH', 'Công ty Cổ phần Chế tạo Biến thế và Vật liệu điện Hà Nội', '2.10', NULL),
+(3353, 'BTN', 'Công ty cổ phần Gạch Tuy Nen Bình Định', '6.40', NULL),
+(3354, 'BTP', 'Công ty Cổ phần Nhiệt điện Bà Rịa', '13.10', NULL),
+(3355, 'BTS', 'Công ty Cổ phần Xi măng VICEM Bút Sơn', '4.70', NULL),
+(3356, 'SVC', 'Công ty Cổ phần dịch vụ tổng hợp Sài Gòn', '44.50', NULL),
+(3357, 'BTR', 'Công ty cổ phần Đường sắt Bình Trị Thiên', '7.80', NULL),
+(3358, 'BTU', 'Công ty cổ phần Công trình Đô thị Bến Tre', '9.80', NULL),
+(3359, 'BTT', 'Công ty Cổ phần Thương mại - Dịch vụ Bến Thành', '39.05', NULL),
+(3360, 'BTW', 'Công ty Cổ phần Cấp nước Bến Thành', '16.40', NULL),
+(3361, 'SVH', 'Công ty cổ phần Thủy điện Sông Vàng', '13.30', NULL),
+(3362, 'BTV', 'Công ty Cổ phần Dịch vụ du lịch Bến Thành', '10.80', NULL),
+(3363, 'SVG', 'Công ty cổ phần Hơi Kĩ Nghệ Que Hàn', '17.30', NULL),
+(3364, 'ONE', 'Công ty Cổ phần Truyền thông số 1', '4.20', NULL),
+(3365, 'C69', 'Công ty cổ phần Xây dựng 1369', '5.30', NULL),
+(3366, 'SVI', 'Công ty Cổ phần Bao bì Biên Hòa', '49.90', NULL),
+(3367, 'SVL', 'Công ty cổ phần Nhân lực Quốc tế Sovilaco', '18.50', NULL),
+(3368, 'SVN', 'Công ty Cổ phần Solavina', '1.10', NULL),
+(3369, 'SVT', 'Công ty Cổ phần Công nghệ Sài Gòn Viễn Đông', '6.10', NULL),
+(3370, 'BUD', 'Công ty cổ phần Thoát nước và Phát triển khoa học công nghệ Việt', '9.90', NULL),
+(3371, 'ONW', 'Công ty Cổ phần Dịch vụ Một Thế Giới', '15.30', NULL),
+(3372, 'C71', 'Công ty Cổ phần 471', '10.20', NULL),
+(3373, 'SWC', 'Tổng Công ty Cổ phần Đường sông Miền Nam', '15.10', NULL),
+(3374, 'KGM', 'Công ty cổ phần Xuất nhập khẩu Kiên Giang', '12.20', NULL),
+(3375, 'BVG', 'Công ty Cổ phần Thép Bắc Việt', '1.40', NULL),
+(3376, 'BVH', 'Tập đoàn Bảo Việt', '96.50', NULL),
+(3377, 'KGU', 'Công ty Cổ phần Phát triển Đô thị Kiên Giang', '15.10', NULL),
+(3378, 'BVN', 'Công ty Cổ phần Bông Việt Nam', '15.30', NULL),
+(3379, 'BVS', 'Công ty Cổ phần Chứng khoán Bảo Việt', '11.70', NULL),
+(3380, 'OPC', 'Công ty Cổ phần Dược phẩm OPC', '48', NULL),
+(3381, 'KHB', 'Công ty Cổ phần Khoáng sản Hòa Bình', '1', NULL),
+(3382, 'KHA', 'Công ty Cổ phần Đầu tư và Dịch vụ Khánh Hội', '40.80', NULL),
+(3383, 'KHD', 'Công ty cổ phần khai thác, chế biến khoáng sản Hải Dương', '9.80', NULL),
+(3384, 'BWA', 'Công ty Cổ phần Cấp thoát nước và Xây dựng Bảo Lộc', '7', NULL),
+(3385, 'KHL', 'Công ty Cổ phần Khoáng sản và Vật liệu Xây dựng Hưng Long', '0', NULL),
+(3386, 'BWE', 'Công ty Cổ phần Nước - Môi trường Bình Dương', '24.30', NULL),
+(3387, 'KHP', 'Công ty Cổ phần Điện lực Khánh Hòa', '9.93', NULL),
+(3388, 'KHS', 'Công ty Cổ phần Kiên Hùng', '11.80', NULL),
+(3389, 'KHW', 'Công ty cổ phần Cấp thoát nước Khánh Hòa', '27', NULL),
+(3390, 'C92', 'Công ty Cổ phần Xây dựng và Đầu tư 492', '7.90', NULL),
+(3391, 'BWS', 'Công ty cổ phần Cấp nước Bà Rịa - Vũng Tàu', '33', NULL),
+(3392, 'BXH', 'Công ty Cổ phần Vicem Bao bì Hải Phòng', '13.30', NULL),
+(3393, 'KIP', 'Công ty cổ phần K.I.P Việt Nam', '33', NULL),
+(3394, 'GAS', 'Tổng Công ty Khí Việt Nam - CTCP', '99.30', NULL),
+(3395, 'SZC', 'Công ty cổ phần Sonadezi Châu Đức', '11.35', NULL),
+(3396, 'SZE', 'Công ty cổ phần Môi trường Sonadezi', '7.60', NULL),
+(3397, 'SZL', 'Công ty Cổ phần Sonadezi Long Thành', '32.05', NULL),
+(3398, 'ORS', 'Công ty Cổ phần Chứng khoán Phương Đông', '3', NULL),
+(3399, 'XDH', 'Công ty cổ phần Đầu tư Xây dưng Dân dụng Hà Nội', '27.80', NULL),
+(3400, 'KKC', 'Công ty Cổ phần Kim khí KKC', '9.70', NULL),
+(3401, 'GCB', 'Công ty cổ phần Petec Bình Định', '6', NULL),
+(3402, 'KLB', 'Ngân hàng Thương mại Cổ phần Kiên Long', '10.50', NULL),
+(3403, 'KLF', 'Công ty Cổ phần Liên doanh Đầu tư Quốc tế KLF', '1.70', NULL),
+(3404, 'GDT', 'Công ty Cổ phần Chế biến Gỗ Đức Thành', '39.95', NULL),
+(3405, 'GDW', 'Công ty Cổ phần Cấp nước Gia Định', '16.70', NULL),
+(3406, 'GEG', 'Công ty Cổ phần Điện Gia Lai', '16.20', NULL),
+(3407, 'KMR', 'Công ty Cổ phần Mirae', '2.89', NULL),
+(3408, 'KMT', 'Công ty Cổ phần Kim khí Miền Trung', '8.20', NULL),
+(3409, 'GER', 'Công ty Cổ phần Thể Thao Ngôi Sao Geru', '5.20', NULL),
+(3410, 'GEX', 'Tổng Công ty Cổ phần Thiết bị điện Việt Nam', '23.65', NULL),
+(3411, 'XHC', 'Công ty cổ phần Xuân Hòa Việt Nam', '15.40', NULL),
+(3412, 'GGG', 'Công ty Cổ phần Ô tô Giải Phóng', '0', NULL),
+(3413, 'TA3', 'Công ty Cổ phần Đầu tư và Xây lắp Thành An 386', '10', NULL),
+(3414, 'TA6', 'Công ty cổ phần Đầu tư và Xây lắp Thành An 665', '5.50', NULL),
+(3415, 'L10', 'Công ty Cổ phần LILAMA 10', '22', NULL),
+(3416, 'L12', 'Công ty cổ phần Licogi 12', '5.60', NULL),
+(3417, 'TA9', 'Công ty Cổ phần Xây lắp Thành An 96', '8', NULL),
+(3418, 'KOS', 'Công ty cổ phần Kosy', '20.80', NULL),
+(3419, 'L14', 'Công ty Cổ phần Licogi 14', '37.70', NULL),
+(3420, 'GGS', 'Công ty cổ phần Giống Gia súc Hà Nội', '10', NULL),
+(3421, 'L18', 'Công ty Cổ phần Đầu tư và Xây dựng số 18', '10.10', NULL),
+(3422, 'TAC', 'Công ty Cổ phần Dầu thực vật Tường An', '26.80', NULL),
+(3423, 'TAG', 'Công ty Cổ phần Thế giới số Trần Anh', '34.90', NULL),
+(3424, 'KPF', 'Công ty cổ phần Đầu tư tài chính Hoàng Minh', '30.80', NULL),
+(3425, 'TAP', 'Công ty cổ phần Đô thị Tân An', '9.70', NULL),
+(3426, 'GHC', 'Công ty Cổ phần Thủy điện Gia Lai', '30.80', NULL),
+(3427, 'TAW', 'Công ty Cổ phần Cấp nước Trung An', '22.70', NULL),
+(3428, 'TB8', 'Công ty cổ phần Sản xuất và kinh doanh Vật tư Thiết bị - VVMI', '10', NULL),
+(3429, 'TBC', 'Công ty Cổ phần Thủy điện Thác Bà', '26', NULL),
+(3430, 'TBD', 'Tổng Công ty Thiết bị điện Đông Anh', '125', NULL),
+(3431, 'TBN', 'Công ty Cổ phần Thoát nước và Xử lý nước thải Bắc Ninh', '10', NULL),
+(3432, 'TC6', 'Công ty Cổ phần Than Cọc Sáu - VINACOMIN', '5.90', NULL),
+(3433, 'CAD', 'Công ty Cổ phần Chế biến và Xuất nhập khẩu Thủy sản Cadovimex', '0', NULL),
+(3434, 'TBT', 'Công ty Cổ phần Xây dựng Công trình Giao thông Bến Tre', '2.50', NULL),
+(3435, 'CAG', 'Công ty Cổ phần Cảng An Giang', '117.80', NULL),
+(3436, 'GIL', 'Công ty Cổ phần Sản Xuất Kinh Doanh Xuất Nhập Khẩu Bình Thạnh', '39.40', NULL),
+(3437, 'TBX', 'Công ty Cổ phần Xi măng Thái Bình', '9', NULL),
+(3438, 'L35', 'Công ty Cổ phần Cơ khí lắp máy Lilama', '4.10', NULL),
+(3439, 'CAN', 'Công ty Cổ phần Đồ hộp Hạ Long', '38.30', NULL),
+(3440, 'TCB', 'Ngân hàng Thương mại Cổ phần Kỹ Thương Việt Nam - Techcombank', '27.70', NULL),
+(3441, 'CAP', 'Công ty Cổ phần Lâm nông sản thực phẩm Yên Bái', '43.30', NULL),
+(3442, 'TCD', 'Công ty Cổ phần Đầu tư Phát triển Công nghiệp và Vận tải', '15', NULL),
+(3443, 'CAT', 'Công ty Cổ phần Thủy sản Cà Mau', '11.80', NULL),
+(3444, 'TCH', 'Công ty Cổ phần Đầu tư Dịch vụ Tài chính Hoàng Huy', '24.75', NULL),
+(3445, 'CAV', 'Công ty Cổ phần dây cáp điện Việt Nam', '58.50', NULL),
+(3446, 'TCJ', 'Công ty Cổ phần Tô Châu', '2.80', NULL),
+(3447, 'TCI', 'Công ty cổ phần Chứng khoán Thành Công', '6', NULL),
+(3448, 'TCL', 'Công ty Cổ phần Đại lý giao nhận Vận tải xếp dỡ Tân Cảng', '25.40', NULL),
+(3449, 'TCK', 'Tổng công ty Cơ khí xây dựng - CTCP', '4.60', NULL),
+(3450, 'TCM', 'Công ty Cổ phần Dệt may - Đầu tư - Thương mại Thành Công', '29.60', NULL),
+(3451, 'TCO', 'Công ty Cổ phần Vận tải đa phương thức Duyên Hải', '10.90', NULL),
+(3452, 'TCR', 'Công ty Cổ phần Công Nghiệp Gốm sứ Taicera', '2.28', NULL),
+(3453, 'TCT', 'Công ty Cổ phần Cáp treo Núi Bà Tây Ninh', '62', NULL),
+(3454, 'TCS', 'Công ty Cổ phần Than Cao Sơn - Vinacomin', '7.40', NULL),
+(3455, 'TCW', 'Công ty Cổ phần Kho vận Tân Cảng', '18.50', NULL),
+(3456, 'L43', 'Công ty Cổ phần Lilama 45.3', '3.30', NULL),
+(3457, 'CBI', 'Công ty Cổ phần Gang thép Cao Bằng', '4', NULL),
+(3458, 'L45', 'Công ty cổ phần Lilama 45.1', '2', NULL),
+(3459, 'L44', 'Công ty Cổ phần Lilama 45.4', '0', NULL),
+(3460, 'CC1', 'Tổng Công ty Xây dựng Số 1 – CTCP', '14.40', NULL),
+(3461, 'TDC', 'Công ty Cổ phần Kinh doanh và Phát triển Bình Dương', '7.76', NULL),
+(3462, 'TDB', 'Công ty cổ phần Thủy điện Định Bình', '37.50', NULL),
+(3463, 'CC4', 'Công ty Cổ phần Đầu tư và Xây dựng số 4', '10.90', NULL),
+(3464, 'CBS', 'Công ty Cổ phần Mía đường Cao Bằng', '10', NULL),
+(3465, 'TDG', 'Công ty Cổ phần Dầu khí Thái Dương', '3.08', NULL),
+(3466, 'TDH', 'Công ty Cổ phần Phát triển nhà Thủ Đức', '10.50', NULL),
+(3467, 'KSB', 'Công ty Cổ phần Khoáng sản và Xây dựng Bình Dương', '25.60', NULL),
+(3468, 'TDM', 'Công ty cổ phần Nước Thủ Dầu Một', '23.50', NULL),
+(3469, 'KSE', 'Công ty cổ phần Xuất khẩu Thủy sản Khánh Hòa', '10', NULL),
+(3470, 'KSD', 'Tổng Công ty Cổ phần Xuất khẩu Đông Nam Á Hamico', '4.50', NULL),
+(3471, 'TDN', 'Công ty Cổ phần Than Đèo Nai - VINACOMIN', '6', NULL),
+(3472, 'KSH', 'Công ty Cổ phần Đầu tư và Phát triển KSH', '1.16', NULL),
+(3473, 'TDP', 'Công ty cổ phần Thuận Đức', '14.80', NULL),
+(3474, 'KSK', 'Công ty Cổ phần Khoáng sản Luyện kim màu', '0', NULL),
+(3475, 'TDS', 'Công ty Cổ phần thép Thủ Đức', '10.60', NULL),
+(3476, 'XLV', 'Công ty cổ phần Xây lắp và Dịch vụ Sông Đà', '11', NULL),
+(3477, 'TDT', 'Công ty Cổ phần Đầu tư và Phát triển TDT', '11.90', NULL),
+(3478, 'TDW', 'Công ty Cổ phần Cấp nước Thủ Đức', '26.40', NULL),
+(3479, 'GKM', 'Công ty Cổ phần Gạch Khang Minh', '15.60', NULL),
+(3480, 'CCI', 'Công ty Cổ phần Đầu tư Phát triển Công nghiệp Thương mại Củ Chi', '13.20', NULL),
+(3481, 'KSQ', 'Công ty Cổ phần Khoáng sản Quang Anh', '1.30', NULL),
+(3482, 'CCH', 'Công ty cổ phần Tư vấn và Đầu tư Xây dựng CCIC Hà Nội', '10', NULL),
+(3483, 'CCM', 'Công ty Cổ phần Khoáng Sản Và Xi Măng Cần Thơ', '27.30', NULL),
+(3484, 'CCL', 'Công ty Cổ phần Đầu tư và Phát triển Đô thị Dầu khí Cửu Long', '3.18', NULL),
+(3485, 'KST', 'Công ty Cổ phần KASATI', '17.40', NULL),
+(3486, 'XMD', 'Công ty Cổ phần Xuân Mai - Đạo Tú', '3.30', NULL),
+(3487, 'KSV', 'Tổng công ty Khoáng sản TKV - CTCP', '9.40', NULL),
+(3488, 'CCP', 'Công ty Cổ phần Cảng Cửa Cấm Hải Phòng', '19.70', NULL),
+(3489, 'CCR', 'Công ty Cổ phần Cảng Cam Ranh', '16', NULL),
+(3490, 'TEC', 'Công ty Cổ phần Traenco', '7', NULL),
+(3491, 'CCT', 'Công ty Cổ phần Cảng Cần Thơ', '10', NULL),
+(3492, 'CCV', 'Công ty cổ phần Tư vấn Xây dựng Công nghiệp và Đô thị Việt Nam', '33', NULL),
+(3493, 'TEG', 'Công ty Cổ phần Bất động sản và Xây dựng Trường Thành', '7.17', NULL),
+(3494, 'KTB', 'Công ty Cổ phần Đầu tư Khoáng sản Tây Bắc', '1.90', NULL),
+(3495, 'TEL', 'Công ty Cổ phần Phát triển Công trình Viễn thông', '6.60', NULL),
+(3496, 'KTC', 'Công ty Cổ phần Thương mại Kiên Giang', '26.70', NULL),
+(3497, 'KTL', 'Công ty Cổ phần kim khí Thăng Long', '16.20', NULL),
+(3498, 'TET', 'Công ty Cổ phần Vải sợi May mặc miền Bắc', '31.50', NULL),
+(3499, 'CDC', 'Công ty Cổ phần Chương Dương', '14.50', NULL),
+(3500, 'CDH', 'Công ty cổ phần Công trình công cộng và dịch vụ du lịch Hải Phòng', '6', NULL),
+(3501, 'L61', 'Công ty Cổ phần LILAMA 69-1', '12.10', NULL),
+(3502, 'CDG', 'Công ty cổ phần Cầu Đuống', '15', NULL),
+(3503, 'L63', 'Công ty Cổ phần Lilama 69-3', '9', NULL),
+(3504, 'L62', 'Công ty Cổ phần Lilama 69-2', '6.20', NULL),
+(3505, 'KTT', 'Công ty Cổ phần Đầu tư Thiết bị và Xây lắp Điện Thiên Trường', '2.70', NULL),
+(3506, 'KTS', 'Công ty Cổ phần Đường Kon Tum', '18', NULL),
+(3507, 'CDN', 'Công ty Cổ phần Cảng Đà Nẵng', '16.50', NULL),
+(3508, 'KTU', 'Công ty cổ phần Môi trường đô thị Kon Tum', '13.80', NULL),
+(3509, 'CDP', 'Công ty cổ phần Dược phẩm Trung ương Codupha', '12.90', NULL),
+(3510, 'CE1', 'Công ty Cổ phần Xây dựng và Thiết bị Công nghiệp CIE1', '9', NULL),
+(3511, 'GLT', 'Công ty Cổ phần Kỹ thuật điện toàn cầu', '47.50', NULL),
+(3512, 'CDO', 'Công ty Cổ phần Tư vấn thiết kế và phát triển đô thị', '1', NULL),
+(3513, 'CDR', 'Công ty Cổ phần Xây dựng Cao su Đồng Nai', '6.90', NULL),
+(3514, 'TFC', 'Công ty cổ phần Trang', '8.40', NULL),
+(3515, 'GLW', 'Công ty cổ phần Cấp thoát nước Gia Lai', '8', NULL),
+(3516, 'GMC', 'Công ty Cổ phần Sản xuất Thương mại May Sài Gòn', '42.80', NULL),
+(3517, 'GMD', 'Công ty Cổ phần Gemadept', '27.45', NULL),
+(3518, 'CEC', 'Công ty Cổ phần Thiết kế Công nghiệp Hóa chất', '15', NULL),
+(3519, 'CEE', 'Công ty Cổ phần Xây dựng Hạ tầng CII', '16.15', NULL),
+(3520, 'CEG', 'Công ty Cổ phần Tập đoàn Xây dựng và thiết bị Công nghiệp', '10', NULL),
+(3521, 'CEO', 'Công ty Cổ phần Tập Đoàn C.E.O', '13.30', NULL),
+(3522, 'CEN', 'Công ty Cổ phần Dịch vụ Hàng Không Cencon Việt Nam', '15.50', NULL),
+(3523, 'CER', 'Công ty Cổ phần Địa chính và Tài nguyên môi trường', '10.70', NULL),
+(3524, 'CET', 'Công ty Cổ phần Tech - Vina', '3.10', NULL),
+(3525, 'GMX', 'Công ty Cổ phần Gạch Ngói Gốm Xây dựng Mỹ Xuân', '24', NULL),
+(3526, 'TGG', 'Công ty Cổ phần Xây dựng và Đầu tư Trường Giang', '2.53', NULL),
+(3527, 'KVC', 'Công ty Cổ phần sản xuất xuất nhập khẩu INOX Kim vĩ', '1.10', NULL),
+(3528, 'GND', 'Công ty cổ phần Gạch ngói Đồng Nai', '26', NULL),
+(3529, 'TGP', 'Công ty Cổ phần Trường Phú', '5.50', NULL),
+(3530, 'TH1', 'Công ty Cổ phần Xuất nhập khẩu Tổng hợp I Việt Nam', '5', NULL),
+(3531, 'CFC', 'Công ty Cổ phần Cafico Việt Nam', '18.40', NULL),
+(3532, 'THB', 'Công ty Cổ phần Bia Thanh Hóa', '9.50', NULL),
+(3533, 'XPH', 'Công ty Cổ phần Xà phòng Hà Nội', '5.20', NULL),
+(3534, 'THG', 'Công ty Cổ phần Đầu tư và Xây dựng Tiền Giang', '33.90', NULL),
+(3535, 'THI', 'Công ty Cổ phần Thiết bị điện', '37', NULL),
+(3536, 'THN', 'Công ty cổ phần Cấp nước Thanh Hóa', '10', NULL),
+(3537, 'THS', 'Công ty Cổ phần Thanh Hoa - Sông Đà', '12.40', NULL),
+(3538, 'THR', 'Công ty Cổ phần Đường sắt Thuận Hải', '7.50', NULL),
+(3539, 'THU', 'Công ty Cổ phần Môi trường và Công trình đô thị Thanh Hóa', '12.50', NULL),
+(3540, 'THT', 'Công ty Cổ phần than Hà Tu – Vinacomin', '9', NULL),
+(3541, 'THW', 'Công ty cổ phần cấp nước Tân Hòa', '8.50', NULL),
+(3542, 'H11', 'Công ty Cổ phần Xây dựng HUD101', '5.50', NULL),
+(3543, 'CGP', 'CTCP Dược phẩm Cần Giờ', '9.90', NULL),
+(3544, 'TID', 'Công ty cổ phần Tổng công ty Tín Nghĩa', '22.80', NULL),
+(3545, 'TIE', 'Công ty Cổ phần TIE', '8.94', NULL),
+(3546, 'CH5', 'Công ty cổ phần xây dựng số 5 Hà Nội', '9.40', NULL),
+(3547, 'TIG', 'Công ty Cổ phần Tập đoàn Đầu tư Thăng Long', '2.30', NULL),
+(3548, 'PAC', 'Công ty Cổ phần Pin Ắc quy miền Nam', '36', NULL),
+(3549, 'CGV', 'Công ty cổ phần Sành sứ Thủy tinh Việt Nam', '3.10', NULL),
+(3550, 'PAI', 'Công ty Cổ phần Công nghệ Thông tin, Viễn thông và Tự động hóa Dầu Khí', '9.70', NULL),
+(3551, 'TIP', 'Công ty Cổ phần Phát triển Khu công nghiệp Tín Nghĩa', '15.40', NULL),
+(3552, 'PAN', 'Công ty Cổ phần Tập đoàn PAN', '37.70', NULL),
+(3553, 'TIS', 'Công ty Cổ phần Gang thép Thái Nguyên', '10.60', NULL),
+(3554, 'CHC', 'Công ty cổ phần Cẩm Hà', '7.90', NULL),
+(3555, 'TIX', 'Công ty Cổ phần Sản xuất Kinh doanh Xuất nhập khẩu Dịch vụ và Đầu tư Tân Bình', '31', NULL),
+(3556, 'CHP', 'Công ty Cổ phần Thủy điện miền Trung', '23.10', NULL),
+(3557, 'TJC', 'Công ty Cổ phần Dịch vụ Vận tải và Thương mại', '7', NULL),
+(3558, 'CI5', 'Công ty Cổ phần Đầu tư Xây dựng số 5', '8.90', NULL),
+(3559, 'CHS', 'Công ty Cổ phần Chiếu sáng công cộng Thành phố Hồ Chí Minh', '10', NULL),
+(3560, 'PBK', 'Công ty cổ phần Điện lực Dầu khí Bắc Kạn', '10', NULL),
+(3561, 'CIA', 'Công ty Cổ phần Dịch vụ Sân bay Quốc tế Cam Ranh', '17.50', NULL),
+(3562, 'PC1', 'Công ty cổ phần Xây lắp điện I', '23.05', NULL),
+(3563, 'CID', 'Công ty Cổ phần Xây dựng và phát triển cơ sở hạ tầng', '2.90', NULL),
+(3564, 'PBP', 'Công ty Cổ phần Bao Bì Dầu Khí Việt Nam', '17.30', NULL),
+(3565, 'CIG', 'Công ty Cổ phần COMA18', '3.91', NULL),
+(3566, 'CII', 'Công ty Cổ phần Đầu tư Hạ tầng Kỹ thuật Thành phố Hồ Chí Minh', '22.70', NULL),
+(3567, 'CIP', 'Công ty Cổ phần Xây lắp và Sản xuất công nghiệp', '34.30', NULL),
+(3568, 'TKC', 'Công ty Cổ phần Xây dựng và Kinh doanh địa ốc Tân Kỷ', '29.80', NULL),
+(3569, 'PCC', 'Công ty cổ phần Tập đoàn Xây lắp 1 - Petrolimex', '13.50', NULL),
+(3570, 'PCF', 'Công ty Cổ phần Cà Phê PETEC', '10', NULL),
+(3571, 'PCE', 'Công ty Cổ phần Phân bón và Hóa chất Dầu khí Miền Trung', '10.60', NULL),
+(3572, 'PCG', 'Công ty Cổ phần Đầu tư Phát triển Gas Đô thị', '18.10', NULL),
+(3573, 'PCN', 'Công ty cổ phần Hóa phẩm Dầu khí DMC - Miền Bắc', '8.40', NULL),
+(3574, 'PCM', 'Công ty Cổ phần Vật liệu xây dựng Bưu Điện', '4.90', NULL),
+(3575, 'CJC', 'Công ty Cổ phần Cơ điện Miền Trung (CEMC)', '21', NULL),
+(3576, 'TL4', 'Tổng Công ty Xây dựng Thủy lợi 4', '7.60', NULL),
+(3577, 'TKU', 'Công ty Cổ phần Công nghiệp Tung Kuang', '10.60', NULL),
+(3578, 'PCT', 'Công ty Cổ phần dịch vụ vận tải dầu khí Cửu Long', '8.60', NULL),
+(3579, 'TLD', 'Công ty Cổ phần Đầu tư Xây dựng và Phát triển Đô thị Thăng Long', '7.35', NULL),
+(3580, 'PDC', 'Công ty Cổ phần Du lịch Dầu khí Phương Đông', '4.50', NULL),
+(3581, 'TLG', 'Công ty Cổ phần Tập đoàn Thiên Long', '64.10', NULL),
+(3582, 'PDB', 'Công ty Cổ phần Pacific Dinco', '10.50', NULL),
+(3583, 'TLH', 'Công ty Cổ phần Tập đoàn thép Tiến Lên', '4.70', NULL),
+(3584, 'CKA', 'Công ty cổ phần Cơ khí An Giang', '15.60', NULL),
+(3585, 'TLP', 'Tổng công ty Thương mại Xuất nhập khẩu Thanh Lễ – CTCP', '10', NULL),
+(3586, 'PDN', 'Công ty Cổ phần Cảng Đồng Nai', '81.30', NULL),
+(3587, 'TLT', 'Công ty Cổ phần Viglacera Thăng Long', '11.10', NULL),
+(3588, 'CKD', 'Công ty Cổ phần cơ khí Đông Anh Licogi', '14.80', NULL),
+(3589, 'PDR', 'Công ty Cổ phần Phát triển Bất động sản Phát Đạt', '26.60', NULL),
+(3590, 'GSM', 'Công ty Cổ phần Thủy điện Hương Sơn', '10.80', NULL),
+(3591, 'PDT', 'Công ty TNHH MTV Thương mại Dầu khí Đồng Tháp', '9.40', NULL),
+(3592, 'CKH', 'Công ty Cổ Phần Cơ Khí Chế tạo Hải Phòng', '2.70', NULL),
+(3593, 'PDV', 'Công ty Cổ phần Vận tải Dầu Phương Đông Việt', '4.20', NULL),
+(3594, 'GSP', 'Công ty Cổ phần Vận tải Sản Phẩm khí Quốc Tế', '13.90', NULL),
+(3595, 'TMB', 'Công ty Cổ phần Kinh doanh Than miền Bắc - Vinacomin', '8', NULL),
+(3596, 'TMC', 'Công ty Cổ phần Thương mại Xuất nhập khẩu Thủ Đức', '14', NULL),
+(3597, 'CKV', 'Công ty Cổ phần COKYVINA', '20.70', NULL),
+(3598, 'PEC', 'Công ty Cổ phần Cơ khí Điện lực', '8', NULL),
+(3599, 'TMG', 'Công ty cổ phần Kim loại màu Thái Nguyên - Vimico', '53', NULL),
+(3600, 'PEG', 'Tổng Công ty Thương mại Kỹ thuật và Đầu tư - CTCP', '6', NULL),
+(3601, 'GTA', 'Công ty Cổ phần chế biến gỗ Thuận An', '13.95', NULL),
+(3602, 'TMP', 'Công ty Cổ phần Thủy điện Thác Mơ', '34.40', NULL),
+(3603, 'GTD', 'Công ty cổ phần Giầy Thượng Đình', '7.80', NULL),
+(3604, 'GTC', 'Công ty Cổ phần Trà Rồng Vàng', '2.10', NULL),
+(3605, 'PEN', 'Công ty Cổ phần Xây lắp III Petrolimex', '7.20', NULL),
+(3606, 'TMT', 'Công ty Cổ phần Ô tô TMT', '7.57', NULL),
+(3607, 'GTH', 'Công ty Cổ phần Xây dựng - Giao thông Thừa Thiên Huế', '12.20', NULL),
+(3608, 'CLC', 'Công ty Cổ phần Cát Lợi', '34.80', NULL),
+(3609, 'TMS', 'CÔNG TY CỔ PHẦN TRANSIMEX', '27', NULL),
+(3610, 'PEQ', 'Công ty Cổ phần Thiết bị xăng dầu Petrolimex', '42', NULL),
+(3611, 'PET', 'Tổng Công ty Cổ phần Dịch vụ Tổng hợp Dầu khí', '8.81', NULL),
+(3612, 'CLH', 'Công ty Cổ phần xi măng La Hiên - VVMI', '20.30', NULL),
+(3613, 'TMX', 'Công ty Cổ phần Vicem Thương mại xi măng', '8.50', NULL),
+(3614, 'CLG', 'Công ty Cổ phần Đầu tư và Phát triển Nhà đất Cotec', '2.62', NULL),
+(3615, 'TMW', 'Công ty Cổ phần tổng hợp gỗ Tân Mai', '15', NULL),
+(3616, 'GTN', 'Công ty cổ phần GTNFOODS', '11.35', NULL),
+(3617, 'CLL', 'Công ty Cổ phần Cảng Cát Lái', '30.70', NULL),
+(3618, 'CLM', 'Công ty cổ phần Xuất nhập khẩu Than - Vinacomin', '14', NULL),
+(3619, 'TNA', 'Công ty Cổ phần Thương Mại Xuất Nhập Khẩu Thiên Nam', '11.90', NULL),
+(3620, 'GTT', 'Công ty Cổ phần Thuận Thảo', '0', NULL),
+(3621, 'GTS', 'Công ty cổ phần Công trình Giao thông Sài Gòn', '9.80', NULL),
+(3622, 'TNC', 'Công ty Cổ phần Cao su Thống Nhất', '13.50', NULL),
+(3623, 'TNB', 'Công ty Cổ phần Thép Nhà Bè - VNSTEEL', '5.90', NULL),
+(3624, 'TND', 'Công ty cổ phần Than Tây Nam Đá Mài - Vinacomin', '9', NULL),
+(3625, 'TNG', 'Công ty Cổ phần Đầu tư và Thương mại TNG', '18.90', NULL),
+(3626, 'TNI', 'Công ty cổ phần Tập đoàn Thành Nam', '9.28', NULL),
+(3627, 'CLX', 'Công ty cổ phần Xuất nhập khẩu và đầu tư Chợ Lớn (Cholimex)', '10.90', NULL),
+(3628, 'CLW', 'Công ty Cổ phần Cấp nước Chợ Lớn', '17.70', NULL),
+(3629, 'TNM', 'Công ty Cổ phần Xuất nhập khẩu và Xây dựng công trình', '4.60', NULL),
+(3630, 'PFL', 'Công ty Cổ phần Dầu khí Đông Đô', '0', NULL),
+(3631, 'TNP', 'Công ty cổ phần Cảng Thị Nại', '9', NULL),
+(3632, 'CMC', 'Công ty Cổ phần Đầu tư CMC', '5.30', NULL),
+(3633, 'TNS', 'Công ty Cổ phần Thép Tấm Lá Thống Nhất', '2.10', NULL),
+(3634, 'TNT', 'Công ty Cổ phần Tài Nguyên', '2.06', NULL),
+(3635, 'CMG', 'Công ty Cổ phần Tập đoàn Công nghệ CMC', '28.60', NULL),
+(3636, 'TNW', 'Công ty Cổ phần Nước sạch Thái Nguyên', '7.70', NULL),
+(3637, 'CMF', 'Công ty cổ phần Thực phẩm Cholimex', '129.60', NULL),
+(3638, 'CMI', 'Công ty Cổ phần CMISTONE Việt Nam', '1', NULL),
+(3639, 'CMK', 'Công ty Cổ phần cơ khí Mạo Khê - Vinacomin', '9.90', NULL),
+(3640, 'CMN', 'Công ty Cổ phần Lương thực thực phẩm Colusa - Miliket', '42.20', NULL),
+(3641, 'CMP', 'Công ty Cổ phần Cảng Chân Mây', '9.10', NULL),
+(3642, 'CMS', 'Công ty Cổ phần Xây dựng và Nhân lực Việt Nam', '5.30', NULL),
+(3643, 'CMT', 'Công ty Cổ phần Công nghệ Mạng và Truyền thông', '7.80', NULL),
+(3644, 'PGD', 'Công ty Cổ phần Phân phối khí Thấp áp Dầu khí Việt Nam', '35.90', NULL),
+(3645, 'CMW', 'Công ty Cổ phần cấp nước Cà Mau', '13.80', NULL),
+(3646, 'PGC', 'Tổng Công ty Gas Petrolimex - CTCP', '14.80', NULL),
+(3647, 'CMV', 'Công ty Cổ phần Thương Nghiệp Cà Mau', '18', NULL),
+(3648, 'CMX', 'Công ty cổ phần Camimex Group', '15.80', NULL),
+(3649, 'PGI', 'Tổng Công ty Cổ phần Bảo hiểm Petrolimex', '16.70', NULL),
+(3650, 'TOP', 'Công ty Cổ phần Phân phối Top One', '0', NULL),
+(3651, 'TOT', 'Công ty cổ phần Vận tải Transimex', '4.60', NULL),
+(3652, 'CNC', 'Công ty Cổ phần Công nghệ cao Traphaco', '19.60', NULL),
+(3653, 'CNH', 'Công ty Cổ phần cảng Nha Trang', '10', NULL),
+(3654, 'PGT', 'Công ty cổ phần PGT Holdings', '3.50', NULL),
+(3655, 'CNG', 'Công ty Cổ phần CNG Việt Nam', '26.25', NULL),
+(3656, 'PGS', 'Công ty Cổ phần Kinh doanh khí hóa lỏng miền Nam', '35', NULL),
+(3657, 'PGV', 'Tổng Công ty Phát điện 3 - Công ty cổ phần', '11.30', NULL),
+(3658, 'GVR', 'Tập đoàn Công nghiệp Cao su Việt Nam – Công ty cổ phần', '9.70', NULL),
+(3659, 'CNN', 'Công ty cổ phần Tư vấn công nghệ, thiết bị và kiểm định xây dựng - CONINCO', '19.70', NULL),
+(3660, 'GVT', 'Công ty Cổ phần Giấy Việt Trì', '11.10', NULL),
+(3661, 'TPC', 'Công ty Cổ phần Nhựa Tân Đại Hưng', '11.95', NULL),
+(3662, 'TPB', 'Ngân hàng Thương mại cổ phần Tiên Phong', '21', NULL),
+(3663, 'CNT', 'Công ty Cổ phần Xây dựng và Kinh doanh vật tư', '2.70', NULL),
+(3664, 'PHC', 'Công ty Cổ phần Xây dựng Phục Hưng Holdings', '13.25', NULL),
+(3665, 'TPH', 'Công ty Cổ phần In Sách Giáo Khoa tại TP Hà Nội', '10.40', NULL),
+(3666, 'PHH', 'Công ty Cổ phần Hồng Hà Việt Nam', '12', NULL),
+(3667, 'TPP', 'Công ty Cổ phần Nhựa Tân Phú', '13.50', NULL),
+(3668, 'TPS', 'Công ty Cổ phần Bến bãi vận tải Sài Gòn', '52.10', NULL),
+(3669, 'PHP', 'Công ty Cổ phần Cảng Hải Phòng', '11', NULL),
+(3670, 'PHR', 'Công ty Cổ phần Cao su Phước Hòa', '40.50', NULL),
+(3671, 'COM', 'Công ty Cổ phần Vật Tư - Xăng Dầu', '55.50', NULL),
+(3672, 'D11', 'Công ty Cổ phần Địa ốc 11', '14.60', NULL),
+(3673, 'PIA', 'Công ty cổ phần Tin học Viễn thông Petrolimex', '27.30', NULL),
+(3674, 'PID', 'Công ty Cổ phần Trang trí nội thất Dầu khí', '6.30', NULL),
+(3675, 'PIC', 'Công ty Cổ phần Đầu tư Điện lực 3', '13.50', NULL),
+(3676, 'LAF', 'Công ty Cổ phần Chế biến hàng xuất khẩu Long An', '5.10', NULL),
+(3677, 'TQN', 'Công ty Cổ phần Thông Quảng Ninh', '30', NULL),
+(3678, 'LAI', 'Công ty Cổ phần Đầu tư xây dựng Long An IDICO', '10.80', NULL),
+(3679, 'CPC', 'Công ty Cổ phần Thuốc sát trùng Cần Thơ', '29.90', NULL),
+(3680, 'CPH', 'Công ty cổ phần Phục vụ mai táng Hải Phòng', '6.70', NULL),
+(3681, 'PIT', 'Công ty Cổ phần Xuất nhập khẩu Petrolimex', '5.50', NULL),
+(3682, 'PIS', 'Tổng công ty PISICO Bình Định - CTCP', '10.50', NULL),
+(3683, 'PIV', 'Công ty Cổ phần PIV', '1', NULL),
+(3684, 'CPI', 'Công ty Cổ phần Đầu tư Cảng Cái Lân', '2', NULL),
+(3685, 'LAS', 'Công ty Cổ phần Supe Phốt phát và Hóa chất Lâm Thao', '9.70', NULL),
+(3686, 'TRA', 'Công ty Cổ phần Traphaco', '69.40', NULL),
+(3687, 'LAW', 'Công ty Cổ phần Cấp thoát nước Long An', '14', NULL),
+(3688, 'TRC', 'Công ty Cổ phần Cao su Tây Ninh', '23.90', NULL),
+(3689, 'PJC', 'Công ty Cổ phần Thương mại và Vận tải Petrolimex Hà Nội', '38.20', NULL),
+(3690, 'LBC', 'Công ty cổ phần Thương mại - Đầu tư Long Biên', '12', NULL),
+(3691, 'LBE', 'Công ty Cổ phần Sách và Thiết bị trường học Long An', '10', NULL),
+(3692, 'TS4', 'Công ty Cổ phần Thủy sản số 4', '6.20', NULL),
+(3693, 'TRS', 'Công ty Cổ phần Vận tải và Dịch vụ Hàng hải', '52.70', NULL),
+(3694, 'TS3', 'Công ty TNHH Một Thành viên 532', '10', NULL),
+(3695, 'LBM', 'Công ty Cổ phần Khoáng sản và Vật liệu Xây dựng Lâm Đồng', '32.50', NULL),
+(3696, 'D2D', 'Công ty Cổ phần Phát triển Đô thị Công nghiệp Số 2', '75', NULL),
+(3697, 'TRT', 'Công ty cổ phần Trúc Thôn', '5.40', NULL),
+(3698, 'TS5', 'Công ty TNHH Một Thành viên 145', '10', NULL),
+(3699, 'PJS', 'Công ty Cổ phần cấp nước Phú Hòa Tân', '11.70', NULL),
+(3700, 'PJT', 'Công ty Cổ phần Vận tải Xăng dầu Đường Thủy Petrolimex', '12.80', NULL),
+(3701, 'TSB', 'Công ty Cổ phần Ắc quy Tia sáng', '8.30', NULL),
+(3702, 'TSD', 'Công ty Cổ phần Du lịch Trường Sơn Coecco', '10', NULL),
+(3703, 'TSC', 'Công ty Cổ phần Vật tư kỹ thuật nông nghiệp Cần Thơ', '1.24', NULL),
+(3704, 'CQT', 'Công Ty Cổ Phần Xi Măng Quán Triều VVMI', '3', NULL),
+(3705, 'TSG', 'Công ty Cổ phần Thông tin Tín hiệu Đường sắt Sài Gòn', '11.90', NULL),
+(3706, 'TSJ', 'Công ty Cổ phần Du lịch Dịch vụ Hà Nội', '18.60', NULL),
+(3707, 'LCD', 'Công ty Cổ phần Lắp máy - Thí nghiệm cơ điện', '6.90', NULL),
+(3708, 'LCC', 'Công ty Cổ phần Xi măng Lạng Sơn', '3.10', NULL),
+(3709, 'LCG', 'Công ty Cổ phần LICOGI 16', '9', NULL),
+(3710, 'TST', 'Công ty Cổ phần Dịch vụ Kỹ thuật Viễn thông', '7.60', NULL),
+(3711, 'CRC', 'Công ty Cổ phần Create Capital Việt Nam', '18.60', NULL),
+(3712, 'PKR', 'Công ty cổ phần Đường sắt Phú Khánh', '4.80', NULL),
+(3713, 'CRE', 'Công ty Cổ phần Bất động sản Thế kỷ', '27.55', NULL),
+(3714, 'LCM', 'Công ty Cổ phần Khai thác và Chế biến Khoáng sản Lào Cai', '0', NULL),
+(3715, 'LCS', 'Công ty Cổ phần Licogi 166', '2.50', NULL),
+(3716, 'LCW', 'Công ty Cổ phần nước sạch Lai Châu', '10', NULL),
+(3717, 'TTC', 'Công ty Cổ phần Gạch men Thanh Thanh', '14.90', NULL),
+(3718, 'TTB', 'Công ty Cổ phần Tập đoàn Tiến Bộ', '22.65', NULL),
+(3719, 'TTE', 'Công ty Cổ phần Đầu tư Năng lượng Trường Thịnh', '7.91', NULL),
+(3720, 'PLA', 'Công ty cổ phần Đầu tư và Dịch vụ Hạ tầng Xăng Dầu', '4.10', NULL),
+(3721, 'TTD', 'Công ty cổ phần Bệnh viện Tim Tâm Đức', '60', NULL),
+(3722, 'PLC', 'Tổng Công ty Hóa dầu Petrolimex - CTCP', '15.70', NULL),
+(3723, 'TTG', 'Công ty Cổ phần May Thanh Trì', '5.30', NULL),
+(3724, 'TTF', 'Công ty Cổ phần Tập đoàn Kỹ nghệ gỗ Trường Thành', '2.89', NULL),
+(3725, 'TTH', 'Công ty Cổ phần Thương mại và Dịch vụ Tiến Thành', '5.30', NULL),
+(3726, 'TTJ', 'Công ty Cổ phần Thủy Tạ', '27.20', NULL),
+(3727, 'TTL', 'Tổng công ty xây dựng Thăng Long - Công ty cổ phần', '11.20', NULL),
+(3728, 'LDG', 'Công ty Cổ phần Đầu tư LDG', '14.05', NULL),
+(3729, 'TTN', 'Công ty Cổ phần Công nghệ và Truyền thông Việt Nam', '6.50', NULL),
+(3730, 'TTP', 'Công ty Cổ phần Bao bì Nhựa Tân Tiến', '18.10', NULL),
+(3731, 'CSC', 'Công ty cổ phần Tập đoàn COTANA', '15.80', NULL),
+(3732, 'TTS', 'Công ty cổ phần Cán thép Thái Trung', '6', NULL),
+(3733, 'TTR', 'Công ty Cổ phần Du lịch Thương mại và Đầu tư', '0', NULL),
+(3734, 'PLP', 'Công ty cổ phần Sản xuất và Công nghệ Nhựa Pha Lê', '11.90', NULL),
+(3735, 'TTT', 'Công ty Cổ phần Du lịch - Thương mại Tây Ninh', '51.90', NULL),
+(3736, 'TTV', 'Công ty cổ phần Thông tin Tín hiệu Đường sắt Vinh', '10', NULL),
+(3737, 'LDP', 'Công ty Cổ phần Dược Lâm Đồng', '24.60', NULL),
+(3738, 'TTZ', 'Công ty Cổ phần Đầu tư Xây dựng và Công nghệ Tiến Trung', '9.10', NULL),
+(3739, 'CSM', 'Công ty Cổ phần Công nghiệp Cao su Miền Nam', '14.65', NULL),
+(3740, 'PLX', 'Tập đoàn Xăng dầu Việt Nam', '58.50', NULL),
+(3741, 'LDW', 'Công ty cổ phần Cấp thoát nước Lâm Đồng', '11.10', NULL),
+(3742, 'CT3', 'Công ty Cổ phần Đầu tư và Xây dựng công trình 3', '8.70', NULL),
+(3743, 'PMB', 'Công ty Cổ phần Phân bón và Hóa chất Dầu khí miền Bắc', '8.10', NULL),
+(3744, 'CT6', 'Công ty Cổ phần Công trình 6', '4.50', NULL),
+(3745, 'CSV', 'Công ty Cổ phần hóa chất cơ bản Miền Nam', '28.60', NULL),
+(3746, 'PMC', 'Công ty Cổ phần Dược phẩm dược liệu Pharmedic', '58.90', NULL),
+(3747, 'TUG', 'Công ty cổ phần Lai dắt và Vận tải Cảng Hải Phòng', '6.60', NULL),
+(3748, 'PME', 'Công ty Cổ phần Pymepharco', '55', NULL),
+(3749, 'PMG', 'Công ty Cổ phần Đầu tư và Sản xuất Petro Miền Trung', '20.35', NULL),
+(3750, 'LEC', 'Công ty Cổ phần Bất động sản Điện lực Miền Trung', '16.40', NULL),
+(3751, 'PMJ', 'Công ty Cổ phần vật tư Bưu điện', '10.40', NULL),
+(3752, 'TV1', 'Công ty Cổ phần Tư vấn xây dựng điện 1', '14.80', NULL),
+(3753, 'CTB', 'Công ty Cổ phần Chế tạo Bơm Hải Dương', '30.50', NULL),
+(3754, 'TV3', 'Công ty Cổ phần Tư vấn xây dựng điện 3', '37.10', NULL),
+(3755, 'TV2', 'Công ty Cổ phần Tư vấn Xây dựng điện 2', '128', NULL),
+(3756, 'CTA', 'Công ty Cổ phần Vinavico', '0', NULL),
+(3757, 'CTD', 'Công ty Cổ phần Xây dựng Coteccons', '134.20', NULL),
+(3758, 'PMP', 'Công ty Cổ phần Bao bì Đạm Phú Mỹ', '15.20', NULL),
+(3759, 'CTC', 'Công ty Cổ phần Gia Lai CTC', '4', NULL),
+(3760, 'TV4', 'Công ty Cổ phần Tư vấn xây dựng điện 4', '17', NULL),
+(3761, 'CTF', 'Công ty Cổ phần City Auto', '26', NULL),
+(3762, 'PMT', 'Công ty Cổ phần vật liệu bưu điện TELVINA', '4', NULL),
+(3763, 'CTG', 'Ngân hàng Thương mại Cổ phần Công Thương Việt Nam', '21.10', NULL),
+(3764, 'PMS', 'Công ty Cổ phần Cơ khí Xăng dầu', '13.10', NULL),
+(3765, 'CTI', 'Công ty Cổ phần Đầu tư Phát triển Cường Thuận IDICO', '24.80', NULL),
+(3766, 'CTN', 'Công ty Cổ phần Xây dựng Công trình ngầm', '0', NULL),
+(3767, 'CTP', 'Công ty cổ phần Cà phê Thương Phú', '4.40', NULL),
+(3768, 'TVA', 'Công ty Cổ phần Sứ Viglacera Thanh Trì', '17.10', NULL),
+(3769, 'TVC', 'Công ty cổ phần Tập đoàn Quản lý Tài sản Trí Việt', '13', NULL),
+(3770, 'CTR', 'Công ty cổ phần Công trình Viettel', '19', NULL),
+(3771, 'TVB', 'Công ty Cổ phần Chứng khoán Trí Việt', '20.40', NULL),
+(3772, 'CTT', 'Công ty Cổ phần chế tạo máy - VINACOMIN', '8.50', NULL),
+(3773, 'CTS', 'Công ty Cổ phần Chứng khoán Ngân hàng Công thương Việt Nam', '9.15', NULL),
+(3774, 'TVD', 'Công ty Cổ phần than Vàng Danh - Vinacomin', '6.20', NULL),
+(3775, 'PNC', 'Công ty Cổ phần văn hoá Phương Nam', '15.45', NULL),
+(3776, 'TVG', 'Công ty Cổ phần Tư vấn đầu tư và Xây dựng giao thông vận tải', '1.60', NULL),
+(3777, 'CTX', 'Tổng Công ty Cổ phần Đầu tư xây dựng và Thương mại Việt Nam', '22.50', NULL),
+(3778, 'CTW', 'Công ty Cổ phần Cấp thoát nước Cần Thơ', '6', NULL),
+(3779, 'PND', 'Công ty cổ phần Xăng dầu Dầu khí Nam Định', '7.70', NULL),
+(3780, 'PNG', 'Công ty cổ phần thương mại Phú Nhuận', '14', NULL),
+(3781, 'TVM', 'Công ty cổ phần Tư vấn Đầu tư Mỏ và Công nghiệp - Vinacomin', '2', NULL),
+(3782, 'PNJ', 'Công ty Cổ phần Vàng bạc đá quý Phú Nhuận', '99.10', NULL),
+(3783, 'TVN', 'Tổng công ty Thép Việt Nam - CTCP', '9.20', NULL),
+(3784, 'TVP', 'Công ty Cổ phần Dược phẩm TV.Pharm', '20.50', NULL),
+(3785, 'TVS', 'Công ty Cổ phần Chứng Khoán Thiên Việt', '13.85', NULL),
+(3786, 'TW3', 'Công ty Cổ phần Dược Trung Ương 3', '11.20', NULL),
+(3787, 'TVU', 'Công ty cổ phần Công trình Đô thị Trà Vinh', '10.50', NULL),
+(3788, 'TVT', 'Tổng công ty Việt Thắng - CTCP', '25.60', NULL),
+(3789, 'TVW', 'Công ty cổ phần Cấp thoát nước Trà Vinh', '18.30', NULL),
+(3790, 'PNT', 'Công ty Cổ phần Kỹ thuật Xây dựng Phú Nhuận', '5.50', NULL),
+(3791, 'LG9', 'Công ty Cổ phần Cơ giới và Xây lắp số 9', '10', NULL),
+(3792, 'POB', 'Công ty Cổ phần Xăng dầu Dầu khí Thái Bình', '13.90', NULL),
+(3793, 'LGC', 'Công ty Cổ phần đầu tư cầu đường CII', '35.30', NULL),
+(3794, 'POM', 'Công ty Cổ phần Thép Pomina', '8.30', NULL),
+(3795, 'LGL', 'Công ty Cổ phần Đầu tư và Phát triển Đô thị Long Giang', '7.84', NULL),
+(3796, 'CVC', 'Công ty cổ phần Cơ điện Vật tư', '10', NULL),
+(3797, 'POT', 'Công ty Cổ phần Thiết bị Bưu Điện', '16.10', NULL),
+(3798, 'CVH', 'Công ty Cổ phần Công viên, Cây xanh Hải Phòng', '11.90', NULL),
+(3799, 'POS', 'Công ty cổ phần Dịch vụ Lắp đặt, Vận hành và Bảo dưỡng Công trình Dầu khí biển PTSC', '8.80', NULL),
+(3800, 'POV', 'Công ty Cổ phần Xăng dầu Dầu khí Vũng Áng', '7.20', NULL),
+(3801, 'POW', 'Tổng Công ty Điện lực Dầu khí Việt Nam – Công ty cổ phần', '16.20', NULL),
+(3802, 'CVN', 'Công ty Cổ phần VINAM', '14.80', NULL),
+(3803, 'CVT', 'Công ty Cổ phần CMC', '22.70', NULL),
+(3804, 'PPC', 'Công ty Cổ phần Nhiệt điện Phả Lại', '23.20', NULL),
+(3805, 'PPE', 'Công ty Cổ phần Tư vấn Điện lực Dầu khí Việt Nam', '10.40', NULL),
+(3806, 'LHC', 'Công ty Cổ phần Đầu tư và Xây dựng Thủy lợi Lâm Đồng', '61.90', NULL),
+(3807, 'PPG', 'Công ty Cổ phần Sản xuất-Thương mại-Dịch vụ Phú Phong', '0', NULL),
+(3808, 'TXM', 'Công ty Cổ phần VICEM Thạch cao Xi măng', '9.10', NULL),
+(3809, 'PPI', 'Công ty Cổ phần Phát triển hạ tầng và Bất động sản Thái Bình Dương', '0', NULL),
+(3810, 'PPH', 'Tổng Công ty Cổ phần Phong Phú', '16', NULL),
+(3811, 'LHG', 'Công ty Cổ phần Long Hậu', '19.75', NULL),
+(3812, 'PPP', 'Công ty Cổ phần Dược phẩm Phong Phú', '10', NULL),
+(3813, 'PPS', 'Công ty Cổ phần Dịch vụ kỹ thuật Điện lực Dầu khí Việt Nam', '7.80', NULL),
+(3814, 'PPY', 'Công ty Cổ phần Xăng dầu Dầu khí Phú Yên', '18.90', NULL),
+(3815, 'YBC', 'Công ty Cổ phần Xi măng và Khoáng sản Yên Bái', '29.80', NULL),
+(3816, 'TYA', 'Công ty Cổ phần Dây và Cáp điện Taya Việt Nam', '11.55', NULL),
+(3817, 'CX8', 'Công ty Cổ phần Đầu tư và Xây lắp Contrexim số 8', '9.50', NULL),
+(3818, 'YBM', 'Công ty cổ phần Khoáng sản công nghiệp Yên Bái', '16.10', NULL),
+(3819, 'LIC', 'Tổng Công ty LICOGI - CTCP', '5.50', NULL),
+(3820, 'HAB', 'Công ty Cổ phần Sách và Thiết bị trường học Hà Nội', '28', NULL),
+(3821, 'HAD', 'Công ty Cổ phần Bia Hà Nội - Hải Dương', '22.50', NULL),
+(3822, 'LIG', 'Công ty Cổ phần Licogi 13', '4.30', NULL),
+(3823, 'HAC', 'Công ty cổ phần Chứng khoán Hải Phòng', '4.10', NULL),
+(3824, 'HAF', 'Công ty cổ phần Thực phẩm Hà Nội', '21.50', NULL),
+(3825, 'HAH', 'Công ty Cổ phần Vận tải và xếp dỡ Hải An', '13.40', NULL),
+(3826, 'HAG', 'Công ty Cổ phần Hoàng Anh Gia Lai', '5.49', NULL),
+(3827, 'HAI', 'Công ty Cổ phần Nông dược H.A.I', '1.90', NULL),
+(3828, 'CXH', 'Công ty cổ phần Xe khách Hà Nội', '8', NULL),
+(3829, 'HAN', 'Tổng Công ty Xây dựng Hà Nội', '6', NULL),
+(3830, 'HAM', 'Công ty Cổ phần Vật tư Hậu Giang', '18', NULL),
+(3831, 'HAP', 'Công ty Cổ phần Tập đoàn HAPACO', '3.39', NULL),
+(3832, 'HAR', 'Công ty Cổ phần Đầu tư Thương mại Bất động sản An Dương Thảo Điền', '4.25', NULL),
+(3833, 'LIX', 'Công ty Cổ phần Bột giặt Lix', '48', NULL),
+(3834, 'HAT', 'Công ty Cổ phần Thương mại Bia Hà Nội', '36.40', NULL),
+(3835, 'HAS', 'Công ty Cổ phần Hacisco', '8.60', NULL),
+(3836, 'HAV', 'Công ty Cổ phần Rượu Hapro', '3', NULL),
+(3837, 'HAX', 'Công ty Cổ phần Dịch vụ Ô tô Hàng Xanh', '16.90', NULL);
+INSERT INTO `sharemaster` (`id`, `code`, `name`, `current_price`, `last_update`) VALUES
+(3838, 'PRC', 'Công ty Cổ phần Portserco', '12.80', NULL),
+(3839, 'HBC', 'Công ty Cổ phần Tập đoàn Xây dựng Hòa Bình', '18.10', NULL),
+(3840, 'HBE', 'Công ty Cổ phần Sách-Thiết bị trường học Hà Tĩnh', '9.10', NULL),
+(3841, 'HBD', 'Công ty Cổ phần Bao bì PP Bình Dương', '16.10', NULL),
+(3842, 'CYC', 'Công ty Cổ phần Gạch Men Chang Yih', '1', NULL),
+(3843, 'PRO', 'Công ty Cổ phần Procimex Việt Nam', '15.10', NULL),
+(3844, 'HBH', 'Công ty Cổ phần Habeco - Hải Phòng', '5.90', NULL),
+(3845, 'PRT', 'Tổng Công ty cổ phần Sản xuất – Xuất nhập khẩu Bình Dương', '13.60', NULL),
+(3846, 'HBS', 'Công ty Cổ phần Chứng khoán Hòa Bình', '2.40', NULL),
+(3847, 'HC3', 'Công ty Cổ phần Xây dựng số 3 Hải Phòng', '29.50', NULL),
+(3848, 'HBW', 'Công ty cổ phần Nước sạch Hòa Bình', '85', NULL),
+(3849, 'PSB', 'Công ty Cổ phần Đầu tư Dầu khí Sao Mai - Bến Đình', '3.20', NULL),
+(3850, 'PSD', 'Công ty Cổ phần Dịch vụ Phân phối Tổng hợp Dầu khí', '13.90', NULL),
+(3851, 'PSC', 'Công ty Cổ phần Vận tải và Dịch vụ Petrolimex Sài Gòn', '16.10', NULL),
+(3852, 'PSE', 'Công ty Cổ phần Phân Bón và Hóa Chất Dầu Khí Đông Nam Bộ', '7.80', NULL),
+(3853, 'PSG', 'Công ty Cổ phần Đầu tư và Xây lắp Dầu khí Sài Gòn', '0', NULL),
+(3854, 'PSI', 'Công ty Cổ phần Chứng khoán Dầu khí', '3.50', NULL),
+(3855, 'HCD', 'Công ty cổ phần Đầu tư Sản xuất và Thương mại HCD', '5.69', NULL),
+(3856, 'PSL', 'Công ty Cổ phần Chăn nuôi Phú Sơn', '24.60', NULL),
+(3857, 'HCC', 'Công ty Cổ phần Bê tông Hòa Cẩm - Intimex', '14.20', NULL),
+(3858, 'PSN', 'Công ty cổ phần Cảng Dịch vụ Dầu khí Tổng hợp PTSC Thanh Hóa', '8.50', NULL),
+(3859, 'PSP', 'Công ty Cổ phần Cảng Dịch vụ Dầu khí Đình Vũ', '6.20', NULL),
+(3860, 'CZC', 'Công ty Cổ phần Than miền Trung', '3.70', NULL),
+(3861, 'HCI', 'Công ty Cổ phần Đầu tư - Xây dựng Hà Nội', '6', NULL),
+(3862, 'HCM', 'Công ty Cổ phần Chứng khoán Thành phố Hồ Chí Minh', '28', NULL),
+(3863, 'PSW', 'Công ty Cổ phần Phân bón và hóa chất dầu khí Tây Nam Bộ', '7.40', NULL),
+(3864, 'HD2', 'Công ty cổ phần Đầu tư Phát triển nhà HUD2', '8.70', NULL),
+(3865, 'HCT', 'Công ty Cổ phần thương mại dịch vụ vận tải xi măng Hải Phòng', '23.40', NULL),
+(3866, 'LKW', 'Công ty Cổ phần Cấp nước Long Khánh', '19.40', NULL),
+(3867, 'HCS', 'Công ty cổ phần Thông tin Tín hiệu Đường sắt Hà Nội', '6.90', NULL),
+(3868, 'YEG', 'Công ty cổ phần Tập đoàn Yeah1', '239.80', NULL),
+(3869, 'PTC', 'Công ty Cổ phần Đầu tư và Xây dựng Bưu điện', '5.29', NULL),
+(3870, 'PTB', 'Công ty cổ phần Phú Tài', '60', NULL),
+(3871, 'PTE', 'Công ty Cổ phần Xi măng Phú Thọ', '5', NULL),
+(3872, 'PTD', 'Công ty Cổ phần Thiết kế - Xây dựng - Thương mại Phúc Thịnh', '17.50', NULL),
+(3873, 'PTG', 'Công ty Cổ phần May xuất khẩu Phan Thiết', '1.50', NULL),
+(3874, 'HDA', 'Công ty Cổ phần Hãng sơn Đông Á', '9.90', NULL),
+(3875, 'PTI', 'Tổng Công ty Cổ phần bảo hiểm bưu điện', '16.10', NULL),
+(3876, 'PTH', 'Công ty Cổ phần Vận tải và Dịch vụ Petrolimex Hà Tây', '23.90', NULL),
+(3877, 'HDC', 'Công ty Cổ phần Phát triển nhà Bà Rịa-Vũng Tàu', '14.10', NULL),
+(3878, 'PTK', 'Công ty Cổ phần Luyện Kim Phú Thịnh', '1.70', NULL),
+(3879, 'HDB', 'Ngân hàng Thương mại cổ phần Phát triển thành phố Hồ Chí Minh', '30.10', NULL),
+(3880, 'PTM', 'Công ty Cổ phần Sản xuất, Thương mại và Dịch vụ ôtô PTM', '0', NULL),
+(3881, 'PTL', 'Công ty Cổ phần Đầu tư hạ tầng và Đô thị Dầu khí', '2.66', NULL),
+(3882, 'HDG', 'Công ty Cổ phần Tập đoàn Hà Đô', '37', NULL),
+(3883, 'PTO', 'Công ty Cổ phần Dịch vụ - Xây dựng Công trình Bưu điện', '2.90', NULL),
+(3884, 'LLM', 'Tổng công ty lắp máy Việt Nam - Công ty Cổ phần', '19.50', NULL),
+(3885, 'PTP', 'Công ty Cổ phần Dịch vụ Viễn thông và In bưu điện', '10', NULL),
+(3886, 'PTS', 'Công ty Cổ phần Vận tải và Dịch vụ Petrolimex Hải Phòng', '5.40', NULL),
+(3887, 'HDM', 'Công ty Cổ phần Dệt - May Huế', '22', NULL),
+(3888, 'PTT', 'Công ty Cổ phần Vận tải Dầu khí Đông Dương', '3', NULL),
+(3889, 'HDO', 'Công ty Cổ phần Hưng Đạo Container', '0', NULL),
+(3890, 'LM3', 'Công ty Cổ phần Lilama 3', '1', NULL),
+(3891, 'HDP', 'Công ty Cổ phần Dược Hà Tĩnh', '14.50', NULL),
+(3892, 'PTX', 'Công ty cổ phần Vận tải và Dịch vụ Petrolimex Nghệ Tĩnh', '6', NULL),
+(3893, 'LM8', 'Công ty Cổ phần Lilama 18', '21.05', NULL),
+(3894, 'LM7', 'Công ty Cổ phần Lilama 7', '3.20', NULL),
+(3895, 'HDW', 'Công ty Cổ phần Kinh doanh Nước sạch Hải Dương', '7.50', NULL),
+(3896, 'LMC', 'Công ty cổ phần Khoáng sản Latca', '9.80', NULL),
+(3897, 'LMH', 'Công ty Cổ phần Landmark Holding', '11.40', NULL),
+(3898, 'HEC', 'Công ty cổ phần Tư vấn Xây dựng Thủy Lợi II', '29.50', NULL),
+(3899, 'LMI', 'Công ty Cổ phần Đầu tư Xây dựng lắp máy IDICO', '10.50', NULL),
+(3900, 'HEJ', 'Tổng công ty Tư vấn Xây dựng Thủy Lợi Việt Nam - CTCP', '15', NULL),
+(3901, 'PV2', 'Công ty Cổ phần Đầu tư PV2', '3.10', NULL),
+(3902, 'HEM', 'Công ty cổ phần Chế tạo Điện cơ Hà Nội', '15.10', NULL),
+(3903, 'HEP', 'Công ty cổ phần Môi trường và Công trình đô thị Huế', '10', NULL),
+(3904, 'HES', 'Công ty cổ phần Dịch vụ Giải trí Hà Nội', '11.20', NULL),
+(3905, 'HEV', 'Công ty Cổ phần Sách Đại học - Dạy nghề', '11', NULL),
+(3906, 'PVA', 'Công ty Cổ phần Tổng Công ty Xây lắp Dầu khí Nghệ An', '0', NULL),
+(3907, 'PVC', 'Tổng Công ty cổ phần Dung dịch khoan và Hóa phẩm Dầu khí', '6.10', NULL),
+(3908, 'PVB', 'Công ty Cổ phần Bọc Ống Dầu khí Việt Nam', '17.10', NULL),
+(3909, 'PVE', 'Tổng Công ty tư vấn thiết kế dầu khí - CTCP', '4', NULL),
+(3910, 'PVD', 'Tổng Công ty Cổ phần Khoan và Dịch vụ khoan dầu khí', '17.65', NULL),
+(3911, 'PVG', 'Công ty Cổ phần Kinh doanh khí miền Bắc', '8', NULL),
+(3912, 'PVI', 'Công ty Cổ phần PVI', '33.20', NULL),
+(3913, 'PVH', 'Công ty Cổ phần Xây lắp Dầu khí Thanh Hóa', '1.30', NULL),
+(3914, 'HFC', 'Công ty Cổ phần Xăng dầu chất đốt Hà Nội', '13.50', NULL),
+(3915, 'HFB', 'Công ty cổ phần Công trình Cầu phà Thành phố Hồ Chí Minh', '4.90', NULL),
+(3916, 'PVM', 'Công ty cổ phần Máy - Thiết bị Dầu khí', '10.90', NULL),
+(3917, 'PVL', 'Công ty cổ phần Đầu tư Nhà đất Việt', '1.80', NULL),
+(3918, 'PVO', 'Công ty Cổ phần DẦU NHỜN PV OIL', '4.50', NULL),
+(3919, 'PVP', 'Công ty cổ phần Vận tải Dầu khí Thái Bình Dương', '6.50', NULL),
+(3920, 'PVS', 'Tổng Công ty Cổ phần Dịch vụ Kỹ thuật Dầu khí Việt Nam', '20.30', NULL),
+(3921, 'PVR', 'CÔNG TY CỔ PHẦN ĐẦU TƯ PVR HÀ NỘI', '1.40', NULL),
+(3922, 'PVT', 'Tổng Công ty Cổ phần Vận tải dầu khí', '17.15', NULL),
+(3923, 'PVV', 'Công ty Cổ phần Vinaconex 39', '0', NULL),
+(3924, 'PVY', 'Công ty cổ phần Chế tạo Giàn khoan Dầu khí', '2.20', NULL),
+(3925, 'PVX', 'Tổng Công ty Cổ phần Xây lắp Dầu khí Việt Nam', '1.10', NULL),
+(3926, 'LO5', 'Công ty Cổ phần Lilama 5', '3.80', NULL),
+(3927, 'HFS', 'Công ty cổ phần Thương mại Dịch vụ Thời trang Hà Nội', '29.40', NULL),
+(3928, 'HFT', 'Công ty Cổ phần Chứng khoán HFT', '10', NULL),
+(3929, 'HFX', 'Công ty Cổ phần Sản xuất - Xuất nhập khẩu Thanh Hà', '1.40', NULL),
+(3930, 'PX1', 'Công ty Cổ phần xi măng Dầu khí Nghệ An', '10', NULL),
+(3931, 'M10', 'Tổng công ty May 10 - Công ty Cổ phần', '20', NULL),
+(3932, 'PWS', 'Công ty Cổ phần Cấp thoát nước Phú Yên', '8', NULL),
+(3933, 'HGM', 'Công ty Cổ phần Cơ khí và Khoáng sản Hà Giang', '40', NULL),
+(3934, 'PXA', 'Công ty Cổ phần Đầu tư và Thương mại Dầu khí Nghệ An', '1.50', NULL),
+(3935, 'HGW', 'Công ty Cổ phần Cấp thoát nước - Công trình đô thị Hậu Giang', '12.50', NULL),
+(3936, 'PXC', 'Công ty cổ phần Phát triển Đô thị Dầu khí', '0', NULL),
+(3937, 'LPB', 'Ngân hàng Thương mại Cổ phần Bưu điện Liên Việt', '9.10', NULL),
+(3938, 'PXI', 'Công ty Cổ phần Xây dựng Công nghiệp và Dân dụng Dầu khí', '2.46', NULL),
+(3939, 'HHA', 'Công ty Cổ phần văn phòng phẩm Hồng Hà', '66.80', NULL),
+(3940, 'HHC', 'Công ty Cổ phần Bánh kẹo Hải Hà', '118.80', NULL),
+(3941, 'PXM', 'Công ty Cổ phần Xây lắp Dầu khí miền Trung', '0', NULL),
+(3942, 'PXL', 'Công ty Cổ phần Đầu tư Xây Dựng Thương Mại Dầu khí - Idico', '3', NULL),
+(3943, 'HHG', 'Công ty Cổ phần Hoàng Hà', '1.70', NULL),
+(3944, 'PXS', 'Công ty Cổ phần Kết cấu Kim loại và Lắp máy Dầu khí', '3.97', NULL),
+(3945, 'PXT', 'Công ty Cổ phần Xây lắp Đường ống Bể chứa Dầu khí', '1.51', NULL),
+(3946, 'HHN', 'Công ty cổ phần Vận tải và Dịch vụ hàng hóa Hà Nội', '6.80', NULL),
+(3947, 'HHP', 'Công ty cổ phần Giấy Hoàng Hà Hải Phòng', '15.30', NULL),
+(3948, 'HHS', 'Công ty Cổ phần Đầu tư - Dịch vụ Hoàng Huy', '4.01', NULL),
+(3949, 'HHR', 'Công ty cổ phần Đường sắt Hà Hải', '5.40', NULL),
+(3950, 'HHV', 'Công ty cổ phần quản lý và khai thác hầm đường bộ Hải Vân', '10', NULL),
+(3951, 'HID', 'Công ty Cổ phần Halcom Việt Nam', '2.39', NULL),
+(3952, 'DAD', 'Công ty Cổ phần Đầu tư và Phát triển giáo dục Đà Nẵng', '17.50', NULL),
+(3953, 'HIG', 'Công ty Cổ phần Tập đoàn HIPT', '5.10', NULL),
+(3954, 'DAC', 'Công ty Cổ phần Viglacera Đông Anh', '13', NULL),
+(3955, 'LQN', 'Công ty cổ phần LICOGI Quảng Ngãi', '9.50', NULL),
+(3956, 'HII', 'Công ty cổ phần Nhựa và Khoáng Sản An Phát – Yên Bái', '13.90', NULL),
+(3957, 'DAE', 'Công ty Cổ phần Sách Giáo Dục tại TP Đà Nẵng', '15.30', NULL),
+(3958, 'DAH', 'Công ty cổ phần Tập đoàn Khách sạn Đông Á', '6.23', NULL),
+(3959, 'DAG', 'Công ty Cổ phần Tập đoàn Nhựa Đông Á', '7.20', NULL),
+(3960, 'PYU', 'Công ty cổ phần Môi trường và Công trình đô thị Phúc Yên', '11.50', NULL),
+(3961, 'DAP', 'Công ty Cổ phần Đông Á', '33', NULL),
+(3962, 'DAR', 'Công ty Cổ phần Xe lửa Dĩ An', '11.90', NULL),
+(3963, 'DAT', 'Công ty cổ phần Đầu tư Du lịch và Phát triển Thuỷ sản', '16.05', NULL),
+(3964, 'DAS', 'Công ty Cổ phần Máy – Thiết bị Dầu khí Đà Nẵng', '8.60', NULL),
+(3965, 'HIZ', 'Công ty cổ phần Khu công nghiệp Hố Nai', '13', NULL),
+(3966, 'HJC', 'Công ty Cổ phần Hòa Việt', '5', NULL),
+(3967, 'DBC', 'Công ty Cổ phần Tập đoàn Dabaco Việt Nam', '25.20', NULL),
+(3968, 'DBD', 'Công ty Cổ phần Dược - Trang thiết bị Y tế Bình Định (Bidiphar)', '40.20', NULL),
+(3969, 'UCT', 'Công ty cổ phần Đô thị Cần Thơ', '10', NULL),
+(3970, 'DBH', 'Công ty cổ phần Đường bộ Hải Phòng', '9.70', NULL),
+(3971, 'DBM', 'Công ty Cổ phần Dược - Vật tư y tế Đăk Lăk', '19.40', NULL),
+(3972, 'HJS', 'Công ty Cổ phần Thủy điện Nậm Mu', '23.10', NULL),
+(3973, 'DC2', 'Công ty Cổ phần Đầu tư phát triển - Xây dựng (DIC) số 2', '7.40', NULL),
+(3974, 'DC1', 'Công ty Cổ phần Đầu tư Phát triển Xây dựng số 1', '9.40', NULL),
+(3975, 'DC4', 'Công ty Cổ phần DIC số 4', '11.90', NULL),
+(3976, 'UDC', 'Công ty Cổ phần Xây dựng và Phát triển đô thị tỉnh Bà Rịa-Vũng Tàu', '4.32', NULL),
+(3977, 'DBT', 'Công ty Cổ phần Dược phẩm Bến Tre', '11.90', NULL),
+(3978, 'DBW', 'Công ty Cổ phần Cấp nước Điện Biên', '10', NULL),
+(3979, 'UDJ', 'Công ty Cổ phần Phát triển Đô thị - Becamex UDJ', '8.10', NULL),
+(3980, 'HKB', 'Công ty Cổ phần nông nghiệp và thực phẩm Hà Nội - Kinh Bắc', '0', NULL),
+(3981, 'DCD', 'Công ty Cổ phần Du lịch và Thương mại DIC', '7.60', NULL),
+(3982, 'DCF', 'Công ty Cổ phần Xây dựng và Thiết kế Số 1', '7', NULL),
+(3983, 'DCH', 'Công ty Cổ phần Địa chính Hà Nội', '5.80', NULL),
+(3984, 'DCG', 'CTCP May Đáp Cầu', '26', NULL),
+(3985, 'DCI', 'Công ty cổ phần Công nghiệp hóa chất Đà Nẵng', '2.80', NULL),
+(3986, 'DCL', 'Công ty Cổ phần Dược phẩm Cửu Long', '12.50', NULL),
+(3987, 'HKP', 'CÔNG TY CỔ PHẦN BAO BÌ HÀ TIÊN', '13', NULL),
+(3988, 'LSS', 'Công ty Cổ phần Mía đường Lam Sơn', '6.05', NULL),
+(3989, 'DCM', 'Công ty Cổ phần Phân Bón Dầu khí Cà Mau', '9.13', NULL),
+(3990, 'HKT', 'Công ty Cổ phần Chè Hiệp Khánh', '2.30', NULL),
+(3991, 'DCR', 'Công ty cổ phần Gạch men Cosevco', '9.60', NULL),
+(3992, 'DCT', 'Công ty Cổ phần Tấm lợp Vật liệu Xây dựng Đồng Nai', '1.10', NULL),
+(3993, 'DCS', 'Công ty Cổ phần Tập đoàn Đại Châu', '0', NULL),
+(3994, 'LTC', 'Công ty Cổ phần Điện nhẹ Viễn thông', '3.10', NULL),
+(3995, 'HLA', 'Công ty Cổ phần Hữu Liên Á Châu', '0', NULL),
+(3996, 'UEM', 'Công ty Cổ phần cơ điện Uông Bí', '36', NULL),
+(3997, 'LTG', 'Công ty Cổ phần Tập đoàn Lộc Trời', '23.60', NULL),
+(3998, 'HLC', 'Công ty Cổ phần Than Hà Lầm - Vinacomin', '7.50', NULL),
+(3999, 'HLB', 'Công ty Cổ phần Bia và Nước giải khát Hạ Long', '75', NULL),
+(4000, 'HLE', 'Công ty cổ phần Điện chiếu sáng Hải Phòng', '8', NULL),
+(4001, 'HLD', 'Công ty Cổ phần Đầu tư và Phát triển Bất động sản HUDLAND', '13.50', NULL),
+(4002, 'HLG', 'Công ty Cổ phần Tập đoàn Hoàng Long', '9', NULL),
+(4003, 'DDG', 'Công ty cổ phần Đầu tư Công nghiệp Xuất nhập khẩu Đông Dương', '20.70', NULL),
+(4004, 'DDH', 'Công ty cổ phần Đảm bảo giao thông đường thủy Hải Phòng', '5.50', NULL),
+(4005, 'DDM', 'Công ty Cổ phần Hàng hải Đông Đô', '1.30', NULL),
+(4006, 'HLS', 'Công ty Cổ phần Sứ kỹ thuật Hoàng Liên Sơn', '30.80', NULL),
+(4007, 'DDN', 'Công ty Cổ phần Dược - Thiết bị y tế Đà Nẵng (DDN)', '11.70', NULL),
+(4008, 'HLR', 'Công ty cổ phần Đường sắt Hà Lạng', '9.60', NULL),
+(4009, 'HLY', 'Công ty Cổ phần Viglacera Hạ Long I', '19.50', NULL),
+(4010, 'DDV', 'Công ty Cổ phần DAP - VINACHEM', '9', NULL),
+(4011, 'HMC', 'Công ty Cổ phần Kim khí Thành phố Hồ Chí Minh - VNSTEEL', '17.75', NULL),
+(4012, 'HMH', 'Công ty Cổ phần Hải Minh', '11', NULL),
+(4013, 'HMG', 'Công ty Cổ phần kim khí Hà Nội - VNSTEEL', '8.10', NULL),
+(4014, 'LUT', 'Công ty Cổ phần Đầu tư xây dựng Lương Tài', '2.20', NULL),
+(4015, 'HMS', 'Công ty cổ phần Xây dựng bảo tàng Hồ Chí Minh', '31.40', NULL),
+(4016, 'HNA', 'Công ty cổ phần Thủy điện Hủa Na', '11.40', NULL),
+(4017, 'HNB', 'Công ty Cổ phần Bến xe Hà Nội', '19', NULL),
+(4018, 'HND', 'Công ty Cổ phần Nhiệt điện Hải Phòng', '10.10', NULL),
+(4019, 'HNG', 'Công ty Cổ phần Nông nghiệp Quốc tế Hoàng Anh Gia Lai', '15.70', NULL),
+(4020, 'DFC', 'Công ty Cổ phần Xích Líp Đông Anh', '80.30', NULL),
+(4021, 'HNF', 'Công ty Cổ phần Thực phẩm Hữu Nghị', '125.40', NULL),
+(4022, 'HNI', 'Công ty Cổ phần May Hữu Nghị', '35.50', NULL),
+(4023, 'HNM', 'Công ty Cổ phần Sữa Hà Nội', '3', NULL),
+(4024, 'HNP', 'Công ty cổ phần Hanel Xốp nhựa', '20.80', NULL),
+(4025, 'HNR', 'Công ty Cổ phần Cồn Rượu Hà Nội', '12', NULL),
+(4026, 'HNT', 'Công ty cổ phần Xe điện Hà Nội', '4.10', NULL),
+(4027, 'DGC', 'Công ty Cổ phần Bột giặt và Hóa chất Đức Giang', '43', NULL),
+(4028, 'HOM', 'Công ty Cổ phần Xi măng Vicem Hoàng Mai', '3', NULL),
+(4029, 'I10', 'Công ty Cổ phần Đầu tư Xây dựng số 10 IDICO', '0', NULL),
+(4030, 'LWS', 'Công ty cổ phần Cấp nước tỉnh Lào Cai', '9.90', NULL),
+(4031, 'HOT', 'Công ty Cổ phần Du lịch-Dịch vụ Hội An', '28.80', NULL),
+(4032, 'UIC', 'Công ty Cổ phần Đầu tư phát triển Nhà và Đô thị IDICO', '34.50', NULL),
+(4033, 'DGT', 'Công ty Cổ phần Công trình giao thông Đồng Nai', '28.90', NULL),
+(4034, 'DGW', 'Công ty Cổ phần Thế giới Số', '24.30', NULL),
+(4035, 'HPB', 'Công ty Cổ phần Bao bì PP', '11.10', NULL),
+(4036, 'DHA', 'Công ty Cổ phần Hoá An', '33.15', NULL),
+(4037, 'HPD', 'Công ty Cổ phần thủy điện Đăk Đoa', '18', NULL),
+(4038, 'HPG', 'Công ty cổ phần Tập đoàn Hòa Phát', '33.90', NULL),
+(4039, 'DHC', 'Công ty Cổ phần Đông Hải Bến Tre', '33.80', NULL),
+(4040, 'DHB', 'Công ty Cổ phần Phân đạm và Hóa chất Hà Bắc', '7.30', NULL),
+(4041, 'HPI', 'Công ty cổ phần khu công nghiệp Hiệp Phước', '16.30', NULL),
+(4042, 'DHD', 'Công ty Cổ phần Dược Vật tư Y tế Hải Dương', '35', NULL),
+(4043, 'HPH', 'Công ty Cổ phần Hóa chất Hưng Phát Hà Bắc', '4', NULL),
+(4044, 'DHG', 'Công ty Cổ phần Dược Hậu Giang', '102', NULL),
+(4045, 'HPM', 'Công ty Cổ phần Xây dựng Thương mại và Khoáng sản Hoàng Phúc', '11.90', NULL),
+(4046, 'DHM', 'Công ty Cổ phần Phát triển Toàn cầu Dương Hiếu', '5.05', NULL),
+(4047, 'HPP', 'Công ty Cổ phần Sơn Hải Phòng', '36.90', NULL),
+(4048, 'DHN', 'Công ty Cổ phần Dược phẩm Hà Nội', '10.50', NULL),
+(4049, 'YRC', 'Công ty cổ phần Đường sắt Yên Lào', '7.90', NULL),
+(4050, 'HPU', 'Công ty Cổ phần 28 Hưng Phú', '7.50', NULL),
+(4051, 'DHP', 'Công ty Cổ phần Điện Cơ Hải Phòng', '10.40', NULL),
+(4052, 'HPT', 'Công ty Cổ phần Dịch vụ Công nghệ Tin học HPT', '8.80', NULL),
+(4053, 'HPW', 'Công ty cổ phần Cấp nước Hải Phòng', '10.70', NULL),
+(4054, 'HPX', 'Công ty cổ phần Đầu tư Hải Phát', '23.25', NULL),
+(4055, 'DHT', 'Công ty Cổ phần Dược phẩm Hà Tây', '39.30', NULL),
+(4056, 'HQC', 'Công ty Cổ phần Tư vấn - Thương mại - Dịch vụ Địa ốc Hoàng Quân', '1.41', NULL),
+(4057, 'DID', 'Công ty Cổ phần DIC-Đồng Tiến', '3.10', NULL),
+(4058, 'DIC', 'Công ty Cổ phần Đầu tư và Thương mại DIC', '3.20', NULL),
+(4059, 'QBR', 'Công ty cổ phần Đường sắt Quảng Bình', '10', NULL),
+(4060, 'DIH', 'Công ty Cổ phần Đầu tư Phát triển Xây dựng Hội An', '34.50', NULL),
+(4061, 'DIG', 'Tổng Công ty Cổ phần Đầu tư Phát triển Xây dựng', '16.45', NULL),
+(4062, 'QBS', 'Công ty Cổ phần Xuất nhập khẩu Quảng Bình', '4.28', NULL),
+(4063, 'QCC', 'Công ty Cổ phần Đầu tư xây dựng và phát triển hạ tầng viễn thông', '8.50', NULL),
+(4064, 'QCG', 'Công ty Cổ phần Quốc Cường Gia Lai', '4.81', NULL),
+(4065, 'HRC', 'Công ty Cổ phần Cao su Hòa Bình', '33.45', NULL),
+(4066, 'HRB', 'Công ty cổ phần Harec Đầu tư và Thương Mại', '29', NULL),
+(4067, 'HRG', 'Công ty cổ phần Cao su Hà Nội', '6.60', NULL),
+(4068, 'YTC', 'Công ty Cổ phần Xuất nhập khẩu Y tế Thành phố Hồ Chí Minh', '48.50', NULL),
+(4069, 'HRT', 'Công ty cổ phần Vận tải Đường sắt Hà Nội', '3.50', NULL),
+(4070, 'HSA', 'Công ty Cổ phần Hestia', '28.60', NULL),
+(4071, 'HSG', 'Công ty Cổ phần Tập đoàn Hoa Sen', '7.97', NULL),
+(4072, 'HSI', 'Công ty Cổ phần Vật tư Tổng hợp và Phân bón Hóa sinh', '1.80', NULL),
+(4073, 'HSL', 'Công ty cổ phần Chế biến Nông sản Hồng Hà Sơn La', '10', NULL),
+(4074, 'HSM', 'Tổng Công ty Cổ phần Dệt May Hà Nội', '11.50', NULL),
+(4075, 'HT1', 'Công ty Cổ phần xi măng Hà Tiên 1', '15.35', NULL),
+(4076, 'DL1', 'Công ty Cổ phần Đầu tư phát triển dịch vụ công trình công cộng Đức Long Gia Lai', '35.10', NULL),
+(4077, 'DKP', 'Công ty cổ phần Dược khoa', '10', NULL),
+(4078, 'HST', 'Công ty Cổ phần Phát hành sách và Thiết bị trường học Hưng Yên', '6.20', NULL),
+(4079, 'UMC', 'Công ty Cổ phần Công trình đô thị Nam Định', '9.70', NULL),
+(4080, 'HTC', 'Công ty Cổ phần Thương mại Hóc Môn', '31.20', NULL),
+(4081, 'HTE', 'Công ty Cổ phần Đầu tư Kinh doanh điện lực Thành phố Hồ Chí Minh', '6.60', NULL),
+(4082, 'HTG', 'Tổng Công ty Cổ phần Dệt May Hòa Thọ', '22.60', NULL),
+(4083, 'HTI', 'Công ty Cổ phần Đầu tư Phát triển Hạ tầng IDICO', '11.40', NULL),
+(4084, 'DLD', 'Công ty Cổ phần Du lịch Đắc Lắk', '10.20', NULL),
+(4085, 'DLG', 'Công ty Cổ phần Tập đoàn Đức Long Gia Lai', '1.25', NULL),
+(4086, 'HTK', 'Trung tâm Đăng kiểm xe cơ giới Hải Dương', '10.50', NULL),
+(4087, 'HTM', 'Tổng Công ty Thương Mại Hà Nội - Công ty cổ phần', '8.70', NULL),
+(4088, 'HTL', 'Công ty Cổ phần Kỹ thuật và Ô tô Trường Long', '17.65', NULL),
+(4089, 'HTN', 'Công ty Cổ phần Hưng Thịnh Incons', '21.35', NULL),
+(4090, 'HU1', 'Công ty Cổ phần Đầu tư và Xây dựng HUD1', '9.96', NULL),
+(4091, 'HTP', 'Công ty Cổ phần In sách giáo khoa Hòa Phát', '4.80', NULL),
+(4092, 'HU4', 'Công ty Cổ phần Đầu tư và Xây dựng HUD4', '6.20', NULL),
+(4093, 'HU3', 'Công ty Cổ phần Đầu tư và Xây dựng HUD3', '9.40', NULL),
+(4094, 'HTR', 'Công ty cổ phần Đường sắt Hà Thái', '10', NULL),
+(4095, 'HTU', 'Công ty Cổ phần Môi trường và Công trình đô thị Hà Tĩnh', '10', NULL),
+(4096, 'HU6', 'Công ty Cổ phần Đầu tư Phát triển Nhà và Đô thị HUD6', '5.80', NULL),
+(4097, 'HTT', 'Công ty Cổ phần Thương mại Hà Tây', '1.74', NULL),
+(4098, 'HTW', 'Công ty Cổ phần cấp nước Hà Tĩnh', '10', NULL),
+(4099, 'HTV', 'Công ty Cổ phần vận tải Hà Tiên', '15.50', NULL),
+(4100, 'DLR', 'Công ty Cổ phần Địa ốc Đà Lạt', '9', NULL),
+(4101, 'DLT', 'Công ty cổ phần du lịch và thương mại - VINACOMIN', '6.90', NULL),
+(4102, 'DM7', 'Công ty cổ phần Dệt may 7', '11.80', NULL),
+(4103, 'UNI', 'Công ty Cổ phần Viễn Liên', '8.10', NULL),
+(4104, 'DMC', 'Công ty Cổ phần Xuất nhập khẩu Y tế Domesco', '73.70', NULL),
+(4105, 'HUG', 'Tổng công ty May Hưng Yên - Công ty Cổ phần', '32.10', NULL),
+(4106, 'HUT', 'Công ty Cổ phần TASCO', '3.50', NULL),
+(4107, 'HVA', 'Công ty Cổ phần Đầu tư HVA', '1.90', NULL),
+(4108, 'V12', 'Công ty Cổ phần Xây dựng số 12', '11.30', NULL),
+(4109, 'DNA', 'Công ty Cổ phần Điện nước An Giang', '18.30', NULL),
+(4110, 'V11', 'Công ty Cổ phần Xây dựng số 11', '0', NULL),
+(4111, 'HVG', 'Công ty Cổ phần Hùng Vương', '5.31', NULL),
+(4112, 'DNC', 'Công ty Cổ phần Điện nước lắp máy Hải Phòng', '24.80', NULL),
+(4113, 'DNE', 'Công ty cổ phần Môi trường Đô thị Đà Nẵng', '8', NULL),
+(4114, 'HVH', 'Công ty Cổ phần Đầu tư và Công nghệ HVC', '21.25', NULL),
+(4115, 'DND', 'Công ty Cổ phần Đầu tư Xây dựng và Vật liệu Đồng Nai', '25.80', NULL),
+(4116, 'V15', 'Công ty Cổ phần Xây dựng số 15', '0', NULL),
+(4117, 'DNH', 'Công ty cổ phần Thủy điện Đa Nhim - Hàm Thuận - Đa Mi', '27.20', NULL),
+(4118, 'HVN', 'Tổng Công ty Hàng không Việt Nam - CTCP', '39.10', NULL),
+(4119, 'DNM', 'Tổng Công ty Cổ phần Y tế Danameco', '13.10', NULL),
+(4120, 'DNL', 'Công ty Cổ phần Logistic Cảng Đà Nẵng', '13.10', NULL),
+(4121, 'DNN', 'Công ty Cổ phần Cấp nước Đà Nẵng', '3.90', NULL),
+(4122, 'DNP', 'Công ty Cổ phần Nhựa Đồng Nai', '14', NULL),
+(4123, 'HVT', 'Công ty Cổ phần Hóa chất Việt Trì', '51', NULL),
+(4124, 'DNS', 'Công ty Cổ phần Thép Đà Nẵng', '12', NULL),
+(4125, 'DNR', 'Công ty cổ phần Đường sắt Quảng Nam - Đà Nẵng', '6.80', NULL),
+(4126, 'UPC', 'Công ty cổ phần Phát triển công viên cây xanh và Đô thị Vũng Tàu', '10.10', NULL),
+(4127, 'HVX', 'Công ty Cổ phần xi măng Vicem Hải Vân', '4', NULL),
+(4128, 'QHD', 'Công ty Cổ phần Que hàn Việt Đức', '17', NULL),
+(4129, 'DNW', 'Công ty Cổ phần Cấp nước Đồng Nai', '12.40', NULL),
+(4130, 'UPH', 'Công ty Cổ phần Dược phẩm TW25', '20', NULL),
+(4131, 'DNY', 'Công ty Cổ phần Thép Dana - Ý', '3.20', NULL),
+(4132, 'V21', 'Công ty Cổ phần Vinaconex 21', '10.80', NULL),
+(4133, 'DOC', 'Công ty cổ phần Vật tư nông nghiệp Đồng Nai', '7', NULL),
+(4134, 'QHW', 'Công ty Cổ phần nước khoáng Quảng Ninh', '17', NULL),
+(4135, 'DOP', 'Công ty Cổ phần Vận tải Xăng dầu Đồng Tháp', '15.50', NULL),
+(4136, 'DP1', 'Công ty Cổ phần Dược phẩm Trung ương CPC1', '13', NULL),
+(4137, 'HWS', 'Công ty Cổ phần Cấp nước Thừa Thiên Huế', '9.50', NULL),
+(4138, 'DP3', 'Công ty Cổ phần Dược phẩm Trung ương 3', '70.50', NULL),
+(4139, 'DP2', 'Công ty Cổ phần Dược phẩm Trung ương 2', '8.70', NULL),
+(4140, 'MAC', 'Công ty Cổ phần Cung ứng và Dịch vụ kỹ thuật hàng hải', '7.40', NULL),
+(4141, 'DPC', 'Công ty Cổ phần nhựa Đà Nẵng', '46.30', NULL),
+(4142, 'DPG', 'Công ty Cổ phần Đạt Phương', '44.50', NULL),
+(4143, 'DPH', 'Công ty cổ phần Dược phẩm Hải Phòng', '20', NULL),
+(4144, 'MAS', 'Công ty Cổ phần Dịch vụ hàng không sân bay Đà Nẵng', '46.10', NULL),
+(4145, 'DPM', 'Tổng Công ty Cổ phần Phân bón và Hóa chất dầu khí', '20.90', NULL),
+(4146, 'DPP', 'Công ty Cổ phần Dược Đồng Nai', '12', NULL),
+(4147, 'DPS', 'Công ty Cổ phần Đầu tư Phát triển Sóc Sơn', '0', NULL),
+(4148, 'DPR', 'Công ty Cổ phần Cao su Đồng Phú', '39', NULL),
+(4149, 'MBB', 'Ngân hàng Thương mại Cổ phần Quân đội', '22.50', NULL),
+(4150, 'MBG', 'Công ty Cổ phần Đầu tư Phát triển xây dựng và Thương mại Việt Nam', '4.10', NULL),
+(4151, 'DQC', 'Công ty Cổ phần Bóng đèn Điện Quang', '26.80', NULL),
+(4152, 'MBN', 'Công ty cổ phần Môi trường và Công trình Đô thị Bắc Ninh', '10', NULL),
+(4153, 'MC3', 'Công ty cổ phần Khoáng sản 3 - Vimico', '10', NULL),
+(4154, 'MBS', 'Công ty Cổ phần chứng khoán MB', '15.40', NULL),
+(4155, 'USC', 'Công ty Cổ phần Khảo sát và Xây dựng - USCO', '9.50', NULL),
+(4156, 'MCC', 'Công ty Cổ phần Gạch ngói cao cấp', '11', NULL),
+(4157, 'MCG', 'Công ty Cổ phần Cơ điện và Xây dựng Việt Nam', '2.67', NULL),
+(4158, 'MCF', 'Công ty Cổ phần Xây lắp Cơ khí và Lương thực Thực phẩm (Mecofood)', '12.20', NULL),
+(4159, 'MCI', 'Công ty Cổ phần Đầu tư Xây dựng và Phát triển Vật liệu IDICO', '5.60', NULL),
+(4160, 'MCH', 'Công ty cổ phần Hàng Tiêu Dùng Masan', '109.80', NULL),
+(4161, 'DRC', 'Công ty Cổ phần Cao Su Đà Nẵng', '22.05', NULL),
+(4162, 'MCO', 'Công ty Cổ phần MCO Việt Nam', '1.60', NULL),
+(4163, 'DRI', 'Công ty Cổ phần Đầu tư cao su Đắk Lắk', '7.10', NULL),
+(4164, 'DRH', 'Công ty Cổ phần DRH Holdings', '9.30', NULL),
+(4165, 'MCP', 'Công ty Cổ phần In và Bao bì Mỹ Châu', '22.50', NULL),
+(4166, 'DRL', 'Công ty Cổ phần Thủy Điện - Điện lực 3', '50.70', NULL),
+(4167, 'MCT', 'Công ty cổ phần Kinh doanh vật tư và Xây dựng', '15.80', NULL),
+(4168, 'DS3', 'Công ty Cổ phần Quản lý Đường sông số 3', '3.70', NULL),
+(4169, 'QLD', 'Công ty cổ phần Quản lý và Xây dựng Giao thông Lạng Sơn', '6', NULL),
+(4170, 'MDA', 'Công ty cổ phần Môi trường Đô thị Đông Anh', '9', NULL),
+(4171, 'MDC', 'Công ty Cổ phần Than Mông Dương - Vinacomin', '5.40', NULL),
+(4172, 'MDF', 'Công ty Cổ phần Gỗ MDF VRG - Quảng Trị', '5.20', NULL),
+(4173, 'MDG', 'Công ty Cổ phần Miền Đông', '12', NULL),
+(4174, 'DSC', 'Công ty Cổ phần Chứng khoán Đà Nẵng', '15', NULL),
+(4175, 'MDN', 'CTCP Tổng Cty May Đồng Nai', '13.20', NULL),
+(4176, 'QLT', 'Công ty cổ phần Quản lý Bảo trì Đường thủy nội địa số 10', '11', NULL),
+(4177, 'DSG', 'Công ty Cổ phần Kính Viglacera Đáp Cầu', '16.10', NULL),
+(4178, 'DSN', 'Công ty Cổ phần Công viên nước Đầm Sen', '59.30', NULL),
+(4179, 'DSP', 'Công ty cổ phần Dịch vụ Du lịch Phú Thọ', '11.20', NULL),
+(4180, 'DST', 'Công ty Cổ phần Đầu tư Sao Thăng Long', '1.80', NULL),
+(4181, 'DSS', 'Công ty Cổ phần Đường sắt Sài Gòn', '7', NULL),
+(4182, 'DT4', 'Công ty Cổ phần Quản lý bảo trì đường thủy nội địa số 4', '10.80', NULL),
+(4183, 'DSV', 'Công ty cổ phần Đường sắt Vĩnh Phú', '7.60', NULL),
+(4184, 'MEC', 'Công ty Cổ phần cơ khí- lắp máy Sông Đà', '2.60', NULL),
+(4185, 'MEF', 'Công ty Cổ phần MEINFA', '1.20', NULL),
+(4186, 'DTA', 'Công ty Cổ phần Đệ Tam', '6.51', NULL),
+(4187, 'DTC', 'Công ty Cổ phần Viglacera Đông Triều', '19.70', NULL),
+(4188, 'DTD', 'Công ty Cổ phần Đầu tư Phát triển Thành Đạt', '12.90', NULL),
+(4189, 'MEL', 'Công ty Cổ phần Thép Mê Lin', '8.70', NULL),
+(4190, 'DTG', 'Công ty Cổ phần Dược phẩm Tipharco', '20.90', NULL),
+(4191, 'DTI', 'Công ty Cổ phần Đầu tư Đức Trung', '23.30', NULL),
+(4192, 'DTK', 'Tổng công ty Điện lực TKV - CTCP', '11.70', NULL),
+(4193, 'MES', 'Công ty Cổ phần Cơ điện Công trình', '10', NULL),
+(4194, 'DTL', 'Công ty Cổ phần Đại Thiên Lộc', '36.70', NULL),
+(4195, 'DTN', 'Công ty Cổ phần Diêm Thống Nhất', '4.50', NULL),
+(4196, 'DTT', 'Công ty Cổ phần Kỹ nghệ Đô Thành', '10.50', NULL),
+(4197, 'DTV', 'Công ty Cổ phần phát triển điện nông thôn Trà Vinh', '22.50', NULL),
+(4198, 'QNC', 'Công ty Cổ phần Xi măng và Xây dựng Quảng Ninh', '3.90', NULL),
+(4199, 'QNS', 'Công Ty Cổ Phần Đường Quảng Ngãi', '43.30', NULL),
+(4200, 'QNU', 'Công ty cổ phần Môi trường Đô thị Quảng Nam', '10', NULL),
+(4201, 'QNW', 'Công ty cổ phần Cấp thoát nước và Xây dựng Quảng Ngãi', '9', NULL),
+(4202, 'MGC', 'Công ty cổ phần Địa chất mỏ - TKV', '5.90', NULL),
+(4203, 'MGG', 'Tổng công ty Đức Giang - Công ty cổ phần', '32.60', NULL),
+(4204, 'DVC', 'Công ty Cổ phần Thương mại dịch vụ tổng hợp Cảng Hải Phòng', '8.90', NULL),
+(4205, 'DVH', 'Công ty Cổ phần Chế tạo Máy điện Việt Nam - Hungari', '8.40', NULL),
+(4206, 'MH3', 'Công ty cổ phần Khu công nghiệp Cao su Bình Long', '34', NULL),
+(4207, 'DVN', 'Tổng công ty Dược Việt Nam - CTCP', '16', NULL),
+(4208, 'DVP', 'Công ty Cổ phần Đầu tư và Phát triển cảng Đình Vũ', '37.95', NULL),
+(4209, 'DVW', 'Công ty Cổ phần Dịch vụ và Xây dựng Cấp nước Đồng Nai', '17.50', NULL),
+(4210, 'QPH', 'Công ty Cổ phần thủy điện Quế Phong', '24.70', NULL),
+(4211, 'MHC', 'Công ty Cổ phần MHC', '4.85', NULL),
+(4212, 'MHL', 'Công ty Cổ phần Minh Hữu Liên', '6.40', NULL),
+(4213, 'DX2', 'Công ty cổ phần Đầu tư và Xây dựng 319.2', '10.10', NULL),
+(4214, 'MIC', 'Công ty Cổ phần Kỹ nghệ khoáng sản Quảng Nam', '9', NULL),
+(4215, 'MIE', 'Tổng Công ty Máy và Thiết bị Công nghiệp - CTCP', '10.10', NULL),
+(4216, 'MIG', 'Tổng Công ty Cổ phần Bảo Hiểm Quân Đội', '13.40', NULL),
+(4217, 'MIM', 'Công ty Cổ phần Khoáng sản và Cơ khí', '13.30', NULL),
+(4218, 'DXG', 'Công ty Cổ phần Tập đoàn Đất Xanh', '24.45', NULL),
+(4219, 'DXL', 'Công ty Cổ phần Du lịch và Xuất nhập khẩu Lạng Sơn', '3.10', NULL),
+(4220, 'DXP', 'Công ty Cổ phần Cảng Đoạn Xá', '11.80', NULL),
+(4221, 'DXV', 'Công ty Cổ phần ViCem Vật liệu xây dựng Đà Nẵng', '3.80', NULL),
+(4222, 'IBC', 'Công ty cổ phần Đầu tư APAX HOLDINGS', '23.75', NULL),
+(4223, 'A32', 'Công ty cổ phần 32', '22', NULL),
+(4224, 'ICC', 'Công ty cổ phần Xây dựng Công nghiệp', '52.70', NULL),
+(4225, 'ICG', 'Công ty Cổ phần Xây dựng sông Hồng', '7.80', NULL),
+(4226, 'ICF', 'Công ty Cổ phần Đầu tư Thương mại Thủy sản', '1.37', NULL),
+(4227, 'ICI', 'Công ty Cổ phần Đầu tư và Xây dựng Công nghiệp', '8.30', NULL),
+(4228, 'QSP', 'Công ty Cổ phần Tân Cảng Quy Nhơn', '13.50', NULL),
+(4229, 'MKP', 'Công ty Cổ phần Hóa - Dược phẩm Mekophar', '44', NULL),
+(4230, 'QST', 'Công ty Cổ phần Sách và Thiết bị trường học Quảng Ninh', '10.60', NULL),
+(4231, 'ICN', 'Công ty Cổ phần Đầu Tư Xây Dựng Dầu Khí IDICO', '79.30', NULL),
+(4232, 'DZM', 'Công ty Cổ phần Chế tạo máy Dzĩ An', '2.40', NULL),
+(4233, 'MKV', 'Công ty Cổ phần Dược thú y Cai Lậy', '14', NULL),
+(4234, 'QTC', 'Công ty Cổ phần Công trình giao thông Vận tải Quảng Nam', '19', NULL),
+(4235, 'MLC', 'Công ty Cổ phần Môi trường Đô thị tỉnh Lào Cai', '9', NULL),
+(4236, 'IDC', 'Tổng Công ty IDICO - CTCP', '20.10', NULL),
+(4237, 'QTP', 'Công ty Cổ phần Nhiệt điện Quảng Ninh', '9', NULL),
+(4238, 'IDJ', 'Công ty Cổ phần Đầu tư tài chính Quốc tế và Phát triển doanh nghiệp IDJ', '2.80', NULL),
+(4239, 'IDI', 'Công ty Cổ phần Đầu tư và Phát triển Đa Quốc Gia IDI', '8.60', NULL),
+(4240, 'IDN', 'Công ty cổ phần In và Dịch vụ Đà Nẵng', '10', NULL),
+(4241, 'MLS', 'Công ty Cổ phần Chăn nuôi - Mitraco', '18.10', NULL),
+(4242, 'IDV', 'Công ty Cổ phần Phát triển hạ tầng Vĩnh Phúc', '29.60', NULL),
+(4243, 'MNB', 'Tổng công ty May Nhà Bè - Công ty cổ phần', '36.10', NULL),
+(4244, 'MND', 'Công ty Cổ phần Môi trường Nam Định', '10', NULL),
+(4245, 'IFC', 'Công ty cổ phần thực phẩm công nghệ Sài Gòn', '7', NULL),
+(4246, 'IFS', 'Công ty Cổ phần Thực phẩm Quốc Tế', '12.80', NULL),
+(4247, 'VAF', 'Công ty Cổ phần Phân lân nung chảy Văn Điển', '10.30', NULL),
+(4248, 'MPC', 'Công ty Cổ phần Tập đoàn Thuỷ sản Minh Phú', '47.10', NULL),
+(4249, 'VAT', 'Công ty cổ phần VT Vạn Xuân', '2.40', NULL),
+(4250, 'VAV', 'Công ty cổ phần VIWACO', '41', NULL),
+(4251, 'IHK', 'Công ty Cổ phần In Hàng không', '11.50', NULL),
+(4252, 'MPT', 'Công ty cổ phần may Phú Thành', '3.80', NULL),
+(4253, 'VBC', 'Công ty Cổ phần Nhựa - Bao bì Vinh', '19', NULL),
+(4254, 'MPY', 'Công ty Cổ phần Môi trường đô thị Phú Yên', '9.80', NULL),
+(4255, 'VBG', 'Công ty cổ phần Địa chất Việt Bắc - TKV', '7', NULL),
+(4256, 'VBH', 'Công ty Cổ phần Điện tử Bình Hoà', '19.20', NULL),
+(4257, 'MQB', 'Công ty Cổ phần Môi trường và Phát triển đô thị Quảng Bình', '10.10', NULL),
+(4258, 'VC2', 'Công ty Cổ phần Xây Dựng Số 2', '13.30', NULL),
+(4259, 'VC1', 'Công ty Cổ phần Xây dựng số 1', '15.40', NULL),
+(4260, 'VC3', 'Công ty Cổ phần Xây dựng số 3', '22.50', NULL),
+(4261, 'VC6', 'Công ty cổ phần Xây dựng và Đầu tư Visicons', '8', NULL),
+(4262, 'EAD', 'Công ty cổ phần Thủy điện Điện lực Đắk Lắk', '8.40', NULL),
+(4263, 'VC5', 'Công ty Cổ phần Xây dựng số 5_Vinaconex', '1', NULL),
+(4264, 'VC7', 'Công ty Cổ phần Xây dựng số 7', '9.60', NULL),
+(4265, 'MQN', 'Công ty cổ phần Môi trường Đô thị Quảng Ngãi', '46', NULL),
+(4266, 'VC9', 'Công ty Cổ phần Xây dựng số 9', '16', NULL),
+(4267, 'VCB', 'Ngân hàng Thương mại Cổ phần Ngoại thương Việt Nam', '62', NULL),
+(4268, 'VCA', 'Công ty Cổ phần Thép VICASA - VNSTEEL', '11.70', NULL),
+(4269, 'VCC', 'Công ty Cổ phần Vinaconex 25', '10.60', NULL),
+(4270, 'VCF', 'Công ty Cổ phần Vinacafé Biên Hòa', '148', NULL),
+(4271, 'VCE', 'Công ty Cổ phần Xây lắp Môi trường - TKV', '8', NULL),
+(4272, 'VCG', 'Tổng Công ty Cổ phần Xuất nhập khẩu và xây dựng Việt Nam', '27.50', NULL),
+(4273, 'VCI', 'Công ty Cổ phần Chứng khoán Bản Việt', '40', NULL),
+(4274, 'MRF', 'Công ty cổ phần Merufa', '22', NULL),
+(4275, 'VCM', 'Công ty Cổ phần Nhân lực và Thương mại Vinaconex', '21.10', NULL),
+(4276, 'VCP', 'Công ty Cổ phần Đầu tư Xây dựng và Phát triển Năng lượng Vinaconex', '37.50', NULL),
+(4277, 'IJC', 'Công ty Cổ phần Phát triển Hạ tầng Kỹ thuật', '8.95', NULL),
+(4278, 'VCR', 'Công ty Cổ phần Đầu tư và Phát triển Du lịch Vinaconex', '5.20', NULL),
+(4279, 'VCT', 'Công ty Cổ phần Tư vấn Xây dựng Vinaconex', '5', NULL),
+(4280, 'VCS', 'Công ty Cổ phần VICOSTONE', '63.70', NULL),
+(4281, 'VCX', 'Công ty Cổ phần Xi măng Yên Bình', '1.60', NULL),
+(4282, 'VCW', 'Công ty cổ phần Đầu tư Nước sạch Sông Đà', '35', NULL),
+(4283, 'VDB', 'Công ty cổ phần Vận tải và Chế biến Than Đông Bắc', '10.10', NULL),
+(4284, 'EBS', 'Công ty Cổ phần Sách Giáo Dục tại TP Hà Nội', '11.40', NULL),
+(4285, 'MSC', 'Công ty Cổ phần Dịch vụ Phú Nhuận', '16', NULL),
+(4286, 'VDM', 'Viện Nghiên cứu Dệt May - Công ty cổ phần', '17', NULL),
+(4287, 'VDL', 'Công ty Cổ phần Thực phẩm Lâm Đồng', '26.10', NULL),
+(4288, 'VDN', 'Công ty Cổ phần Vinatex Đà Nẵng', '9.10', NULL),
+(4289, 'VE2', 'Công ty Cổ phần Xây dựng Điện VNECO 2', '11.90', NULL),
+(4290, 'MSH', 'Công ty cổ phần May Sông Hồng', '52.60', NULL),
+(4291, 'VDP', 'Công ty Cổ phần Dược phẩm Trung ương Vidipha', '28.80', NULL),
+(4292, 'VE1', 'Công ty Cổ phần Xây dựng điện VNECO 1', '11.40', NULL),
+(4293, 'VDS', 'Công ty Cổ phần Chứng khoán Rồng Việt (VDSC)', '7.63', NULL),
+(4294, 'VE4', 'Công ty Cổ phần xây dựng điện VNECO 4', '5.10', NULL),
+(4295, 'VE3', 'Công ty Cổ phần Xây dựng điện VNECO 3', '8.90', NULL),
+(4296, 'IKH', 'Công ty cổ phần In Khoa học Kỹ thuật', '10.20', NULL),
+(4297, 'VDT', 'Công ty Cổ phần Lưới thép Bình Tây', '19', NULL),
+(4298, 'VE8', 'Công ty Cổ phần Xây dựng Điện Vneco 8', '9.10', NULL),
+(4299, 'MSN', 'Công ty Cổ phần Tập đoàn Ma San', '88.40', NULL),
+(4300, 'ECI', 'Công ty Cổ phần Bản đồ và Tranh ảnh giáo dục', '16.50', NULL),
+(4301, 'VE9', 'Công ty Cổ phần Đầu tư và xây dựng VNECO 9', '2.90', NULL),
+(4302, 'MSR', 'Công ty Cổ phần Tài nguyên Ma San', '19.30', NULL),
+(4303, 'MST', 'Công ty cổ phần Xây dựng 1.1.6.8', '4.70', NULL),
+(4304, 'VEA', 'Tổng công ty Máy Động lực và Máy Nông nghiệp Việt Nam – CTCP', '48.20', NULL),
+(4305, 'VEC', 'Tổng Công ty Cổ phần Điện tử và Tin học Việt Nam', '5.20', NULL),
+(4306, 'VEF', 'Công ty cổ phần Trung Tâm Hội Chợ Triển Lãm Việt Nam', '96.50', NULL),
+(4307, 'VEE', 'Công ty Cổ phần Thiết bị điện Cẩm Phả', '10', NULL),
+(4308, 'MTA', 'Tổng Công ty Khoáng sản và Thương mại Hà Tĩnh - CTCP', '1.70', NULL),
+(4309, 'MTC', 'Công ty Cổ phần Dịch vụ du lịch Mỹ Trà', '9.60', NULL),
+(4310, 'ILA', 'Công ty Cổ phần ILA', '3', NULL),
+(4311, 'MTH', 'Công ty Cổ phần Môi trường Đô thị Hà Đông', '11.80', NULL),
+(4312, 'ILC', 'Công ty Cổ phần Hợp tác lao động với nước ngoài', '2', NULL),
+(4313, 'MTG', 'Công ty Cổ phần MT GAS', '3.40', NULL),
+(4314, 'MTL', 'Công ty Cổ phần Dịch vụ Môi trường Đô thị Từ Liêm', '13.90', NULL),
+(4315, 'VET', 'Công ty Cổ phần Thuốc Thú y Trung ương NAVETCO', '96.50', NULL),
+(4316, 'VES', 'Công ty Cổ phần Đầu tư và Xây dựng điện Mê Ca Vneco', '0', NULL),
+(4317, 'MTM', 'Công ty cổ phần Mỏ và Xuất nhập khẩu Khoáng sản Miền Trung', '2.60', NULL),
+(4318, 'MTP', 'Công ty cổ phần Dược Medipharco', '12.50', NULL),
+(4319, 'MTS', 'Công ty Cổ phần Vật tư - TKV', '15.70', NULL),
+(4320, 'MTV', 'Công ty Cổ phần Dịch vụ Môi trường và Công trình Đô thị Vũng Tàu', '12.60', NULL),
+(4321, 'ILS', 'Công ty cổ phần Đầu tư Thương mại và Dịch vụ Quốc tế', '14.80', NULL),
+(4322, 'VFC', 'Công ty Cổ phần Vinafco', '29.80', NULL),
+(4323, 'VFG', 'Công ty Cổ phần Khử trùng Việt Nam', '37.10', NULL),
+(4324, 'IME', 'Công ty Cổ phần Cơ khí và Xây lắp Công nghiệp', '12', NULL),
+(4325, 'VFR', 'Công ty Cổ phần Vận tải và Thuê tàu - Vietfracht', '4.70', NULL),
+(4326, 'IMP', 'Công ty Cổ phần dược phẩm Imexpharm', '50', NULL),
+(4327, 'IN4', 'Công ty Cổ phần In số 4', '57', NULL),
+(4328, 'VGC', 'Tổng Công ty Viglacera - CTCP', '20.60', NULL),
+(4329, 'VGG', 'Tổng Công ty Cổ phần may Việt Tiến', '54', NULL),
+(4330, 'MVB', 'Tổng công ty Công nghiệp mỏ Việt Bắc TKV_CTCP', '2.60', NULL),
+(4331, 'VGI', 'Tổng Công ty cổ phần Đầu tư Quốc tế Viettel', '19', NULL),
+(4332, 'VGL', 'Công ty cổ phần Mạ kẽm công nghiệp Vingal - Vnsteel', '11', NULL),
+(4333, 'MVC', 'Công ty cổ phần Vật liệu và Xây dựng Bình Dương', '10', NULL),
+(4334, 'VGP', 'Công ty Cổ phần Cảng rau quả', '19.40', NULL),
+(4335, 'INC', 'Công ty Cổ phần Tư vấn Đầu tư IDICO', '6.30', NULL),
+(4336, 'VGR', 'Công ty cổ phần Cảng Xanh Vip', '20', NULL),
+(4337, 'VGT', 'Tập đoàn Dệt May Việt Nam', '11.70', NULL),
+(4338, 'VGS', 'Công ty Cổ phần Ống thép Việt Đức VG PIPE', '11.80', NULL),
+(4339, 'MVN', 'Tổng Công ty Hàng hải Việt Nam - Công ty TNHH MTV', '11.20', NULL),
+(4340, 'VGV', 'Tổng Công ty Tư vấn Xây dựng Việt Nam - CTCP', '10.90', NULL),
+(4341, 'INN', 'Công ty Cổ phần Bao bì và In nông nghiệp', '30.50', NULL),
+(4342, 'EFI', 'Công ty Cổ phần Đầu tư tài chính giáo dục', '3.80', NULL),
+(4343, 'VHC', 'Công ty Cổ phần Vĩnh Hoàn', '91.60', NULL),
+(4344, 'MVY', 'Công ty Cổ phần Môi trường và Dịch vụ Đô thị Vĩnh Yên', '6.40', NULL),
+(4345, 'VHD', 'Công ty Cổ phần Đầu tư phát triển Nhà và Đô thị Vinaconex', '9.60', NULL),
+(4346, 'VHG', 'Công ty Cổ phần Đầu tư Cao su Quảng Nam', '0', NULL),
+(4347, 'VHF', 'Công ty Cổ phần Xây dựng và chế biến lương thực Vĩnh Hà', '22.40', NULL),
+(4348, 'VHH', 'Công ty Cổ phần Đầu tư Xây dựng Viwaseen Huế', '7.30', NULL),
+(4349, 'VHM', 'Công ty cổ phần Vinhomes', '93.10', NULL),
+(4350, 'VHL', 'Công ty Cổ phần Viglacera Hạ Long', '30.50', NULL),
+(4351, 'MWG', 'Công ty Cổ phần đầu tư thế giới di động', '89', NULL),
+(4352, 'VIB', 'Ngân hàng Thương mại Cổ phần Quốc tế Việt Nam', '18.90', NULL),
+(4353, 'VID', 'Công ty Cổ phần Đầu tư Phát triển Thương mại Viễn Đông', '5.20', NULL),
+(4354, 'VIC', 'Tập Đoàn VinGroup - CTCP', '117', NULL),
+(4355, 'VIF', 'Tổng công ty Lâm nghiệp Việt Nam - Công ty cổ phần', '16', NULL),
+(4356, 'VIE', 'Công ty Cổ phần Công nghệ Viễn thông VITECO', '16.70', NULL),
+(4357, 'VIH', 'Công ty Cổ phần Viglacera Hà Nội', '10.50', NULL),
+(4358, 'VIG', 'Công ty Cổ phần Chứng khoán Thương mại và Công nghiệp Việt Nam (VICS)', '1', NULL),
+(4359, 'VIN', 'Công ty Cổ phần Giao nhận Kho vận Ngoại thương Việt Nam', '12', NULL),
+(4360, 'IPA', 'Công ty Cổ phần Tập đoàn đầu tư I.P.A', '13.10', NULL),
+(4361, 'VIM', 'Công ty Cổ phần Khoáng sản Viglacera', '5', NULL),
+(4362, 'VIP', 'Công ty Cổ phần Vận tải Xăng dầu VIPCO', '7.35', NULL),
+(4363, 'RAL', 'Công ty Cổ phần Bóng đèn Phích nước Rạng Đông', '82.50', NULL),
+(4364, 'VIR', 'Công ty Cổ phần Du lịch Quốc tế Vũng Tàu', '9.10', NULL),
+(4365, 'VIT', 'Công ty Cổ phần Viglacera Tiên Sơn', '13.90', NULL),
+(4366, 'VIS', 'Công ty Cổ phần Thép Việt Ý', '24', NULL),
+(4367, 'VIX', 'Công ty Cổ phần Chứng khoán IB', '8.70', NULL),
+(4368, 'RAT', 'Công ty Cổ phần Vận tải và Thương mại Đường Sắt', '7', NULL),
+(4369, 'VIW', 'Tổng công ty Đầu tư Nước và Môi trường Việt Nam - CTCP', '9.80', NULL),
+(4370, 'VJC', 'Công ty cổ phần Hàng không VIETJET', '121.50', NULL),
+(4371, 'RBC', 'Công ty cổ phần Công nghiệp và Xuất nhập khẩu Cao su', '14.60', NULL),
+(4372, 'EIC', 'Công ty Cổ phần EVN Quốc tế', '9.50', NULL),
+(4373, 'EIB', 'Ngân hàng Thương mại Cổ phần Xuất nhập khẩu Việt Nam', '16.80', NULL),
+(4374, 'AAA', 'Công ty Cổ phần Nhựa và Môi trường xanh An Phát', '15.25', NULL),
+(4375, 'EID', 'Công ty Cổ phần Đầu tư và Phát triển giáo dục Hà Nội', '14.40', NULL),
+(4376, 'EIN', 'Công ty cổ phần Đầu tư - Thương mại - Dịch vụ Điện lực', '3.10', NULL),
+(4377, 'AAM', 'Công ty Cổ phần Thủy sản Mekong', '13.90', NULL),
+(4378, 'VKD', 'Công ty Cổ phần Nước khoáng Khánh Hòa - FIT Beverage', '11.60', NULL),
+(4379, 'VKC', 'Công ty Cổ phần Cáp Nhựa Vĩnh Khánh', '5.10', NULL),
+(4380, 'RCD', 'Công ty Cổ phần xây dựng - địa ốc cao su', '22.30', NULL),
+(4381, 'RCC', 'Công ty cổ phần Tổng Công ty Công trình Đường sắt', '27.70', NULL),
+(4382, 'AAV', 'Công ty cổ phần Việt Tiên Sơn Địa ốc', '9.50', NULL),
+(4383, 'RCL', 'Công ty Cổ phần Địa ốc Chợ Lớn', '21.10', NULL),
+(4384, 'VKP', 'Công ty Cổ phần Nhựa Tân Hóa', '0', NULL),
+(4385, 'IRC', 'Công ty cổ phần Cao su Công nghiệp', '10', NULL),
+(4386, 'ABC', 'Công ty cổ phần Truyền thông VMG', '9.40', NULL),
+(4387, 'ABI', 'Công ty Cổ phần Bảo hiểm Ngân hàng Nông nghiệp (ABIC)', '23.90', NULL),
+(4388, 'VLA', 'Công ty Cổ phần Đầu tư và Phát triển Công nghệ Văn Lang', '12.50', NULL),
+(4389, 'VLC', 'Tổng Công ty Chăn nuôi Việt Nam - CTCP', '17', NULL),
+(4390, 'VLB', 'Công ty Cổ phần Xây dựng và Sản xuất vật liệu xây dựng Biên Hòa', '31', NULL),
+(4391, 'VLG', 'Công ty Cổ phần Vinalines Logistics - Việt Nam', '5.10', NULL),
+(4392, 'VLF', 'Công ty Cổ phần Lương thực thực phẩm Vĩnh Long', '1', NULL),
+(4393, 'ABR', 'Công ty Cổ phần Đầu tư Nhãn hiệu Việt', '5.20', NULL),
+(4394, 'AC4', 'Công ty cổ phần ACC - 244', '6', NULL),
+(4395, 'ABT', 'Công ty Cổ phần Xuất nhập khẩu thủy sản Bến Tre', '43.95', NULL),
+(4396, 'VLP', 'Công ty Cổ phần Công trình Công cộng Vĩnh Long', '2.40', NULL),
+(4397, 'ISG', 'Công ty Cổ phần Vận tải biển và Hợp tác lao động quốc tế', '1.90', NULL),
+(4398, 'ISH', 'Công ty Cổ phần thủy điện SROK Phu Miêng IDICO', '16.40', NULL),
+(4399, 'RDP', 'Công ty Cổ phần Nhựa Rạng Đông', '10.45', NULL),
+(4400, 'ACB', 'Ngân hàng Thương mại Cổ phần Á Châu', '30.50', NULL),
+(4401, 'VLW', 'Công ty cổ phần Cấp nước Vĩnh Long', '10.10', NULL),
+(4402, 'ACC', 'Công ty Cổ phần bê tông BECAMEX', '21.40', NULL),
+(4403, 'ACE', 'Công ty Cổ phần Bê tông ly tâm An Giang', '23', NULL),
+(4404, 'ACL', 'Công ty Cổ phần Xuất nhập khẩu Thủy sản Cửu Long An Giang', '38.75', NULL),
+(4405, 'ACM', 'Công ty Cổ phần Tập đoàn khoáng sản Á Cường', '0', NULL),
+(4406, 'IST', 'Công ty cổ phần ICD Tân Cảng Sóng Thần', '36.60', NULL),
+(4407, 'VMA', 'Công ty Cổ phần Công nghiệp Ô tô - Vinacomin', '10', NULL),
+(4408, 'VMD', 'Công ty Cổ phần Y Dược phẩm Vimedimex', '18.50', NULL),
+(4409, 'VMC', 'Công ty Cổ phần VIMECO', '20', NULL),
+(4410, 'VMG', 'Công ty Cổ phần Thương mại và Dịch vụ dầu khí Vũng Tàu', '2.10', NULL),
+(4411, 'ACS', 'Công ty Cổ phần Xây lắp Thương mại 2', '15.50', NULL),
+(4412, 'REE', 'Công ty Cổ phần Cơ điện lạnh', '35.50', NULL),
+(4413, 'VMI', 'Công ty Cổ phần Khoáng sản và Đầu tư VISACO', '0', NULL),
+(4414, 'ACV', 'Tổng công ty cảng hàng không Việt Nam - CTCP', '88.30', NULL),
+(4415, 'ITA', 'Công ty Cổ phần Đầu tư và Công nghiệp Tân Tạo', '2.67', NULL),
+(4416, 'ITD', 'Công ty Cổ phần Công nghệ Tiên Phong', '10.50', NULL),
+(4417, 'ITC', 'Công ty Cổ phần Đầu tư - Kinh doanh nhà', '11.90', NULL),
+(4418, 'ELC', 'Công ty Cổ phần Đầu tư Phát triển Công nghệ điện tử - Viễn thông', '7.10', NULL),
+(4419, 'VMS', 'Công ty Cổ phần Phát triển Hàng hải', '4.70', NULL),
+(4420, 'ADC', 'Công ty Cổ phần Mĩ thuật và Truyền thông', '16.20', NULL),
+(4421, 'ITQ', 'Công ty Cổ phần Tập đoàn Thiên Quang', '3.20', NULL),
+(4422, 'VNA', 'Công ty Cổ phần vận tải biển VINASHIP', '1', NULL),
+(4423, 'ITS', 'Công ty Cổ phần Đầu tư, Thương mại và Dịch vụ - Vinacomin', '2.40', NULL),
+(4424, 'VNC', 'Công ty Cổ phần Tập đoàn Vinacontrol', '42', NULL),
+(4425, 'VNB', 'Công ty cổ phần Sách Việt Nam', '17.30', NULL),
+(4426, 'VNE', 'Tổng Công ty Cổ phần Xây dựng điện Việt Nam', '4.11', NULL),
+(4427, 'VND', 'Công ty Cổ phần Chứng khoán VNDIRECT', '17.40', NULL),
+(4428, 'ADP', 'Công ty Cổ phần Sơn Á Đông', '31.90', NULL),
+(4429, 'VNG', 'Công ty Cổ phần Du lịch Thành Thành Công', '21.60', NULL),
+(4430, 'VNF', 'Công ty Cổ phần VNINAFREIGHT', '19.40', NULL),
+(4431, 'ADS', 'Công ty Cổ phần Damsan', '13.25', NULL),
+(4432, 'VNI', 'Công ty Cổ phần Đầu tư bất động sản Việt Nam', '10', NULL),
+(4433, 'VNH', 'Công ty Cổ phần Thủy hải sản Việt Nhật', '1', NULL),
+(4434, 'VNM', 'Công ty Cổ phần Sữa Việt Nam', '148.90', NULL),
+(4435, 'VNL', 'Công ty Cổ phần LOGISTICS VINALINK', '17', NULL),
+(4436, 'VNP', 'Công ty Cổ phần nhựa Việt Nam', '5.70', NULL),
+(4437, 'EMC', 'Công ty Cổ phần Cơ Điện Thủ Đức', '14', NULL),
+(4438, 'VNS', 'Công ty Cổ phần Ánh Dương Việt Nam', '15', NULL),
+(4439, 'VNR', 'Tổng Công ty Cổ phần tái bảo hiểm quốc gia Việt Nam', '20.80', NULL),
+(4440, 'EME', 'Công ty Cổ phần Điện Cơ', '59.50', NULL),
+(4441, 'VNT', 'Công ty Cổ phần Giao nhận Vận tải Ngoại thương', '30', NULL),
+(4442, 'EMG', 'Công ty Cổ Phần Thiết Bị Phụ Tùng Cơ điện', '26.20', NULL),
+(4443, 'VNY', 'Công ty cổ phần Thuốc Thú y Trung Ương I', '5.10', NULL),
+(4444, 'VNX', 'Công ty Cổ phần Quảng cáo và Hội chợ thương mại', '1.20', NULL),
+(4445, 'EMS', 'Tổng Công ty Chuyển phát nhanh Bưu điện – Công ty cổ phần', '38.20', NULL),
+(4446, 'VOC', 'Tổng Công ty Công nghiệp dầu thực vật Việt Nam – CTCP', '14.70', NULL),
+(4447, 'RGC', 'Công ty Cổ phần Đầu tư PV-Inconess', '8', NULL),
+(4448, 'VOS', 'Công ty Cổ phần Vận tải biển Việt Nam', '1.69', NULL),
+(4449, 'AFC', 'Công ty cổ phần Nông Lâm Nghiệp Bình Dương', '10.30', NULL),
+(4450, 'VPA', 'Công ty Cổ phần Vận tải Hóa dầu VP', '3.40', NULL),
+(4451, 'IVS', 'Công ty Cổ phần Chứng khoán Đầu tư Việt Nam', '10.90', NULL),
+(4452, 'VPC', 'Công ty Cổ phần Đầu tư và Phát triển Năng lượng Việt Nam', '0', NULL),
+(4453, 'VPB', 'Ngân hàng Thương mại Cổ phần Việt Nam thịnh vượng', '21.35', NULL),
+(4454, 'VPD', 'Công ty Cổ phần Phát triển Điện Lực Việt Nam', '15.60', NULL),
+(4455, 'AG1', 'Công ty Cổ phần 28.1', '10', NULL),
+(4456, 'VPG', 'Công ty cổ phần Đầu tư Thương mại Xuất nhập khẩu Việt Phát', '21.30', NULL),
+(4457, 'VPI', 'Công ty Cổ phần Đầu tư Văn Phú - Invest', '41.25', NULL),
+(4458, 'VPH', 'Công ty Cổ phần Vạn Phát Hưng', '5.08', NULL),
+(4459, 'VPK', 'Công ty Cổ phần bao bì dầu thực vật', '3.21', NULL),
+(4460, 'AFX', 'Công ty Cổ phần Xuất nhập khẩu Nông sản thực phẩm An Giang', '3.30', NULL),
+(4461, 'VPS', 'Công ty Cổ phần thuốc sát trùng Việt Nam', '11.20', NULL),
+(4462, 'RHN', 'Công ty cổ phần Đường sắt Hà Ninh', '9.20', NULL),
+(4463, 'VPR', 'Công ty cổ phần In và thương mại Vina', '15.50', NULL),
+(4464, 'VPW', 'Công ty Cổ phần Cấp thoát nước số 1 Vĩnh Phúc', '11.10', NULL),
+(4465, 'AGF', 'Công ty Cổ phần Xuất nhập khẩu thủy sản An Giang', '4.20', NULL),
+(4466, 'AGM', 'Công ty Cổ phần xuất nhập khẩu An Giang', '11.35', NULL),
+(4467, 'VQC', 'Công ty Cổ phần Giám định Vinacomin', '7.20', NULL),
+(4468, 'AGP', 'Công ty Cổ phần Dược phẩm Agimexpharm', '25', NULL),
+(4469, 'AGR', 'Công ty Cổ phần Chứng khoán Agribank', '3.49', NULL),
+(4470, 'RIC', 'Công ty Cổ phần Quốc tế Hoàng Gia', '6', NULL),
+(4471, 'NAC', 'Công ty cổ phần Tư vấn Xây dựng Tổng hợp', '11.80', NULL),
+(4472, 'NAF', 'Công ty Cổ phần Nafoods Group', '15.20', NULL),
+(4473, 'AGX', 'Công ty Cổ phần nông sản xuất khẩu Sài Gòn', '29.80', NULL),
+(4474, 'NAG', 'Công ty Cổ phần Tập đoàn Nagakawa', '5.30', NULL),
+(4475, 'EPC', 'Công ty TNHH Một thành viên Cà phê Ea Pốk', '10.20', NULL),
+(4476, 'EPH', 'Công ty cổ phần Dịch vụ Xuất bản Giáo dục Hà Nội', '6.60', NULL),
+(4477, 'NAP', 'Công ty Cổ phần Cảng Nghệ Tĩnh', '11.20', NULL),
+(4478, 'NAS', 'Công ty Cổ phần Dịch vụ Hàng không Sân bay Nội Bài', '29.50', NULL),
+(4479, 'NAV', 'Công ty Cổ phần Nam Việt', '8.12', NULL),
+(4480, 'NAU', 'Công ty Cổ phần Môi trường và Công trình Đô thị Nghệ An', '9.90', NULL),
+(4481, 'NAW', 'Công ty Cổ phần Cấp nước Nghệ An', '15.70', NULL),
+(4482, 'VRC', 'Công ty cổ phần Bất động sản và Đầu tư VRC', '17.30', NULL),
+(4483, 'VRE', 'Công ty Cổ phần Vincom Retail', '35', NULL),
+(4484, 'VRG', 'Công ty Cổ phần Phát triển đô thị và Khu công nghiệp Cao su Việt Nam', '5.20', NULL),
+(4485, 'NBC', 'Công ty Cổ phần Than Núi Béo - Vinacomin', '6.70', NULL),
+(4486, 'NBB', 'Công ty Cổ phần đầu tư Năm Bảy Bảy', '19', NULL),
+(4487, 'NBE', 'Công ty Cổ phần Sách và Thiết bị giáo dục miền Bắc', '7.20', NULL),
+(4488, 'NBP', 'Công ty Cổ phần Nhiệt điện Ninh Bình', '12', NULL),
+(4489, 'NBR', 'Công ty cổ phần Đường sắt Nghĩa Bình', '9', NULL),
+(4490, 'NBT', 'Công ty cổ phần cấp thoát nước Bến Tre', '5.90', NULL),
+(4491, 'NBW', 'Công ty Cổ phần Cấp nước Nhà Bè', '17.50', NULL),
+(4492, 'VSA', 'Công ty Cổ phần Đại lý Hàng hải Việt Nam', '18.50', NULL),
+(4493, 'VSC', 'Công ty Cổ phần Container Việt Nam', '44.40', NULL),
+(4494, 'VSF', 'Tổng Công ty Lương thực Miền Nam – Công ty cổ phần', '8.80', NULL),
+(4495, 'VSE', 'Công ty cổ phần Dịch vụ Đường cao tốc Việt Nam', '9.30', NULL),
+(4496, 'VSH', 'Công ty Cổ phần Thủy điện Vĩnh Sơn – Sông Hinh', '17', NULL),
+(4497, 'VSG', 'Công ty Cổ phần Container phía Nam', '1.40', NULL),
+(4498, 'VSI', 'Công ty Cổ phần đầu tư và xây dựng cấp thoát nước', '26.20', NULL),
+(4499, 'VSN', 'Công ty cổ phần Việt Nam Kỹ Nghệ Súc Sản', '39.60', NULL),
+(4500, 'VSM', 'Công ty Cổ phần Container Miền Trung', '10.90', NULL),
+(4501, 'VSP', 'Công ty Cổ phần Vận tải biển và Bất động sản Việt Hải', '1.10', NULL),
+(4502, 'VT1', 'Công ty Cổ phần Vật tư Bến Thành', '10', NULL),
+(4503, 'VST', 'Công ty Cổ phần Vận tải và Thuê tàu biển Việt Nam', '0', NULL),
+(4504, 'NCP', 'Công ty Cổ phần nhiệt điện Cẩm Phả - TKV', '3', NULL),
+(4505, 'VT8', 'Công ty Cổ phần Dịch vụ Vận tải Ô tô số 8', '23.80', NULL),
+(4506, 'ND2', 'Công ty Cổ phần Đầu tư và Phát triển điện miền Bắc 2', '22.50', NULL),
+(4507, 'NCT', 'Công ty Cổ phần dịch vụ hàng hóa Nội Bài', '70.60', NULL),
+(4508, 'NCS', 'Công ty cổ phần Suất ăn hàng không Nội Bài', '35.50', NULL),
+(4509, 'VTA', 'Công ty Cổ phần Vitaly', '8.90', NULL),
+(4510, 'VTC', 'Công ty Cổ phần viễn thông VTC', '8.30', NULL),
+(4511, 'VTB', 'Công ty Cổ phần Viettronics Tân Bình', '15.55', NULL),
+(4512, 'VTE', 'Công ty cổ phần Viễn thông Điện tử VINACAP', '6.90', NULL),
+(4513, 'VTG', 'Công ty Cổ phần du lịch tỉnh Bà Rịa - Vũng Tàu', '7.80', NULL),
+(4514, 'RLC', 'Công ty cổ phần Đường bộ Lào Cai', '10', NULL),
+(4515, 'VTI', 'Công ty Cổ phần Sản xuất - Xuất nhập khẩu Dệt may', '6.90', NULL),
+(4516, 'VTH', 'Công ty Cổ phần Dây Cáp Điện Việt Thái', '9.50', NULL),
+(4517, 'VTK', 'Công ty cổ phần Tư vấn Thiết kế Viettel', '19.10', NULL),
+(4518, 'NDC', 'Công ty Cổ phần Nam dược', '40.20', NULL),
+(4519, 'VTJ', 'Công ty Cổ phần Thương mại và Đầu tư VI NA TA BA', '4.20', NULL),
+(4520, 'VTM', 'Công ty cổ phần Vận Tải và đưa đón thợ mỏ - Vinacomin', '21.80', NULL),
+(4521, 'VTL', 'Công ty Cổ phần Vang Thăng Long', '30', NULL),
+(4522, 'VTO', 'Công ty Cổ phần Vận tải xăng dầu VITACO', '8.58', NULL),
+(4523, 'NDF', 'Công ty Cổ phần Chế biến Thực phẩm Nông sản Xuất khẩu Nam Định', '1.40', NULL),
+(4524, 'VTP', 'Tổng CTCP Bưu chính Viettel', '172.90', NULL),
+(4525, 'VTS', 'Công ty Cổ phần Viglacera Từ Sơn', '21', NULL),
+(4526, 'NDN', 'Công ty Đầu tư Phát triển Nhà Đà Nẵng', '12.20', NULL),
+(4527, 'VTV', 'Công ty Cổ phần VICEM Vật tư Vận tải Xi măng', '10', NULL),
+(4528, 'NDP', 'Công ty cổ phần Dược phẩm 2-9 TP.Hồ Chí Minh', '27.10', NULL),
+(4529, 'VTX', 'Công ty cổ phần vận tải đa phương thức VIETRANSTIMEX', '20.40', NULL),
+(4530, 'NDT', 'Tổng Công ty cổ phần Dệt may Nam Định', '7.40', NULL),
+(4531, 'NDX', 'Công ty Cổ phần Xây lắp Phát triển Nhà Đà Nẵng', '14', NULL),
+(4532, 'NED', 'Công ty cổ phần Đầu tư và Phát triển Điện Tây Bắc', '11.50', NULL),
+(4533, 'NET', 'Công ty Cổ phần Bột giặt Net', '27.60', NULL),
+(4534, 'ALT', 'Công ty Cổ phần văn hoá Tân Bình', '12.40', NULL),
+(4535, 'NFC', 'Công ty Cổ phần Phân lân Ninh Bình', '4.60', NULL),
+(4536, 'ALV', 'Công ty Cổ phần Đầu tư Phát triển Hạ tầng ALV', '3.30', NULL),
+(4537, 'VVN', 'Tổng Công ty Cổ phần Xây dựng Công nghiệp Việt Nam', '7.30', NULL),
+(4538, 'AMC', 'Công ty Cổ phần Khoáng sản Á Châu', '23.50', NULL),
+(4539, 'AMD', 'Công ty Cổ phần Đầu tư và Khoáng sản FLC AMD', '2.60', NULL),
+(4540, 'AME', 'Công ty Cổ phần Alphanam E và C', '14.90', NULL),
+(4541, 'AMP', 'Công ty Cổ phần Armephaco', '16.20', NULL),
+(4542, 'AMS', 'Công ty cổ phần Cơ khí Xây dựng AMECC', '8.10', NULL),
+(4543, 'AMV', 'Công ty Cổ phần Sản xuất kinh doanh dược và Trang thiết bị y tế Việt Mỹ', '32.60', NULL);
+INSERT INTO `sharemaster` (`id`, `code`, `name`, `current_price`, `last_update`) VALUES
+(4544, 'NGC', 'Công ty Cổ phần Chế biến thủy sản Xuất khẩu Ngô Quyền', '10.20', NULL),
+(4545, 'VWS', 'Công ty cổ phần Nước và Môi trường Việt Nam', '15.30', NULL),
+(4546, 'EVF', 'Công ty Tài chính Cổ phần Điện lực', '4.80', NULL),
+(4547, 'EVE', 'Công ty Cổ phần Everpia', '15.40', NULL),
+(4548, 'S12', 'Công ty Cổ phần Sông Đà 12', '0', NULL),
+(4549, 'ROS', 'Công ty cổ phần Xây dựng FLC Faros', '34.95', NULL),
+(4550, 'EVG', 'Công ty Cổ phần Đầu tư Everland', '2.62', NULL),
+(4551, 'VXB', 'Công ty Cổ phần Vật liệu xây dựng Bến Tre', '13.20', NULL),
+(4552, 'EVS', 'Công ty Cổ phần Chứng khoán Everest', '8.60', NULL),
+(4553, 'NHA', 'Tổng Công ty Đầu tư Phát triển Nhà và Đô thị Nam Hà Nội', '7.40', NULL),
+(4554, 'ANT', 'Công ty Cổ phần Rau quả thực phẩm An Giang', '7.40', NULL),
+(4555, 'NHC', 'Công ty Cổ phần gạch ngói Nhị Hiệp', '33', NULL),
+(4556, 'ANV', 'Công ty Cổ phần Nam Việt', '27.95', NULL),
+(4557, 'NHH', 'Công ty Cổ phần Nhựa Hà Nội', '34.50', NULL),
+(4558, 'NHP', 'Công ty Cổ phần sản xuất xuất nhập khẩu NHP', '0', NULL),
+(4559, 'S27', 'Công ty Cổ phần Sông Đà 27', '3.50', NULL),
+(4560, 'NHT', 'Công ty Cổ phần Sản xuất và Thương mại Nam Hoa', '47.10', NULL),
+(4561, 'NHV', 'Công ty Cổ phần Đầu tư NHV', '12', NULL),
+(4562, 'S33', 'Công ty Cổ phần Mía đường 333', '0', NULL),
+(4563, 'APC', 'Công ty Cổ phần Chiếu xạ An Phú', '32', NULL),
+(4564, 'APF', 'Công ty Cổ phần Nông sản Thực phẩm Quảng Ngãi', '32.10', NULL),
+(4565, 'APG', 'Công ty Cổ phần Chứng khoán An Phát', '8.93', NULL),
+(4566, 'API', 'Công ty Cổ phần Đầu tư Châu Á - Thái Bình Dương', '21.50', NULL),
+(4567, 'APL', 'Công ty cổ phần Cơ khí và thiết bị áp lực – VVMI', '15.60', NULL),
+(4568, 'APP', 'Công ty Cổ phần Phát triển Phụ gia và Sản phẩm dầu mỏ', '4.50', NULL),
+(4569, 'APS', 'Công ty Cổ phần Chứng khoán Châu Á - Thái Bình Dương', '3.20', NULL),
+(4570, 'S4A', 'Công ty Cổ phần Thủy điện Sê San 4A', '27.90', NULL),
+(4571, 'NKG', 'Công ty Cổ phần Thép Nam Kim', '7.70', NULL),
+(4572, 'S55', 'Công ty Cổ phần Sông Đà 505', '24', NULL),
+(4573, 'ARM', 'Công ty Cổ phần Xuất nhập khẩu Hàng không', '48.50', NULL),
+(4574, 'RTB', 'Công ty cổ phần Cao su Tân Biên', '13.30', NULL),
+(4575, 'ART', 'Công ty Cổ phần Chứng khoán Artex', '2.30', NULL),
+(4576, 'RTH', 'Công ty cổ phần Đường sắt Thanh Hóa', '5.20', NULL),
+(4577, 'NLG', 'Công ty Cổ phần Đầu tư Nam Long', '27.20', NULL),
+(4578, 'ASA', 'Công ty Cổ phần Hàng tiêu dùng ASA', '0', NULL),
+(4579, 'RTS', 'Công ty cổ phần Thông tin tín hiệu Đường sắt Đà Nẵng', '19.50', NULL),
+(4580, 'ASD', 'Công ty Cổ phần Sông Đà Hà Nội', '5.20', NULL),
+(4581, 'NLS', 'Công ty cổ phần Cấp thoát nước Lạng Sơn', '9.90', NULL),
+(4582, 'ASM', 'Công ty Cổ phần Tập đoàn Sao Mai', '8.18', NULL),
+(4583, 'ASP', 'Công ty Cổ phần Tập đoàn Dầu khí An Pha', '6.54', NULL),
+(4584, 'AST', 'Công ty Cổ phần Dịch vụ Hàng không Taseco', '69.40', NULL),
+(4585, 'NMK', 'Công ty Cổ phần Xây dựng Công trình 510', '12.40', NULL),
+(4586, 'ATA', 'Công ty Cổ phần NTACO', '0', NULL),
+(4587, 'ATB', 'Công ty Cổ phần An Thịnh', '0', NULL),
+(4588, 'S72', 'Công ty cổ phần Sông Đà 7.02', '3.70', NULL),
+(4589, 'S74', 'Công ty Cổ phần Sông Đà 7.04', '5.10', NULL),
+(4590, 'ATG', 'Công ty Cổ phần An Trường An', '1.37', NULL),
+(4591, 'ATS', 'Công ty cổ phần Suất ăn công nghiệp Atesco', '38.60', NULL),
+(4592, 'NNC', 'Công ty Cổ phần Đá Núi Nhỏ', '51.80', NULL),
+(4593, 'NNB', 'Công ty cổ phần Cấp thoát nước Ninh Bình', '9.90', NULL),
+(4594, 'NNG', 'Công ty Cổ phần công nghiệp- dịch vụ- thương mại Ngọc Nghĩa', '6.60', NULL),
+(4595, 'NNT', 'Công ty Cổ phần Cấp nước Ninh Thuận', '13.20', NULL),
+(4596, 'AUM', 'Công ty Cổ phần Vinacafe Sơn Thành', '10.50', NULL),
+(4597, 'AVC', 'Công ty cổ phần Thủy điện A Vương', '30.50', NULL),
+(4598, 'AVF', 'Công ty Cổ phần Việt An', '0', NULL),
+(4599, 'S96', 'Công ty Cổ phần Sông Đà 9.06', '0', NULL),
+(4600, 'S99', 'Công ty Cổ phần SCI', '7.80', NULL),
+(4601, 'NOS', 'Công ty cổ phần Vận tải biển và Thương mại Phương Đông', '0', NULL),
+(4602, 'B82', 'Công ty Cổ phần 482', '1.10', NULL),
+(4603, 'NPH', 'Công ty cổ phần Khách sạn Bưu điện Nha Trang', '11.40', NULL),
+(4604, 'NPS', 'Công ty Cổ phần May Phú Thịnh - Nhà Bè', '27', NULL),
+(4605, 'NQB', 'Công ty Cổ phần Cấp thoát nước Quảng Bình', '11.20', NULL),
+(4606, 'NQN', 'Công ty Cổ phần Nước sạch Quảng Ninh', '4', NULL),
+(4607, 'NQT', 'Công ty cổ phần Nước sạch Quảng Trị', '9', NULL),
+(4608, 'NRC', 'Công ty Cổ phần Bất động sản NETLAND', '35.30', NULL),
+(4609, 'FBA', 'Công ty Cổ phần Tập đoàn Quốc tế FBA', '0', NULL),
+(4610, 'FBC', 'Công ty Cổ phần Cơ khí Phổ Yên', '10.80', NULL),
+(4611, 'WCS', 'Công ty Cổ phần Bến xe miền Tây', '129.80', NULL),
+(4612, 'NS2', 'Công ty Cổ phần Nước sạch số 2 Hà Nội', '24', NULL),
+(4613, 'NS3', 'Công ty Cổ phần sản xuất kinh doanh nước sạch số 3 Hà Nội', '28.80', NULL),
+(4614, 'NSC', 'Công ty Cổ phần Giống cây trồng Trung Ương', '89.90', NULL),
+(4615, 'NSH', 'Công ty Cổ phần Nhôm Sông Hồng', '3', NULL),
+(4616, 'NSG', 'Công ty Cổ phần Nhựa Sài Gòn', '10.50', NULL),
+(4617, 'FCC', 'Công ty Cổ phần Liên Hợp Thực Phẩm', '11', NULL),
+(4618, 'NT2', 'Công ty Cổ phần Điện lực Dầu khí Nhơn Trạch 2', '28.20', NULL),
+(4619, 'NST', 'Công ty Cổ phần Ngân Sơn', '19', NULL),
+(4620, 'NSS', 'Công ty cổ phần Nông Súc Sản Đồng Nai', '16.80', NULL),
+(4621, 'FCN', 'Công ty Cổ phần FECON', '14.20', NULL),
+(4622, 'FCM', 'Công ty Cổ phần Khoáng sản FECON', '6.99', NULL),
+(4623, 'FCS', 'Công ty cổ phần Lương thực thành phố Hồ Chí Minh', '9', NULL),
+(4624, 'NTC', 'Công ty cổ phần Khu Công nghiệp Nam Tân Uyên', '106', NULL),
+(4625, 'NTB', 'Công ty Cổ phần Đầu tư Xây dựng và Khai thác Công trình Giao thông 584', '0', NULL),
+(4626, 'FDC', 'Công ty Cổ phần Ngoại thương và Phát triển Đầu tư Thành phố Hồ Chí Minh', '15.35', NULL),
+(4627, 'NTL', 'Công ty Cổ phần Phát triển đô thị Từ Liêm', '18.50', NULL),
+(4628, 'FDG', 'Công ty Cổ phần DOCIMEXCO', '0', NULL),
+(4629, 'NTP', 'Công ty Cổ phần Nhựa Thiếu niên Tiền Phong', '37.20', NULL),
+(4630, 'NTR', 'Công ty cổ phần Đường sắt Nghệ Tĩnh', '5.20', NULL),
+(4631, 'NTT', 'Công ty cổ phần Dệt - May Nha Trang', '10', NULL),
+(4632, 'NTW', 'Công ty Cổ phần Cấp nước Nhơn Trạch', '24.90', NULL),
+(4633, 'FDT', 'Công ty Cổ phần Fiditour', '49.40', NULL),
+(4634, 'NUE', 'Công ty cổ phần Môi trường Đô thị Nha Trang', '7.50', NULL),
+(4635, 'NVB', 'Ngân hàng Thương mại Cổ phần Quốc Dân', '8.80', NULL),
+(4636, 'NVL', 'Công ty cổ phần Tập đoàn Đầu tư Địa ốc No Va', '58.40', NULL),
+(4637, 'NVP', 'Công ty cổ phần Nước sạch Vĩnh Phúc', '6.30', NULL),
+(4638, 'NVT', 'Công ty Cổ phần Bất động sản Du lịch Ninh Vân Bay', '7.82', NULL),
+(4639, 'FGL', 'Công ty TNHH Một thành viên Cà phê Gia Lai', '10', NULL),
+(4640, 'NWT', 'Công ty Cổ phần Vận tải Newway', '5.80', NULL),
+(4641, 'JOS', 'Công ty cổ phần Chế biến Thủy sản Xuất khẩu Minh Hải', '2.60', NULL),
+(4642, 'SAC', 'Công ty cổ phần Xếp dỡ và Dịch vụ Cảng Sài Gòn', '12.60', NULL),
+(4643, 'SAB', 'Tổng Công ty Cổ phần Bia - Rượu - Nước giải khát Sài Gòn', '247', NULL),
+(4644, 'SAF', 'Công ty Cổ phần Lương thực Thực phẩm SAFOCO', '53.20', NULL),
+(4645, 'SAM', 'Công ty Cổ phần SAM HOLDINGS', '7.40', NULL),
+(4646, 'SAL', 'Công ty cổ phần Trục vớt cứu hộ Việt Nam', '9', NULL),
+(4647, 'SAP', 'Công ty Cổ phần In sách giáo khoa TP Hồ Chí Minh', '7.30', NULL),
+(4648, 'SB1', 'Công ty cổ phần bia Sài Gòn - Nghệ Tĩnh', '16.50', NULL),
+(4649, 'SAS', 'Công ty Dịch vụ Hàng không sân bay Tân Sơn Nhất', '26.80', NULL),
+(4650, 'SAV', 'Công ty Cổ phần Hợp tác kinh tế và Xuất nhập khẩu SAVIMEX', '8.90', NULL),
+(4651, 'FHN', 'Công ty cổ phần Xuất nhập khẩu Lương thực - Thực phẩm Hà Nội', '39.80', NULL),
+(4652, 'FHS', 'CTCP Phát hành sách TP. HCM', '27.70', NULL),
+(4653, 'SBA', 'Công ty Cổ phần Sông Ba', '14.30', NULL),
+(4654, 'SBD', 'Công ty cổ phần Công nghệ cao Sao Bắc Đẩu', '10.70', NULL),
+(4655, 'SBH', 'Công ty Cổ phần Thủy điện Sông Ba Hạ', '26', NULL),
+(4656, 'SBL', 'Công ty cổ phần Bia Sài Gòn - Bạc Liêu', '19.20', NULL),
+(4657, 'SBM', 'Công ty cổ phần Đầu tư Phát triển Bắc Minh', '32', NULL),
+(4658, 'FID', 'Công ty Cổ phần đầu tư và phát triển doanh nghiệp Việt Nam', '1.40', NULL),
+(4659, 'FIC', 'Tổng Công ty Vật liệu Xây dựng số 1 – Công ty cổ phần', '10.10', NULL),
+(4660, 'BAB', 'Ngân hàng Thương mại cổ phần Bắc Á', '20.60', NULL),
+(4661, 'SBT', 'Công ty Cổ phần Thành Thành Công - Biên Hòa', '20.05', NULL),
+(4662, 'SC5', 'Công ty Cổ phần Xây dựng số 5', '24.60', NULL),
+(4663, 'SBS', 'Công ty Cổ phần Chứng khoán Ngân hàng Sài Gòn Thương tín', '1.70', NULL),
+(4664, 'SBV', 'Công ty Cổ phần Siam Brothers Việt Nam', '12.70', NULL),
+(4665, 'BAL', 'Công ty Cổ phần Bao bì Bia - Rượu - Nước giải khát', '40.30', NULL),
+(4666, 'FIR', 'Công ty Cổ phần Địa ốc First Real', '42.70', NULL),
+(4667, 'FIT', 'Công ty cổ phần Tập đoàn F.I.T', '2.61', NULL),
+(4668, 'SCC', 'Công ty Cổ phần Đầu tư thương mại Hưng Long Tỉnh Hòa Bình', '1.10', NULL),
+(4669, 'SCD', 'Công ty Cổ phần Nước Giải khát Chương Dương (CDBECO)', '23.50', NULL),
+(4670, 'SCI', 'Công ty cổ phần SCI E&C', '7.80', NULL),
+(4671, 'BAX', 'Công ty Cổ phần Thống Nhất', '27', NULL),
+(4672, 'SCJ', 'Công ty Cổ phần Xi măng Sài Sơn', '4.50', NULL),
+(4673, 'SCL', 'Công ty Cổ phần Sông Đà Cao Cường', '3.60', NULL),
+(4674, 'SCO', 'Công ty Cổ phần Công nghiệp Thủy sản', '5.60', NULL);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `transaction_history`
 --
 
-DROP TABLE IF EXISTS `transaction_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `active_flg` int(11) NOT NULL,
   `amount` decimal(19,2) DEFAULT NULL,
   `fee_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -285,31 +1839,17 @@ CREATE TABLE `transaction_history` (
   `price` decimal(19,2) NOT NULL,
   `status` int(11) NOT NULL,
   `type_of_transaction` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `asset_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKbe9q0pvvigij96he65xyuubfp` (`asset_id`),
-  CONSTRAINT `FKbe9q0pvvigij96he65xyuubfp` FOREIGN KEY (`asset_id`) REFERENCES `asset` (`id`)
+  `asset_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `transaction_history`
---
-
-LOCK TABLES `transaction_history` WRITE;
-/*!40000 ALTER TABLE `transaction_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transaction_history` ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `active_flg` int(11) DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_deleted` int(11) DEFAULT NULL,
@@ -317,29 +1857,181 @@ CREATE TABLE `user` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKdptx0i3ky01svofwjytq5iry0` (`customer_id`),
-  CONSTRAINT `FKdptx0i3ky01svofwjytq5iry0` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`)
+  `customer_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `user`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `user` (`id`, `active_flg`, `email`, `is_deleted`, `is_online`, `password`, `role`, `user_name`, `customer_id`) VALUES
+(1, 1, 'huutuyen91@gmail.com', 0, 0, '$2a$04$I9Q2sDc4QGGg5WNTLmsz0.fvGv3OjoZyj81PrSFyGOqMphqfS2qKu', 'ROLE_ADMIN', 'tuyenlh', 1),
+(2, 1, 'emvit91@gmail.com', 0, 0, '$2a$10$o84aKHVnK0FtlSyPpnUJZeS0DRTI5kdRZjaijjAqGioPZZLgjilry', 'ROLE_USER', 'emvit', 1),
+(3, 1, 'hieubx@gmail.com', 0, 0, '$2a$10$8yGf9.qQk4TdkRBIF10q7uYv7Wm/L62VCjgkLqwpbjhu9rCGZ6m7y', 'ROLE_USER', 'hieubx', 3),
+(4, 1, 'admin@vifonline.com.vn', 0, 0, '$2a$10$zGHhb8Ze.RCRkImp8siEoOvgoI7RDNjLVihHkzLyYml3JMKBd/za2', 'ROLE_ADMIN', 'admin', 2);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `app_param`
+--
+ALTER TABLE `app_param`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `asset`
+--
+ALTER TABLE `asset`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK4j6x7n7n6xkqxx9mxurbqbss6` (`group_id`);
+
+--
+-- Indexes for table `asset_history`
+--
+ALTER TABLE `asset_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK322cepv7u4b2ch4r0g7ciehbj` (`asset_id`);
+
+--
+-- Indexes for table `branch`
+--
+ALTER TABLE `branch`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_asset`
+--
+ALTER TABLE `group_asset`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `investor_history`
+--
+ALTER TABLE `investor_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKheyn6ffnc35o9qlwawiup1h4w` (`customer_id`);
+
+--
+-- Indexes for table `sharemaster`
+--
+ALTER TABLE `sharemaster`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `transaction_history`
+--
+ALTER TABLE `transaction_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKbe9q0pvvigij96he65xyuubfp` (`asset_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKdptx0i3ky01svofwjytq5iry0` (`customer_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `app_param`
+--
+ALTER TABLE `app_param`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `asset`
+--
+ALTER TABLE `asset`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `asset_history`
+--
+ALTER TABLE `asset_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `branch`
+--
+ALTER TABLE `branch`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `group_asset`
+--
+ALTER TABLE `group_asset`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `investor_history`
+--
+ALTER TABLE `investor_history`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `transaction_history`
+--
+ALTER TABLE `transaction_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `asset`
+--
+ALTER TABLE `asset`
+  ADD CONSTRAINT `FK4j6x7n7n6xkqxx9mxurbqbss6` FOREIGN KEY (`group_id`) REFERENCES `group_asset` (`id`);
+
+--
+-- Constraints for table `asset_history`
+--
+ALTER TABLE `asset_history`
+  ADD CONSTRAINT `FK322cepv7u4b2ch4r0g7ciehbj` FOREIGN KEY (`asset_id`) REFERENCES `asset` (`id`);
+
+--
+-- Constraints for table `investor_history`
+--
+ALTER TABLE `investor_history`
+  ADD CONSTRAINT `FKheyn6ffnc35o9qlwawiup1h4w` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
+
+--
+-- Constraints for table `transaction_history`
+--
+ALTER TABLE `transaction_history`
+  ADD CONSTRAINT `FKbe9q0pvvigij96he65xyuubfp` FOREIGN KEY (`asset_id`) REFERENCES `asset` (`id`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `FKdptx0i3ky01svofwjytq5iry0` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-03-13 16:14:00

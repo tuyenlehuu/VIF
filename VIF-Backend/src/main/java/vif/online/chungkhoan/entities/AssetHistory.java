@@ -23,11 +23,14 @@ public class AssetHistory {
     @Column(name = "ID")
     private Integer id;
 	
-//	@Column(name = "CODE", nullable = false)
-//	private String assetCode;
+	@Column(name = "CODE", nullable = false)
+	private String assetCode;
 	
 	@Column(name = "NAME", nullable = false)
 	private String assetName;
+	
+	@Column(name = "ORGINAL_PRICE", nullable = false)
+	private BigDecimal orginalPrice;
 	
 	@Column(name = "AMOUNT")
 	private BigDecimal amount;
@@ -101,6 +104,20 @@ public class AssetHistory {
 	public void setAsset(Asset asset) {
 		this.asset = asset;
 	}
-	
-	
+
+	public String getAssetCode() {
+		return assetCode;
+	}
+
+	public void setAssetCode(String assetCode) {
+		this.assetCode = assetCode;
+	}
+
+	public BigDecimal getOrginalPrice() {
+		return orginalPrice;
+	}
+
+	public void setOrginalPrice(BigDecimal orginalPrice) {
+		this.orginalPrice = orginalPrice;
+	}	
 }

@@ -3,4 +3,7 @@ export class ResponseObject {
     status: boolean;
     errors: string;
     data: Object;
+    page: number;
+    pageSize: number;
+    totalRow: number;
 }

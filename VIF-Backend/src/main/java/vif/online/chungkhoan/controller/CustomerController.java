@@ -38,28 +38,19 @@ public class CustomerController {
 		return new ResponseEntity(customer, HttpStatus.OK);
 	}
 	
+
 	@GetMapping("code/{code}")
 	public ResponseEntity<Customer> getCustomerByCode(@PathVariable("code") String code) {
 		Customer customer = customerService.getCustomerByCode(code);
 		return new ResponseEntity(customer, HttpStatus.OK);
 	}
 	
+
 	
-	@GetMapping("fullname/{name}")
-	public ResponseEntity<Customer> getCustomerByFullName(@PathVariable("name") String name) {
-		Customer customer = customerService.getCustomerByFullName(name);
-		return new ResponseEntity(customer, HttpStatus.OK);
-	}
-
-
 	@GetMapping("getAlls")
-	public ResponseEntity<List<Customer>> getAllUsers() {
-		ApiResponse object = new ApiResponse();
+	public ResponseEntity<List<Customer>> getAllCustomer() {
 		List<Customer> list = customerService.getAllCustomers();
-		object.setCode(200);
-		object.setErrors(null);
-		object.setStatus(true);
-		object.setData(list);
+
 		return new ResponseEntity<List<Customer>>(list, HttpStatus.OK);
 	}
 	

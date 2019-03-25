@@ -9,6 +9,8 @@ import { UserComponent } from './user.component';
 import { CEUserComponent } from './create.edit.user.component';
 import { UserRoutingModule } from './user-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AppTranslationModule } from '../../app.translation.module';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CommonModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppTranslationModule,
+    NgxPaginationModule
   ],
   declarations: [UserComponent, CEUserComponent]
 })

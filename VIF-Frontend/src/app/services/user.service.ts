@@ -2,13 +2,39 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User.model';
 import { config } from '../config/application.config';
+import { Pager } from '../models/Pager';
 
 @Injectable()
 export class UserService{
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<User[]>(`${config.apiUrl}/user/getAlls`);
+        return this.http.get<any>(`${config.apiUrl}/user/getAlls`);
+    }
+
+    getUsersByCondition(userCondition: User, pager: Pager){
+        if(!pager){
+            pager = new Pager();
+        }
+        var url = `${config.apiUrl}/user/getUsersByCondition?`;
+        url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
+        if(userCondition.username){
+            url = url + "&username=" + userCondition.username;
+        }
+
+        if(userCondition.email){
+            url = url + "&email=" + userCondition.email;
+        }
+
+        if(userCondition.role !=null && userCondition.role!= '-1'){
+            url = url + "&role=" + userCondition.role;
+        }
+
+        if(userCondition.activeFlg !=null && userCondition.activeFlg !== -1){
+            url = url + "&activeFlg=" + userCondition.activeFlg;
+        }
+        // console.log("url: ", url);
+        return this.http.get<any>(url);
     }
 
     getById(id: number) {

@@ -20,11 +20,11 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Autowired
 	private UserDao userDao;
 	
-//	@Override
-//	public List<User> getAllUsers() {
-//		// TODO Auto-generated method stub
-//		return userDao.getAllUsers();
-//	}
+	@Override
+	public List<User> getAllUsers() {
+		// TODO Auto-generated method stub
+		return userDao.getAllUsers();
+	}
 
 	@Override
 	public User getUserById(int id) {
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@Override
 	public void deleteUserByUsername(String user_name) {
 		// TODO Auto-generated method stub
-		userDao.deleteUser(user_name);
+		userDao.deleteUserByUsername(user_name);
 	}
 
 	@Override
@@ -81,6 +81,25 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	@SuppressWarnings("rawtypes")
 	private List getAuthority(User user) {
 		return Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
+	}
+
+	@Override
+	public List<User> SearchUserByCondition(int page, int pageSize, String columnSortName, Boolean asc, String username,
+			Integer activeFlg, String email, String role) {
+		// TODO Auto-generated method stub
+		return userDao.SearchUserByCondition(page, pageSize, columnSortName, asc, username, activeFlg, email, role);
+	}
+
+	@Override
+	public void deleteUserById(Integer id) {
+		// TODO Auto-generated method stub
+		userDao.deleteUserById(id);
+	}
+
+	@Override
+	public int getRowCount(String username, Integer activeFlg, String email, String role) {
+		// TODO Auto-generated method stub
+		return userDao.getRowCount(username, activeFlg, email, role);
 	}
 
 }

@@ -26,6 +26,19 @@ export function MustMatch(controlName: string, matchingControlName: string) {
     }
 }
 
+export function NotEqualZero(controlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+
+        // set error on matchingControl if validation fails
+        if (control.value === 0) {
+            control.setErrors({ notEqualZero: true });
+        } else {
+            control.setErrors(null);
+        }
+    }
+}
+
 export function RequireCombo(controlName: string) {
     return (formGroup: FormGroup) => {
         const control = formGroup.controls[controlName];

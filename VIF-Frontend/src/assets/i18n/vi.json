@@ -1,0 +1,74 @@
+{
+  "vif": {
+    "login":{
+        "title": "Đăng nhập",
+        "note": "Đăng nhập vào tài khoản của bạn",
+        "forgot_pass": "Quên mật khẩu?",
+        "group_name": "Quỹ đầu tư VIF",
+        "slogan": "Hãy tham lam khi người khác sợ hãi và sợ hãi khi người khác tham lam"
+    },
+    "user": {
+        "title1": "Quản lý người dùng",
+        "title2": "Tạo mới người dùng",
+        "title3": "Cập nhật người dùng",
+        "username": "Tên đăng nhập",
+        "username_placeholder": "Nhập vào tên đăng nhập",
+        "email": "Email",
+        "email_placeholder": "Nhập vào Email",
+        "password": "Mật khẩu",
+        "password_placeholder": "Nhập vào mật khẩu",
+        "confirm_password": "Nhập lại mật khẩu",
+        "role": "Quyền",
+        "status": "Trạng thái",
+        "action": "Hành động"
+    },
+    "global":{
+        "button":{
+            "add": "Thêm mới",
+            "cancel": "Hủy bỏ",
+            "update": "Cập nhật",
+            "delete": "Xóa",
+            "accept": "Đồng ý",
+            "save": "Lưu",
+            "search": "Tìm kiếm",
+            "register": "Đăng ký",
+            "login": "Đăng nhập",
+            "buy_CCQ": "Mua CCQ",
+            "sell_CCQ": "Bán CCQ",
+            "buy": "Mua",
+            "sell": "Bán"
+        },
+        "other":{
+            "emptyItem":"Không có bản ghi",
+            "confirmDel": "Bạn có thực sự muốn xóa user?",
+            "note": "Lưu ý"
+        }
+    },
+    "message":{
+        "username_require": "*Tên đăng nhập là bắt buộc",
+        "email_require": "*Email là bắt buộc",
+        "email_invalid": "*Email không đúng định dạng",
+        "password_require": "*Mật khẩu là bắt buộc",
+        "password_minlength": "*Mật khẩu tối thiểu phải có 8 ký tự",
+        "password_notmatch": "*Mật khẩu không khớp nhau!",
+        "role_require": "*Phân quyền là bắt buộc",
+        "status_require": "*Trạng thái là bắt buộc",
+        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!"
+    },
+    "investor_trans":{
+        "title": "Giao dịch của nhà đầu tư",
+        "customer": "Nhà đầu tư",
+        "amount_CCQ": "Số CCQ",
+        "amount_CCQ_placeholder": "Nhập vào số CCQ muốn bán",
+        "money": "Số tiền",
+        "money_placeholder": "Nhập vào số tiền đầu tư",
+        "price_CCQ": "Giá CCQ",
+        "price_CCQ_placeholder": "Nhập vào đơn giá CCQ",
+        "amount_CCQ_zero": "*Số CCQ phải lớn hơn 0!",
+        "amount_CCQ_required": "*Số CCQ không được để trống!",
+        "money_zero": "*Số tiền phải lớn hơn 0!",
+        "money_required": "*Số tiền không được để trống!",
+        "price_zero": "Giá phải lớn hơn 0"
+    }
+  }
+}

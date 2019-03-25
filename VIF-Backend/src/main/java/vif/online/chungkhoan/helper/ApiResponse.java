@@ -5,6 +5,9 @@ public class ApiResponse {
 	private Boolean status;
 	private String errors;
 	private Object data;
+	private Integer page;
+	private Integer pageSize;
+	private Integer totalRow;
 	
 	public ApiResponse(int code, String errors, Object data) {
 		super();
@@ -55,4 +58,29 @@ public class ApiResponse {
 	public void setData(Object data) {
 		this.data = data;
 	}
+
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public Integer getTotalRow() {
+		return totalRow;
+	}
+
+	public void setTotalRow(Integer totalRow) {
+		this.totalRow = totalRow;
+	}
+	
 }

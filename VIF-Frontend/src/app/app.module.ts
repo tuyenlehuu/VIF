@@ -6,7 +6,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -29,6 +29,9 @@ import { UserService } from './services/user.service';
 import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppTranslationModule } from './app.translation.module';
+import { CustomerService } from './services/customer.service';
+import { InvestorTransService } from './services/investor.transaction.service';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -68,7 +71,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppTranslationModule
   ],
   declarations: [
     AppComponent,
@@ -85,8 +89,10 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AuthGuard,
   OauthService,
   UserService,
+  CustomerService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  InvestorTransService,
   ],
   bootstrap: [ AppComponent ]
 })

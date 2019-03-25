@@ -13,7 +13,7 @@ export class User {
     public constructor() {
         this.isOnline = 0;
         this.isDeleted = 0;
-        this.role = '-1';
         this.activeFlg = -1;
+        this.role = '-1'
     }
 }

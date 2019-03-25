@@ -7,45 +7,103 @@ import { error } from '@angular/compiler/src/util';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { ResponseObject } from '../../models/Response.model';
+import { Pager } from '../../models/Pager';
 
 @Component({
-  templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html'
 })
 export class UserComponent implements OnInit {
-  users: User[] = [];
-  modalRef: BsModalRef;
-  // myId = 1991;
+    users: User[] = [];
+    modalRef: BsModalRef;
+    userSearch: User = new User();
 
-  constructor(private userService:UserService, private modalService: BsModalService, private toastrService: ToastrService){}
+    p: number = 1;
+    total: number;
+    pageSize: number = 5;
+    roles = [
+        {
+            name: 'Chọn quyền',
+            value: '-1'
+        },
+        {
+            name: 'Quản trị viên',
+            value: 'ROLE_ADMIN'
+        },
+        {
+            name: 'Nhà đầu tư',
+            value: 'ROLE_USER'
+        },
+        {
+            name: 'Khách',
+            value: 'ROLE_GUEST'
+        }
+    ];
 
-  ngOnInit(): void {
-    this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
-      // console.log("data: ", respons);
-      this.users = respons.data;
-    });
-  }
+    status = [
+        {
+            name: 'Chọn trạng thái',
+            value: -1
+        },
+        {
+            name: 'Hoạt động',
+            value: 1
+        },
+        {
+            name: 'Ngừng hoạt động',
+            value: 0
+        }
+    ];
 
-  confirmDel(template: TemplateRef<any>, userId: string){
-    this.modalRef = this.modalService.show(template);
-    this.modalRef.content = userId;
-  }
+    constructor(private userService: UserService, private modalService: BsModalService, private toastrService: ToastrService) { }
 
-  deleteUser(){
-    // console.log("Start delete: ", this.modalRef.content);
-    this.userService.deleteById(this.modalRef.content).subscribe(res=>{
-      this.showSuccess('Xóa thành công');
-      this.userService.getAll().pipe(first()).subscribe((respons: any)=>{
-        this.users = respons.data;
-      });
-    }, catchError=>{
-      console.log("result: ", catchError);
-    });
-    this.modalRef.hide();
-  }
+    ngOnInit(): void {
+        // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
+        //     // console.log("data: ", respons);
+        //     this.users = respons.data;
+        // });
+        // this.search();
+        this.getPage(1);
+    }
 
-  showSuccess(mes: string) {
-    this.toastrService.success('', mes, {
-        timeOut: config.timeoutToast
-    });
-}
+    getPage(page: number) {
+        var pager: Pager = new Pager();
+        pager.page = page;
+        pager.pageSize = this.pageSize;
+        this.userService.getUsersByCondition(this.userSearch, pager).pipe(first()).subscribe((respons: any) => {
+            this.users = respons.data;
+            this.total = respons.totalRow;
+            this.p = page;
+            // console.log("data: ", respons);
+        });
+    }
+
+    confirmDel(template: TemplateRef<any>, userId: string) {
+        this.modalRef = this.modalService.show(template);
+        this.modalRef.content = userId;
+    }
+
+    deleteUser() {
+        // console.log("Start delete: ", this.modalRef.content);
+        this.userService.deleteById(this.modalRef.content).subscribe(res => {
+            this.showSuccess('Xóa thành công');
+            // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
+            //     this.users = respons.data;
+            // });
+            this.getPage(1);
+        }, catchError => {
+            console.log("result: ", catchError);
+        });
+        this.modalRef.hide();
+    }
+
+    showSuccess(mes: string) {
+        this.toastrService.success('', mes, {
+            timeOut: config.timeoutToast
+        });
+    }
+
+    search() {
+        // console.log("userSearch: ", this.userSearch);
+        this.getPage(1);
+    }
 }

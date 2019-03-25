@@ -10,8 +10,7 @@ public interface CustomerService {
 	Customer getCustomerById(int id);
 
 	Customer getCustomerByCode(String code);
-	
-	Customer getCustomerByFullName(String name);
+
 
 	boolean addCustomer(Customer customer);
 
@@ -21,5 +20,4 @@ public interface CustomerService {
 
 	void deleteCustomerById(Integer id);
 
-	
 }
