@@ -52,7 +52,8 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				String newCodeTrans = customer.getCode() + System.currentTimeMillis();
 				investorHistory.setCode(newCodeTrans);
 				investorHistory.setAmountCCQ(amoutnCCQ);
-				BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+				BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq()
+						: new BigDecimal(0);
 				investorHistory.setAmountCCQBefore(amountCCQBefore);
 				investorHistory.setCreateDate(new Date());
 				investorHistory.setCustomer(customer);
@@ -85,7 +86,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 					newAsset.setGroupAsset(groupAsset);
 					assetService.addAsset(newAsset);
 				}
-				
+
 				// Insert into table Transaction_History
 				TransactionHistory transHistory = new TransactionHistory();
 				transHistory.setActiveFlg(1);
@@ -97,13 +98,14 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				transHistory.setLastUpdate(new Date());
 				transHistory.setPrice(new BigDecimal(0));
 				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-				transHistory.setTypeOfTransaction("M"); // M: Thêm  B: Bớt  C: cổ tức tiền  S: Cổ tức cổ phiếu
+				transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
 				transHistoryDao.addTransactionHistory(transHistory);
 
 				// 4. Add amount of CCQ in table Asset. If not exist, insert new recored
 				Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
 				if (assetCCQ != null) {
 					assetCCQ.setAmount(assetCCQ.getAmount().add(amoutnCCQ));
+					assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, true));
 					assetService.updateAsset(assetCCQ);
 				} else {
 					Asset newAsset = new Asset();
@@ -114,7 +116,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 					newAsset.setBranchCode(null);
 					newAsset.setCurrentPrice(new BigDecimal(0));
 					newAsset.setDescription("Chung chi quy VIF");
-					newAsset.setOrginalPrice(new BigDecimal(0));
+					newAsset.setOrginalPrice(priceCCQ);
 
 					GroupAsset groupAsset = new GroupAsset();
 					groupAsset.setId(5); // CCQ VIF phat hanh
@@ -124,7 +126,13 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				}
 
 				// 5. Update amount of CCQ and price of CCQ in table Customer
-				boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer, priceCCQ, amountCCQBefore.add(amoutnCCQ));
+				customer.setLastCCQPrice(priceCCQ);
+				BigDecimal newCCQPrice = getOrignalPriceOfCustomerBuy(customer, money, amoutnCCQ);
+				if (newCCQPrice != null) {
+					customer.setOrginalCCQPrice(newCCQPrice);
+					customer.setTotalCcq(amountCCQBefore.add(amoutnCCQ));
+				}
+				boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
 				if (isUpdateCCQ) {
 					resultResponse.setCode(500);
 					resultResponse.setStatus(false);
@@ -139,7 +147,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			resultResponse.setErrors(null);
 			resultResponse.setData("Buy successfully!");
 			return resultResponse;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			resultResponse.setCode(500);
 			resultResponse.setStatus(false);
 			resultResponse.setErrors(e.getMessage());
@@ -188,7 +196,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				transHistory.setLastUpdate(new Date());
 				transHistory.setPrice(new BigDecimal(0));
 				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-				transHistory.setTypeOfTransaction("B"); // M: Thêm  B: Bớt  C: cổ tức tiền  S: Cổ tức cổ phiếu
+				transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
 				transHistoryDao.addTransactionHistory(transHistory);
 			} else {
 				return false;
@@ -198,13 +206,21 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
 			if (assetCCQ != null) {
 				assetCCQ.setAmount(assetCCQ.getAmount().subtract(amountCCQ));
+				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
 				assetService.updateAsset(assetCCQ);
 			} else {
 				return false;
 			}
 
 			// 5. Update amount of CCQ and price of CCQ in table Customer
-			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer, customer.getOrginalCCQPrice(), amountCCQBefore.subtract(amountCCQ));
+			customer.setLastCCQPrice(customer.getOrginalCCQPrice());
+			BigDecimal newCCQPrice = getOrignalPriceOfCustomerSell(customer, money, amountCCQ);
+			if (newCCQPrice != null) {
+				customer.setOrginalCCQPrice(newCCQPrice);
+				customer.setTotalCcq(amountCCQBefore.subtract(amountCCQ));
+			}
+
+			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
 			if (isUpdateCCQ) {
 				return true;
 			}
@@ -212,23 +228,53 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 		}
 		return false;
 	}
-	
-	// tinh toan ra gia von CCQ cua NDT
-	private BigDecimal getOrignalPriceOfCustomer(Customer customer, BigDecimal moneyAdd, BigDecimal ccqAdd) {
+
+	// tinh toan ra gia von CCQ cua NDT khi mua vao
+	private BigDecimal getOrignalPriceOfCustomerBuy(Customer customer, BigDecimal moneyAdd, BigDecimal ccqAdd) {
 		try {
-			BigDecimal currentAmountCCQ = customer.getTotalCcq()!=null?customer.getTotalCcq():new BigDecimal(0);
-			BigDecimal currentMoney = currentAmountCCQ.multiply(customer.getOrginalCCQPrice()!=null?customer.getOrginalCCQPrice():new BigDecimal(0));
-			BigDecimal result = (currentMoney.add(moneyAdd)).divide(currentAmountCCQ.add(ccqAdd));
+			BigDecimal currentAmountCCQ = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ.multiply(
+					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+			BigDecimal result = (currentMoney.add(moneyAdd)).divide(currentAmountCCQ.add(ccqAdd), 2,
+					RoundingMode.HALF_UP);
 			return result;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
 		}
 	}
-	
+
+	// tinh toan ra gia von CCQ cua NDT khi ban ra
+	private BigDecimal getOrignalPriceOfCustomerSell(Customer customer, BigDecimal moneySub, BigDecimal ccqSub) {
+		try {
+			BigDecimal currentAmountCCQ = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ.multiply(
+					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+			BigDecimal result = (currentMoney.subtract(moneySub)).divide(currentAmountCCQ.subtract(ccqSub), 2,
+					RoundingMode.HALF_UP);
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
 	// tinh toan gia von trung binh cua CCQ
-	private BigDecimal getOrignalPriceOfCCQVif() {
-		return null;
+	private BigDecimal getOrignalPriceOfCCQVif(BigDecimal totalCCQ, BigDecimal moneyChange, boolean isBuyCCQ) {
+		try {
+			BigDecimal result;
+			BigDecimal currentTotalMoney = customerDao.getTotalMoneyOfCustomers();
+			if(isBuyCCQ) {
+				result = (currentTotalMoney.add(moneyChange)).divide(totalCCQ, 2, RoundingMode.HALF_UP);
+			}else {
+				result = (currentTotalMoney.subtract(moneyChange)).divide(totalCCQ, 2, RoundingMode.HALF_UP);
+			}
+			
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 }
