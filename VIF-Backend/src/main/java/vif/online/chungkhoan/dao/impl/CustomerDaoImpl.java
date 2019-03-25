@@ -70,25 +70,31 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public boolean addCustomer(Customer customer) {
 		entityManager.persist(customer);
+		customer.setCode(customer.getCode()+customer.getId().toString());
 		return true;
 	}
 
 	@Override
 	public void updateCustomer(Customer customer) {
 		entityManager.flush();
+		Customer mCustomer = getCustomerById(customer.getId());
+		//mCustomer.setActiveFlg(0);
+		//mCustomer.setId();
+		customer.setUsers(mCustomer.getUsers());
 		entityManager.merge(customer);
-		
 	}
 
 	@Override
 	public void deleteCustomerByCode(String code) {
-		entityManager.remove(getCustomerByCode(code));
+		Customer mCustomer = getCustomerByCode(code);
+		mCustomer.setActiveFlg(0);
 		
 	}
 
 	@Override
 	public void deleteCustomerById(Integer id) {
-		entityManager.remove(getCustomerById(id));
+		Customer mCustomer = getCustomerById(id);
+		mCustomer.setActiveFlg(0);
 		
 	}
 

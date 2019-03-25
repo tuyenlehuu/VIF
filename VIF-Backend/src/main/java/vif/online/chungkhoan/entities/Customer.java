@@ -37,7 +37,7 @@ public class Customer implements Serializable {
 	private String username;
 	
 	@Column(name = "CODE", nullable = false)
-	private String code;
+	private String code="VIF1A";
 
 	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
