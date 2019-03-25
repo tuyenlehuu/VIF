@@ -29,7 +29,7 @@ public class InvestorTransController {
 		if(buyObject==null || buyObject.getCustomerId() == null || buyObject.getMoney()==null || buyObject.getPriceCCQ() == null) {
 			result.setCode(500);
 			result.setStatus(false);
-			result.setErrors("miss parameters!");
+			result.setErrors("missing parameters!");
 			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 		}
 		
@@ -44,18 +44,17 @@ public class InvestorTransController {
 	
 //	@PostMapping("sellCCQ")
 	@RequestMapping(value = "/sellCCQ", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody ResponseEntity<ApiResponse> sellCCQ(@RequestBody BuySellDTO buyObject) {
+	public @ResponseBody ResponseEntity<ApiResponse> sellCCQ(@RequestBody BuySellDTO sellObject) {
 		ApiResponse result = new ApiResponse();
-		boolean isSellSuccess = investorTransService.sellCCQ(buyObject.getCustomerId(), buyObject.getAmountCCQ(), buyObject.getPriceCCQ());
-		if(isSellSuccess) {
-			result.setCode(200);
-			result.setStatus(true);
-			result.setData("Sell CCQ success!");
-		}else {
+		
+		if(sellObject==null || sellObject.getCustomerId() == null || sellObject.getAmountCCQ() == null || (sellObject.getAmountCCQ()!=null && sellObject.getAmountCCQ().compareTo(new BigDecimal(0))<=0) || sellObject.getPriceCCQ() == null) {
 			result.setCode(500);
 			result.setStatus(false);
-			result.setErrors("Sell CCQ failed!");
+			result.setErrors("wrong parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 		}
+		
+		result = investorTransService.sellCCQ(sellObject.getCustomerId(), sellObject.getAmountCCQ(), sellObject.getPriceCCQ());
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 }
