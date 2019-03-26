@@ -10,6 +10,6 @@ public interface AppParamDao {
 	boolean addAppParam(AppParam appParam);
 	void deleteAppParamById(int id);
 //	void updateAppParam(AppParam appParam, Integer id);
-	void updateAppParam(AppParam appParam);
+	boolean updateAppParam(AppParam appParam);
 	boolean isExist(AppParam appParam);
 }
