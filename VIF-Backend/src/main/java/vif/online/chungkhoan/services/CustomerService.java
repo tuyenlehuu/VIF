@@ -4,6 +4,8 @@ import java.util.List;
 
 import vif.online.chungkhoan.entities.Customer;
 
+import vif.online.chungkhoan.entities.User;
+
 public interface CustomerService {
 	List<Customer> getAllCustomers();
 	
@@ -18,5 +20,7 @@ public interface CustomerService {
 	void deleteCustomerByCode(String code);
 
 	void deleteCustomerById(Integer id);
+
+	List<User> getListUserById(int id);
 
 }

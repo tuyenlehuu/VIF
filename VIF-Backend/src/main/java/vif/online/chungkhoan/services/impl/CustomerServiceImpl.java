@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.services.CustomerService;
-
+import vif.online.chungkhoan.entities.User;
 @Service(value = "customerService")
 public class CustomerServiceImpl implements CustomerService{
 	
@@ -55,6 +54,11 @@ public class CustomerServiceImpl implements CustomerService{
 	public void deleteCustomerById(Integer id) {
 		// TODO Auto-generated method stub
 		customerDao.deleteCustomerById(id);
+	}
+	
+	@Override
+	public List<User> getListUserById(int id){
+		return customerDao.getListUserById(id);
 	}
 
 

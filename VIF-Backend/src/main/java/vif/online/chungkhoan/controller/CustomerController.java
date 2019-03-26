@@ -38,7 +38,7 @@ import vif.online.chungkhoan.services.CustomerService;
 public class CustomerController {
 
 	private static final String UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\";
-	private static final int MAX_SIZE_FILE = 1024*1024*5;
+	private static final int MAX_SIZE_FILE = 1024*1024*3;
 	
 
 	@Autowired
@@ -117,6 +117,13 @@ public class CustomerController {
 		}
 
 		return new ResponseEntity<String>("You successfully uploaded!", HttpStatus.OK);
+	}
+	
+	@GetMapping("UsersById/{id}")
+	public ResponseEntity<List<User>> getListUserById(@PathVariable("id") int id){
+		List<User> users = customerService.getListUserById(id);
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+		
 	}
 
 }

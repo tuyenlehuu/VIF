@@ -6,13 +6,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.apache.catalina.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
@@ -106,5 +105,18 @@ public class CustomerDaoImpl implements CustomerDao {
 		return false;
 
 	}
+	
+	
+	@Override
+	public List<User> getListUserById(int id){
+		Customer cus = getCustomerById(id);
+		if(cus != null) {
+			return cus.getUsers();
+		}
+		return null;
+		
+	}
+	
+	
 
 }

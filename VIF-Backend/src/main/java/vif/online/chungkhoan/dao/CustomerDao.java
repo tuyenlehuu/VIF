@@ -1,17 +1,14 @@
 package vif.online.chungkhoan.dao;
 
-
 import java.math.BigDecimal;
-
 import java.util.List;
 
-import org.apache.catalina.User;
-
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.User;
 
 public interface CustomerDao {
-List<Customer> getAllCustomers();
-	
+	List<Customer> getAllCustomers();
+
 	Customer getCustomerById(int id);
 
 	Customer getCustomerByCode(String code);
@@ -26,6 +23,6 @@ List<Customer> getAllCustomers();
 
 	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
 
-
+	List<User> getListUserById(int id);
 
 }
