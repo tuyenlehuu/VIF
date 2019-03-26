@@ -101,7 +101,7 @@
           </table>
           <hr />
           <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
-            <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+            <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="{{'vif.global.other.previousLabel' | translate}}" nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
           </ul>
         </div>
       </div>

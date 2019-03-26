@@ -1,40 +1,31 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+// import { ChartsModule } from 'ng2-charts/ng2-charts';
+// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { InvestorTransComponent } from './investor-trans.component';
-import { InvestTransRouting } from './investor-trans-routing';
+
+import { CusInvestHistoryRouting } from './cus-invest.history-routing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
-import { NgxCurrencyModule } from "ngx-currency";
+import { CusInvestHistoryComponent } from './cus-invest.history.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-export const customCurrencyMaskConfig = {
-  align: "left",
-  allowNegative: false,
-  allowZero: true,
-  decimal: ".",
-  precision: 2,
-  prefix: "",
-  suffix: "", 
-  thousands: ",",
-  nullable: false
-};
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
     FormsModule,
-    InvestTransRouting,
+    CusInvestHistoryRouting,
     CommonModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
     ReactiveFormsModule,
     AppTranslationModule,
     NgxPaginationModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    NgSelectModule
+    NgSelectModule,
+    BsDatepickerModule.forRoot()
   ],
-  declarations: [InvestorTransComponent]
+  declarations: [CusInvestHistoryComponent]
 })
-export class InvestorTransModule { }
+export class CusInvestHistoryModule { }

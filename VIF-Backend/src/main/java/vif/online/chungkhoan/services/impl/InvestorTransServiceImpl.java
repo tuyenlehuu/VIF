@@ -3,10 +3,13 @@ package vif.online.chungkhoan.services.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.List;
 
+import org.hibernate.annotations.common.util.impl.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.dao.InvestorHistoryDao;
@@ -16,6 +19,7 @@ import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.entities.TransactionHistory;
+import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.AssetService;
 import vif.online.chungkhoan.services.InvestorTransService;
@@ -36,8 +40,9 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 	private TransactionHistoryDao transHistoryDao;
 
 	@Override
-	public boolean buyCCQ(Integer customerId, BigDecimal money, BigDecimal priceCCQ) {
+	public ApiResponse buyCCQ(Integer customerId, BigDecimal money, BigDecimal priceCCQ) {
 		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
 		// 1. Calculate CCQ = money/price CCQ
 		BigDecimal amoutnCCQ = money.divide(priceCCQ, 2, RoundingMode.HALF_UP);
 		Customer customer = customerDao.getCustomerById(customerId);
@@ -76,11 +81,11 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				newAsset.setOrginalPrice(new BigDecimal(0));
 
 				GroupAsset groupAsset = new GroupAsset();
-				groupAsset.setId(1);
+				groupAsset.setId(1); // Tien mat
 				newAsset.setGroupAsset(groupAsset);
 				assetService.addAsset(newAsset);
 			}
-			
+
 			// Insert into table Transaction_History
 			TransactionHistory transHistory = new TransactionHistory();
 			transHistory.setActiveFlg(1);
@@ -92,13 +97,14 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			transHistory.setLastUpdate(new Date());
 			transHistory.setPrice(new BigDecimal(0));
 			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-			transHistory.setTypeOfTransaction("A"); // A: Thêm; B: Bớt; C: Cổ tức tiền; S: Cổ tức cổ phiếu
+			transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
 			transHistoryDao.addTransactionHistory(transHistory);
 
 			// 4. Add amount of CCQ in table Asset. If not exist, insert new recored
 			Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
 			if (assetCCQ != null) {
 				assetCCQ.setAmount(assetCCQ.getAmount().add(amoutnCCQ));
+				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, true));
 				assetService.updateAsset(assetCCQ);
 			} else {
 				Asset newAsset = new Asset();
@@ -109,28 +115,48 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				newAsset.setBranchCode(null);
 				newAsset.setCurrentPrice(new BigDecimal(0));
 				newAsset.setDescription("Chung chi quy VIF");
-				newAsset.setOrginalPrice(new BigDecimal(0));
+				newAsset.setOrginalPrice(priceCCQ);
 
 				GroupAsset groupAsset = new GroupAsset();
-				groupAsset.setId(2);
+				groupAsset.setId(5); // CCQ VIF phat hanh
 				newAsset.setGroupAsset(groupAsset);
 
 				assetService.addAsset(newAsset);
 			}
 
 			// 5. Update amount of CCQ and price of CCQ in table Customer
-			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer, priceCCQ, amountCCQBefore.add(amoutnCCQ));
-			if (isUpdateCCQ) {
-				return true;
+			customer.setLastCCQPrice(priceCCQ);
+			BigDecimal newCCQPrice = getOrignalPriceOfCustomerBuy(customer, money, amoutnCCQ);
+			if (newCCQPrice != null) {
+				customer.setOrginalCCQPrice(newCCQPrice);
+				customer.setTotalCcq(amountCCQBefore.add(amoutnCCQ));
 			}
-			return false;
+			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
+			if (!isUpdateCCQ) {
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Update amount of CCQ and price of CCQ in table Customer failed!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
+			}
+		} else {
+			resultResponse.setCode(500);
+			resultResponse.setStatus(false);
+			resultResponse.setErrors("Not exist customer!");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return resultResponse;
 		}
-		return false;
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		resultResponse.setData("Buy successfully!");
+		return resultResponse;
 	}
 
 	@Override
-	public boolean sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ) {
+	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ) {
 		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
 		// 1. Calculate money = amountCCQ*price CCQ
 		BigDecimal money = amountCCQ.multiply(priceCCQ);
 		Customer customer = customerDao.getCustomerById(customerId);
@@ -169,29 +195,119 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 				transHistory.setLastUpdate(new Date());
 				transHistory.setPrice(new BigDecimal(0));
 				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-				transHistory.setTypeOfTransaction("B"); // A: Thêm; B: Bớt; C: Cổ tức tiền; S: Cổ tức cổ phiếu
+				transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
 				transHistoryDao.addTransactionHistory(transHistory);
 			} else {
-				return false;
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Not exist CASH asset!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
 			}
 
-			// 4. Subtract amount of CCQ in table Asset. If not exist, can not buy CCQ
+			// 4. Subtract amount of CCQ in table Asset. If not exist, can not sell CCQ
 			Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
 			if (assetCCQ != null) {
 				assetCCQ.setAmount(assetCCQ.getAmount().subtract(amountCCQ));
+				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
 				assetService.updateAsset(assetCCQ);
 			} else {
-				return false;
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Not exist CCQ asset!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
 			}
 
 			// 5. Update amount of CCQ and price of CCQ in table Customer
-			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer, customer.getOrginalCCQPrice(), amountCCQBefore.subtract(amountCCQ));
-			if (isUpdateCCQ) {
-				return true;
+			customer.setLastCCQPrice(customer.getOrginalCCQPrice());
+			BigDecimal newCCQPrice = getOrignalPriceOfCustomerSell(customer, money, amountCCQ);
+			if (newCCQPrice != null) {
+				customer.setOrginalCCQPrice(newCCQPrice);
+				customer.setTotalCcq(amountCCQBefore.subtract(amountCCQ));
 			}
-			return false;
+
+			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
+			if (!isUpdateCCQ) {
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Update amount of CCQ and price of CCQ in table Customer failed!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
+			}
 		}
-		return false;
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		resultResponse.setData("Sell successfully!");
+		return resultResponse;
+	}
+
+	// tinh toan ra gia von CCQ cua NDT khi mua vao
+	private BigDecimal getOrignalPriceOfCustomerBuy(Customer customer, BigDecimal moneyAdd, BigDecimal ccqAdd) {
+		try {
+			BigDecimal currentAmountCCQ = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ.multiply(
+					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+			BigDecimal result = (currentMoney.add(moneyAdd)).divide(currentAmountCCQ.add(ccqAdd), 2,
+					RoundingMode.HALF_UP);
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	// tinh toan ra gia von CCQ cua NDT khi ban ra
+	private BigDecimal getOrignalPriceOfCustomerSell(Customer customer, BigDecimal moneySub, BigDecimal ccqSub) {
+		try {
+			BigDecimal currentAmountCCQ = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ.multiply(
+					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+			BigDecimal result = (currentMoney.subtract(moneySub)).divide(currentAmountCCQ.subtract(ccqSub), 2,
+					RoundingMode.HALF_UP);
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	// tinh toan gia von trung binh cua CCQ
+	private BigDecimal getOrignalPriceOfCCQVif(BigDecimal totalCCQ, BigDecimal moneyChange, boolean isBuyCCQ) {
+		try {
+			BigDecimal result;
+			BigDecimal currentTotalMoney = customerDao.getTotalMoneyOfCustomers();
+			if (isBuyCCQ) {
+				result = (currentTotalMoney.add(moneyChange)).divide(totalCCQ, 2, RoundingMode.HALF_UP);
+			} else {
+				result = (currentTotalMoney.subtract(moneyChange)).divide(totalCCQ, 2, RoundingMode.HALF_UP);
+			}
+
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	public List<InvestorHistory> getAllInvestorHistory() {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.getAllInvestorHistory();
+	}
+
+	@Override
+	public List<InvestorHistory> searchInvestorHistoryByCondition(int page, int pageSize, String columnSortName,
+			Boolean asc, Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.searchInvestorHistoryByCondition(page, pageSize, columnSortName, asc, customerId, fromDate, toDate);
+	}
+
+	@Override
+	public int getRowCount(Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.getRowCount(customerId, fromDate, toDate);
 	}
 
 }

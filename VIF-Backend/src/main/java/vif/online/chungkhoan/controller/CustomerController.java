@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +16,7 @@ import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("customer")
+@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
 public class CustomerController {
 	
 	@Autowired
