@@ -41,7 +41,7 @@ import vif.online.chungkhoan.dao.BranchDao;
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
-import vif.online.chungkhoan.repositories.BranchRepository;
+
 
 @Transactional
 @Repository(value="branchDao")
@@ -49,9 +49,6 @@ public class BranchDaoImpl implements BranchDao{
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	@Autowired
-	BranchRepository branchRepository;
 	
 	@SuppressWarnings("unchecked")
 	
@@ -90,7 +87,7 @@ public class BranchDaoImpl implements BranchDao{
 	}
 
 	@Override
-	public void updateBranch(int id,Branch branch) {
+	public void updateBranch(Branch branch) {
 	
 		entityManager.merge(branch);
 		
@@ -98,16 +95,17 @@ public class BranchDaoImpl implements BranchDao{
 
 	@Override
 	public void deleteBranchByCode(String code) {
-		Branch branch = getBranchByCode(code);
-		branchRepository.delete(branch);
-		// cap nhat lai active flag = 0
-		
+		Branch branch= getBranchByCode(code);
+		branch.setActiveFlg(0);
+		entityManager.merge(branch);
+	
 	}
 
 	@Override
 	public void deleteBranchById(Integer id) {
-		branchRepository.deleteById(id);
-		// cap nhat lai active flag = 0
+		Branch branch=entityManager.find(Branch.class, id);
+		branch.setActiveFlg(0);
+		entityManager.merge(branch);
 	}
 
 }

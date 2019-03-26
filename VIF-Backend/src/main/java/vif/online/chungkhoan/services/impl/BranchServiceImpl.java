@@ -40,9 +40,9 @@ public class BranchServiceImpl implements BranchService{
 	}
 
 	@Override
-	public void updateBranch(int id,Branch branch) {
+	public void updateBranch(Branch branch) {
 		
-		branchDao.updateBranch(id, branch);
+		branchDao.updateBranch(branch);
 	}
 
 	@Override

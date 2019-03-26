@@ -3,7 +3,6 @@ package vif.online.chungkhoan.controller;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,11 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
-import vif.online.chungkhoan.repositories.BranchRepository;
 import vif.online.chungkhoan.repositories.CustomerRepository;
 import vif.online.chungkhoan.services.BranchService;
 import vif.online.chungkhoan.services.CustomerService;
@@ -58,10 +55,9 @@ public class BranchController {
 		headers.setLocation(builder.path("/branch/{id}").buildAndExpand(branch.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
-	@PutMapping("update/{id}")
-	public ResponseEntity<Branch> updateBranch(@PathVariable("id") String id,@RequestBody Branch branch) {
-		int ma=Integer.parseInt(id);
-		branchService.updateBranch(ma, branch);
+	@PutMapping("update")
+	public ResponseEntity<Branch> updateBranch(@RequestBody Branch branch) {
+		branchService.updateBranch(branch);
 		return new ResponseEntity<Branch>(branch, HttpStatus.OK);
 	}
 	@DeleteMapping("deleteByName/{code}")

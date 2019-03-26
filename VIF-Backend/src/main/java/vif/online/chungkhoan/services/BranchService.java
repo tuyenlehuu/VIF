@@ -15,7 +15,7 @@ public interface BranchService {
 
 	boolean addBranch(Branch branch);
 
-	void updateBranch(int id,Branch branch);
+	void updateBranch(Branch branch);
 
 	void deleteBranchByCode(String code);
 
