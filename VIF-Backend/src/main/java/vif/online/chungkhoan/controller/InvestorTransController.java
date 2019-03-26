@@ -95,10 +95,19 @@ public class InvestorTransController {
 	}
 	
 	@GetMapping("exportCSV/invest-history.csv")
-	public void exportCSV(HttpServletResponse response) throws IOException{
+	public void exportCSV(@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "pageSize", required = true) int pageSize,
+			@RequestParam(value = "columnSortName", required = false) String columnSortName,
+			@RequestParam(value = "asc", required = false) Boolean asc,
+			@RequestParam(value = "customerId", required = false) Integer customerId,
+			@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate,
+			HttpServletResponse response) throws IOException{
 		response.setContentType("text/csv");
 	    response.setHeader("Content-Disposition", "attachment; file=invest-history.csv");
-	    List<InvestorHistory> list = investorTransService.getAllInvestorHistory();
-	    WriteDataToCSV.exportInvestHistoryToCsv(response.getWriter(), list);
+	    List<InvestorHistory> list = investorTransService.searchInvestorHistoryByCondition(page, pageSize, columnSortName, asc, customerId, fromDate, toDate);
+	    if(list.size()>0) {
+	    	WriteDataToCSV.exportInvestHistoryToCsv(response.getWriter(), list);
+	    }
 	}
 }
