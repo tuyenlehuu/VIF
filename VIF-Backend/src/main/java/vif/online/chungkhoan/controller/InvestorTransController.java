@@ -96,7 +96,7 @@ public class InvestorTransController {
 	
 	@GetMapping("exportCSV/invest-history.csv")
 	public void exportCSV(HttpServletResponse response) throws IOException{
-		response.setContentType("text/csv; charset=UTF-8");
+		response.setContentType("text/csv");
 	    response.setHeader("Content-Disposition", "attachment; file=invest-history.csv");
 	    List<InvestorHistory> list = investorTransService.getAllInvestorHistory();
 	    WriteDataToCSV.exportInvestHistoryToCsv(response.getWriter(), list);
