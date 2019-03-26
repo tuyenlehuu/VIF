@@ -42,16 +42,16 @@ export const navItems: NavData[] = [
   },
   {
     title: true,
-    name: 'Quản lý quỹ'
+    name: 'Quản lý đầu tư'
   },
   {
     name: 'Giao dịch đầu tư',
-    url: '/theme/typography',
+    url: '/invest-management',
     icon: 'fa fa-credit-card-alt'
   },
   {
     name: 'Phê duyệt đầu tư',
-    url: '/charts',
+    url: '/managementttttt',
     icon: 'icon-pencil'
   },
   {

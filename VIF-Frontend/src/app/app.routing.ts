@@ -58,6 +58,14 @@ export const routes: Routes = [
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'invest-management',
+        loadChildren: './views/invest-management/invest.module#InvestModule'
+      },
+      {
+        path: 'managementttttt',
+        loadChildren: './views/invest-management/invest.module#InvestModule'
+      },
+      {
         path: 'investor-transaction',
         loadChildren: './views/investor-transaction/investor.transaction.module#InvestorTransModule'
       },

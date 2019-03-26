@@ -35,8 +35,16 @@
             "login": "Đăng nhập",
             "buy_CCQ": "Mua CCQ",
             "sell_CCQ": "Bán CCQ",
+            "buy_Securities": "Mua chứng khoán",
+            "sell_Securities": "Bán chứng khoán",
             "buy": "Mua",
             "sell": "Bán"
+        },
+        "sercurities":{
+            "sercurities" : "Chứng khoán",
+            "amount" : "Số lượng",
+            "price" : "Giá",
+            "total_value" : "Tổng giá trị"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
@@ -69,6 +77,9 @@
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0"
+    },
+    "invest_management":{
+        "title_invest_trans": "Giao dịch đầu tư"
     }
   }
 }
