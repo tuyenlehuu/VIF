@@ -50,16 +50,17 @@ public class AppParamDaoImpl implements AppParamDao{
 	}
 
 	@Override
-	public void updateAppParam(AppParam appParam) {
+	public boolean updateAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
 		//entityManager.flush();
 		entityManager.merge(appParam);
+		return true;
 	}
 
 	@Override
 	public boolean isExist(AppParam appParam) {
 		// TODO Auto-generated method stub
-		String hql = "FROM AppParam as a WHERE a.activeFlg=1 AND a.propKey := propKey AND a.propType := propType";
-		return entityManager.createQuery(hql).setParameter("id", appParam.getId()).getResultList().size() >0?true:false;
+		String hql = "FROM AppParam as a WHERE a.activeFlg=1 AND a.propKey = :propKey AND a.propType = :propType";
+		return entityManager.createQuery(hql).setParameter("propKey", appParam.getPropKey()).setParameter("propType", appParam.getPropType()).getResultList().size() >0?true:false;
 	}
 }

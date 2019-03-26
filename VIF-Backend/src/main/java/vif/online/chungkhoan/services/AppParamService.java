@@ -8,6 +8,6 @@ public interface AppParamService {
 	List<AppParam> getAllAppParam();
 	AppParam getAppParamById(Integer id);
 	boolean addAppParam(AppParam appParam);
-	void updateAppParam(AppParam appParam);
+	boolean updateAppParam(AppParam appParam);
 	void deleteAppParamById(Integer id);
 }

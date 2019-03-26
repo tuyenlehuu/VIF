@@ -25,8 +25,7 @@ import vif.online.chungkhoan.services.AppParamService;
 public class AppParamController {
 	@Autowired
 	private AppParamService appParamService;
-	
-//	@Autowired
+	//	@Autowired
 //	private AppParamRepository appParamRepository;
 	
 	@GetMapping("/{id}")
@@ -36,19 +35,38 @@ public class AppParamController {
 	}
 	
 	@PostMapping("/add")
-	public ResponseEntity<Void> addAppParan(@RequestBody AppParam appParam, UriComponentsBuilder builder) {
+	public ResponseEntity<ApiResponse> addAppParan(@RequestBody AppParam appParam, UriComponentsBuilder builder) {
 		boolean flag = appParamService.addAppParam(appParam);
+		ApiResponse object = new ApiResponse();
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			object.setCode(409);
+			object.setErrors("da ton tai");
+			object.setStatus(true);
+			object.setData(null);
+			return new ResponseEntity<ApiResponse>(object,HttpStatus.CONFLICT);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/appParam/{id}").buildAndExpand(appParam.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setLocation(builder.path("/appParam/{id}").buildAndExpand(appParam.getId()).toUri());
+		object.setCode(200);
+		object.setData("them moi thanh cong");
+		object.setStatus(true);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	
 	@PutMapping("update")
-	public ResponseEntity<AppParam> updateAppParam(@RequestBody AppParam appParam) {
-		appParamService.updateAppParam(appParam);
+	public Object updateAppParam(@RequestBody AppParam appParam) {
+		boolean flag = appParamService.updateAppParam(appParam);
+		ApiResponse object = new ApiResponse();
+		if (flag == false) {
+			object.setCode(409);
+			object.setErrors("da ton tai");
+			object.setStatus(true);
+			object.setData(null);
+			return new ResponseEntity<ApiResponse>(object,HttpStatus.CONFLICT);
+		}
+		object.setCode(200);
+		object.setData("update thanh cong");
+		object.setStatus(true);
 		return new ResponseEntity<AppParam>(appParam, HttpStatus.OK);
 	}
 	
