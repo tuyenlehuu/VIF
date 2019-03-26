@@ -33,6 +33,11 @@
                         <ng-select [searchable]="true" formControlName="bCustomerSelectedId">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
+                        <div *ngIf="buyCCQForm.bCustomerSelectedId.invalid && (buyCCQForm.bCustomerSelectedId.dirty || buyCCQForm.bCustomerSelectedId.touched)" class="alert alert-danger">
+                          <div *ngIf="buyCCQForm.bCustomerSelectedId.errors.required">
+                            {{'vif.investor_trans.customer_required' | translate}}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -119,12 +124,14 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <!-- <select id="select1" name="select1" class="form-control" formControlName="sCustomerSelectedId">
-                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.fullName}}</option>
-                        </select> -->
                         <ng-select [searchable]="true" formControlName="sCustomerSelectedId">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
+                        <div *ngIf="sellCCQForm.sCustomerSelectedId.invalid && (sellCCQForm.sCustomerSelectedId.dirty || sellCCQForm.sCustomerSelectedId.touched)" class="alert alert-danger">
+                          <div *ngIf="sellCCQForm.sCustomerSelectedId.errors.required">
+                            {{'vif.investor_trans.customer_required' | translate}}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
