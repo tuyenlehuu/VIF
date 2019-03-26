@@ -70,7 +70,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Lịch sử NĐT',
-    url: '/theme/typography',
+    url: '/cus-invest-history',
     icon: 'icon-calendar'
   },
   {

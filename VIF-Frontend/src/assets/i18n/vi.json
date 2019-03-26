@@ -36,7 +36,8 @@
             "buy_CCQ": "Mua CCQ",
             "sell_CCQ": "Bán CCQ",
             "buy": "Mua",
-            "sell": "Bán"
+            "sell": "Bán",
+            "export_excel": "Xuất excel"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
@@ -69,6 +70,11 @@
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0"
+    },
+    "cus_invest_history":{
+        "from_date": "Từ ngày",
+        "to_date": "Đến ngày",
+        "customer": "Nhà đầu tư"
     }
   }
 }
