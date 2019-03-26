@@ -1,6 +1,5 @@
 package vif.online.chungkhoan.dao.impl;
 
-
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -8,23 +7,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.catalina.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
 
-import vif.online.chungkhoan.entities.User;
-
-
-
 @Transactional
 @Repository
-public class CustomerDaoImpl implements CustomerDao{
+public class CustomerDaoImpl implements CustomerDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Customer> getAllCustomers() {
@@ -56,31 +52,30 @@ public class CustomerDaoImpl implements CustomerDao{
 			return lstResult.get(0);
 		}
 		return null;
-		
-	}
-	
-	
 
-	
-	
+	}
 
 	@Override
 	public boolean addCustomer(Customer customer) {
+
 		entityManager.persist(customer);
-		customer.setCode(customer.getCode()+customer.getId().toString());
+		customer.setCode(customer.getCode() + customer.getId().toString());
+
 		return true;
 
 	}
-
 
 	@Override
 	public void updateCustomer(Customer customer) {
 		entityManager.flush();
 		Customer mCustomer = getCustomerById(customer.getId());
-		//mCustomer.setActiveFlg(0);
-		//mCustomer.setId();
+		// mCustomer.setActiveFlg(0);
+		// mCustomer.setId();
 		customer.setUsers(mCustomer.getUsers());
 		entityManager.merge(customer);
+//		for (int i = 0; i < mCustomer.getUsers().size(); i++) {
+//			mCustomer.getUsers().get(i).setCustomer(customer);
+//		}
 
 	}
 
@@ -89,26 +84,26 @@ public class CustomerDaoImpl implements CustomerDao{
 
 		Customer mCustomer = getCustomerByCode(code);
 		mCustomer.setActiveFlg(0);
-		
+
 	}
 
 	@Override
 	public void deleteCustomerById(Integer id) {
 		Customer mCustomer = getCustomerById(id);
-		mCustomer.setActiveFlg(0);		
+		mCustomer.setActiveFlg(0);
 	}
 
 	@Override
 	public boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ) {
 		// TODO Auto-generated method stub
 		Customer cus = entityManager.find(Customer.class, customer.getId());
-		if(cus != null) {
+		if (cus != null) {
 			cus.setOrginalCCQPrice(newCCQPrice);
 			cus.setTotalCcq(newTotalCCQ);
 			entityManager.merge(cus);
 			return true;
 		}
-		
+
 		return false;
 
 	}

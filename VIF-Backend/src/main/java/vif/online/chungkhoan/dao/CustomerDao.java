@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import java.util.List;
 
+import org.apache.catalina.User;
+
 import vif.online.chungkhoan.entities.Customer;
 
 public interface CustomerDao {
@@ -23,5 +25,7 @@ List<Customer> getAllCustomers();
 	void deleteCustomerById(Integer id);
 
 	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
+
+
 
 }

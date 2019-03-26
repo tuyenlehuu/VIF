@@ -11,7 +11,6 @@ public interface CustomerService {
 
 	Customer getCustomerByCode(String code);
 
-
 	boolean addCustomer(Customer customer);
 
 	void updateCustomer(Customer customer);
