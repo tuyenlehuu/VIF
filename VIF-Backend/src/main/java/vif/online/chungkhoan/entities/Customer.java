@@ -33,8 +33,8 @@ public class Customer implements Serializable {
 	@Column(name = "ID")
 	private Integer id;
 
-	@Column(name = "USER_NAME", nullable = false)
-	private String username;
+	/*@Column(name = "USER_NAME", nullable = false)
+	private String username;*/
 	
 	@Column(name = "CODE", nullable = false)
 	private String code;
@@ -50,6 +50,9 @@ public class Customer implements Serializable {
 
 	@Column(name = "ORGINAL_CCQ_PRICE")
 	private BigDecimal orginalCCQPrice;
+	
+	@Column(name = "LAST_CCQ_PRICE")
+	private BigDecimal lastCCQPrice;
 	
 	@Column(name = "TOTAL_CCQ")
 	private BigDecimal totalCcq;
@@ -88,13 +91,13 @@ public class Customer implements Serializable {
 		this.id = id;
 	}
 
-	public String getUsername() {
+	/*public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
+	}*/
 
 	public String getFullName() {
 		return fullName;
@@ -128,6 +131,7 @@ public class Customer implements Serializable {
 		this.totalCcq = totalCcq;
 	}
 
+	@JsonIgnore
 	public List<User> getUsers() {
 		return users;
 	}
@@ -207,5 +211,13 @@ public class Customer implements Serializable {
 
 	public void setActiveFlg(Integer activeFlg) {
 		this.activeFlg = activeFlg;
+	}
+
+	public BigDecimal getLastCCQPrice() {
+		return lastCCQPrice;
+	}
+
+	public void setLastCCQPrice(BigDecimal lastCCQPrice) {
+		this.lastCCQPrice = lastCCQPrice;
 	}
 }

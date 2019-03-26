@@ -1,0 +1,97 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.investor_trans.title' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.cus_invest_history.from_date' | translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.cus_invest_history.to_date' | translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.cus_invest_history.customer' | translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <ng-select [searchable]="true" [(ngModel)]="customerSelectedId">
+                      <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
+                    </ng-select>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="text-align: right;">
+              <button type="button" class="btn btn-primary" (click)="search()">{{'vif.global.button.search' | translate}}</button>
+              <button type="button" class="btn btn-primary">{{'vif.global.button.export_excel' | translate}}</button>
+            </div>
+          </div>
+
+          <!--row table-->
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{'vif.cus_invest_history.table.code' | translate}}</th>
+                <th>{{'vif.cus_invest_history.table.customer' | translate}}</th>
+                <th>{{'vif.cus_invest_history.table.amountCCQ' | translate}}</th>
+                <th>{{'vif.cus_invest_history.table.priceCCQ' | translate}}</th>
+                <th>{{'vif.cus_invest_history.table.typeOfTrans' | translate}}</th>
+                <th>{{'vif.cus_invest_history.table.create_date' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="investorHisLst && investorHisLst.length > 0">
+              <tr *ngFor="let investHis of investorHisLst | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{investHis.code}}</td>
+                <td>{{investHis.customer.fullName}}</td>
+                <td>{{investHis.amountCCQ | number:'.2-2'}}</td>
+                <td>{{investHis.priceOfCCQ | number:'.2-2'}}</td>
+                <td>{{investHis.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
+                <td>{{investHis.createDate | date: 'dd/MM/yyyy'}}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!investorHisLst || (investorHisLst && investorHisLst.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="investorHisLst && investorHisLst.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="{{'vif.global.other.previousLabel' | translate}}" nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
+
+          <!--row table-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

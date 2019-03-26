@@ -64,8 +64,12 @@ export const routes: Routes = [
       {
         path: 'user-management',
         loadChildren: './views/user-management/user.module#UserModule'
-      }
-      ,{
+      },
+      {
+        path: 'cus-invest-history',
+        loadChildren: './views/customer-invest-history/cus.invest.history.module#CusInvestHistoryModule'
+      },
+      {
         path: 'theme',
         loadChildren: './views/theme/theme.module#ThemeModule'
       },

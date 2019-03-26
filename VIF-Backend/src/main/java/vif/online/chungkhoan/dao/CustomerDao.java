@@ -20,5 +20,9 @@ List<Customer> getAllCustomers();
 
 	void deleteCustomerById(Integer id);
 
-	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
+//	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
+
+	boolean updateCCQCustomer(Customer customer);
+	
+	BigDecimal getTotalMoneyOfCustomers();
 }

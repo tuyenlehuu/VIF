@@ -28,6 +28,9 @@ public class AppParam implements Serializable{
 	
 	@Column(name = "DESCRIPTION")
     private String description;
+	
+	@Column(name = "ACTIVE_FLG")
+    private Integer activeFlg;
 
 	public Integer getId() {
 		return id;
@@ -68,4 +71,13 @@ public class AppParam implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Integer getActiveFlg() {
+		return activeFlg;
+	}
+
+	public void setActiveFlg(Integer activeFlg) {
+		this.activeFlg = activeFlg;
+	}
+	
 }

@@ -15,10 +15,8 @@ export class Customer {
     signContractDate: Date;
     identityDocFront: string;
     identityDocBack: string;
-    users: User[];
 
     public constructor() {
         this.activeFlg = 1;
-        this.users = [];
     }
 }

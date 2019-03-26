@@ -1,3 +1,5 @@
+import { Customer } from './Customer.model';
+
 export class User {
     id: number;
     username: string;
@@ -9,11 +11,13 @@ export class User {
     isDeleted: number;
     token: string;
     customerId: string;
+    customer: Customer
 
     public constructor() {
         this.isOnline = 0;
         this.isDeleted = 0;
         this.activeFlg = -1;
-        this.role = '-1'
+        this.role = '-1';
+        this.customer = new Customer();
     }
 }
