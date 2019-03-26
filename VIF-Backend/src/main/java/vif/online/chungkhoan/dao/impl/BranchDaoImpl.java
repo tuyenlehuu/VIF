@@ -64,7 +64,6 @@ public class BranchDaoImpl implements BranchDao{
 
 	@Override
 	public Branch getBranchById(int id) {
-		
 		return entityManager.find(Branch.class, id);
 		
 	}
@@ -86,19 +85,14 @@ public class BranchDaoImpl implements BranchDao{
 		if(branch==null) {
 			return false;
 		}
-		branchRepository.saveAndFlush(branch);
+		entityManager.persist(branch);
 		return true;
 	}
 
 	@Override
 	public void updateBranch(int id,Branch branch) {
 	
-		Optional<Branch> findId= branchRepository.findById(id);
-		Branch br =findId.orElse(null);
-		br.setBranchCode(branch.getBranchCode());
-		br.setBranchName(branch.getBranchName());
-		br.setActiveFlg(branch.getActiveFlg());
-		branchRepository.saveAndFlush(br);
+		entityManager.merge(branch);
 		
 	}
 
@@ -106,13 +100,14 @@ public class BranchDaoImpl implements BranchDao{
 	public void deleteBranchByCode(String code) {
 		Branch branch = getBranchByCode(code);
 		branchRepository.delete(branch);
+		// cap nhat lai active flag = 0
 		
 	}
 
 	@Override
 	public void deleteBranchById(Integer id) {
 		branchRepository.deleteById(id);
-		
+		// cap nhat lai active flag = 0
 	}
 
 }

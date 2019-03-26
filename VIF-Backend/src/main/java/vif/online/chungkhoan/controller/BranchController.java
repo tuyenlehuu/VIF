@@ -29,8 +29,6 @@ import vif.online.chungkhoan.services.CustomerService;
 @Controller
 @RequestMapping("branch")
 public class BranchController {
-	@Autowired
-	private BranchRepository branchRepository;
 	
 	@Autowired
 	private BranchService branchService;
