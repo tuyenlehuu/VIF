@@ -18,8 +18,7 @@ import vif.online.chungkhoan.repositories.AppParamRepository;
 public class AppParamDaoImpl implements AppParamDao{
 	@PersistenceContext
 	private EntityManager entityManager;
-	@Autowired
-	AppParamRepository appParamRepository;
+	
 	@Override
 	public AppParam getAppParambyId(int id) {
 		// TODO Auto-generated method stub
@@ -32,7 +31,7 @@ public class AppParamDaoImpl implements AppParamDao{
 		if(appParam == null) {
 			return false;
 		}
-		appParamRepository.saveAndFlush(appParam);
+		entityManager.persist(appParam);
 		return true;
 	}
 
@@ -46,20 +45,14 @@ public class AppParamDaoImpl implements AppParamDao{
 	@Override
 	public List<AppParam> getAllAppParam() {
 		// TODO Auto-generated method stub
-		String hql = "FROM AppParam as a";
+		String hql = "FROM AppParam as a where a.activeFlg = 1";
 		return (List<AppParam>) entityManager.createQuery(hql).getResultList();
 	}
 
 	@Override
-	public void updateAppParam(AppParam appParam, Integer id) {
+	public void updateAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
 		//entityManager.flush();
-		java.util.Optional<AppParam> findId= appParamRepository.findById(id);
-		AppParam app =findId.orElse(null);
-		app.setPropKey(appParam.getPropKey());
-		app.setPropType(appParam.getPropType());
-		app.setPropValue(appParam.getPropValue());
-		app.setDescription(appParam.getDescription());
-		appParamRepository.saveAndFlush(app);
+		entityManager.merge(appParam);
 	}
 }

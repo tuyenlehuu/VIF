@@ -26,8 +26,9 @@ import vif.online.chungkhoan.services.AppParamService;
 public class AppParamController {
 	@Autowired
 	private AppParamService appParamService;
-	@Autowired
-	private AppParamRepository appParamRepository;
+	
+//	@Autowired
+//	private AppParamRepository appParamRepository;
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<AppParam> getAppParamById(@PathVariable("id") Integer id) {
@@ -47,14 +48,15 @@ public class AppParamController {
 	}
 	
 	@PutMapping("update/{id}")
-	public ResponseEntity<AppParam> updateAppParam(@PathVariable("id") Integer id,@RequestBody AppParam appParam) {
-		appParamService.updateAppParam(appParam, id);
+	public ResponseEntity<AppParam> updateAppParam(@RequestBody AppParam appParam) {
+		appParamService.updateAppParam(appParam);
 		return new ResponseEntity<AppParam>(appParam, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("deleteById/{id}")
 	public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
-		appParamRepository.deleteById(id);
+//		appParamRepository.deleteById(id);
+		// update lai column active flag
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@GetMapping("getAlls")
