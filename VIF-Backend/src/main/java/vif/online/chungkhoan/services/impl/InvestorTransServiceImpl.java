@@ -3,6 +3,7 @@ package vif.online.chungkhoan.services.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.common.util.impl.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -288,6 +289,25 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			// TODO: handle exception
 			return null;
 		}
+	}
+
+	@Override
+	public List<InvestorHistory> getAllInvestorHistory() {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.getAllInvestorHistory();
+	}
+
+	@Override
+	public List<InvestorHistory> searchInvestorHistoryByCondition(int page, int pageSize, String columnSortName,
+			Boolean asc, Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.searchInvestorHistoryByCondition(page, pageSize, columnSortName, asc, customerId, fromDate, toDate);
+	}
+
+	@Override
+	public int getRowCount(Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		return investorHistoryDao.getRowCount(customerId, fromDate, toDate);
 	}
 
 }

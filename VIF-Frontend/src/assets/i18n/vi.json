@@ -38,7 +38,8 @@
             "buy_Securities": "Mua chứng khoán",
             "sell_Securities": "Bán chứng khoán",
             "buy": "Mua",
-            "sell": "Bán"
+            "sell": "Bán",
+            "export_excel": "Xuất excel"
         },
         "sercurities":{
             "sercurities" : "Chứng khoán",
@@ -49,7 +50,9 @@
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "note": "Lưu ý"
+            "note": "Lưu ý",
+            "previousLabel": "Trước",
+            "nextLabel" :"Sau"
         }
     },
     "message":{
@@ -76,7 +79,21 @@
         "amount_CCQ_required": "*Số CCQ không được để trống!",
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
-        "price_zero": "Giá phải lớn hơn 0"
+        "price_zero": "Giá phải lớn hơn 0",
+        "customer_required": "*Nhà đầu tư không được để trống!"
+    },
+    "cus_invest_history":{
+        "from_date": "Từ ngày",
+        "to_date": "Đến ngày",
+        "customer": "Nhà đầu tư",
+        "table":{
+            "code": "Mã giao dịch",
+            "customer": "Nhà đầu tư",
+            "amountCCQ": "Số CCQ",
+            "priceCCQ": "Giá CCQ",
+            "typeOfTrans": "Loại GD",
+            "create_date": "Ngày GD"
+        }
     },
     "invest_management":{
         "title_invest_trans": "Giao dịch đầu tư"

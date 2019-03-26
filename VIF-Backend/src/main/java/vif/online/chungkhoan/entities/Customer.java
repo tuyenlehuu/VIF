@@ -131,6 +131,7 @@ public class Customer implements Serializable {
 		this.totalCcq = totalCcq;
 	}
 
+	@JsonIgnore
 	public List<User> getUsers() {
 		return users;
 	}

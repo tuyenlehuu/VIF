@@ -50,7 +50,7 @@ public class User implements Serializable{
     @Column(name = "IS_DELETED")
     private Integer isDeleted = 0;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 	
@@ -118,7 +118,6 @@ public class User implements Serializable{
 		return password;
 	}
 
-	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
