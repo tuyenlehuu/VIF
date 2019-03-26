@@ -36,7 +36,12 @@ public class AppParamServiceImpl implements AppParamService{
 	@Override
 	public boolean addAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
-		return appParamDao.addAppParam(appParam);
+		if(appParamDao.isExist(appParam)) {
+			return false;
+		}
+		else
+		 appParamDao.addAppParam(appParam);
+		return true;
 	}
 
 	@Override

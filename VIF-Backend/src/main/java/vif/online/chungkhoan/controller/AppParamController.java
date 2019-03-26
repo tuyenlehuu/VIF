@@ -18,7 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.helper.ApiResponse;
-import vif.online.chungkhoan.repositories.AppParamRepository;
 import vif.online.chungkhoan.services.AppParamService;
 
 @Controller
@@ -47,7 +46,7 @@ public class AppParamController {
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
 	
-	@PutMapping("update/{id}")
+	@PutMapping("update")
 	public ResponseEntity<AppParam> updateAppParam(@RequestBody AppParam appParam) {
 		appParamService.updateAppParam(appParam);
 		return new ResponseEntity<AppParam>(appParam, HttpStatus.OK);
@@ -55,8 +54,7 @@ public class AppParamController {
 	
 	@DeleteMapping("deleteById/{id}")
 	public ResponseEntity<Void> deleteUserById(@PathVariable("id") Integer id) {
-//		appParamRepository.deleteById(id);
-		// update lai column active flag
+		appParamService.deleteAppParamById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@GetMapping("getAlls")

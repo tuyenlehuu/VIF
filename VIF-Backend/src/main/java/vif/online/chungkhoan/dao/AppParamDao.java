@@ -11,4 +11,5 @@ public interface AppParamDao {
 	void deleteAppParamById(int id);
 //	void updateAppParam(AppParam appParam, Integer id);
 	void updateAppParam(AppParam appParam);
+	boolean isExist(AppParam appParam);
 }
