@@ -68,10 +68,7 @@ public class CustomerController {
 
 	@PostMapping("add")
 	public ResponseEntity<Void> addCustomer(@RequestBody Customer customer, UriComponentsBuilder builder) {
-		boolean flag = customerService.addCustomer(customer);
-		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
+		customerService.addCustomer(customer);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/customer/id/{id}").buildAndExpand(customer.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
@@ -109,7 +106,7 @@ public class CustomerController {
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path + filename)));
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path +"_time_"+System.currentTimeMillis()+"_time_"+ filename)));
 			stream.write(bytes);
 			stream.flush();
 			stream.close();

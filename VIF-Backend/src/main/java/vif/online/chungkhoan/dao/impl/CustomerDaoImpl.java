@@ -60,7 +60,6 @@ public class CustomerDaoImpl implements CustomerDao {
 
 		entityManager.persist(customer);
 		customer.setCode(customer.getCode() + customer.getId().toString());
-
 		return true;
 
 	}
