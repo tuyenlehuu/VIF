@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellDTO;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.helper.WriteDataToCSV;
 import vif.online.chungkhoan.services.InvestorTransService;
 
@@ -95,10 +96,17 @@ public class InvestorTransController {
 	}
 	
 	@GetMapping("exportCSV/invest-history.csv")
-	public void exportCSV(HttpServletResponse response) throws IOException{
-		response.setContentType("text/csv");
-	    response.setHeader("Content-Disposition", "attachment; file=invest-history.csv");
-	    List<InvestorHistory> list = investorTransService.getAllInvestorHistory();
-	    WriteDataToCSV.exportInvestHistoryToCsv(response.getWriter(), list);
+	public ResponseEntity<Void> exportCSV(@RequestParam(value = "customerId", required = false) Integer customerId,
+			@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate,
+			HttpServletResponse response) throws IOException{
+		response.setContentType("text/csv;charset=ISO-8859-1");
+	    response.setHeader("Content-Disposition", "attachment; filename=invest-history.csv");
+	    List<InvestorHistory> list = investorTransService.searchInvestorHistoryByCondition(1, IContaints.PAGER.MAX_PAGE_SIZE, null, null, customerId, fromDate, toDate);
+	    if(list.size()>0) {
+	    	WriteDataToCSV.exportInvestHistoryToCsv(response.getWriter(), list);
+	    }
+	    
+	    return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }

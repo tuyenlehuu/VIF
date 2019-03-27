@@ -16,9 +16,14 @@ public class AppParamServiceImpl implements AppParamService{
 	private AppParamDao appParamDao;
 	
 	@Override
-	public void updateAppParam(AppParam appParam) {
+	public boolean updateAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
-		appParamDao.updateAppParam(appParam);
+		if(appParamDao.isExist(appParam)) {
+			return false;
+		}
+		else
+		 appParamDao.updateAppParam(appParam);
+		return true;
 	}
 
 	@Override
@@ -36,7 +41,12 @@ public class AppParamServiceImpl implements AppParamService{
 	@Override
 	public boolean addAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
-		return appParamDao.addAppParam(appParam);
+		if(appParamDao.isExist(appParam)) {
+			return false;
+		}
+		else
+		 appParamDao.addAppParam(appParam);
+		return true;
 	}
 
 	@Override
