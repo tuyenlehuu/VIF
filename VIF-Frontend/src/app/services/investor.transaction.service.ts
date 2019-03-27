@@ -48,4 +48,27 @@ export class InvestorTransService{
 
         return this.http.get<any>(url);
     }
+
+    exportCsv(customerId: number, fromDate: string, toDate: string){
+        var url = `${config.apiUrl}/investor-transaction/exportCSV/invest-history.csv?`;
+        var currentUser = localStorage.getItem("currentUser");
+        var token = JSON.parse(currentUser).token;
+        url = url + "access_token=" + token;
+        if(customerId){
+            url = url + "&customerId=" + customerId;
+        }
+
+        if(fromDate){
+            url = url + "&fromDate=" + fromDate;
+        }
+
+        if(toDate){
+            url = url + "&toDate=" + toDate;
+        }
+
+        window.open(url);
+
+        // return this.http.get<any>(url);
+    }
+
 }

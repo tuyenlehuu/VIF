@@ -8,4 +8,8 @@ public interface IContaints {
 		public String CASH = "CASH";
 		public String VIF_CCQ = "VIF_CCQ";
 	}
+	
+	public interface PAGER{
+		public int MAX_PAGE_SIZE = 65000;
+	}
 }

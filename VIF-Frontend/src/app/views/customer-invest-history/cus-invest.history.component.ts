@@ -30,7 +30,7 @@ export class CusInvestHistoryComponent implements OnInit {
     pageSize: number = 5;
 
 
-    constructor(private toastrService: ToastrService, private customerService: CustomerService, private investorTransService: InvestorTransService) {      
+    constructor(private toastrService: ToastrService, private customerService: CustomerService, private investorTransService: InvestorTransService) {
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
     }
 
@@ -54,7 +54,7 @@ export class CusInvestHistoryComponent implements OnInit {
         });
     }
 
-    search(){
+    search() {
         this.getPage(1);
     }
 
@@ -70,4 +70,10 @@ export class CusInvestHistoryComponent implements OnInit {
         });
     }
 
+    exportCSV() {
+        this.investorTransService.exportCsv(this.customerSelectedId, this.fromDate, this.toDate);
+        // this.investorTransService.exportCsv(this.customerSelectedId, this.fromDate, this.toDate).subscribe(respons => this.downloadFile(respons),
+        //     error => console.log('Error downloading the file.'),
+        //     () => console.info('OK'));
+    }
 }
