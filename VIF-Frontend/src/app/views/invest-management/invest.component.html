@@ -4,35 +4,31 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <span>{{ 'vif.investor_trans.title' | translate }}</span>
+          <span>{{ 'vif.invest_management.title_invest_trans' | translate }}</span>
         </div>
         <div class="card-body">
           <!--start button buy/ sell-->
           <div class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
             <div class="col-xs-12 col-12" style="text-align: center;">
               <button type="button" [ngClass]="!isBuyScreen?'btn-secondary':'btn-success'" class="btn"
-                (click)="changeScreen(1)">{{'vif.global.button.buy_CCQ' | translate}}</button>
+                (click)="changeScreen(1)">{{'vif.global.button.buy' | translate}}</button>
               <button style="margin-left: -5px;" type="button" [ngClass]="isBuyScreen?'btn-secondary':'btn-danger'" class="btn"
-                (click)="changeScreen(0)">{{'vif.global.button.sell_CCQ' | translate}}</button>
+                (click)="changeScreen(0)">{{'vif.global.button.sell' | translate}}</button>
             </div>
           </div>
-          
-          <!--end button buy/ sell-->
+              <!--end button buy/ sell-->
           <!--start buy screen-->
           <div *ngIf="isBuyScreen && customers.length >0" class="buy-screen pt-4" style="text-align: center;">
-            <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()" form.valid>
+            <form [formGroup]="buyForm" (ngSubmit)="saveInvestTransaction()" form.valid>
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                      <label for="company">{{'vif.global.label.sercurities' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group" *ngIf="customers.length >0">
-                        <!-- <select id="select1" class="form-control" formControlName="bCustomerSelectedId">
-                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.fullName}}</option>
-                        </select> -->
                         <ng-select [searchable]="true" formControlName="bCustomerSelectedId">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
@@ -45,12 +41,12 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                      <label for="company">{{'vif.global.label.amount' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountCCQ">
+                        <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountAsset" (keyup)="onKeyBPrice($event)">
                       </div>
                     </div>
                   </div>
@@ -60,19 +56,16 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.money' | translate}}<span
+                      <label for="company">{{'vif.global.label.price' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="money-buy-id" formControlName="bMoney"
+                        <input currencyMask type="text" class="form-control" id="money-buy-id" formControlName="bPrice"  (keyup)="onKeyBPrice($event)"
                           placeholder="{{'vif.investor_trans.money_placeholder' | translate}}">
-                          <div *ngIf="buyCCQForm.bMoney.invalid && (buyCCQForm.bMoney.dirty || buyCCQForm.bMoney.touched)" class="alert alert-danger">
-                            <!-- <div *ngIf="buyCCQForm.bMoney.errors.required">
-                              {{'vif.investor_trans.money_required' | translate}}
-                            </div> -->
-                            <div *ngIf="buyCCQForm.bMoney.errors.notEqualZero">
-                              {{'vif.investor_trans.money_zero' | translate}}
+                          <div *ngIf="buyAssetForm.bPrice.invalid && (buyAssetForm.bPrice.dirty || buyAssetForm.bPrice.touched)" class="alert alert-danger">
+                            <div *ngIf="buyAssetForm.bPrice.errors.notEqualZero">
+                              {{'vif.message.unit_price_zero' | translate}}
                             </div>
                           </div>
                       </div>
@@ -84,16 +77,15 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                      <label for="company">{{'vif.global.label.total_value' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="price-buy-id" formControlName="bPrice" (keyup)="onKeyBPrice($event)"
-                          placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
-                          <div *ngIf="buyCCQForm.bPrice.invalid && (buyCCQForm.bPrice.dirty || buyCCQForm.bPrice.touched)" class="alert alert-danger">
-                            <div *ngIf="buyCCQForm.bPrice.errors.notEqualZero">
-                              {{'vif.investor_trans.price_zero' | translate}}
+                        <input currencyMask type="text" class="form-control" id="price-buy-id" formControlName="bMoney">
+                          <div *ngIf="buyAssetForm.bMoney.invalid && (buyAssetForm.bMoney.dirty || buyAssetForm.bMoney.touched)" class="alert alert-danger">
+                            <div *ngIf="buyAssetForm.bMoney.errors.notEqualZero">
+                              {{'vif.message.total_money' | translate}}
                             </div>
                           </div>
                       </div>
@@ -112,10 +104,10 @@
             </form>
           </div>
           <!--end buy screen-->
-
+        
           <!--start sell screen-->
           <div *ngIf="!isBuyScreen && customers.length >0" class="buy-screen pt-4" style="text-align: center;">
-            <form [formGroup]="sellForm" (ngSubmit)="saveCCQ()">
+            <form [formGroup]="sellForm" (ngSubmit)="saveInvestTransaction()">
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
@@ -125,12 +117,14 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <!-- <select id="select1" name="select1" class="form-control" formControlName="sCustomerSelectedId">
-                          <option [ngValue]="c.id" *ngFor="let c of customers">{{c.fullName}}</option>
-                        </select> -->
                         <ng-select [searchable]="true" formControlName="sCustomerSelectedId">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
+                        <div *ngIf="sellAssetForm.sCustomerSelectedId.invalid && (sellAssetForm.sCustomerSelectedId.dirty || sellAssetForm.sCustomerSelectedId.touched)" class="alert alert-danger">
+                          <div *ngIf="sellAssetForm.sCustomerSelectedId.errors.required">
+                            {{'vif.investor_trans.customer_required' | translate}}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -140,15 +134,15 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                      <label for="company">{{'vif.global.label.amount' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountCCQ"
+                        <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountAsset"
                           placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
-                          <div *ngIf="sellCCQForm.sAmountCCQ.invalid && (sellCCQForm.sAmountCCQ.dirty || sellCCQForm.sAmountCCQ.touched)" class="alert alert-danger">
-                            <div *ngIf="sellCCQForm.sAmountCCQ.errors.notEqualZero">
+                          <div *ngIf="sellAssetForm.sAmountAsset.invalid && (sellAssetForm.sAmountAsset.dirty || sellAssetForm.sAmountAsset.touched)" class="alert alert-danger">
+                            <div *ngIf="sellAssetForm.sAmountAsset.errors.notEqualZero">
                               {{'vif.investor_trans.amount_CCQ_zero' | translate}}
                             </div>
                           </div>
@@ -183,8 +177,8 @@
                       <div class="form-group">
                         <input currencyMask type="text" class="form-control" id="price-id" formControlName="sPrice" (keyup)="onKeySPrice($event)"
                           placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
-                          <div *ngIf="sellCCQForm.sPrice.invalid && (sellCCQForm.sPrice.dirty || sellCCQForm.sPrice.touched)" class="alert alert-danger">
-                            <div *ngIf="sellCCQForm.sPrice.errors.notEqualZero">
+                          <div *ngIf="sellAssetForm.sPrice.invalid && (sellAssetForm.sPrice.dirty || sellAssetForm.sPrice.touched)" class="alert alert-danger">
+                            <div *ngIf="sellAssetForm.sPrice.errors.notEqualZero">
                               {{'vif.investor_trans.price_zero' | translate}}
                             </div>
                           </div>
@@ -204,6 +198,7 @@
             </form>
           </div>
           <!--end sell screen-->
+
         </div>
       </div>
     </div>
