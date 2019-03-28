@@ -102,4 +102,16 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		return userDao.getRowCount(username, activeFlg, email, role);
 	}
 
+	@Override
+	public boolean prepareResetPassword(String username) {
+		// TODO Auto-generated method stub
+		return userDao.prepareResetPassword(username);
+	}
+
+	@Override
+	public boolean resetPassword(String username, String token, String newPass) {
+		// TODO Auto-generated method stub
+		return userDao.resetPassword(username, token, newPass);
+	}
+
 }

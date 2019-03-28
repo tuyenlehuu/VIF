@@ -1,8 +1,11 @@
 package vif.online.chungkhoan.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -18,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.VifApiHelper;
+import vif.online.chungkhoan.helper.VifMailHelper;
 
 @Transactional
 @Repository
@@ -27,6 +32,12 @@ public class UserDaoImpl implements UserDao{
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private VifApiHelper apiHelper;
+	
+	@Autowired
+	private VifMailHelper emailHepler;
 
 	
 	@SuppressWarnings("unchecked")
@@ -47,7 +58,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public User getUserByUserName(String user_name) {
 		// TODO Auto-generated method stub
-		String hql = "FROM User as u WHERE u.username = :username";
+		String hql = "FROM User as u WHERE u.username = :username AND u.isDeleted=0";
 		@SuppressWarnings("unchecked")
 		List<User> lstResult = entityManager.createQuery(hql).setParameter("username", user_name).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {
@@ -196,5 +207,54 @@ public class UserDaoImpl implements UserDao{
 
 		List<User> lstResult = query.getResultList();
 		return lstResult.size();
+	}
+
+
+	@Override
+	public boolean prepareResetPassword(String username) {
+		// TODO Auto-generated method stub
+		User user = getUserByUserName(username);
+		if(user!=null) {
+			String tokenReset = apiHelper.generateString(20);
+			String mLink = "http://localhost:4200/change-pass/username="+username+"&token="+tokenReset;
+			String content = "Click to link to reset:" + mLink;
+			try {
+				emailHepler.sendMailWithHTMLContent(user.getEmail(), "Reset password", content);
+				user.setTokenReset(tokenReset);
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.DATE, 1);
+				user.setTokenResetExpried(c.getTime());
+				entityManager.merge(user);
+				return true;
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean resetPassword(String username, String token, String newPass) {
+		// TODO Auto-generated method stub
+		User user = getUserByUserName(username);
+		if(user!=null) {
+			// check user, token, time expired
+			if(user.getTokenReset()!=null && user.getTokenReset().equals(token)) {
+				if(user.getTokenResetExpried()!=null && user.getTokenResetExpried().after(new Date())){
+					// set new pass
+					user.setPassword(passwordEncoder.encode(newPass));
+					user.setTokenResetExpried(new Date());
+					entityManager.merge(user);
+					// send email inform
+					emailHepler.sendMailWithSimpleText(user.getEmail(), "Reset password Successfully", "You had change new password successfully!");
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
