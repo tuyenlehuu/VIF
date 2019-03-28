@@ -16,10 +16,16 @@
                 (click)="changeScreen(0)">{{'vif.global.button.sell_CCQ' | translate}}</button>
             </div>
           </div>
-          
+
           <!--end button buy/ sell-->
+
+          <div class="row pt-4 ccq-avaiable" >
+              <div class="offset-md-6 col-md-3">
+                  <div>Số CCQ hiện tại: {{amountCCQAvaiable}}</div>
+              </div>
+          </div>
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && customers.length >0" class="buy-screen pt-4" style="text-align: center;">
+          <div *ngIf="isBuyScreen && customers.length >0" class="buy-screen" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()" form.valid>
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
@@ -30,7 +36,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group" *ngIf="customers.length >0">
-                        <ng-select [searchable]="true" formControlName="bCustomerSelectedId">
+                        <ng-select [searchable]="true" formControlName="bCustomerSelectedId" (change)="onChangeCustomer()">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
                         <div *ngIf="buyCCQForm.bCustomerSelectedId.invalid && (buyCCQForm.bCustomerSelectedId.dirty || buyCCQForm.bCustomerSelectedId.touched)" class="alert alert-danger">
@@ -58,6 +64,7 @@
                   </div>
                 </div>
               </div>
+              
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
@@ -112,8 +119,9 @@
           </div>
           <!--end buy screen-->
 
+          
           <!--start sell screen-->
-          <div *ngIf="!isBuyScreen && customers.length >0" class="buy-screen pt-4" style="text-align: center;">
+          <div *ngIf="!isBuyScreen && customers.length >0" class="buy-screen" style="text-align: center;">
             <form [formGroup]="sellForm" (ngSubmit)="saveCCQ()">
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
@@ -124,7 +132,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <ng-select [searchable]="true" formControlName="sCustomerSelectedId">
+                        <ng-select [searchable]="true" formControlName="sCustomerSelectedId" (change)="onChangeCustomer()">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
                         <div *ngIf="sellCCQForm.sCustomerSelectedId.invalid && (sellCCQForm.sCustomerSelectedId.dirty || sellCCQForm.sCustomerSelectedId.touched)" class="alert alert-danger">
@@ -149,15 +157,20 @@
                         <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountCCQ"
                           placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
                           <div *ngIf="sellCCQForm.sAmountCCQ.invalid && (sellCCQForm.sAmountCCQ.dirty || sellCCQForm.sAmountCCQ.touched)" class="alert alert-danger">
-                            <div *ngIf="sellCCQForm.sAmountCCQ.errors.notEqualZero">
-                              {{'vif.investor_trans.amount_CCQ_zero' | translate}}
+                            
+                            <div *ngIf="sellCCQForm.sAmountCCQ.errors.mustLessThan">
+                                {{'vif.investor_trans.amount_CCQ_must_less' | translate}}
                             </div>
+                            <div *ngIf="sellCCQForm.sAmountCCQ.errors.notEqualZero">
+                                {{'vif.investor_trans.amount_CCQ_zero' | translate}}
+                              </div>
                           </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <input type="text" style="display:none;" class="form-control" id="amount-buy-id" formControlName="sAmountCCQAvai">
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">

@@ -51,3 +51,19 @@ export function RequireCombo(controlName: string) {
         }
     }
 }
+
+export function ValidateSellAmount(controlName: string, controlNameCompare: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const controlCompare = formGroup.controls[controlNameCompare];
+
+        // set error on matchingControl if validation fails
+        if (control.value >0 && control.value >= controlCompare.value) {
+            control.setErrors({ mustLessThan: true });
+        }else if (control.value === 0) {
+            control.setErrors({ notEqualZero: true });
+        }else {
+            control.setErrors(null);
+        }
+    }
+}

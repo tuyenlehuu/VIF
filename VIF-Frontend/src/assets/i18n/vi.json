@@ -72,7 +72,8 @@
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0",
-        "customer_required": "*Nhà đầu tư không được để trống!"
+        "customer_required": "*Nhà đầu tư không được để trống!",
+        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!"
     },
     "cus_invest_history":{
         "from_date": "Từ ngày",
