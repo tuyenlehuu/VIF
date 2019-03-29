@@ -4,10 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
+import { P403Component } from './views/error/403.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
+import { ChangePassComponent } from './views/change-pass/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -39,10 +41,17 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'change-pass',
+    component: ChangePassComponent,
     data: {
-      title: 'Register Page'
+      title: 'Thay đổi mật khẩu'
+    }
+  },
+  {
+    path: 'forgot-pass',
+    component: ResetPassComponent,
+    data: {
+      title: 'Cấp lại mật khẩu'
     }
   },
   {
@@ -76,6 +85,10 @@ export const routes: Routes = [
       {
         path: 'charts',
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      },
+      {
+        path: '403',
+        component: P403Component
       }
     ]
   },

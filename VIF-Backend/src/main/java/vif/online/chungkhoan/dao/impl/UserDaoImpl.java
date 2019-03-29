@@ -216,8 +216,8 @@ public class UserDaoImpl implements UserDao{
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			String tokenReset = apiHelper.generateString(20);
-			String mLink = "http://localhost:4200/change-pass/username="+username+"&token="+tokenReset;
-			String content = "Click to link to reset:" + mLink;
+			String mLink = "http://localhost:4200/#/change-pass?username="+username+"&token="+tokenReset;
+			String content = "You're receiving this e-mail because you requested a password reset for your Postmates account. Please <a href='" + mLink + "'>click here</a> to choose a new password.";
 			try {
 				emailHepler.sendMailWithHTMLContent(user.getEmail(), "Reset password", content);
 				user.setTokenReset(tokenReset);
