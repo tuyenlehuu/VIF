@@ -1,6 +1,7 @@
 package vif.online.chungkhoan.dao;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Customer;
@@ -24,5 +25,12 @@ public interface CustomerDao {
 	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
 
 	List<User> getListUserById(int id);
+
+	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
+			String fullName,  Integer activeFlg);
+
+	
+
+	int getRowCount(String fullName, Integer activeFlg, String code);
 
 }

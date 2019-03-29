@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,17 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<User> getListUserById(int id){
 		return customerDao.getListUserById(id);
 	}
-
+	
+	@Override
+	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
+			String fullName, Integer activeFlg){
+		return customerDao.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code, fullName, activeFlg);
+	}
+	
+	@Override
+	public int getRowCount(String fullName, Integer activeFlg, String code){
+		
+		return customerDao.getRowCount(fullName,  activeFlg, code);
+	}
 
 }

@@ -1,11 +1,18 @@
 package vif.online.chungkhoan.dao.impl;
 
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,7 +123,90 @@ public class CustomerDaoImpl implements CustomerDao {
 		return null;
 		
 	}
+	//doing_customer
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
+			String fullName,  Integer activeFlg ) {
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<Customer> from = criteriaQuery.from(Customer.class);
+		
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		
+		if(fullName != null && !fullName.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("fullName"), fullName));
+		}
+		
+		if(activeFlg != null) {
+			predicates.add(criteriaBuilder.equal(from.get("code"), code));
+		}
+		
+		
+		
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
+		
+		if(columnSortName != null && !columnSortName.equals("")) {
+			if(asc== null || asc) {
+				select.orderBy(criteriaBuilder.asc(from.get(columnSortName)));
+			}else {
+				select.orderBy(criteriaBuilder.desc(from.get(columnSortName)));
+			}
+		}
+		
+		Query query = entityManager.createQuery(criteriaQuery);
+		if (page >= 0 && pageSize >= 0) {
+			query.setFirstResult((page - 1) * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		List<Customer> lstResult = query.getResultList();
+
+		return lstResult;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int getRowCount(String fullName,  Integer activeFlg, String code) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<Customer> from = criteriaQuery.from(Customer.class);
+		
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		
+		
+		if(fullName!= null && !fullName.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("fullName"), fullName));
+		}
+		
+		if(activeFlg != null) {
+			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+		}
+		
+		if(code != null && !code.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("code"), code));
+		}
+		
+		
+		
+		select.select(from).where(predicates.toArray(new Predicate[]{}));
+		
+		Query query = entityManager.createQuery(select);
+
+		List<Customer> lstResult = query.getResultList();
+		return lstResult.size();
+	}
+}
+
 	
 	
 
-}
+

@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -125,5 +127,29 @@ public class CustomerController {
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 		
 	}
+	
+	
+	@GetMapping("getCustomersByCondition")
+	public ResponseEntity<ApiResponse> SearchUserByCondition(@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "pageSize", required = true) int pageSize,
+			@RequestParam(value = "columnSortName", required = false) String columnSortName,
+			@RequestParam(value = "asc", required = false) Boolean asc,
+			@RequestParam(value = "fullName", required = false) String fullName,
+			@RequestParam(value = "activeFlg", required = false) Integer activeFlg,
+			@RequestParam(value = "code", required = false) String code) {
+		ApiResponse object = new ApiResponse();
+		List<Customer> list = customerService.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code, fullName,activeFlg);
+		int rowCount = customerService.getRowCount(fullName, activeFlg, code);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		object.setPage(page);
+		object.setPageSize(pageSize);
+		object.setTotalRow(rowCount);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
+	
 
 }
