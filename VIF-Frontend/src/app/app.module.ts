@@ -19,10 +19,12 @@ import { AppComponent } from './app.component';
 // Import containers
 import { DefaultLayoutComponent } from './containers';
 
+import { P403Component } from './views/error/403.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
+import { ChangePassComponent } from './views/change-pass/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OauthService } from './services/oauth.service';
 import { UserService } from './services/user.service';
@@ -32,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
 import { InvestorTransService } from './services/investor.transaction.service';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -72,15 +75,18 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
-    AppTranslationModule
+    AppTranslationModule,
+    NgxCaptchaModule
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
+    P403Component,
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    ResetPassComponent,
+    ChangePassComponent
   ],
   providers: [{
     provide: LocationStrategy,

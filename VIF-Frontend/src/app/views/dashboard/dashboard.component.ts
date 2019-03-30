@@ -392,9 +392,9 @@ export class DashboardComponent implements OnInit {
       this.mainChartData3.push(65);
     }
 
-    this.userService.getAll().pipe(first()).subscribe(users=>{
-      this.users = users;
-      console.log("all user is: ", users);
-    });
+    // this.userService.getAll().pipe(first()).subscribe(users=>{
+    //   this.users = users;
+    //   console.log("all user is: ", users);
+    // });
   }
 }

@@ -39,7 +39,9 @@
             "sell_Securities": "Bán chứng khoán",
             "buy": "Mua",
             "sell": "Bán",
-            "export_excel": "Xuất excel"
+            "export_excel": "Xuất excel",
+            "reset_pass": "Cấp lại mật khẩu",
+            "home_page": "Quay lại trang chủ"
         },
         "label":{
             "sercurities" : "Chứng khoán",
@@ -82,7 +84,8 @@
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0",
-        "customer_required": "*Nhà đầu tư không được để trống!"
+        "customer_required": "*Nhà đầu tư không được để trống!",
+        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!"
     },
     "cus_invest_history":{
         "from_date": "Từ ngày",
@@ -100,6 +103,27 @@
     "invest_management":{
         "title_invest_trans": "Giao dịch đầu tư",
         "amount_asset_zero": "*Số lượng tài sản phải lớn hơn 0!"
+    },
+    "forgot_pass":{
+        "title": "Quên mật khẩu",
+        "sub_title": "Cấp lại mật khẩu mới cho bạn",
+        "captcha_required": "*Captcha là bắt buộc!",
+        "title_success": "Reset mật khẩu thành công!",
+        "content_success": "Chúng tôi đã gửi vào email cho bạn. Vui lòng kiểm tra email và tiến hành reset mật khẩu"
+    },
+    "change_pass":{
+        "title": "Thay đổi mật khẩu",
+        "new_pass": "Mật khẩu mới",
+        "confirm_new_pass": "Nhập lại mật khẩu mới",
+        "title_success": "Thay đổi mật khẩu thành công!",
+        "content_success": "Bạn đã thay đổi mật khẩu thành công. Bắt đầu "
+    },
+    "error_page":{
+        "403": "403",
+        "404": "404",
+        "500": "500",
+        "403_title": "Oops! Không có quyền!",
+        "403_content": "Bạn không có quyền để truy cập trang này!"
     }
   }
 }
