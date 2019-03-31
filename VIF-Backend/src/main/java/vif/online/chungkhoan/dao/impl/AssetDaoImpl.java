@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
@@ -41,6 +42,14 @@ public class AssetDaoImpl implements AssetDao{
 		// TODO Auto-generated method stub
 		entityManager.persist(asset);
 		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Asset> getAlls() {
+		// TODO Auto-generated method stub
+		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.branchCode desc";
+		return (List<Asset>) entityManager.createQuery(hql).getResultList();
 	}
 	
 }

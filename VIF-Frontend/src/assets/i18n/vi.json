@@ -110,6 +110,22 @@
         "500": "500",
         "403_title": "Oops! Không có quyền!",
         "403_content": "Bạn không có quyền để truy cập trang này!"
+    },
+    "dashboard":{
+        "general_screen":{
+            "table":{
+                "asset_code": "Mã tài sản",
+                "amount": "Khối lượng",
+                "orginal_price": "Giá vốn",
+                "current_price": "Giá hiện tại",
+                "orginal_money": "Vốn",
+                "current_money": "Giá trị",
+                "rate_money": "Lãi/lỗ",
+                "total_asset": "Tổng tài sản",
+                "total_real_asset": "Tổng tài sản ròng",
+                "total_debt": "Tổng nợ"
+            }
+        }
     }
   }
 }
