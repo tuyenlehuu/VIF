@@ -24,7 +24,7 @@ public class AssetController {
 	
 	@GetMapping("getAlls")
 	public ResponseEntity<List<Asset>> getAllAsset() {
-		List<Asset> list = assetService.getAllAsset();
+		List<Asset> list = assetService.getAlls();
 		return new ResponseEntity<List<Asset>>(list, HttpStatus.OK);
 	}
 }
