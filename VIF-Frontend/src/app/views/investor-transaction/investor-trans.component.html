@@ -18,7 +18,6 @@
           </div>
 
           <!--end button buy/ sell-->
-
           <div class="row pt-4 ccq-avaiable" >
               <div class="offset-md-6 col-md-3">
                   <div>Số CCQ hiện tại: {{amountCCQAvaiable}}</div>
@@ -36,7 +35,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group" *ngIf="customers.length >0">
-                        <ng-select [searchable]="true" formControlName="bCustomerSelectedId" (change)="onChangeCustomer()">
+                        <ng-select [searchable]="true" formControlName="bCustomerSelectedId" (change)="onChangeAsset()">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
                         <div *ngIf="buyCCQForm.bCustomerSelectedId.invalid && (buyCCQForm.bCustomerSelectedId.dirty || buyCCQForm.bCustomerSelectedId.touched)" class="alert alert-danger">
@@ -132,7 +131,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <ng-select [searchable]="true" formControlName="sCustomerSelectedId" (change)="onChangeCustomer()">
+                        <ng-select [searchable]="true" formControlName="sCustomerSelectedId" (change)="onChangeAsset()">
                           <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                         </ng-select>
                         <div *ngIf="sellCCQForm.sCustomerSelectedId.invalid && (sellCCQForm.sCustomerSelectedId.dirty || sellCCQForm.sCustomerSelectedId.touched)" class="alert alert-danger">

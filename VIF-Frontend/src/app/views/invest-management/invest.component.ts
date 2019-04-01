@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { getStyle, rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NotEqualZero } from '../../helpers/function.share';
+import { NotEqualZero,ValidateSellAmount } from '../../helpers/function.share';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ResponseObject } from '../../models/Response.model';
@@ -14,6 +14,7 @@ import { BuySellCCQ } from '../../models/BuySelCCQ.model';
 import { config } from '../../config/application.config';
 import { BuySellAsset } from '../../models/BuySellAsset.model.';
 import { InvestManagementService } from '../../services/invest.management.service.';
+import { idLocale } from 'ngx-bootstrap/chronos/i18n/id';
 
 @Component({
   templateUrl: 'invest.component.html',
@@ -26,8 +27,12 @@ export class InvestComponent implements OnInit {
   submitted = false;
 
   assets: Asset[] = [];
+  cashObj: Asset;
   assetSelectedId: number;
   responseObject: ResponseObject;
+  amountMoneyAvaiable: number;
+  bAmountAvaiable: number;
+  amountAssetAvaiable: number;
 
   constructor(private modalService: BsModalService, private toastrService: ToastrService, 
     private assetService: AssetService, private investManagementService: InvestManagementService, 
@@ -36,11 +41,13 @@ export class InvestComponent implements OnInit {
 createBuyForm() {
   this.buyForm = this.fb.group({
     bAssetSelectedId: [this.assetSelectedId, Validators.required],
-    bAmountAsset: [{value: 0, disabled: false}, Validators.required],
+    bAmountAsset: [0, Validators.required],
     bMoney: [{value:0, disabled: true}, Validators.required],
-    bPrice: [0, Validators.required]
+    bPrice: [0, Validators.required],
+    amountMoneyAvaiable: [this.amountMoneyAvaiable],
+    bAmountAvaiable: [this.bAmountAvaiable],
 },{
-    validator: [NotEqualZero('bAmountAsset'), NotEqualZero('bMoney'), NotEqualZero('bPrice')]
+    validator: [ValidateSellAmount('bAmountAsset', 'bAmountAvaiable'),NotEqualZero('bAmountAsset'), NotEqualZero('bMoney'), NotEqualZero('bPrice')]
 });
 }
 
@@ -49,9 +56,10 @@ createSellForm() {
     sAssetSelectedId: [this.assetSelectedId, Validators.required],
     sAmountAsset: [0, Validators.required],
     sMoney: [{value: 0, disabled: true}, Validators.required],
-    sPrice: [0, Validators.required]
+    sPrice: [0, Validators.required],
+    sAmountAssetAvaiable: [this.amountAssetAvaiable],
 },{
-    validator: [NotEqualZero('sAmountAsset'), NotEqualZero('sMoney'), NotEqualZero('sPrice')]
+    validator: [ValidateSellAmount('sAmountAsset', 'sAmountAssetAvaiable'),NotEqualZero('sMoney'), NotEqualZero('sPrice')]
 });
 }
 
@@ -125,6 +133,27 @@ onKeyBPrice(event: any){
     var currentPrice = event.target.value;
     currentPrice = currentPrice.toString().replace(',','');
     this.buyAssetForm.bMoney.setValue(mAmount*currentPrice);
+    this.bAmountAvaiable = (this.amountMoneyAvaiable)/currentPrice;
+    this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
+
+    console.log(this.bAmountAvaiable);
+    console.log(currentPrice);
+}
+
+onKeyBAmount(event: any){
+    if (this.buyForm.invalid) {
+        return;
+    }
+    var currentPrice = this.buyForm.value.bPrice;
+    var mAmount = event.target.value;
+    mAmount = mAmount.toString().replace(',','');
+    this.buyAssetForm.bMoney.setValue(mAmount*currentPrice);
+
+    this.bAmountAvaiable = (this.amountMoneyAvaiable)/currentPrice;
+    this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
+
+    console.log(this.bAmountAvaiable);
+    console.log(currentPrice);
 }
 
 onKeySPrice(event: any){
@@ -134,7 +163,6 @@ onKeySPrice(event: any){
     var bAmountAsset = this.sellForm.value.sAmountAsset;
     var currentPrice = event.target.value;
     currentPrice = currentPrice.toString().replace(',','');
-    // console.log("currentPrice", currentPrice);
     this.sellAssetForm.sMoney.setValue(bAmountAsset*currentPrice);
 }
 
@@ -164,17 +192,52 @@ get sellAssetForm() { return this.sellForm.controls; }
     }
 
 ngOnInit(): void {
+    this.assetService.getByCode('CASH').pipe(first()).subscribe((respons: any) => {
+        this.cashObj = respons.data;
+        if(this.cashObj){
+            this.amountMoneyAvaiable = this.cashObj.currentPrice;
+        }
+    });
+
     this.assetService.getAll().pipe(first()).subscribe((respons: any) => {
-        // console.log("data: ", respons);
         this.assets = respons.data;
-        console.log(  this.assets);
         if (this.assets) {
             this.assetSelectedId = this.assets[0].id;
-            // console.log("data: ", this.customerSelectedId);
-            // this.amountCCQAvaiable = this.customers[0].totalCcq;
+            this.amountAssetAvaiable = this.assets[0].amount
+            this.bAmountAvaiable = 0;
             this.createBuyForm();
         }
     });
+}
+
+onChangeAsset() {
+    if (this.isBuyScreen) {
+        this.assetSelectedId = this.buyForm.value.bAssetSelectedId;
+        this.amountAssetAvaiable = 0;
+        this.amountMoneyAvaiable = 0;
+        if(this.cashObj){
+            this.amountMoneyAvaiable = this.cashObj.currentPrice;
+            this.buyAssetForm.amountMoneyAvaiable.setValue(this.amountMoneyAvaiable);
+            this.assets.forEach(asset => {
+                if (asset.id === this.assetSelectedId) {
+                  if(this.buyForm.value.bAmountAsset && this.buyForm.value.bPrice){
+                    this.bAmountAvaiable = this.amountMoneyAvaiable / this.buyForm.value.bPrice;
+                    this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
+                  }
+                }
+            });
+        }
+    } else {
+        this.assetSelectedId = this.sellForm.value.sAssetSelectedId;
+        this.amountAssetAvaiable = 0;
+        this.assets.forEach(asset => {
+            if (asset.id === this.assetSelectedId) {
+                this.amountAssetAvaiable = asset.amount;
+                this.sellAssetForm.sAmountAssetAvaiable.setValue(this.amountMoneyAvaiable);
+            }
+        });
+    }
+  
 }
 
 }

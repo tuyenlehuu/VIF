@@ -18,6 +18,11 @@
           </div>
               <!--end button buy/ sell-->
           <!--start buy screen-->
+          <div *ngIf="isBuyScreen" class="row pt-4 asset-avaiable" >
+            <div class="offset-md-6 col-md-3">
+                <div>Số tiền hiện hiện tại: {{amountMoneyAvaiable}}</div>
+            </div>
+        </div>
           <div *ngIf="isBuyScreen && assets.length >0" class="buy-screen pt-4" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="saveInvestTransaction()" form.valid>
               <div class="row">
@@ -29,7 +34,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group" *ngIf="assets.length >0">
-                        <ng-select [searchable]="true" formControlName="bAssetSelectedId">
+                        <ng-select [searchable]="true" formControlName="bAssetSelectedId" (change)="onChangeAsset()">
                           <ng-option [value]="a.id" *ngFor="let a of assets">{{a.assetCode}}-{{a.assetName}}</ng-option>
                         </ng-select>
                       </div>
@@ -46,7 +51,15 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountAsset" (keyup)="onKeyBPrice($event)">
+                        <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountAsset" (keyup)="onKeyBAmount($event)">
+                      </div>
+                      <div *ngIf="buyAssetForm.bAmountAsset.invalid && (buyAssetForm.bAmountAsset.dirty || buyAssetForm.bAmountAsset.touched)" class="alert alert-danger">
+                        <div *ngIf="buyAssetForm.bAmountAsset.errors.notEqualZero">
+                          {{'vif.invest_management.amount_asset_zero' | translate}}
+                        </div>
+                        <div *ngIf="buyAssetForm.bAmountAsset.errors.mustLessThan">
+                          {{'vif.invest_management.amount_Asset_must_less' | translate}}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -82,11 +95,11 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="price-buy-id" formControlName="bMoney">
+                        <input currencyMask type="text" class="form-control" id="money-total-id" formControlName="bMoney">
                           <div *ngIf="buyAssetForm.bMoney.invalid && (buyAssetForm.bMoney.dirty || buyAssetForm.bMoney.touched)" class="alert alert-danger">
                             <div *ngIf="buyAssetForm.bMoney.errors.notEqualZero">
                               {{'vif.message.total_money' | translate}}
-                            </div>
+                            </div>            
                           </div>
                       </div>
                     </div>
@@ -105,6 +118,12 @@
           </div>
           <!--end buy screen-->
         
+
+          <div *ngIf="!isBuyScreen" class="row pt-4 asset-avaiable" >
+            <div class="offset-md-6 col-md-3">
+                <div>Số CCQ hiện tại: {{amountAssetAvaiable}}</div>
+            </div>
+         </div>
           <!--start sell screen-->
           <div *ngIf="!isBuyScreen && assets.length >0" class="buy-screen pt-4" style="text-align: center;">
             <form [formGroup]="sellForm" (ngSubmit)="saveInvestTransaction()">
@@ -112,12 +131,12 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                      <label for="company">{{'vif.global.label.sercurities' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <ng-select [searchable]="true" formControlName="sAssetSelectedId">
+                        <ng-select [searchable]="true" formControlName="sAssetSelectedId" (change)="onChangeAsset()">
                           <ng-option [value]="a.id" *ngFor="let a of assets">{{a.assetCode}}-{{a.assetName}}</ng-option>
                         </ng-select>
                         <div *ngIf="sellAssetForm.sAssetSelectedId.invalid && (sellAssetForm.sAssetSelectedId.dirty || sellAssetForm.sAssetSelectedId.touched)" class="alert alert-danger">
@@ -143,7 +162,10 @@
                           placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
                           <div *ngIf="sellAssetForm.sAmountAsset.invalid && (sellAssetForm.sAmountAsset.dirty || sellAssetForm.sAmountAsset.touched)" class="alert alert-danger">
                             <div *ngIf="sellAssetForm.sAmountAsset.errors.notEqualZero">
-                              {{'vif.investor_trans.amount_CCQ_zero' | translate}}
+                              {{'vif.invest_management.amount_asset_zero' | translate}}
+                            </div>
+                            <div *ngIf="sellAssetForm.sAmountAsset.errors.mustLessThan">
+                              {{'vif.invest_management.amount_Asset_must_less' | translate}}
                             </div>
                           </div>
                       </div>
@@ -151,6 +173,7 @@
                   </div>
                 </div>
               </div>
+              <input type="text" style="display:none;" class="form-control" id="amount-buy-id" formControlName="sAmountAssetAvaiable">
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
