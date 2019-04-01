@@ -7,13 +7,12 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.entities.Asset;
 
 @Transactional
 @Repository
-public class AssetDaoImpl implements AssetDao{
+public class AssetDaoImpl implements AssetDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -42,5 +41,33 @@ public class AssetDaoImpl implements AssetDao{
 		entityManager.persist(asset);
 		return true;
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Asset> getAllAssets() {
+		// TODO Auto-generated method stub
+//		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.code asc";
+		String hql = "FROM Asset as a WHERE a.activeFlg = 1";
+		return (List<Asset>) entityManager.createQuery(hql).getResultList();
+	}
+
+	@Override
+	public boolean deleteAssetByCode(String code) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean deleteAssetById(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Asset> SearchAssetByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
+			Integer activeFlg, int group_id, String branch_code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

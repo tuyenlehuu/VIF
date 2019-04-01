@@ -149,11 +149,11 @@ public class Asset implements Serializable{
 	}
 
 	@JsonIgnore
-	public List<AssetHistory> getAssets() {
+	public List<AssetHistory> getAssetsHistory() {
 		return assets;
 	}
 
-	public void setAssets(List<AssetHistory> assets) {
+	public void setAssetsHistory(List<AssetHistory> assets) {
 		this.assets = assets;
 	}
 

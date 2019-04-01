@@ -1,5 +1,7 @@
 package vif.online.chungkhoan.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,12 @@ public class AssetServiceImpl implements AssetService{
 	public boolean addAsset(Asset asset) {
 		// TODO Auto-generated method stub
 		return assetDao.addAsset(asset);
+	}
+
+	@Override
+	public List<Asset> getAllAsset() {
+		// TODO Auto-generated method stub
+		return assetDao.getAllAssets();
 	}
 
 }
