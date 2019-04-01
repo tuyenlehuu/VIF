@@ -34,9 +34,9 @@ public class AssetServiceImpl implements AssetService{
 	}
 
 	@Override
-	public List<Asset> getAllAsset() {
+	public List<Asset> getAlls() {
 		// TODO Auto-generated method stub
-		return assetDao.getAllAssets();
+		return assetDao.getAlls();
 	}
 
 }

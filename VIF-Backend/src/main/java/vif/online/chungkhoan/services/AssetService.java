@@ -9,8 +9,8 @@ public interface AssetService {
 
 	Asset getAssetByCode(String assetCode);
 
-	boolean addAsset(Asset asset);
-	
-	List<Asset> getAllAsset();
+	public boolean addAsset(Asset asset);
+
+	public List<Asset> getAlls();
 
 }

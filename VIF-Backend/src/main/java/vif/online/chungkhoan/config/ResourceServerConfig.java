@@ -45,6 +45,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.antMatchers("/cophieu/**").authenticated()
 		.antMatchers("/customer/**").authenticated()
 		.antMatchers("/investor-transaction/**").access("hasRole('ADMIN')")
+		.antMatchers("/dashboard/**").authenticated()
+		.antMatchers("/asset/**").authenticated()
 		.and()
 		.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
 		.authenticationEntryPoint(authenticationEntryPoint());

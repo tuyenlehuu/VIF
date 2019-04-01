@@ -1,4 +1,6 @@
+
 import { GroupAsset } from './GroupAsset.model';
+
 
 export class Asset {
     id: number;
@@ -10,6 +12,7 @@ export class Asset {
     currentPrice: number;
     description: string;
     activeFlg: number;
+
     groupAsset: GroupAsset;
    
     public constructor() {
@@ -18,4 +21,5 @@ export class Asset {
         this.orginalPrice = 0;
         this.groupAsset = new GroupAsset();
     }
+   
 }

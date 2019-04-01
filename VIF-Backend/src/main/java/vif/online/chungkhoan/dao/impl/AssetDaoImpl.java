@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
@@ -42,15 +43,6 @@ public class AssetDaoImpl implements AssetDao {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Asset> getAllAssets() {
-		// TODO Auto-generated method stub
-//		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.code asc";
-		String hql = "FROM Asset as a WHERE a.activeFlg = 1";
-		return (List<Asset>) entityManager.createQuery(hql).getResultList();
-	}
-
 	@Override
 	public boolean deleteAssetByCode(String code) {
 		// TODO Auto-generated method stub
@@ -68,6 +60,12 @@ public class AssetDaoImpl implements AssetDao {
 			Integer activeFlg, int group_id, String branch_code) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<Asset> getAlls() {
+		// TODO Auto-generated method stub
+		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.branchCode desc";
+		return (List<Asset>) entityManager.createQuery(hql).getResultList();
 	}
 
 }
