@@ -161,12 +161,12 @@
                         <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountAsset"
                           placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
                           <div *ngIf="sellAssetForm.sAmountAsset.invalid && (sellAssetForm.sAmountAsset.dirty || sellAssetForm.sAmountAsset.touched)" class="alert alert-danger">
-                            <div *ngIf="sellAssetForm.sAmountAsset.errors.notEqualZero">
-                              {{'vif.invest_management.amount_asset_zero' | translate}}
-                            </div>
-                            <div *ngIf="sellAssetForm.sAmountAsset.errors.mustLessThan">
-                              {{'vif.invest_management.amount_Asset_must_less' | translate}}
-                            </div>
+                              <div *ngIf="sellAssetForm.sAmountAsset.errors.mustLessThan">
+                                  {{'vif.invest_management.amount_asset_must_less' | translate}}
+                              </div>
+                              <div *ngIf="sellAssetForm.sAmountAsset.errors.notEqualZero">
+                                  {{'vif.invest_management.amount_asset_zero' | translate}}
+                              </div>
                           </div>
                       </div>
                     </div>

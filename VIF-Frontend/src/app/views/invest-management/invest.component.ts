@@ -1,20 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { getStyle, rgbToHex } from '@coreui/coreui/dist/js/coreui-utilities';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotEqualZero,ValidateSellAmount } from '../../helpers/function.share';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ResponseObject } from '../../models/Response.model';
-import { error } from '@angular/compiler/src/util';
 import { AssetService } from '../../services/asset.service';
 import { Asset } from '../../models/Asset.model';
-import { first, catchError } from 'rxjs/operators';
-import { BuySellCCQ } from '../../models/BuySelCCQ.model';
+import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
 import { BuySellAsset } from '../../models/BuySellAsset.model.';
 import { InvestManagementService } from '../../services/invest.management.service.';
-import { idLocale } from 'ngx-bootstrap/chronos/i18n/id';
 
 @Component({
   templateUrl: 'invest.component.html',
@@ -34,7 +29,7 @@ export class InvestComponent implements OnInit {
   bAmountAvaiable: number;
   amountAssetAvaiable: number;
 
-  constructor(private modalService: BsModalService, private toastrService: ToastrService, 
+  constructor(private toastrService: ToastrService, 
     private assetService: AssetService, private investManagementService: InvestManagementService, 
     private fb: FormBuilder) {}
 
@@ -54,12 +49,12 @@ createBuyForm() {
 createSellForm() {
   this.sellForm = this.fb.group({
     sAssetSelectedId: [this.assetSelectedId, Validators.required],
-    sAmountAsset: [0, Validators.required],
+    sAmountAsset: [0],
     sMoney: [{value: 0, disabled: true}, Validators.required],
     sPrice: [0, Validators.required],
     sAmountAssetAvaiable: [this.amountAssetAvaiable],
 },{
-    validator: [ValidateSellAmount('sAmountAsset', 'sAmountAssetAvaiable'),NotEqualZero('sMoney'), NotEqualZero('sPrice')]
+    validator: [ValidateSellAmount('sAmountAsset', 'sAmountAssetAvaiable'), NotEqualZero('sMoney'), NotEqualZero('sPrice')]
 });
 }
 
