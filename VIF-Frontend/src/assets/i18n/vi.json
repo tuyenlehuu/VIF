@@ -58,7 +58,11 @@
         "password_notmatch": "*Mật khẩu không khớp nhau!",
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
-        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!"
+        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+        "update_success": "Cập nhật thành công!",
+        "update_failed": "Cập nhật không thành công",
+        "create_success": "Thêm mới thành công!",
+        "create_failed": "Thêm mới không thành công"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",

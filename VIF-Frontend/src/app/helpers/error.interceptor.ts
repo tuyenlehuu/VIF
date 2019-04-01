@@ -24,9 +24,11 @@ export class ErrorInterceptor implements HttpInterceptor{
         }), 
         map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
-                if(event.body.code === 403){
-                    this.router.navigate(['/403']);
-                    console.log('event--->>>', event);
+                if(event.body){
+                    if(event.body.code && event.body.code === 403){
+                        this.router.navigate(['/403']);
+                        console.log('event--->>>', event);
+                    }
                 }
             }
             return event;
