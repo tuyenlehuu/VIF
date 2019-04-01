@@ -37,7 +37,7 @@ public class DashboardDaoImpl implements DashboardDao {
 				+ "  MAX(CASE WHEN code = 'DEBT_SHORT' THEN current_price END) DEBT_SHORT, " + "  0 SHARES "
 				+ " FROM asset " + " where active_flg = 1 " + " UNION "
 				+ " SELECT 0 CASH, 0 VIF_CCQ, 0 VIF_CCQ_PRICE, 0 IT_RT, 0 CS, 0 DEBT_LONG, 0 DEBT_SHORT, "
-				+ " SUM(current_price*amount) SHARES "
+				+ " SUM(current_price*amount*1000) SHARES "
 				+ " FROM asset WHERE group_id = 2 AND branch_code IS NOT NULL AND active_flg = 1 " + ") t";
 
 		List<Object[]> rows = entityManager.createNativeQuery(sql).getResultList();
