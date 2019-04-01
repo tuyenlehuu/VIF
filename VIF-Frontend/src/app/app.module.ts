@@ -36,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
 import { InvestorTransService } from './services/investor.transaction.service';
+import { InvestManagementService } from './services/invest.management.service.';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 const APP_CONTAINERS = [
@@ -101,6 +102,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   InvestorTransService,
+  InvestManagementService,
   AssetService,
   DashboardService
   ],

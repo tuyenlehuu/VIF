@@ -16,7 +16,9 @@ export class InvestManagementService{
             })
         };
 
-        // return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyAssetObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.get<any>(`${config.apiUrl}/asset/getAlls`);
+
+        //  return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyAssetObject, httpOptions).pipe(map(res => {return res;}));
     }
 
     sellAsset(sellAssetObject: BuySellAsset) {
@@ -25,7 +27,8 @@ export class InvestManagementService{
                 'Content-Type': 'application/json'
             })
         };
-        // return this.hattp.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.get<any>(`${config.apiUrl}/asset/getAlls`);
+        //  return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellAssetObject, httpOptions).pipe(map(res => {return res;}));
     }
 
 

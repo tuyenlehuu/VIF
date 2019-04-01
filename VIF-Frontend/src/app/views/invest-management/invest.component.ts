@@ -7,13 +7,13 @@ import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ResponseObject } from '../../models/Response.model';
 import { error } from '@angular/compiler/src/util';
-import { InvestorTransService } from '../../services/investor.transaction.service';
-import { CustomerService } from '../../services/customer.service';
-import { Customer } from '../../models/Customer.model';
+import { AssetService } from '../../services/asset.service';
+import { Asset } from '../../models/Asset.model';
 import { first, catchError } from 'rxjs/operators';
 import { BuySellCCQ } from '../../models/BuySelCCQ.model';
 import { config } from '../../config/application.config';
 import { BuySellAsset } from '../../models/BuySellAsset.model.';
+import { InvestManagementService } from '../../services/invest.management.service.';
 
 @Component({
   templateUrl: 'invest.component.html',
@@ -25,17 +25,17 @@ export class InvestComponent implements OnInit {
   sellForm: FormGroup;
   submitted = false;
 
-  customers: Customer[] = [];
-  customerSelectedId: number;
+  assets: Asset[] = [];
+  assetSelectedId: number;
   responseObject: ResponseObject;
 
   constructor(private modalService: BsModalService, private toastrService: ToastrService, 
-    private customerService: CustomerService, private investorTransService: InvestorTransService, 
+    private assetService: AssetService, private investManagementService: InvestManagementService, 
     private fb: FormBuilder) {}
 
 createBuyForm() {
   this.buyForm = this.fb.group({
-    bCustomerSelectedId: [this.customerSelectedId, Validators.required],
+    bAssetSelectedId: [this.assetSelectedId, Validators.required],
     bAmountAsset: [{value: 0, disabled: false}, Validators.required],
     bMoney: [{value:0, disabled: true}, Validators.required],
     bPrice: [0, Validators.required]
@@ -46,7 +46,7 @@ createBuyForm() {
 
 createSellForm() {
   this.sellForm = this.fb.group({
-    sCustomerSelectedId: [this.customerSelectedId, Validators.required],
+    sAssetSelectedId: [this.assetSelectedId, Validators.required],
     sAmountAsset: [0, Validators.required],
     sMoney: [{value: 0, disabled: true}, Validators.required],
     sPrice: [0, Validators.required]
@@ -83,20 +83,38 @@ saveInvestTransaction() {
 
 buySecurities(){
     let buyAssetObject: BuySellAsset = new BuySellAsset();
-    buyAssetObject.assetId = this.buyForm.value.bCustomerSelectedId;
+    buyAssetObject.assetId = this.buyForm.value.bAssetSelectedId;
     buyAssetObject.amount = this.buyForm.value.bAmountAsset;
     buyAssetObject.price = this.buyForm.value.bPrice;
 
-    console.log(buyAssetObject);
+    this.investManagementService.buyAsset(buyAssetObject).pipe(first()).subscribe((respons: any) => {
+        this.responseObject = respons;
+        console.log( this.responseObject);
+        if (this.responseObject.code === 200) {
+            this.showSuccess("Mua chứng khoán thành công!");
+            this.resetForm();
+        } else {
+            this.showError("Không mua được chứng khoán! Vui lòng liên hệ quản trị viên");
+        }
+    });
 }
 
 sellSecurities(){
     let sellAssetObject: BuySellAsset = new BuySellAsset();
-    sellAssetObject.assetId = this.buyForm.value.sCustomerSelectedId;
+    sellAssetObject.assetId = this.buyForm.value.sAssetSelectedId;
     sellAssetObject.amount = this.buyForm.value.sAmountAsset;
     sellAssetObject.price = this.buyForm.value.sPrice;
 
-    console.log(sellAssetObject);
+    this.investManagementService.sellAsset(sellAssetObject).pipe(first()).subscribe((respons: any) => {
+        this.responseObject = respons;
+        console.log( this.responseObject);
+        if (this.responseObject.code === 200) {
+            this.showSuccess("Bán chứng khoán thành công!");
+            this.resetForm();
+        } else {
+            this.showError("Không bán được chứng khoán. Vui lòng liên hệ quản trị viên!");
+        }
+    });
 }
 
 onKeyBPrice(event: any){
@@ -120,29 +138,9 @@ onKeySPrice(event: any){
     this.sellAssetForm.sMoney.setValue(bAmountAsset*currentPrice);
 }
 
-
-
 get buyAssetForm() { return this.buyForm.controls; }
 
 get sellAssetForm() { return this.sellForm.controls; }
-
-
-buyCCQ() {
-  let buyCCQObject: BuySellCCQ = new BuySellCCQ();
-  buyCCQObject.customerId = this.buyForm.value.bCustomerSelectedId;
-  buyCCQObject.money = this.buyForm.value.bMoney;
-  buyCCQObject.priceCCQ = this.buyForm.value.bPrice;
-
-  this.investorTransService.buyCCQ(buyCCQObject).pipe(first()).subscribe((respons: any) => {
-      this.responseObject = respons;
-      if (this.responseObject.code === 200) {
-          this.showSuccess("Đầu tư thành công!");
-          this.resetForm();
-      } else {
-          this.showError("Đầu tư thất bại. Vui lòng liên hệ quản trị viên!");
-      }
-  });
-}
 
  showSuccess(mes: string) {
         this.toastrService.success('', mes, {
@@ -165,33 +163,18 @@ buyCCQ() {
         }
     }
 
-sellCCQ() {
-  let sellCCQObject: BuySellCCQ = new BuySellCCQ();
-  sellCCQObject.customerId = this.sellForm.value.sCustomerSelectedId;
-  sellCCQObject.amountCCQ = this.sellForm.value.sAmountCCQ;
-  sellCCQObject.priceCCQ = this.sellForm.value.sPrice;
-
-  this.investorTransService.sellCCQ(sellCCQObject).pipe(first()).subscribe((respons: any) => {
-      this.responseObject = respons;
-      if (this.responseObject.code === 200) {
-          this.showSuccess("Rút vốn thành công!");
-          this.resetForm();
-      } else {
-          this.showError("Rút vốn thất bại. Vui lòng liên hệ quản trị viên!");
-      }
-  });
-}
-
 ngOnInit(): void {
-  this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
-    // console.log("data: ", respons);
-    this.customers = respons;
-    if (this.customers) {
-        this.customerSelectedId = this.customers[0].id;
-        // console.log("data: ", this.customerSelectedId);
-        this.createBuyForm();
-    }
-});
+    this.assetService.getAll().pipe(first()).subscribe((respons: any) => {
+        // console.log("data: ", respons);
+        this.assets = respons.data;
+        console.log(  this.assets);
+        if (this.assets) {
+            this.assetSelectedId = this.assets[0].id;
+            // console.log("data: ", this.customerSelectedId);
+            // this.amountCCQAvaiable = this.customers[0].totalCcq;
+            this.createBuyForm();
+        }
+    });
 }
 
 }
