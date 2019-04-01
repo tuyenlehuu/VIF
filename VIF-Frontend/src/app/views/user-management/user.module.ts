@@ -11,6 +11,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { AppTranslationModule } from '../../app.translation.module';
     ButtonsModule.forRoot(),
     ReactiveFormsModule,
     AppTranslationModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgSelectModule
   ],
   declarations: [UserComponent, CEUserComponent]
 })
