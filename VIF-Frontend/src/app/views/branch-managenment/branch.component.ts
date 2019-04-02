@@ -39,7 +39,8 @@ export class BranchComponent implements OnInit {
 
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
-           this.branchs=respons.data;
+           this.branchs=respons;
+           console.log("this.branchs: ", this.branchs);
        });
     }
     // getPage(page: number) {

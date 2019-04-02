@@ -1,136 +1,99 @@
 <div class="card">
-    <!--header-->
-    <div class="card-header">
-        <span *ngIf="id==0">
-            <i class='fa fa-user-plus'></i>
-            <strong>{{'vif.branch.title1' | translate }}</strong>
-        </span>
-        <span *ngIf="id>0">
-            <i class="fa fa-user"></i>
-            <strong>{{'vif.branch.title2' | translate}}</strong>
-          </span>
-    
-    </div>
-<!--create Branch-->
-<div class="card-body" *ngIf="id==0">
-    <form >
+  <!--header-->
+  <div class="card-header">
+    <span *ngIf="id==0">
+      <i class='fa fa-user-plus'></i>
+      <strong>{{'vif.branch.title1' | translate }}</strong>
+    </span>
+    <span *ngIf="id>0">
+      <i class="fa fa-user"></i>
+      <strong>{{'vif.branch.title2' | translate}}</strong>
+    </span>
+  </div>
+
+  
+
+  <!--create Branch-->
+  <div class="card-body" *ngIf="id==0">
+    <form [formGroup]="addBranchForm" (ngSubmit)="onAddSubmit()">
       <div class="row">
         <div class="col-md-5">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="company">{{'vif.branch.code' | translate}}<span class="asterisk">&#42;</span></label>
-                </div>
-                <div class="col-md-9">
-                  <div class="form-group">
-                        
-                    <input type="text" name="username"  class="form-control">
-                    
-                  </div>
-                </div>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
-        </div>
-        <div class="offset-md-2 col-md-5">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="company">{{'vif.branch.name' | translate}}<span class="asterisk">&#42;</span></label>
-                </div>
-                <div class="col-md-9">
-                    <div class="form-group">
-                        
-                      <input type="text" name="username"  class="form-control">
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
+            <div class="col-md-9">
+              <div class="form-group">
 
-      </div>
-      <!--row-->
-      <div class="row">
-          <div class="col-md-5">
-              <div class="row">
-                <div class="col-md-3">
-                  <label for="company">{{'vif.branch.activeFlg' |translate }}<span class="asterisk">&#42;</span></label>
-                </div>
-                <div class="col-md-9">
-                  <div class="form-group">
-                    <select id="select1" name="select1" class="form-control" >
-                      
-                    </select>
-                  </div>
-                </div>
+                <input type="text" formControlName="aBranchCodeControl"  class="form-control">
+
               </div>
             </div>
-            <div class="offset-md-2 col-md-5">
-              
-            </div>
-            
-      </div>
-      <button type="button" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
-      </form>
-    </div>
-    <!--end create-->
-
-    <!--start edit-->
-    <div class="card-body" *ngIf="id>0">
-        <form >
-          <div class="row">
-            <div class="col-md-5">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="company">{{'vif.branch.code' | translate}}<span class="asterisk">&#42;</span></label>
-                    </div>
-                    <div class="col-md-9">
-                      <div class="form-group">
-                            
-                        <input type="text" name="username"  class="form-control">
-                        
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="offset-md-2 col-md-5">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="company">{{'vif.branch.name' | translate}}<span class="asterisk">&#42;</span></label>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="form-group">
-                            
-                          <input type="text" name="username"  class="form-control">
-                          
-                        </div>
-                    </div>
-                </div>
-            </div>
-    
           </div>
-          <!--row-->
-          <div class="row">
-              <div class="col-md-5">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label for="company">{{'vif.branch.activeFlg' |translate }}<span class="asterisk">&#42;</span></label>
-                    </div>
-                    <div class="col-md-9">
-                      <div class="form-group">
-                        <select id="select1" name="select1" class="form-control" >
-                          
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="offset-md-2 col-md-5">
-                  
-                </div>
-                
-          </div>
-          <button type="button" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
-          </form>
         </div>
-    <!--end edit-->
-</div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.name' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
 
+                <input type="text" formControlName="aBranchNameControl"  class="form-control">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <button type="button" style="margin-bottom: 1em "
+        class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+    </form>
+  </div>
+  <!--end create-->
+
+  <!--end edit-->
+  <form *ngIf="branch && id>0" [formGroup]="editBranchForm" (ngSubmit)="onEditSubmit()">
+  <div class="card-body" *ngIf="branch && id>0">
     
-     
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.code' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="eBranchCodeControl"  class="form-control">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.name' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="eBranchNameControl"  class="form-control">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <button type="submit" style="margin-bottom: 1em "
+        class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+    
+  </div>
+</form>
+
+
+
+</div>

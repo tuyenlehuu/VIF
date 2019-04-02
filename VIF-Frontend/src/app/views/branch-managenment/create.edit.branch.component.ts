@@ -1,57 +1,90 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BranchService } from '../../services/branch.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Branch } from '../../models/Branch.model';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
+import { first } from 'rxjs/operators';
 @Component({
-    templateUrl:'create.edit.branch.component.html'
+    templateUrl: 'create.edit.branch.component.html'
 })
-export class  CEBranchComponent implements OnInit {
-   id:any
-//    branch:Branch
-//    addUserForm: FormGroup;
-//    editUserForm: FormGroup;
+export class CEBranchComponent implements OnInit {
+    id: number;
+    isAddNew: boolean = true;
+    branch: Branch;
+    addBranchForm: FormGroup;
+    editBranchForm: FormGroup;
+    submitted = false;
+
+    constructor(private route: ActivatedRoute, private router: Router,
+        private toastrService: ToastrService, private fb: FormBuilder,
+        private branchService: BranchService) {
+        this.createForm();
+        
+    }
+
     ngOnInit(): void {
-        // this.id = this.route.snapshot.params['id'];
-        // if (this.id > 0) {
-        //     this.branchService.getById(this.id).subscribe((res: Branch) => {
-        //         this.branch = res;
-        //         // console.log("current user: ", this.user);
-        //         this.createEditForm();
-        //     })
-        // } else {
-        //     this.branch = new Branch();
-        // }
+
         this.id = this.route.snapshot.params['id'];
         if (this.id > 0) {
-            console.log("id nhan duoc", this.id);
+            // this.isAddNew = false;
+            //goi api getBranchById(this.id);
+            this.branchService.getBranchById(this.id).subscribe((res: Branch) => {
+                this.branch = res;
+                this.createEditForm();
+                // console.log("lay duoc branch qua id", this.branch);
+            });
         } else {
-            console.log("id nay bang khong", this.id);
+            this.branch = new Branch();
+            console.log("man hinh them moi", this.id);
         }
     }
-    constructor(private route: ActivatedRoute, private router: Router, private toastrService: ToastrService, private fb: FormBuilder){
-        // this.createForm();
+    //    ngOnInit(): void {
+    //         this.id = this.route.snapshot.params['id'];
+    //         if (this.id > 0) {
+    //             this.isAddNew = false;
+    //             //goi api getBranchById(this.id);
+    //             this.branchService.getBranchById(this.id).pipe(first()).subscribe((res:any) =>{
+    //                 this.branch = res;
+    //                 if(this.branch){
+    //                     this.createEditForm();
+    //                 }
+    //                 // console.log("lay duoc branch qua id", this.branch);
+    //             });
+    //         } else {
+    //             console.log("man hinh them moi", this.id);
+    //         }
+    //     }
+
+
+    get addForm() { return this.addBranchForm.controls; }
+
+    get editForm() { return this.editBranchForm.controls; }
+
+    createForm() {
+        this.addBranchForm = this.fb.group({
+            aBranchCodeControl: ['', Validators.required],
+            aBranchNameControl: ['', Validators.required],
+            aActiveFlgControl: ['', Validators.required]
+        });
     }
-    // createForm() {
-    //     this.addUserForm = this.fb.group({
-    //         username: ['', Validators.required],
-    //         password: ['', [Validators.required, Validators.minLength(8)]],
-    //         email: ['', Validators.required, Validators.email],
-    //         confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
-    //         role: ['ROLE_USER', Validators.required],
-    //         status: [1, Validators.required]
-    //     },{
-    //         validator: [MustMatch('password', 'confirmPassword'), RequireCombo('role')]
-    //     });
-    // }
-    // createEditForm(){
-    //     this.editUserForm = this.fb.group({
-    //         eUsername: [{value: this.user.username, disabled: true}, Validators.required],
-    //         eEmail: [this.user.email, Validators.required],
-    //         eRole: [this.user.role, Validators.required],
-    //         eStatus: [this.user.activeFlg, Validators.required]
-    //     });
-    // }
+
+    createEditForm() {
+        this.editBranchForm = this.fb.group({
+            eBranchCodeControl: [this.branch!=null?this.branch.branchCode:'', Validators.required],
+            eBranchNameControl: [this.branch!=null?this.branch.branchName:'', Validators.required]
+        });
+    }
+
+    onEditSubmit() {
+        if (this.editBranchForm.invalid) {
+            return;
+        }
+        console.log("goi ham sua");
+    }
+
+    onAddSubmit(){
+
+    }
 }
