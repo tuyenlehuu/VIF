@@ -94,7 +94,7 @@ public class User implements Serializable{
 		this.role = role;
 	}
 
-	public Integer visvisu() {
+	public Integer getIsOnline() {
 		return isOnline;
 	}
 
