@@ -107,7 +107,8 @@
     "invest_management":{
         "title_invest_trans": "Giao dịch đầu tư",
         "amount_asset_zero": "*Số lượng tài sản phải lớn hơn 0!",
-        "amount_asset_must_less": "*Số lượng vượt quá tài sản đang có!"
+        "amount_asset_must_less": "*Số lượng vượt quá tài sản đang có!",
+        "total_buy_must_less": "*giá trị đặt mua phải nhỏ hơn số tiền mặt của quỹ!"
     },
     "forgot_pass":{
         "title": "Quên mật khẩu",

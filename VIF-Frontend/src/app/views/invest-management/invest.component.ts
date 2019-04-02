@@ -36,7 +36,7 @@ export class InvestComponent implements OnInit {
 createBuyForm() {
   this.buyForm = this.fb.group({
     bAssetSelectedId: [this.assetSelectedId, Validators.required],
-    bAmountAsset: [0, Validators.required],
+    bAmountAsset: [0],
     bMoney: [{value:0, disabled: true}, Validators.required],
     bPrice: [0, Validators.required],
     amountMoneyAvaiable: [this.amountMoneyAvaiable],

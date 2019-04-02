@@ -54,11 +54,11 @@
                         <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountAsset" (keyup)="onKeyBAmount($event)">
                       </div>
                       <div *ngIf="buyAssetForm.bAmountAsset.invalid && (buyAssetForm.bAmountAsset.dirty || buyAssetForm.bAmountAsset.touched)" class="alert alert-danger">
+                        <div *ngIf="buyAssetForm.bAmountAsset.errors.mustLessThan">
+                          {{'vif.invest_management.total_buy_must_less' | translate}}
+                        </div>
                         <div *ngIf="buyAssetForm.bAmountAsset.errors.notEqualZero">
                           {{'vif.invest_management.amount_asset_zero' | translate}}
-                        </div>
-                        <div *ngIf="buyAssetForm.bAmountAsset.errors.mustLessThan">
-                          {{'vif.invest_management.amount_Asset_must_less' | translate}}
                         </div>
                       </div>
                     </div>
