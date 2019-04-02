@@ -4,7 +4,7 @@ export class Branch{
     branchName:string;
     activeFlg :number;
     public constructor(){
-        this.activeFlg=-1;
+        this.activeFlg=1;
     }
 
 }
