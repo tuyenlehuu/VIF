@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { GeneralScreenComponent } from './general.screen.component';
 import { ReportAssetScreenComponent } from './report.asset.component';
+import { NAVScreenComponent } from './nav.vif.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { CommonModule } from '@angular/common';
 
@@ -24,6 +25,6 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     CommonModule
   ],
-  declarations: [ DashboardComponent, GeneralScreenComponent, ReportAssetScreenComponent ]
+  declarations: [ DashboardComponent, GeneralScreenComponent, ReportAssetScreenComponent, NAVScreenComponent ]
 })
 export class DashboardModule { }

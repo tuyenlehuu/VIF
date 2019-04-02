@@ -41,47 +41,6 @@ export class ReportAssetScreenComponent implements OnInit {
     }
   };
 
-  // Line NAV
-  // lineChart
-  public lineChartData: Array<any> = [
-    {data: [10000.52, 10000.61, 10000.13, 10000.22, 10000.10, 10000.20, 10000.14], label:'NAV'}
-  ];
-  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartOptions: any = {
-    animation: false,
-    responsive: true
-  };
-  public lineChartColours: Array<any> = [
-    { // grey
-      backgroundColor: '#fff',
-      borderColor: 'rgb(105, 195, 255)',
-      pointBackgroundColor: 'rgb(255, 139, 164)',
-      pointBorderColor: 'rgb(255, 139, 164)',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-      fill: false
-    },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }
-  ];
-  public lineChartLegend = true;
-  public lineChartType = 'line';
-
-
   constructor(private dashboardService:DashboardService){
     this.dashboardService.getData().pipe(first()).subscribe(dashboard=>{
       this.dashboard = dashboard;
@@ -89,7 +48,7 @@ export class ReportAssetScreenComponent implements OnInit {
         if(this.dashboard.shares + this.dashboard.itRt+this.dashboard.cash + this.dashboard.cs>0){
           let pmoney = 100*(this.dashboard.cash + this.dashboard.cs)/(this.dashboard.shares + this.dashboard.itRt+this.dashboard.cash + this.dashboard.cs);
           this.perMoney = pmoney.toFixed(2);
-          this.pieChartData= [this.perMoney, 100-this.perMoney];
+          this.pieChartData= [this.perMoney, (100-this.perMoney).toFixed(2)];
         }else{
           this.pieChartData= [100, 0];
         }
@@ -98,7 +57,7 @@ export class ReportAssetScreenComponent implements OnInit {
         if(this.dashboard.totalAsset>0){
           let pmoneyNo = 100*this.dashboard.totalDebt/this.dashboard.totalAsset;
           this.perMoneyNo = pmoneyNo.toFixed(2);
-          this.pieChartDataNo= [this.perMoneyNo, 100-this.perMoneyNo];
+          this.pieChartDataNo= [this.perMoneyNo, (100-this.perMoneyNo).toFixed(2)];
         }else{
           this.pieChartDataNo= [0, 100];
         }

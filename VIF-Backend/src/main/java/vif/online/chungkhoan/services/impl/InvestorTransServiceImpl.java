@@ -105,6 +105,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			if (assetCCQ != null) {
 				assetCCQ.setAmount(assetCCQ.getAmount().add(amoutnCCQ));
 				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, true));
+				assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
 				assetService.updateAsset(assetCCQ);
 			} else {
 				Asset newAsset = new Asset();
@@ -210,6 +211,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			if (assetCCQ != null) {
 				assetCCQ.setAmount(assetCCQ.getAmount().subtract(amountCCQ));
 				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
+				assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
 				assetService.updateAsset(assetCCQ);
 			} else {
 				resultResponse.setCode(500);
