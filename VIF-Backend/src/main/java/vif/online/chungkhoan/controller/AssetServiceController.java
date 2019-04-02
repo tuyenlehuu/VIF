@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.BuySellAssetObj;
+import vif.online.chungkhoan.helper.BuySellDTO;
 import vif.online.chungkhoan.services.AssetService;
 
 @Controller
@@ -58,4 +62,28 @@ public class AssetServiceController {
 		headers.setLocation(builder.path("/getAssetByCode/{assetCode}").buildAndExpand(asset.getAssetCode()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
+	
+
+	@RequestMapping(value = "/buySercurities", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> buySercurities(@RequestBody BuySellAssetObj buyObject) {
+		ApiResponse result = new ApiResponse();
+		result.setCode(200);
+		result.setStatus(true);
+		result.setData(buyObject);
+		
+		
+		
+//		if(buyObject==null || buyObject.getCustomerId() == null || buyObject.getMoney()==null || buyObject.getPriceCCQ() == null) {
+//			result.setCode(500);
+//			result.setStatus(false);
+//			result.setErrors("missing parameters!");
+//			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+//		}
+//		result = investorTransService.buyCCQ(buyObject.getCustomerId(), buyObject.getMoney(), buyObject.getPriceCCQ());
+	
+		
+		 
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
+	
 }
