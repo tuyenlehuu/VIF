@@ -36,7 +36,11 @@ export class BranchComponent implements OnInit {
 
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
+<<<<<<< HEAD
            this.branchs=respons;
+=======
+           this.branchs=respons.data;
+>>>>>>> parent of e790330... update branch management
        });
      
     }
