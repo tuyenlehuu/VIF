@@ -13,6 +13,10 @@ export class BranchService{
         return this.http.get<any>(`${config.apiUrl}/branch/getAlls`);
     }
 
+    getBranchById(id: number) {
+        return this.http.get<any>(`${config.apiUrl}/branch/` + id);
+    }
+
     // getBranchByCondition(branchCondition: Branch,pager:Pager){
     //     if(!pager){
     //         pager = new Pager();

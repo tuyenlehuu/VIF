@@ -1,0 +1,96 @@
+<div class="mainbranch">
+    <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+              <div class="card-header">
+                <span>{{'vif.branch.title' | translate }}</span>  
+                <button type="button" [routerLink]="['/branch-managenment/ce-branch-managenment', 0]" style="float:right" class="btn btn-primary">{{'vif.branch.add' | translate}}</button>
+              </div>
+              <div class="card-body">
+                <form >
+                  <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="company">{{'vif.branch.code' | translate}}<span class="asterisk">&#42;</span></label>
+                            </div>
+                            <div class="col-md-9">
+                              <div class="form-group">
+                                    
+                                <input type="text" name="code" [(ngModel)]="branchSearch.code" class="form-control" id="code-id" placeholder="{{'vif.branch.code_placeholder' | translate}}">
+                                
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offset-md-2 col-md-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="company">{{'vif.branch.name' | translate}}<span class="asterisk">&#42;</span></label>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    
+                                  <input type="text" name="name" [(ngModel)]="branchSearch.name" class="form-control" id="name-id" placeholder="{{'vif.branch.name_placeholder' | translate}}">
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  </div>
+                  <!--row-->
+                  <div class="row">
+                      <div class="col-md-5">
+                          <div class="row">
+                            <div class="col-md-3">
+                              <label for="company">{{'vif.branch.activeFlg' |translate }}<span class="asterisk">&#42;</span></label>
+                            </div>
+                            <div class="col-md-9">
+                              <div class="form-group">
+                                <select id="select1" name="select1" class="form-control" [(ngModel)]="branchSearch.activeFlg">
+                                  <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="offset-md-2 col-md-5">
+                          
+                        </div>
+                        
+                  </div>
+                  <button type="button" (click)="search()" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+                  <table class="table table-striped mt-3">
+                    <thead>
+                      <tr>
+                        <th scope="col">{{'vif.branch.code' | translate}}</th>
+                        <th scope="col" >{{'vif.branch.name' | translate }}</th>
+                        <th scope="col">{{'vif.branch.activeFlg' | translate }}</th>
+                        <th scope="col">{{'vif.branch.action' | translate }}</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="branchs && branchs.length>0">
+                     <tr *ngFor="let item of branchs ">
+                       <td>{{item.branchCode}}</td>
+                       <td>{{item.branchName}}</td>
+                       <td>{{item.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}}</td>
+                       <td>
+                        <a [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]"><i class="fa fa-pencil"></i></a>
+                        <a style="color: red; cursor: pointer; margin-left: 10px;" ><i
+                            class="fa fa-trash-o"></i></a>
+                       </td>
+                     </tr>
+                    </tbody>
+                  </table>
+
+                </form>    
+                
+              </div>
+              
+          </div>   
+          
+           
+        </div>   
+    </div>
+</div>
