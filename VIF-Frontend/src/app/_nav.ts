@@ -91,5 +91,10 @@ export const navItems: NavData[] = [
     name: 'Quản lý Phí',
     url: '/theme/typography',
     icon: 'cui-british-pound'
+  },
+  {
+    name: 'Quản lý ngành CP',
+    url: '/branch-managenment',
+    icon: 'cui-british-pound'
   }
 ];

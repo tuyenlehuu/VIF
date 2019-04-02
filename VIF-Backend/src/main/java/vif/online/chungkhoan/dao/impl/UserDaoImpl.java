@@ -56,7 +56,7 @@ public class UserDaoImpl implements UserDao{
 		return null;
 	}
 
-	@Override
+	@Override	
 	public boolean addUser(User user) {
 		// TODO Auto-generated method stub
 		user.setPassword(passwordEncoder.encode(user.returnPassword()));

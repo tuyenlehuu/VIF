@@ -70,6 +70,10 @@ export const routes: Routes = [
         loadChildren: './views/customer-invest-history/cus.invest.history.module#CusInvestHistoryModule'
       },
       {
+        path:"branch-managenment",
+        loadChildren: './views/branch-managenment/branch.module#BranchModule'
+      },
+      {
         path: 'theme',
         loadChildren: './views/theme/theme.module#ThemeModule'
       },

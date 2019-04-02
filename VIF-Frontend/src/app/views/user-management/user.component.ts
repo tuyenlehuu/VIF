@@ -45,8 +45,8 @@ export class UserComponent implements OnInit {
             value: -1
         },
         {
-            name: 'Hoạt động',
-            value: 1
+                name: 'Hoạt động',
+                value: 1
         },
         {
             name: 'Ngừng hoạt động',
