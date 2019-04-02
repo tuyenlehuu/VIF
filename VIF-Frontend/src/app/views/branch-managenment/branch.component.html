@@ -71,21 +71,21 @@
                       </tr>
                     </thead>
                     <tbody *ngIf="branchs && branchs.length>0">
-                     <tr *ngFor="let branch of branchs ">
-                       <th>{{branch.code}}</th>
-                       <th>{{branch.name}}</th>
-                       <th>{{branch.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}}</th>
+                     <tr *ngFor="let iteam of branchs ">
+                       <td>{{iteam.branchCode}}</td>
+                       <td>{{iteam.branchName}}</td>
+                       <td>{{iteam.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}}</td>
+                       <td>
+                        <a [routerLink]="['/branch-managenment/ce-branch-managenment', iteam.id]"><i class="fa fa-pencil"></i></a>
+                        <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, iteam.id)"><i
+                            class="fa fa-trash-o"></i></a>
+                      </td>
                      </tr>
                     </tbody>
                   </table>
-
-                </form>    
-                
-              </div>
-              
-          </div>   
-          
-           
+                </form>      
+              </div> 
+          </div>      
         </div>   
     </div>
 </div>

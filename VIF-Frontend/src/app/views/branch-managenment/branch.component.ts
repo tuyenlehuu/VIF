@@ -2,18 +2,15 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { first, catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
-import { Pager } from '../../models/Pager';
 import { Branch } from '../../models/Branch.model';
 import { BranchService } from '../../services/branch.service';
-import { ResponseObject } from '../../models/Response.model';
-
 
 @Component({
     templateUrl: 'branch.component.html',
     styleUrls: ['branch.component.css']
 })
 export class BranchComponent implements OnInit {
-    branchs:Branch[]=[];
+    branchs: Branch[] = [];
     total:number;
     branchSearch: Branch=new Branch();
     pageSize: number = 5;
@@ -39,8 +36,10 @@ export class BranchComponent implements OnInit {
 
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
-           this.branchs=respons.data;
+           this.branchs=respons;
+           console.log("this.branch",this.branchs);
        });
+     
     }
     // getPage(page: number) {
     //     var pager: Pager = new Pager();
