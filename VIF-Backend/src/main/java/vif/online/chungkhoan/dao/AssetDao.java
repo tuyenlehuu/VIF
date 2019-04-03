@@ -26,4 +26,7 @@ public interface AssetDao {
 	public List<Asset> getAlls();
 
 	Asset getByAssetId(int assetId);
+
+	public List<Asset> getAllShares();
+
 }

@@ -6,6 +6,7 @@ import { User } from '../../models/User.model';
 import { DashboardService } from '../../services/dashboard.service';
 import { first } from 'rxjs/operators';
 import { Dashboard } from '../../models/Dashboard.model';
+import { KeyNameValue } from '../../models/KeyNameValue.model';
 
 @Component({
     selector: 'report-asset-screen',
@@ -14,6 +15,7 @@ import { Dashboard } from '../../models/Dashboard.model';
 export class ReportAssetScreenComponent implements OnInit {
   users: User[] = [];
   dashboard: Dashboard;
+  assetsReport: KeyNameValue [] = [];
 
   // Pie tien - ck
   public pieChartLabels: string[] = ['Tiền', 'Chứng khoán'];
@@ -25,6 +27,19 @@ export class ReportAssetScreenComponent implements OnInit {
   public pieChartLabelsNo: string[] = ['Nợ', 'Tài sản ròng'];
   public perMoneyNo;
   public pieChartDataNo: number[] = [];
+
+  // barChart
+  public barChartOptions: any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels: string[] = [];
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData: any[] = this.barChartData = [
+    {data: [], label: 'Tài sản'}
+  ];
 
   public pieChartOptions:any = {
     tooltips: {
@@ -66,12 +81,13 @@ export class ReportAssetScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // generate random values for mainChart
-    // this.userService.getAll().pipe(first()).subscribe(users=>{
-    //   this.users = users;
-    //   console.log("all user is: ", users);
-    // });
-    
+    this.dashboardService.getReportAsset().pipe(first()).subscribe(res=>{
+      this.assetsReport = res;
+      Object.keys(this.assetsReport).forEach(key => {
+        this.barChartLabels.push(this.assetsReport[key].key);
+        this.barChartData[0].data.push(this.assetsReport[key].value.toFixed(2));
+      });
+    });
   }
 
   

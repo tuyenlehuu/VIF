@@ -18,7 +18,7 @@ export class GeneralScreenComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     // generate random values for mainChart
-    this.assetService.getAll().pipe(first()).subscribe(respon=>{
+    this.assetService.getAllShares().pipe(first()).subscribe(respon=>{
       this.assets = respon.data;
       // console.log("all assets is: ", this.assets);
     });

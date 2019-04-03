@@ -1,6 +1,7 @@
 package vif.online.chungkhoan.dao.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.entities.DashBoard;
+import vif.online.chungkhoan.helper.KeyNameValueDTO;
 
 @Transactional
 @Repository
@@ -87,6 +89,34 @@ public class DashboardDaoImpl implements DashboardDao {
 		}
 		
 		return dashboard;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KeyNameValueDTO> getDataTotalAsset() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT DATE_FORMAT(update_date, '%Y/%m') Month, " + 
+					 " SUM(CASE WHEN amount = 0 AND code!='VIF_CCQ' THEN price END) + SUM(CASE WHEN amount <> 0 AND code!='VIF_CCQ' THEN amount*price END) TotalAsset " + 
+					 " FROM asset_history " + 
+					 " WHERE last_of_month_flg=1 AND active_flg=1 " + 
+					 " GROUP BY update_date";
+
+		List<Object[]> rows = entityManager.createNativeQuery(sql).getResultList();
+		List<KeyNameValueDTO> assetLst = new ArrayList<KeyNameValueDTO>();
+		if (rows != null && rows.size() > 0) {
+			for (Object[] row : rows) {
+				KeyNameValueDTO item = new KeyNameValueDTO();
+				if (row[0] != null && !row[0].equals("")) {
+					item.setKey(row[0].toString());
+				}
+				if (row[1] != null && !row[1].equals("")) {
+					item.setValue((BigDecimal) row[1]);
+				}
+				assetLst.add(item);
+			}
+		}
+		
+		return assetLst;
 	}
 
 }

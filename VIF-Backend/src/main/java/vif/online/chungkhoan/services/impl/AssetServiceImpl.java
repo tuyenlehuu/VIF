@@ -122,5 +122,10 @@ public class AssetServiceImpl implements AssetService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public List<Asset> getAllShares() {
+		// TODO Auto-generated method stub
+		return assetDao.getAllShares();
+
+	}
 
 }

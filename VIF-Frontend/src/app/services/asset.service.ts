@@ -12,6 +12,10 @@ export class AssetService{
         return this.http.get<any>(`${config.apiUrl}/asset/getAlls`);
     }
 
+    getAllShares(){
+        return this.http.get<any>(`${config.apiUrl}/asset/getAllShares`);
+    }
+
     getByCode(assetCode: string) {
         return this.http.get(`${config.apiUrl}/asset/getAssetByCode/${assetCode}`);
     }
