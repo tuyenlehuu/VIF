@@ -58,4 +58,15 @@ public class AssetServiceController {
 		headers.setLocation(builder.path("/getAssetByCode/{assetCode}").buildAndExpand(asset.getAssetCode()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.OK);
 	}
+	
+	@GetMapping("/getAllShares")
+	public ResponseEntity<ApiResponse> getAllShares() {
+		ApiResponse object = new ApiResponse();
+		List<Asset> list = assetService.getAllShares();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
 }

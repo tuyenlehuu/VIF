@@ -12,4 +12,6 @@ public interface AssetService {
 	public boolean addAsset(Asset asset);
 
 	public List<Asset> getAlls();
+
+	public List<Asset> getAllShares();
 }

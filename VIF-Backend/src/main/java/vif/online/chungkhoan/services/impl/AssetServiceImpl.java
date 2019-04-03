@@ -39,4 +39,10 @@ public class AssetServiceImpl implements AssetService{
 		return assetDao.getAlls();
 	}
 
+	@Override
+	public List<Asset> getAllShares() {
+		// TODO Auto-generated method stub
+		return assetDao.getAllShares();
+	}
+
 }

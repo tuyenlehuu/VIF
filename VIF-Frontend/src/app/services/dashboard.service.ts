@@ -9,4 +9,8 @@ export class DashboardService{
     getData() {
         return this.http.get<any>(`${config.apiUrl}/dashboard/getData`);
     }
+
+    getReportAsset() {
+        return this.http.get<any>(`${config.apiUrl}/dashboard/get-asset-report`);
+    }
 }
