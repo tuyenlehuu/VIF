@@ -63,7 +63,7 @@ public class AssetServiceImpl implements AssetService{
 		ApiResponse response = new ApiResponse();
 		// get asset
 		Asset sercurity = assetDao.getByAssetId(assetId);
-		sercurity.setAmount(sercurity.getAmount().add(amount));
+		
 		// add to asset transaction
 		TransactionHistory transHistory = new TransactionHistory();
 		transHistory.setActiveFlg(1);
@@ -88,7 +88,6 @@ public class AssetServiceImpl implements AssetService{
 		BigDecimal oldMoney = cAsset.getCurrentPrice();
 		cAsset.setCurrentPrice(oldMoney.subtract(money));
 		assetService.updateAsset(cAsset);
-
 		// update amount of asset
 		BigDecimal newAmount = sercurity.getAmount().add(amount);
 		BigDecimal assetOriginalValue = sercurity.getAmount().multiply(sercurity.getOrginalPrice());
@@ -96,7 +95,6 @@ public class AssetServiceImpl implements AssetService{
 		sercurity.setAmount(newAmount);
 		sercurity.setOrginalPrice(newOriginalPrice);
 		assetService.updateAsset(sercurity);
-
 		// response
 		response.setCode(200);
 		response.setStatus(true);
