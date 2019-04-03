@@ -24,4 +24,6 @@ public interface AssetDao {
 	public boolean addAsset(Asset asset);
 
 	public List<Asset> getAlls();
+
+	Asset getByAssetId(int assetId);
 }

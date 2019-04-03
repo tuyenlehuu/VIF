@@ -68,4 +68,10 @@ public class AssetDaoImpl implements AssetDao {
 		return (List<Asset>) entityManager.createQuery(hql).getResultList();
 	}
 
+	@Override
+	public Asset getByAssetId(int assetId) {
+		// TODO Auto-generated method stub
+		return entityManager.find(Asset.class, assetId);
+	}
+
 }
