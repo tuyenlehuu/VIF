@@ -1,18 +1,15 @@
 import { Component, OnInit, Input, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { User } from '../../models/User.model';
 import { DashboardService } from '../../services/dashboard.service';
 import { first } from 'rxjs/operators';
-import { Dashboard } from '../../models/Dashboard.model';
+import { NavModel } from '../../models/NavReport.model';
 
 @Component({
     selector: 'nav-screen',
     templateUrl: 'nav.vif.component.html'
 })
 export class NAVScreenComponent implements OnInit {
-  dashboard: Dashboard;
+  navList: NavModel[] = [];
 
   // Line NAV
   // lineChart
@@ -56,9 +53,10 @@ export class NAVScreenComponent implements OnInit {
 
 
   constructor(private dashboardService:DashboardService){
-    this.dashboardService.getData().pipe(first()).subscribe(dashboard=>{
-      this.dashboard = dashboard;
-      if(this.dashboard){
+    this.dashboardService.getNavReport(null, null, null).pipe(first()).subscribe(res=>{
+      this.navList = res;
+      if(this.navList){
+        console.log("this.navList", this.navList);
       }
     });
   }

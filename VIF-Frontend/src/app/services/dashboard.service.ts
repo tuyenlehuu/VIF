@@ -13,4 +13,24 @@ export class DashboardService{
     getReportAsset() {
         return this.http.get<any>(`${config.apiUrl}/dashboard/get-asset-report`);
     }
+
+    getNavReport(customerId: number, fromDate: string, toDate: string) {
+        let url: string = `${config.apiUrl}/dashboard/get-nav-report?page=1`;
+        if(customerId){
+            url = url + "&customerId=" + customerId;
+        }
+
+        if(fromDate){
+            url = url + "&fromDate=" + fromDate;
+        }
+
+        if(toDate){
+            url = url + "&toDate=" + toDate;
+        }
+        return this.http.get<any>(url);
+    }
+
+    getNavChartData() {
+        return this.http.get<any>(`${config.apiUrl}/dashboard/get-nav-chart`);
+    }
 }

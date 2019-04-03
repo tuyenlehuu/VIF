@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
+import vif.online.chungkhoan.helper.NAVDTO;
 import vif.online.chungkhoan.services.DashboardService;
 
 @Service(value = "dashboardService")
@@ -26,6 +27,12 @@ public class DashboardServiceImpl implements DashboardService{
 	public List<KeyNameValueDTO> getDataTotalAsset() {
 		// TODO Auto-generated method stub
 		return dashboardDao.getDataTotalAsset();
+	}
+
+	@Override
+	public List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		return dashboardDao.getNAVReport(customerId, fromDate, toDate);
 	}
 
 }

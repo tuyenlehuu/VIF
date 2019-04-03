@@ -1,11 +1,15 @@
 package vif.online.chungkhoan.dao.impl;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
+import vif.online.chungkhoan.helper.NAVDTO;
 
 @Transactional
 @Repository
@@ -117,6 +122,148 @@ public class DashboardDaoImpl implements DashboardDao {
 		}
 		
 		return assetLst;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate) {
+		// TODO Auto-generated method stub
+		StringBuilder queryStr = new StringBuilder("");
+		queryStr.append(" SELECT a.customer_id, a.NDT, MAX(CASE WHEN a.last_update = a.mini THEN a.CCQ_Dau_Ky END) CCQ_Dau_Ky,");
+		queryStr.append(" MAX(CASE WHEN a.last_update = a.mini THEN a.Gia_Dau_Ky END) Gia_Dau_Ky, MAX(CASE WHEN a.last_update = a.maxi THEN a.CCQ_Cuoi_Ky END) CCQ_Cuoi_Ky, ");
+		queryStr.append(" MAX(CASE WHEN a.last_update = a.maxi THEN a.Gia_Cuoi_Ky END) Gia_Cuoi_Ky, (SELECT a.price FROM asset_history a, (SELECT MAX(ah.update_date) update_date FROM asset_history AS ah ");
+		queryStr.append(" WHERE ah.code = 'VIF_CCQ' ");
+		
+		if(fromDate != null && !fromDate.equals("")) {
+			queryStr.append(" AND ah.update_date >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			queryStr.append(" AND ah.update_date <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+		}
+		
+		queryStr.append(" ) t");
+		queryStr.append(" WHERE a.update_date = t.update_date AND a.code = 'VIF_CCQ') Gia_TT,");
+		queryStr.append(" MAX(CASE WHEN a.last_update = a.maxi THEN a.CCQ_Cuoi_Ky END) * MAX(CASE WHEN a.last_update = a.maxi THEN a.Gia_Cuoi_Ky END) TS_Rong");
+		queryStr.append(" FROM");
+		queryStr.append(" (SELECT c.id customer_id, ih.last_update, c.full_name NDT, ih.type_of_transaction, ih.amount_ccq_before CCQ_Dau_Ky,");
+		queryStr.append(" ih.price_of_ccq_before Gia_Dau_Ky, CASE WHEN ih.type_of_transaction = 'M' THEN ih.amount_ccq + ih.amount_ccq_before ELSE ih.amount_ccq_before - ih.amount_ccq END CCQ_Cuoi_Ky,");
+		queryStr.append(" CASE WHEN ih.type_of_transaction = 'M' THEN (ih.amount_ccq * ih.price_of_ccq + ih.amount_ccq_before * ih.price_of_ccq_before) / (ih.amount_ccq + ih.amount_ccq_before)");
+		queryStr.append(" ELSE (ih.amount_ccq_before * ih.price_of_ccq_before - ih.amount_ccq * ih.price_of_ccq) / (ih.amount_ccq_before - ih.amount_ccq) END Gia_Cuoi_Ky,");
+		queryStr.append(" m.mini, m.maxi");
+		queryStr.append(" FROM investor_history ih,");
+		queryStr.append(" (SELECT ih.customer_id, c.full_name, MIN(ih.last_update) AS mini, MAX(ih.last_update) AS maxi");
+		queryStr.append(" FROM customer c");
+		queryStr.append(" LEFT JOIN investor_history ih ON c.id = ih.customer_id");
+		queryStr.append(" WHERE 1 = 1");
+		
+		if(fromDate != null && !fromDate.equals("")) {
+			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+		}
+		queryStr.append(" GROUP BY ih.customer_id");
+		queryStr.append(" UNION");
+		queryStr.append(" SELECT ih.customer_id, c.full_name, MAX(ih.last_update) AS mini, MAX(ih.last_update) AS maxi");
+		queryStr.append(" FROM customer c");
+		queryStr.append(" LEFT JOIN investor_history ih ON c.id = ih.customer_id");
+		queryStr.append(" WHERE 1=1");
+		
+		if(fromDate != null && !fromDate.equals("")) {
+			queryStr.append(" AND ih.last_update < STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+		}
+		
+		queryStr.append(" AND c.id NOT IN (SELECT ih.customer_id FROM investor_history ih");
+		queryStr.append(" WHERE 1=1");
+		if(fromDate != null && !fromDate.equals("")) {
+			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+		}
+
+		queryStr.append(" GROUP BY ih.customer_id)");
+		queryStr.append(" GROUP BY ih.customer_id) AS m, customer c");
+		queryStr.append(" WHERE 1=1");
+		queryStr.append(" AND (m.maxi = ih.last_update OR m.mini = ih.last_update)");
+		queryStr.append(" AND c.id = ih.customer_id AND c.id = m.customer_id) a WHERE 1=1 ");
+		
+		if(customerId!= null) {
+			queryStr.append(" AND a.customer_id = :customerId");
+		}
+		queryStr.append(" GROUP BY a.customer_id");
+
+		if(fromDate != null && !fromDate.equals("")) {
+			Pattern p = Pattern.compile(":fromDate");
+			queryStr = replaceAll(queryStr,p,fromDate);
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			Pattern p = Pattern.compile(":toDate");
+			queryStr = replaceAll(queryStr,p,toDate);
+		}
+		
+		if(customerId!= null) {
+			Pattern p = Pattern.compile(":customerId");
+			queryStr = replaceAll(queryStr,p, customerId.toString());
+		}
+		
+		Query mQuery = entityManager.createNativeQuery(queryStr.toString());
+		List<Object[]> rows = mQuery.getResultList();
+		List<NAVDTO> NAVList = new ArrayList<NAVDTO>();
+		if (rows != null && rows.size() > 0) {
+			for (Object[] row : rows) {
+				NAVDTO item = new NAVDTO();
+				if (row[0] != null && !row[0].equals("")) {
+					item.setCustomerId(((BigInteger) row[0]).intValue());
+				}
+				
+				if (row[1] != null && !row[1].equals("")) {
+					item.setCustomerFullName(row[1].toString());
+				}
+				
+				if (row[2] != null && !row[2].equals("")) {
+					item.setAmountCCQBefore((BigDecimal)row[2]);
+				}
+				
+				if (row[3] != null && !row[3].equals("")) {
+					item.setPriceCCQBefore((BigDecimal) row[3]);
+				}
+				
+				if (row[4] != null && !row[4].equals("")) {
+					item.setAmountCCQAfter((BigDecimal) row[4]);
+				}
+				
+				if (row[5] != null && !row[5].equals("")) {
+					item.setPriceCCQAfter((BigDecimal) row[5]);
+				}
+				
+				if (row[6] != null && !row[6].equals("")) {
+					item.setPriceCCQMarket((BigDecimal) row[6]);
+				}
+				
+				if (row[7] != null && !row[7].equals("")) {
+					item.setRealAssetOfCus((BigDecimal) row[7]);
+				}
+				
+				NAVList.add(item);
+			}
+		}
+		
+		return NAVList;
+	}
+	
+	public static StringBuilder replaceAll(StringBuilder sb, Pattern pattern, String replacement) {
+	    Matcher m = pattern.matcher(sb);
+	    int start = 0;
+	    while (m.find(start)) {
+	        sb.replace(m.start(), m.end(), replacement);
+	        start = m.start() + replacement.length();
+	    }
+	    return sb;
 	}
 
 }
