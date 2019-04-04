@@ -58,12 +58,29 @@ export function ValidateSellAmount(controlName: string, controlNameCompare: stri
         const controlCompare = formGroup.controls[controlNameCompare];
 
         // set error on matchingControl if validation fails
-        if (control.value >0 && control.value >= controlCompare.value) {
+        if (control.value > 0 && control.value >= controlCompare.value) {
             control.setErrors({ mustLessThan: true });
-        }else if (control.value === 0) {
+        } else if (control.value === 0) {
             control.setErrors({ notEqualZero: true });
-        }else {
+        } else {
             control.setErrors(null);
         }
     }
+}
+
+export function formatDate(myDate: Date): string {
+    if(!myDate){
+        return null;
+    }
+    var monthNames = [
+        "01", "02", "03",
+        "04", "05", "06", "07",
+        "08", "09", "10",
+        "11", "12"
+    ];
+    var day = myDate.getDate();
+    var monthIndex = myDate.getMonth();
+    var year = myDate.getFullYear();
+
+    return monthNames[monthIndex] + '/' + day + '/' + year;
 }

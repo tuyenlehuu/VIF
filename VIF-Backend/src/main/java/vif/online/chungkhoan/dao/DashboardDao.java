@@ -10,4 +10,6 @@ public interface DashboardDao {
 	DashBoard getData();
 	List<KeyNameValueDTO> getDataTotalAsset();
 	List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate);
+	
+	List<KeyNameValueDTO> getNavChartData(boolean isByMonth);
 }

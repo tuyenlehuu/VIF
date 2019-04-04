@@ -36,7 +36,7 @@ export const navItems: NavData[] = [
     icon: 'icon-speedometer'
   },
   {
-    name: 'Quản lý tài sản',
+    name: 'Quản lý tài sản khác',
     url: '/theme/colors',
     icon: 'icon-note'
   },

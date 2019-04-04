@@ -35,4 +35,10 @@ public class DashboardServiceImpl implements DashboardService{
 		return dashboardDao.getNAVReport(customerId, fromDate, toDate);
 	}
 
+	@Override
+	public List<KeyNameValueDTO> getNavChartData(boolean isByMonth) {
+		// TODO Auto-generated method stub
+		return dashboardDao.getNavChartData(isByMonth);
+	}
+
 }

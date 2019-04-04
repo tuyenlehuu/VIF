@@ -17,7 +17,7 @@ export class AssetService{
     }
 
     getByCode(assetCode: string) {
-        return this.http.get(`${config.apiUrl}/asset/${assetCode}`);
+        return this.http.get(`${config.apiUrl}/asset/getAssetByCode/${assetCode}`);
     }
 
     addAsset(asset: Asset) {

@@ -30,7 +30,8 @@ export class DashboardService{
         return this.http.get<any>(url);
     }
 
-    getNavChartData() {
-        return this.http.get<any>(`${config.apiUrl}/dashboard/get-nav-chart`);
+    getNavChartData(isByMonth: boolean) {
+        let url: string = `${config.apiUrl}/dashboard/get-nav-chart-report?isByMonth=` + isByMonth;
+        return this.http.get<any>(url);
     }
 }

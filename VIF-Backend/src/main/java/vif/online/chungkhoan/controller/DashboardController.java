@@ -42,4 +42,12 @@ public class DashboardController {
 		List<NAVDTO> NAVList = dashboardService.getNAVReport(customerId, fromDate, toDate);
 		return new ResponseEntity<List<NAVDTO>>(NAVList, HttpStatus.OK);
 	}
+	
+	@GetMapping("/get-nav-chart-report")
+	public ResponseEntity<List<KeyNameValueDTO>> getNavChartData(@RequestParam(value = "isByMonth", required = true) boolean isByMonth) {
+		List<KeyNameValueDTO> navList = dashboardService.getNavChartData(isByMonth);
+		return new ResponseEntity<List<KeyNameValueDTO>>(navList, HttpStatus.OK);
+	}
+	
+	
 }

@@ -135,11 +135,11 @@ public class DashboardDaoImpl implements DashboardDao {
 		queryStr.append(" WHERE ah.code = 'VIF_CCQ' ");
 		
 		if(fromDate != null && !fromDate.equals("")) {
-			queryStr.append(" AND ah.update_date >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+			queryStr.append(" AND ah.update_date >= STR_TO_DATE(':fromDate', '%m/%d/%Y') ");
 		}
 		
 		if(toDate != null && !toDate.equals("")) {
-			queryStr.append(" AND ah.update_date <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+			queryStr.append(" AND ah.update_date <= STR_TO_DATE(':toDate', '%m/%d/%Y')");
 		}
 		
 		queryStr.append(" ) t");
@@ -158,11 +158,11 @@ public class DashboardDaoImpl implements DashboardDao {
 		queryStr.append(" WHERE 1 = 1");
 		
 		if(fromDate != null && !fromDate.equals("")) {
-			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%m/%d/%Y') ");
 		}
 		
 		if(toDate != null && !toDate.equals("")) {
-			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%m/%d/%Y')");
 		}
 		queryStr.append(" GROUP BY ih.customer_id");
 		queryStr.append(" UNION");
@@ -172,17 +172,17 @@ public class DashboardDaoImpl implements DashboardDao {
 		queryStr.append(" WHERE 1=1");
 		
 		if(fromDate != null && !fromDate.equals("")) {
-			queryStr.append(" AND ih.last_update < STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+			queryStr.append(" AND ih.last_update < STR_TO_DATE(':fromDate', '%m/%d/%Y') ");
 		}
 		
 		queryStr.append(" AND c.id NOT IN (SELECT ih.customer_id FROM investor_history ih");
 		queryStr.append(" WHERE 1=1");
 		if(fromDate != null && !fromDate.equals("")) {
-			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%d/%m/%Y') ");
+			queryStr.append(" AND ih.last_update >= STR_TO_DATE(':fromDate', '%m/%d/%Y') ");
 		}
 		
 		if(toDate != null && !toDate.equals("")) {
-			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%d/%m/%Y')");
+			queryStr.append(" AND ih.last_update <= STR_TO_DATE(':toDate', '%m/%d/%Y')");
 		}
 
 		queryStr.append(" GROUP BY ih.customer_id)");
@@ -266,4 +266,42 @@ public class DashboardDaoImpl implements DashboardDao {
 	    return sb;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KeyNameValueDTO> getNavChartData(boolean isByMonth) {
+		// TODO Auto-generated method stub
+		String query = "SELECT " + 
+				"    CASE" + 
+				"        WHEN last_of_month_flg = 0 THEN DATE_FORMAT(update_date, '%d/%m/%Y')" + 
+				"        ELSE DATE_FORMAT(update_date, '%m/%Y')" + 
+				"    END time," + 
+				"    orginal_price nav" + 
+				" FROM" + 
+				" asset_history" + 
+				" WHERE code = 'VIF_CCQ'";
+		
+		if(isByMonth) {
+			query = query + " AND last_of_month_flg = 1";
+		}else {
+			query = query + " AND last_of_month_flg = 0 AND update_date >= DATE_SUB(NOW(),INTERVAL 31 DAY)";
+		}
+		
+		List<Object[]> rows = entityManager.createNativeQuery(query).getResultList();
+		List<KeyNameValueDTO> navLst = new ArrayList<KeyNameValueDTO>();
+		if (rows != null && rows.size() > 0) {
+			for (Object[] row : rows) {
+				KeyNameValueDTO item = new KeyNameValueDTO();
+				if (row[0] != null && !row[0].equals("")) {
+					item.setKey(row[0].toString());
+				}
+				if (row[1] != null && !row[1].equals("")) {
+					item.setValue((BigDecimal) row[1]);
+				}
+				navLst.add(item);
+			}
+		}
+
+		return navLst;
+	}
+	
 }

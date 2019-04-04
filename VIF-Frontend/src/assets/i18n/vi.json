@@ -129,6 +129,28 @@
                 "total_real_asset": "Tổng tài sản ròng",
                 "total_debt": "Tổng nợ"
             }
+        },
+        "nav_report":{
+            "title":"NAV chi tiết",
+            "current_nav_title":"NAV hiện tại",
+            "chart_title":"Biểu đồ NAV của quỹ",
+            "table":{
+                "cus":"Nhà đầu tư",
+                "amountCCQ_before": "Số CCQ đầu kỳ",
+                "priceCCQ_before":"Giá đầu kỳ",
+                "money_before":"Vốn đầu kỳ",
+                "amountCCQ_after": "Số CCQ cuối kỳ",
+                "priceCCQ_after":"Giá cuối kỳ",
+                "money_after":"Vốn cuối kỳ",
+                "price_market":"Giá thị trường",
+                "real_asset":"Tài sản ròng",
+                "rate_up":"Tăng trưởng",
+                "amount": "Tổng CCQ",
+                "priceCCQ_market": "Giá thị trường",
+                "priceCCQ_avg":"Giá trung bình"
+            },
+            "view_near30_day": "30 ngày gần đây",
+            "view_all": "Tất cả"
         }
     }
   }
