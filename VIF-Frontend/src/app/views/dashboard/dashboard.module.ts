@@ -11,6 +11,8 @@ import { ReportAssetScreenComponent } from './report.asset.component';
 import { NAVScreenComponent } from './nav.vif.component';
 import { AppTranslationModule } from '../../app.translation.module';
 import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { CommonModule } from '@angular/common';
     TabsModule,
     AppTranslationModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    NgSelectModule,
+    BsDatepickerModule.forRoot()
   ],
   declarations: [ DashboardComponent, GeneralScreenComponent, ReportAssetScreenComponent, NAVScreenComponent ]
 })

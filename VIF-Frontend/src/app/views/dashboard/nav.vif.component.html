@@ -1,17 +1,143 @@
+<div class="row" *ngIf="asset">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{'vif.dashboard.nav_report.current_nav_title' | translate}}</span>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>{{'vif.dashboard.nav_report.table.amount' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.priceCCQ_market' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.priceCCQ_avg' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{asset.amount | number:'.2-2'}}</td>
+              <td>{{asset.currentPrice | number:'.2-2'}}</td>
+              <td>{{asset.orginalPrice | number:'.2-2'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <span>NAV của quỹ</span>
-        </div>
-        <div class="card-body">
-          <div class="chart-wrapper">
-            <canvas baseChart class="chart" [datasets]="lineChartData" [labels]="lineChartLabels"
-              [options]="lineChartOptions" [colors]="lineChartColours" [legend]="lineChartLegend"
-              [chartType]="lineChartType" (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)"></canvas>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{'vif.dashboard.nav_report.title' | translate}}</span>
+      </div>
+      <div class="card-body">
+        <!--[Start] Search nav details -->
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="company">{{'vif.cus_invest_history.from_date' | translate}}</label>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                </div>
+              </div>
+            </div>
           </div>
+
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="company">{{'vif.cus_invest_history.to_date' | translate}}</label>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-4">
+                <label for="company">{{'vif.cus_invest_history.customer' | translate}}</label>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <ng-select [searchable]="true" [(ngModel)]="customerSelectedId">
+                    <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
+                  </ng-select>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-primary"
+              (click)="search()">{{'vif.global.button.search' | translate}}</button>
+          </div>
+        </div>
+        <!--[End] Search nav details -->
+
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>{{'vif.dashboard.nav_report.table.cus' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.amountCCQ_before' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.priceCCQ_before' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.money_before' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.amountCCQ_after' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.priceCCQ_after' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.money_after' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.price_market' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.real_asset' | translate}}</th>
+              <th>{{'vif.dashboard.nav_report.table.rate_up' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of navList">
+              <td>{{item.customerFullName}}</td>
+              <td>{{item.amountCCQBefore | number:'.2-2'}}</td>
+              <td>{{item.priceCCQBefore | number:'.2-2'}}</td>
+              <td>{{item.amountCCQBefore*(item.priceCCQBefore.toFixed(2)) | number:'.2-2'}}</td>
+              <td>{{item.amountCCQAfter | number:'.2-2'}}</td>
+              <td>{{item.priceCCQAfter | number:'.2-2'}}</td>
+              <td>{{item.amountCCQAfter*(item.priceCCQAfter.toFixed(2)) | number:'.2-2'}}</td>
+              <td>{{item.priceCCQMarket | number:'.2-2'}}</td>
+              <td>{{item.realAssetOfCus | number:'.2-2'}}</td>
+              <td [ngClass]="(item.priceCCQMarket-item.priceCCQAfter)>0?'positive':'negative'">{{100*(item.priceCCQMarket-item.priceCCQAfter)/item.priceCCQAfter
+                | number:'.2-2'}}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{'vif.dashboard.nav_report.chart_title' | translate}}</span>
+      </div>
+      <div class="card-body">
+        <input class="my-radio" type="radio" value="1" name="viewNav" [(ngModel)]="model.options" (click)="setradio(1)"> <span style="margin-right: 10px;">Tất cả theo tháng</span>
+        <input class="my-radio" type="radio" value="0" name="viewNav" [(ngModel)]="model.options" (click)="setradio(0)"> <span>30 ngày gần đây</span>
+        <div class="chart-wrapper" *ngIf="navChartDataLst.length >0">
+          <canvas baseChart class="chart" [datasets]="lineChartData" [labels]="lineChartLabels"
+            [options]="lineChartOptions" [colors]="lineChartColours" [legend]="lineChartLegend"
+            [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
     </div>
   </div>
+</div>
