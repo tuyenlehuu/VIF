@@ -23,7 +23,7 @@
                 <div>Số tiền hiện hiện tại: {{amountMoneyAvaiable}}</div>
             </div>
         </div>
-          <div *ngIf="isBuyScreen && assets.length >0" class="buy-screen pt-4" style="text-align: center;">
+          <div *ngIf="isBuyScreen && shareMaster.length >0" class="buy-screen pt-4" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="saveInvestTransaction()" form.valid>
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
@@ -33,9 +33,9 @@
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
-                      <div class="form-group" *ngIf="assets.length >0">
+                      <div class="form-group" *ngIf="shareMaster.length >0">
                         <ng-select [searchable]="true" formControlName="bAssetSelectedId" (change)="onChangeAsset()">
-                          <ng-option [value]="a.id" *ngFor="let a of assets">{{a.assetCode}}-{{a.assetName}}</ng-option>
+                          <ng-option [value]="s.id" *ngFor="let s of shareMaster">{{s.cpCode}}-{{s.cpName}}</ng-option>
                         </ng-select>
                       </div>
                     </div>
