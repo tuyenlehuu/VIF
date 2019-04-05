@@ -66,6 +66,7 @@ export class UserComponent implements OnInit {
     }
 
     getPage(page: number) {
+        console.log(this.userSearch);
         var pager: Pager = new Pager();
         pager.page = page;
         pager.pageSize = this.pageSize;
@@ -73,7 +74,8 @@ export class UserComponent implements OnInit {
             this.users = respons.data;
             this.total = respons.totalRow;
             this.p = page;
-            // console.log("data: ", respons);
+            console.log("data: ", this.users);
+            console.log("p: ", this.p);
         });
     }
 

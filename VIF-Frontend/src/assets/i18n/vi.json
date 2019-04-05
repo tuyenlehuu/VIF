@@ -98,7 +98,8 @@
         "add":"Thêm mới",
         "search":"Tìm kiếm",
         "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi tiết"
+        "name_placeholder":"Nhập tên chi tiết",
+        "cancer":"Cancel"
 
     }
   }

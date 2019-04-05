@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Branch } from '../../models/Branch.model';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
 import { first } from 'rxjs/operators';
+import { config } from '../../config/application.config';
 @Component({
     templateUrl: 'create.edit.branch.component.html'
 })
@@ -40,6 +41,20 @@ export class CEBranchComponent implements OnInit {
             console.log("man hinh them moi", this.id);
         }
     }
+    status = [
+        {
+            name: 'Chọn trạng thái',
+            value: -1
+        },
+        {
+                name: 'Hoạt động',
+                value: 1
+        },
+        {
+            name: 'Ngừng hoạt động',
+            value: 0
+        }
+    ];
     //    ngOnInit(): void {
     //         this.id = this.route.snapshot.params['id'];
     //         if (this.id > 0) {
@@ -73,18 +88,60 @@ export class CEBranchComponent implements OnInit {
     createEditForm() {
         this.editBranchForm = this.fb.group({
             eBranchCodeControl: [this.branch!=null?this.branch.branchCode:'', Validators.required],
-            eBranchNameControl: [this.branch!=null?this.branch.branchName:'', Validators.required]
+            eBranchNameControl: [this.branch!=null?this.branch.branchName:'', Validators.required],
+            eActiveFlgControl: [this.branch!=null?this.branch.activeFlg:'', Validators.required]
         });
+        
     }
 
     onEditSubmit() {
         if (this.editBranchForm.invalid) {
             return;
         }
-        console.log("goi ham sua");
+        this.branch.branchCode=this.editBranchForm.value.eBranchCodeControl;
+        this.branch.branchName=this.editBranchForm.value.eBranchNameControl;
+        this.branch.activeFlg=this.editBranchForm.value.eActiveFlgControl;
+        this.saveBranch(this.branch);
     }
 
     onAddSubmit(){
-
+        this.submitted=true;
+        if (this.addBranchForm.invalid) {
+            return;
+        }
+        this.branch.branchCode=this.addBranchForm.value.aBranchCodeControl;
+        this.branch.branchName=this.addBranchForm.value.aBranchNameControl;
+        this.branch.activeFlg=this.addBranchForm.value.aActiveFlgControl;
+        this.saveBranch(this.branch);
+    }
+    saveBranch(branch:Branch){
+        if(branch.id>0){
+            this.branchService.update(branch).subscribe((res:any) =>{
+                console.log("new branch:",res);
+                this.showSuccess('Cập nhật thành công');
+                this.router.navigate(['/branch-managenment']);
+            },(err) =>{
+                this.showError('Cập nhật user không thành công!');
+                console.log(err);
+            });
+        }else{
+            this.branchService.register(branch).subscribe(res => {
+                this.showSuccess('Thêm mới thành công');
+                this.router.navigate(['/branch-managenment']);
+            }, (err) => {
+                this.showError('Thêm mới user không thành công!');
+                console.log(err);
+            });
+        }
+    }
+    showSuccess(mes: string) {
+        this.toastrService.success('', mes, {
+            timeOut: config.timeoutToast
+        });
+    }
+    showError(mes: string) {
+        this.toastrService.error('', mes, {
+            timeOut: config.timeoutToast
+        });
     }
 }

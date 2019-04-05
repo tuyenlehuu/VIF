@@ -47,8 +47,27 @@
         </div>
 
       </div>
-      <button type="button" style="margin-bottom: 1em "
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.activeFlg' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-status" name="selectStatus" class="form-control" formControlName="aActiveFlgControl">
+                  <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <button type="submit" style="margin-bottom: 1em "
         class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+        <button type="submit" style="margin-bottom: 1em " [routerLink]="['/branch-managenment']"
+        class="btn btn-primary">{{'vif.branch.cancer'| translate}}</button>
     </form>
   </div>
   <!--end create-->
@@ -88,8 +107,26 @@
         </div>
 
       </div>
-      <button type="submit" style="margin-bottom: 1em "
-        class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+      <!--row2-->
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.branch.activeFlg' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-status" name="selectStatus" class="form-control" formControlName="eActiveFlgControl">
+                  <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <!--end row2-->
+      <button type="submit" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
     
   </div>
 </form>
