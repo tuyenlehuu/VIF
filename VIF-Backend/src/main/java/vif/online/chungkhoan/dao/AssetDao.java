@@ -29,4 +29,8 @@ public interface AssetDao {
 
 	public List<Asset> getAllShares();
 
+	List<Asset> getOtherAssetNotShares();
+
+	boolean isExists(Asset asset);
+
 }

@@ -8,15 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.services.AssetService;
@@ -54,7 +57,7 @@ public class AssetServiceController {
 	public ResponseEntity<Void> addAsset(@RequestBody Asset asset, UriComponentsBuilder builder) {
 		boolean flag = assetService.addAsset(asset);
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/getAssetByCode/{assetCode}").buildAndExpand(asset.getAssetCode()).toUri());
@@ -86,4 +89,34 @@ public class AssetServiceController {
 		object.setData(list);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
+	
+	@GetMapping("getOtherAssetNotShares")
+	public ResponseEntity<ApiResponse> getOtherAssetNotShares() {
+		ApiResponse object = new ApiResponse();
+		List<Asset> assets = assetService.getOtherAssetNotShares();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(assets);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
+	@PutMapping("update")
+	public ResponseEntity<Asset> updateAsset(@RequestBody Asset asset) {
+		assetService.updateAsset(asset);
+		return new ResponseEntity<Asset>(asset, HttpStatus.OK);
+	}
+
+	@DeleteMapping("deleteAssetByCode/{assetCode}")
+	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("assetCode") String assetCode) {
+		assetService.deleteAssetByCode(assetCode);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteAssetById/{id}")
+	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("id") Integer id) {
+		assetService.deleteAssetById(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
 }

@@ -57,7 +57,7 @@ public class Asset implements Serializable{
 	@Column(name = "ACTIVE_FLG")
     private Integer activeFlg = 1;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "GROUP_ID")
     private GroupAsset groupAsset;
 	
@@ -131,7 +131,6 @@ public class Asset implements Serializable{
 		this.activeFlg = activeFlg;
 	}
 
-	@JsonIgnore
 	public GroupAsset getGroupAsset() {
 		return groupAsset;
 	}
