@@ -121,7 +121,7 @@
 
           <div *ngIf="!isBuyScreen" class="row pt-4 asset-avaiable" >
             <div class="offset-md-6 col-md-3">
-                <div>Số CCQ hiện tại: {{amountAssetAvaiable}}</div>
+                <div>Số cổ phiếu hiện tại: {{amountAssetAvaiable}}</div>
             </div>
          </div>
           <!--start sell screen-->
@@ -135,7 +135,7 @@
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
-                      <div class="form-group">
+                      <div class="form-group">         
                         <ng-select [searchable]="true" formControlName="sAssetSelectedId" (change)="onChangeAsset()">
                           <ng-option [value]="a.id" *ngFor="let a of assets">{{a.assetCode}}-{{a.assetName}}</ng-option>
                         </ng-select>
@@ -227,4 +227,5 @@
     </div>
   </div>
 </div>
+
 

@@ -71,6 +71,7 @@ export class InvestComponent implements OnInit {
     }
 
     saveInvestTransaction() {
+        console.log(this.isBuyScreen);
         if (this.isBuyScreen) {
             this.submitted = true;
             // stop here if form is invalid
@@ -93,7 +94,7 @@ export class InvestComponent implements OnInit {
         buyAssetObject.assetId = this.buyForm.value.bAssetSelectedId;
         buyAssetObject.amount = this.buyForm.value.bAmountAsset;
         buyAssetObject.price = this.buyForm.value.bPrice;
-
+        
         this.investManagementService.buyAsset(buyAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
@@ -111,9 +112,10 @@ export class InvestComponent implements OnInit {
         sellAssetObject.amount = this.buyForm.value.sAmountAsset;
         sellAssetObject.price = this.buyForm.value.sPrice;
 
+        console.log(sellAssetObject);
+
         this.investManagementService.sellAsset(sellAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
-            console.log(this.responseObject);
             if (this.responseObject.code === 200) {
                 this.showSuccess("Bán chứng khoán thành công!");
                 this.resetForm();
@@ -149,9 +151,6 @@ export class InvestComponent implements OnInit {
 
         this.bAmountAvaiable = (this.amountMoneyAvaiable) / currentPrice;
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
-
-        console.log(this.bAmountAvaiable);
-        console.log(currentPrice);
     }
 
     onKeySPrice(event: any) {

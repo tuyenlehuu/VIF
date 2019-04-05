@@ -74,6 +74,20 @@ public class AssetServiceController {
 		result = assetService.buySercurities(buyObject.getAssetId(),buyObject.getAmount() ,buyObject.getPrice());
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/sellSercurities", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> sellSercurities(@RequestBody BuySellAssetObj sellObject) {
+		ApiResponse result = new ApiResponse();
+		
+		if(sellObject==null || sellObject.getAssetId() == null || sellObject.getAmount() ==null || sellObject.getPrice() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("missing parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		result = assetService.sellSercurities(sellObject.getAssetId(),sellObject.getAmount() ,sellObject.getPrice());
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
 
 	
 	@GetMapping("/getAllShares")
