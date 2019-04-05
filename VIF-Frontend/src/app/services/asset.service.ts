@@ -22,6 +22,21 @@ export class AssetService{
 
     addAsset(asset: Asset) {
         return this.http.post(`${config.apiUrl}/asset/add`, asset);
+    }
 
+    getOtherAssetNotShares(){
+        return this.http.get<any>(`${config.apiUrl}/asset/getOtherAssetNotShares`);
+    }
+
+    update(asset: Asset) {
+        return this.http.put(`${config.apiUrl}/asset/update`, asset); 
+    }
+
+    deleteAssetById(id: number) {
+        return this.http.delete(`${config.apiUrl}/asset/deleteAssetById/${id}`);
+    }
+
+    deleteAssetByCode(assetCode: string) {
+        return this.http.delete(`${config.apiUrl}/asset/deleteAssetByCode/${assetCode}`);
     }
 }

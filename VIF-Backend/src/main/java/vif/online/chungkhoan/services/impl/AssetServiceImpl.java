@@ -5,11 +5,8 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite;
 
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.dao.GroupAssetDao;
@@ -21,7 +18,6 @@ import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.entities.ShareMaster;
 import vif.online.chungkhoan.entities.TransactionHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
-import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.AssetService;
 
@@ -58,7 +54,11 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public boolean addAsset(Asset asset) {
 		// TODO Auto-generated method stub
-		return assetDao.addAsset(asset);
+		if (assetDao.isExists(asset)) {
+			return false;
+		} else {
+			return assetDao.addAsset(asset);
+		}
 	}
 
 	@Override
@@ -192,6 +192,24 @@ public class AssetServiceImpl implements AssetService {
 		// TODO Auto-generated method stub
 		return assetDao.getAllShares();
 
+	}
+
+	@Override
+	public List<Asset> getOtherAssetNotShares() {
+		// TODO Auto-generated method stub
+		return assetDao.getOtherAssetNotShares();
+	}
+
+	@Override
+	public void deleteAssetByCode(String assetCode) {
+		// TODO Auto-generated method stub
+		assetDao.deleteAssetByCode(assetCode);
+	}
+
+	@Override
+	public void deleteAssetById(Integer id) {
+		// TODO Auto-generated method stub
+		assetDao.deleteAssetById(id);
 	}
 
 }

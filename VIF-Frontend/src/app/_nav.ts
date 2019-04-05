@@ -37,7 +37,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Quản lý tài sản khác',
-    url: '/theme/colors',
+    url: '/other-asset-management',
     icon: 'icon-note'
   },
   {

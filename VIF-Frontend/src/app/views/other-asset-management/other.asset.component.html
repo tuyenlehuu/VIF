@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>Quản lý tài sản khác</span>
+          <button class="btn btn-primary" [routerLink]="['/other-asset-management/ce-other-asset', 0]"
+            style="float: right;">Thêm mới</button>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>Mã tài sản</th>
+                <th>Tên tài sản</th>
+                <th>Số tiền hiện tại</th>
+                <th>Nhóm tài sản</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="otherAssetList && otherAssetList.length > 0">
+              <tr *ngFor="let item of otherAssetList">
+                <td>{{item.assetCode}}</td>
+                <td>{{item.assetName}}</td>
+                <td>{{item.currentPrice}}</td>
+                <td>{{item.groupAsset.groupName}}</td>
+                <td>
+                  <a [routerLink]="['/other-asset-management/ce-other-asset', item.id]"><i class="fa fa-pencil"></i></a>
+                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)"><i
+                      class="fa fa-trash-o"></i></a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!otherAssetList || (otherAssetList && otherAssetList.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
+            </tbody>
+          </table>
+          <hr />
+          <!-- <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="{{'vif.global.other.previousLabel' | translate}}" nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

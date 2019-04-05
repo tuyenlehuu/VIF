@@ -26,4 +26,10 @@ public interface AssetService {
 	
 	public List<Asset> getAllShares();
 
+	public List<Asset> getOtherAssetNotShares();
+
+	public void deleteAssetByCode(String assetCode);
+
+	public void deleteAssetById(Integer id);
+
 }
