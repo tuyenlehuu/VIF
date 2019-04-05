@@ -56,7 +56,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Lịch sử quỹ đầu tư',
-    url: '/theme/typography',
+    url: '/cus-invest-history',
     icon: 'icon-calendar'
   },
   {

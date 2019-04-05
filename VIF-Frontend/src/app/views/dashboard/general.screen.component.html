@@ -54,10 +54,10 @@
               <td>{{asset.amount>0?(asset.amount | number:'.2-2'):'--'}}</td>
               <td>{{asset.orginalPrice>0?(asset.orginalPrice | number:'.2-2'): '--'}}</td>
               <td>{{asset.currentPrice>0?(asset.currentPrice | number:'.2-2'):'--'}}</td>
-              <td>{{asset.branchCode!=null?(1000*asset.orginalPrice*asset.amount | number:'.2-2'):(asset.orginalPrice>0?(asset.orginalPrice*asset.amount | number:'.2-2'):'--')}}</td>
-              <td>{{asset.branchCode!=null?(1000*asset.currentPrice*asset.amount | number:'.2-2'):(asset.currentPrice>0?(asset.currentPrice*asset.amount | number:'.2-2'):'--')}}</td>
+              <td>{{1000*asset.orginalPrice*asset.amount | number:'.2-2'}}</td>
+              <td>{{1000*asset.currentPrice*asset.amount | number:'.2-2'}}</td>
               <td *ngIf="(asset.currentPrice - asset.orginalPrice)*asset.amount!=0" [ngClass]="(asset.currentPrice - asset.orginalPrice)*asset.amount>0?'positive':'negative'">
-                {{asset.branchCode!=null?(1000*(asset.currentPrice - asset.orginalPrice)*asset.amount | number:'.2-2'):((asset.currentPrice - asset.orginalPrice)*asset.amount | number:'.2-2')}}</td>
+                {{1000*(asset.currentPrice - asset.orginalPrice)*asset.amount | number:'.2-2'}}</td>
               <td *ngIf="(asset.currentPrice - asset.orginalPrice)*asset.amount==0">--</td>
               <td *ngIf="(asset.currentPrice - asset.orginalPrice)!=0&&asset.orginalPrice>0"
                 [ngClass]="(asset.currentPrice - asset.orginalPrice)/asset.orginalPrice>0?'positive':'negative'">
