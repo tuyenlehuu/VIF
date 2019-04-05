@@ -10,21 +10,11 @@ export class InvestManagementService{
     constructor(private http: HttpClient) { }
 
     buyAsset(buyAssetObject: BuySellAsset) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-         return this.http.post<any>(`${config.apiUrl}/asset/buySercurities`, buyAssetObject, httpOptions).pipe(map(res => {return res;}));
+         return this.http.post<any>(`${config.apiUrl}/asset/buySercurities`, buyAssetObject).pipe(map(res => {return res;}));
     }
 
     sellAsset(sellAssetObject: BuySellAsset) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-        return this.http.post<any>(`${config.apiUrl}/asset/sellSercurities`, sellAssetObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/asset/sellSercurities`, sellAssetObject).pipe(map(res => {return res;}));
     }
 
 

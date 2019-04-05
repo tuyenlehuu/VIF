@@ -10,22 +10,11 @@ export class InvestorTransService{
     constructor(private http: HttpClient) { }
 
     buyCCQ(buyCCQObject: BuySellCCQ) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
-        return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyCCQObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyCCQObject).pipe(map(res => {return res;}));
     }
 
     sellCCQ(sellCCQObject: BuySellCCQ) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-        return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject).pipe(map(res => {return res;}));
     }
 
     searchInvestorHistoryByCondition(customerId: number, fromDate: string, toDate: string, pager: Pager){
