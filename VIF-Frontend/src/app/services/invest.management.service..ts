@@ -24,7 +24,7 @@ export class InvestManagementService{
                 'Content-Type': 'application/json'
             })
         };
-        return this.http.post<any>(`${config.apiUrl}/asset/buySercurities`, sellAssetObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/asset/sellSercurities`, sellAssetObject, httpOptions).pipe(map(res => {return res;}));
     }
 
 

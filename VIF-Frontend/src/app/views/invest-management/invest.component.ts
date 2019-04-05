@@ -63,6 +63,8 @@ export class InvestComponent implements OnInit {
     }
 
     resetForm() {
+        //refresh data
+        this.refreshData();
         if (this.isBuyScreen) {
             this.createBuyForm();
         } else {
@@ -71,7 +73,6 @@ export class InvestComponent implements OnInit {
     }
 
     saveInvestTransaction() {
-        console.log(this.isBuyScreen);
         if (this.isBuyScreen) {
             this.submitted = true;
             // stop here if form is invalid
@@ -108,11 +109,9 @@ export class InvestComponent implements OnInit {
 
     sellSecurities() {
         let sellAssetObject: BuySellAsset = new BuySellAsset();
-        sellAssetObject.assetId = this.buyForm.value.sAssetSelectedId;
-        sellAssetObject.amount = this.buyForm.value.sAmountAsset;
-        sellAssetObject.price = this.buyForm.value.sPrice;
-
-        console.log(sellAssetObject);
+        sellAssetObject.assetId = this.sellForm.value.sAssetSelectedId;
+        sellAssetObject.amount = this.sellForm.value.sAmountAsset;
+        sellAssetObject.price = this.sellForm.value.sPrice;
 
         this.investManagementService.sellAsset(sellAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
@@ -135,9 +134,6 @@ export class InvestComponent implements OnInit {
         this.buyAssetForm.bMoney.setValue(mAmount * currentPrice);
         this.bAmountAvaiable = (this.amountMoneyAvaiable) / currentPrice;
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
-
-        console.log(this.bAmountAvaiable);
-        console.log(currentPrice);
     }
 
     onKeyBAmount(event: any) {
@@ -188,6 +184,32 @@ export class InvestComponent implements OnInit {
         }
     }
 
+    refreshData(){
+        this.assetService.getByCode('CASH').pipe(first()).subscribe((respons: any) => {
+            this.cashObj = respons.data;
+            if (this.cashObj) {
+                this.amountMoneyAvaiable = this.cashObj.currentPrice;
+            }
+        });
+
+        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+            this.assets = respons.data;
+            if (this.assets) {
+                this.sAssetSelectedId = this.assets[0].id;
+                this.amountAssetAvaiable = this.assets[0].amount
+            }
+        });
+        // get all share from sharemaster
+        this.shareMasterService.getAllShares().pipe(first()).subscribe((respons: any) => {
+            this.shareMaster = respons;
+            if (this.shareMaster) {
+                this.bAssetSelectedId = this.shareMaster[0].id;
+                this.bAmountAvaiable = 0;
+                this.createBuyForm();
+            }
+        });
+    }
+
     ngOnInit(): void {
         this.assetService.getByCode('CASH').pipe(first()).subscribe((respons: any) => {
             this.cashObj = respons.data;
@@ -201,7 +223,6 @@ export class InvestComponent implements OnInit {
             if (this.assets) {
                 this.sAssetSelectedId = this.assets[0].id;
                 this.amountAssetAvaiable = this.assets[0].amount
-                this.bAmountAvaiable = 0;
             }
         });
         // get all share from sharemaster
@@ -209,7 +230,6 @@ export class InvestComponent implements OnInit {
             this.shareMaster = respons;
             if (this.shareMaster) {
                 this.bAssetSelectedId = this.shareMaster[0].id;
-                this.amountAssetAvaiable = 0;
                 this.bAmountAvaiable = 0;
                 this.createBuyForm();
             }
@@ -219,7 +239,6 @@ export class InvestComponent implements OnInit {
     onChangeAsset() {
         if (this.isBuyScreen) {
             this.bAssetSelectedId = this.buyForm.value.bAssetSelectedId;
-            this.amountAssetAvaiable = 0;
             this.amountMoneyAvaiable = 0;
             if (this.cashObj) {
                 this.amountMoneyAvaiable = this.cashObj.currentPrice;
@@ -235,11 +254,10 @@ export class InvestComponent implements OnInit {
             }
         } else {
             this.sAssetSelectedId = this.sellForm.value.sAssetSelectedId;
-            this.amountAssetAvaiable = 0;
             this.assets.forEach(asset => {
                 if (asset.id === this.sAssetSelectedId) {
                     this.amountAssetAvaiable = asset.amount;
-                    this.sellAssetForm.sAmountAssetAvaiable.setValue(this.amountMoneyAvaiable);
+                    this.sellAssetForm.sAmountAssetAvaiable.setValue(this.amountAssetAvaiable);
                 }
             });
         }

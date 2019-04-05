@@ -121,6 +121,7 @@ public class AssetServiceImpl implements AssetService {
 		BigDecimal newOriginalPrice = (money.add(assetOriginalValue).divide(newAmount, 2, RoundingMode.HALF_UP));
 		sercurity.setAmount(newAmount);
 		sercurity.setOrginalPrice(newOriginalPrice);
+		sercurity.setActiveFlg(IContaints.ASSET_CODE.ACTIVE);
 		assetService.updateAsset(sercurity);
 		// response
 		response.setCode(200);
