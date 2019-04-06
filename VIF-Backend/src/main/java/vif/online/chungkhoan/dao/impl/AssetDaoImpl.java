@@ -113,4 +113,14 @@ public class AssetDaoImpl implements AssetDao {
 				: false;
 	}
 
+	@Override
+	public Asset getAssetById(Integer id) {
+		// TODO Auto-generated method stub
+		Asset asset = entityManager.find(Asset.class, id);
+		if(asset != null) {
+			return asset;
+		}
+		return null;
+	}
+
 }

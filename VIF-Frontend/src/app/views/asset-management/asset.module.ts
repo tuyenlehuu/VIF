@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-// import { ChartsModule } from 'ng2-charts/ng2-charts';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
-import { OtherAssetComponent } from './other.asset.component';
-import { CEOtherAssetComponent } from './create.edit.other.asset.component';
-import { OtherAssetRoutingModule } from './other.asset.routing';
+import { AssetComponent } from './asset.component';
+import { CEAssetComponent } from './create.edit.asset.component';
+import { AssetRoutingModule } from './asset.routing';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
@@ -16,7 +14,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   imports: [
     FormsModule,
-    OtherAssetRoutingModule,
+    AssetRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -25,6 +23,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgxPaginationModule,
     NgSelectModule
   ],
-  declarations: [OtherAssetComponent, CEOtherAssetComponent]
+  declarations: [AssetComponent, CEAssetComponent]
 })
-export class OtherAssetModule { }
+export class AssetModule { }

@@ -55,7 +55,8 @@
             "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "note": "Lưu ý",
             "previousLabel": "Trước",
-            "nextLabel" :"Sau"
+            "nextLabel" :"Sau",
+            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
         }
     },
     "message":{

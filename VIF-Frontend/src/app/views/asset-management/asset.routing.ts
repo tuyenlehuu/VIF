@@ -1,8 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { OtherAssetComponent } from './other.asset.component';
-import { CEOtherAssetComponent } from './create.edit.other.asset.component';
+import { AssetComponent } from './asset.component';
+import { CEAssetComponent } from './create.edit.asset.component';
 
 const routes: Routes = [
   {
@@ -14,18 +14,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'other-asset-management'
+        redirectTo: 'asset-management'
       },
       {
         path: '',
-        component: OtherAssetComponent,
+        component: AssetComponent,
         data: {
           title: ''
         }
       },
       {
-        path: 'ce-other-asset/:id',
-        component: CEOtherAssetComponent,
+        path: 'create-edit-asset/:id',
+        component: CEAssetComponent,
         data: {
           title: ''
         }
@@ -38,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class OtherAssetRoutingModule {}
+export class AssetRoutingModule {}
