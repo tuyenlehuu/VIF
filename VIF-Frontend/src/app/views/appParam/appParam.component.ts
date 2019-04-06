@@ -48,7 +48,8 @@ export class AppParamComponent implements OnInit {
         }
     ];
 
-    constructor(private appParamService: AppParamService, private modalService: BsModalService, private toastrService: ToastrService, ) { }
+    constructor(private appParamService: AppParamService, private modalService: BsModalService, private toastrService: ToastrService, ) {
+    }
 
     ngOnInit(): void {
         this.appParamService.getAll().pipe(first()).subscribe((res: any) => {
