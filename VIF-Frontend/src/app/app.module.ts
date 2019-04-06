@@ -30,7 +30,6 @@ import { ChangePassComponent } from './views/change-pass/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OauthService } from './services/oauth.service';
 import { UserService } from './services/user.service';
-import{BranchService} from './services/branch.service';
 import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -101,7 +100,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AuthGuard,
   OauthService,
   UserService,
-  BranchService,
   CustomerService,
   AppParamService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },

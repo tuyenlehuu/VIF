@@ -110,20 +110,7 @@
             "create_date": "Ngày GD"
         }
     },
-    "branch":{
-        "title":"Danh sách chi nhánh",
-        "title1":"Tạo mới chi nhánh ",
-        "title2":"Sửa nhánh ",
-        "code":"Mã chi nhánh",
-        "name": "Tên chi nhánh",
-        "activeFlg":"Trạng thái",
-        "action":"Hành động",
-        "add":"Thêm mới",
-        "search":"Tìm kiếm",
-        "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi tiết",
-        "cancer":"Cancel"
-    },
+
     "appParam":{
         "action": "Hành động",
         "description": "Mô tả",

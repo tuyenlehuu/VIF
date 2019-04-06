@@ -3,7 +3,6 @@ package vif.online.chungkhoan.dao;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Branch;
-import vif.online.chungkhoan.entities.User;
 
 
 public interface BranchDao {
@@ -20,8 +19,4 @@ public interface BranchDao {
 	void deleteBranchByCode(String code);
 
 	void deleteBranchById(Integer id);
-	
-	List<Branch> SearchBranchByCondition( String branchCode,Integer activeFlg, String branchName);
-	
-	int getRowCount(String branchCode, Integer activeFlg, String branchName);
 }

@@ -19,7 +19,6 @@ export class Asset {
         this.activeFlg = 1;
         this.currentPrice = 0;
         this.orginalPrice = 0;
-        this.amount = 0;
         this.groupAsset = new GroupAsset();
     }
    
