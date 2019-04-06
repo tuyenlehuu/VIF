@@ -10,6 +10,7 @@ import { InvestorTransService } from '../../services/investor.transaction.servic
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { InvestorHistory } from '../../models/InvestorHistory.model';
 import { Pager } from '../../models/Pager';
+import { formatDate } from '../../helpers/function.share';
 
 @Component({
     templateUrl: 'cus-invest-his.component.html',
@@ -23,14 +24,14 @@ export class CusInvestHistoryComponent implements OnInit {
     colorTheme = "theme-blue";
     investorHisLst: InvestorHistory[] = [];
     customerSelectedId: number;
-    fromDate: string;
-    toDate: string;
+    fromDate: Date;
+    toDate: Date;
     p: number = 1;
     total: number;
     pageSize: number = 5;
 
 
-    constructor(private toastrService: ToastrService, private customerService: CustomerService, private investorTransService: InvestorTransService) {      
+    constructor(private toastrService: ToastrService, private customerService: CustomerService, private investorTransService: InvestorTransService) {
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
     }
 
@@ -54,7 +55,7 @@ export class CusInvestHistoryComponent implements OnInit {
         });
     }
 
-    search(){
+    search() {
         this.getPage(1);
     }
 
@@ -62,7 +63,7 @@ export class CusInvestHistoryComponent implements OnInit {
         var pager: Pager = new Pager();
         pager.page = page;
         pager.pageSize = this.pageSize;
-        this.investorTransService.searchInvestorHistoryByCondition(this.customerSelectedId, this.fromDate, this.toDate, pager).pipe(first()).subscribe((respons: any) => {
+        this.investorTransService.searchInvestorHistoryByCondition(this.customerSelectedId, formatDate(this.fromDate), formatDate(this.toDate), pager).pipe(first()).subscribe((respons: any) => {
             this.investorHisLst = respons.data;
             this.total = respons.totalRow;
             this.p = page;
@@ -70,4 +71,10 @@ export class CusInvestHistoryComponent implements OnInit {
         });
     }
 
+    exportCSV() {
+        this.investorTransService.exportCsv(this.customerSelectedId, formatDate(this.fromDate), formatDate(this.toDate));
+        // this.investorTransService.exportCsv(this.customerSelectedId, this.fromDate, this.toDate).subscribe(respons => this.downloadFile(respons),
+        //     error => console.log('Error downloading the file.'),
+        //     () => console.info('OK'));
+    }
 }

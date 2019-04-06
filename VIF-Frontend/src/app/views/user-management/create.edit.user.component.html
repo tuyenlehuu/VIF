@@ -11,7 +11,7 @@
 
   </div>
   <!--[Start] Create User-->
-  <form [formGroup]="addUserForm" (ngSubmit)="onAddSubmit()">
+  <form *ngIf="customers.length>0" [formGroup]="addUserForm" (ngSubmit)="onAddSubmit()">
     <div class="card-body" *ngIf="id==0">
       <div class="row">
         <div class="col-md-5">
@@ -21,8 +21,10 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="username" class="form-control" id="username-id" placeholder="{{'vif.user.username_placeholder' | translate}}">
-                <div *ngIf="addForm.username.invalid && (addForm.username.dirty || addForm.username.touched)" class="alert alert-danger">
+                <input type="text" formControlName="username" class="form-control" id="username-id"
+                  placeholder="{{'vif.user.username_placeholder' | translate}}">
+                <div *ngIf="addForm.username.invalid && (addForm.username.dirty || addForm.username.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="addForm.username.errors.required">
                     {{'vif.message.username_require' | translate}}
                   </div>
@@ -39,8 +41,10 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="password" formControlName="password" class="form-control" id="pass-id" placeholder="{{'vif.user.password_placeholder' | translate}}">
-                <div *ngIf="addForm.password.invalid && (addForm.password.dirty || addForm.password.touched)" class="alert alert-danger">
+                <input type="password" formControlName="password" class="form-control" id="pass-id"
+                  placeholder="{{'vif.user.password_placeholder' | translate}}">
+                <div *ngIf="addForm.password.invalid && (addForm.password.dirty || addForm.password.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="addForm.password.errors.required">
                     {{'vif.message.password_require' | translate}}
                   </div>
@@ -62,8 +66,10 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="email" class="form-control" id="email-id" placeholder="{{'vif.user.email_placeholder' | translate}}">
-                <div *ngIf="addForm.email.invalid && (addForm.email.dirty || addForm.email.touched)" class="alert alert-danger">
+                <input type="text" formControlName="email" class="form-control" id="email-id"
+                  placeholder="{{'vif.user.email_placeholder' | translate}}">
+                <div *ngIf="addForm.email.invalid && (addForm.email.dirty || addForm.email.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="addForm.email.errors.required">
                     {{'vif.message.email_require' | translate}}
                   </div>
@@ -78,13 +84,15 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">{{'vif.user.confirm_password' | translate}}<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.user.confirm_password' | translate}}<span
+                  class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="password" formControlName="confirmPassword" class="form-control" id="pass-confirm-id"
                   placeholder="{{'vif.user.confirm_password' | translate}}">
-                <div *ngIf="addForm.confirmPassword.invalid && (addForm.confirmPassword.dirty || addForm.confirmPassword.touched)"
+                <div
+                  *ngIf="addForm.confirmPassword.invalid && (addForm.confirmPassword.dirty || addForm.confirmPassword.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.confirmPassword.errors.required">
                     {{'vif.message.password_require' | translate}}
@@ -113,7 +121,8 @@
                 <select id="select1" name="select1" class="form-control" formControlName="role">
                   <option [ngValue]="r.value" *ngFor="let r of roles">{{r.name}}</option>
                 </select>
-                <div *ngIf="addForm.role.invalid && (addForm.role.dirty || addForm.role.touched)" class="alert alert-danger">
+                <div *ngIf="addForm.role.invalid && (addForm.role.dirty || addForm.role.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="addForm.role.errors.requireCombo">
                     {{'vif.message.role_require' | translate}}
                   </div>
@@ -132,7 +141,8 @@
                 <select id="select-status" name="selectStatus" class="form-control" formControlName="status">
                   <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
                 </select>
-                <div *ngIf="addForm.status.invalid && (addForm.status.dirty || addForm.status.touched)" class="alert alert-danger">
+                <div *ngIf="addForm.status.invalid && (addForm.status.dirty || addForm.status.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="addForm.status.errors.required">
                     {{'vif.message.status_require' | translate}}
                   </div>
@@ -142,9 +152,34 @@
           </div>
         </div>
       </div>
+
+      <div class="row pb-3">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <ng-select [searchable]="true" formControlName="customerControl" (change)="onChangeCustomer()">
+                <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
+              </ng-select>
+              <div
+                *ngIf="addForm.customerControl.invalid && (addForm.customerControl.dirty || addForm.customerControl.touched)"
+                class="alert alert-danger">
+                <div *ngIf="addForm.customerControl.errors.required">
+                  {{'vif.investor_trans.customer_required' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card-footer">
         <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
-        <button class="btn btn-secondary" routerLink="/user-management">{{'vif.global.button.cancel' | translate}}</button>
+        <button class="btn btn-secondary"
+          routerLink="/user-management">{{'vif.global.button.cancel' | translate}}</button>
       </div>
     </div>
     <!--[End] Create User-->
@@ -161,7 +196,8 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="eUsername" class="form-control" id="username-edit-id" placeholder="{{'vif.user.username_placeholder' | translate}}">
+                <input type="text" formControlName="eUsername" class="form-control" id="username-edit-id"
+                  placeholder="{{'vif.user.username_placeholder' | translate}}">
               </div>
             </div>
           </div>
@@ -173,10 +209,12 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="eEmail" class="form-control" id="email-id" placeholder="{{'vif.user.email_placeholder' | translate}}">
-                <div *ngIf="editForm.eEmail.invalid && (editForm.eEmail.dirty || editForm.eEmail.touched)" class="alert alert-danger">
+                <input type="text" formControlName="eEmail" class="form-control" id="email-id"
+                  placeholder="{{'vif.user.email_placeholder' | translate}}">
+                <div *ngIf="editForm.eEmail.invalid && (editForm.eEmail.dirty || editForm.eEmail.touched)"
+                  class="alert alert-danger">
                   <div *ngIf="editForm.eEmail.errors.required">
-                        {{'vif.message.email_require' | translate}}
+                    {{'vif.message.email_require' | translate}}
                   </div>
                 </div>
               </div>
@@ -217,7 +255,8 @@
       </div>
       <div class="card-footer">
         <button class="btn btn-primary" type="submit">{{'vif.global.button.update' | translate}}</button>
-        <button class="btn btn-secondary" routerLink="/user-management">{{'vif.global.button.cancel' | translate}}</button>
+        <button class="btn btn-secondary"
+          routerLink="/user-management">{{'vif.global.button.cancel' | translate}}</button>
       </div>
     </div>
   </form>

@@ -27,4 +27,8 @@ public interface UserDao {
 	void deleteUserById(Integer id);
 
 	int getRowCount(String username, Integer activeFlg, String email, String role);
+
+	boolean resetPassword(String username, String token, String newPass);
+
+	boolean prepareResetPassword(String username);
 }
