@@ -1,0 +1,86 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../models/User.model';
+import { config } from '../config/application.config';
+import { Pager } from '../models/Pager';
+import { Branch } from '../models/Branch.model';
+
+@Injectable()
+export class BranchService{
+    constructor(private http: HttpClient) { }
+
+    getAll() {
+        return this.http.get<any>(`${config.apiUrl}/branch/getAlls`);
+    }
+
+    getBranchById(id: number) {
+        return this.http.get<any>(`${config.apiUrl}/branch/` + id);
+    }
+
+    // getBranchByCondition(branchCondition: Branch,pager:Pager){
+    //     if(!pager){
+    //         pager = new Pager();
+    //     }
+    //     var url = `${config.apiUrl}/branch/getBranchByCondition?`;
+    //     url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
+        
+    //     if(branchCondition.code){
+    //         url = url + "&code=" + branchCondition.code;
+    //     }
+
+    //     if(branchCondition.name){
+    //         url = url + "&name=" + branchCondition.name;
+    //     }
+
+    //     if(branchCondition.activeFlg !=null && branchCondition.activeFlg !== -1){
+    //         url = url + "&activeFlg=" + branchCondition.activeFlg;
+    //     }
+    //     // console.log("url: ", url);
+    //     return this.http.get<any>(url);
+    // }
+
+    getById(id: number) {
+            return this.http.get(`${config.apiUrl}/branch/${id}`);
+        }
+
+    register(branch: Branch) {
+        return this.http.post(`${config.apiUrl}/branch/add`,branch );
+    }
+
+    update(branch: Branch) {
+        return this.http.put(`${config.apiUrl}/branch/update`, branch); 
+    }
+
+    deleteById(id: number) {
+        return this.http.delete(`${config.apiUrl}/branch/deleteById/${id}`);
+    }
+
+    // deleteByUsername(username: string) {
+    //     return this.http.delete(`${config.apiUrl}/user/deleteByName/${username}`);
+    // }
+    getBranchsByCondition(branchCondition: Branch){
+       
+        console.log("branchCondision",branchCondition.branchCode);
+        var url = `${config.apiUrl}/branch/getBranchsByCondition?`;
+        
+        if(branchCondition.branchCode){
+            // branchCodition là object chứa đk search của e 
+            // nó là 1 object kiểu Branch
+            // branchSearch luôn có branchCode = null nên nó ko vào đây
+            console.log("vao tday");
+            url = url + "&branchCode=" + branchCondition.branchCode;
+        }
+
+        if(branchCondition.branchName){
+            url = url + "&branchName=" + branchCondition.branchName;
+        }
+
+        
+
+        if(branchCondition.activeFlg !=null && branchCondition.activeFlg !== -1){
+            url = url + "&activeFlg=" + branchCondition.activeFlg;
+        }
+        console.log("url: ", url);
+        return this.http.get<any>(url);
+    }
+}
