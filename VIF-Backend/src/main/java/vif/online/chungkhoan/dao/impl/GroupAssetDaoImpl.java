@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import vif.online.chungkhoan.dao.GroupAssetDao;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
+import vif.online.chungkhoan.entities.User;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,8 @@ public class GroupAssetDaoImpl implements GroupAssetDao {
 	@Override
 	public List<GroupAsset> getAlls() {
 		// TODO Auto-generated method stub
-		return null;
+		String hql = "FROM GroupAsset as g WHERE g.activeFlg = 1 ORDER BY g.groupName asc";
+		return (List<GroupAsset>) entityManager.createQuery(hql).getResultList();
 	}
 
 	@Override

@@ -87,8 +87,8 @@ export const routes: Routes = [
         loadChildren: './views/customer-invest-history/cus.invest.history.module#CusInvestHistoryModule'
       },
       {
-        path: 'other-asset-management',
-        loadChildren: './views/other-asset-management/other.asset.module#OtherAssetModule'
+        path: 'asset-management',
+        loadChildren: './views/asset-management/asset.module#AssetModule'
       },
       {
         path: 'charts',

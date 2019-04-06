@@ -212,4 +212,10 @@ public class AssetServiceImpl implements AssetService {
 		assetDao.deleteAssetById(id);
 	}
 
+	@Override
+	public Asset getAssetById(Integer id) {
+		// TODO Auto-generated method stub
+		return assetDao.getAssetById(id);
+	}
+
 }

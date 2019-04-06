@@ -32,4 +32,6 @@ public interface AssetService {
 
 	public void deleteAssetById(Integer id);
 
+	public Asset getAssetById(Integer id);
+
 }
