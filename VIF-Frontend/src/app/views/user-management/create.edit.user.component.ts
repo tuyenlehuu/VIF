@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User.model';
+import { Customer } from '../../models/Customer.model';
 import { UserService } from '../../services/user.service';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -7,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
+import { TranslateService } from '@ngx-translate/core';
+import { CustomerService } from '../../services/customer.service';
 
 @Component({
     templateUrl: 'create.edit.user.component.html'
@@ -18,6 +21,11 @@ export class CEUserComponent implements OnInit {
     addUserForm: FormGroup;
     submitted = false;
     editUserForm: FormGroup;
+    customers: Customer[] = [];
+    customerSelectedId: number;
+
+
+    // should load from DB (Lam sau)
     roles = [
         {
             name: 'Quản trị viên',
@@ -44,14 +52,21 @@ export class CEUserComponent implements OnInit {
         }
     ];
 
-    constructor(private route: ActivatedRoute, private userService: UserService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
-        this.createForm();
+    constructor(private route: ActivatedRoute, private userService: UserService, private router: Router, 
+        private toastrService: ToastrService, private fb: FormBuilder, private translateService: TranslateService, private customerService: CustomerService) {
+            this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
+                // console.log("data: ", respons);
+                this.customers = respons;
+                if (this.customers) {
+                    this.customerSelectedId = this.customers[0].id;
+                    this.createForm();
+                }
+            });
     }
 
     ngOnInit(): void {
-        // this.sub = this.route
-        //     .data
-        //     .subscribe(v => console.log(v));
+        
+        
         this.id = this.route.snapshot.params['id'];
         if (this.id > 0) {
             this.userService.getById(this.id).subscribe((res: User) => {
@@ -68,18 +83,19 @@ export class CEUserComponent implements OnInit {
         this.addUserForm = this.fb.group({
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(8)]],
-            email: ['', Validators.required, Validators.email],
+            email: ['', Validators.required],
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
             role: ['ROLE_USER', Validators.required],
-            status: [1, Validators.required]
+            status: [1, Validators.required],
+            customerControl: [this.customerSelectedId, Validators.required]
         },{
             validator: [MustMatch('password', 'confirmPassword'), RequireCombo('role')]
         });
     }
 
-    createEditForm(){
+    createEditForm() {
         this.editUserForm = this.fb.group({
-            eUsername: [{value: this.user.username, disabled: true}, Validators.required],
+            eUsername: [{ value: this.user.username, disabled: true }, Validators.required],
             eEmail: [this.user.email, Validators.required],
             eRole: [this.user.role, Validators.required],
             eStatus: [this.user.activeFlg, Validators.required]
@@ -91,18 +107,27 @@ export class CEUserComponent implements OnInit {
             // update user
             this.userService.update(user).subscribe(res => {
                 // console.log("new user: ", res);
-                this.showSuccess('Cập nhật thành công');
+                this.translateService.get('vif.message.update_success').subscribe((res: string) => {
+                    this.showSuccess(res);
+                });
                 this.router.navigate(['/user-management']);
             }, (err) => {
-                this.showError('Cập nhật user không thành công!');
+                this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
+                    this.showError(res);
+                });
                 console.log(err);
             });
         } else {
             this.userService.register(user).subscribe(res => {
-                this.showSuccess('Thêm mới thành công');
+                this.translateService.get('vif.message.create_success').subscribe((res: string) => {
+                    this.showSuccess(res);
+                });
+                
                 this.router.navigate(['/user-management']);
             }, (err) => {
-                this.showError('Thêm mới user không thành công!');
+                this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
+                    this.showError(res);
+                });
                 console.log(err);
             });
         }
@@ -124,14 +149,18 @@ export class CEUserComponent implements OnInit {
         this.user.activeFlg = this.addUserForm.value.status;
         this.user.email = this.addUserForm.value.email;
         this.user.role = this.addUserForm.value.role;
+        let cus: Customer = new Customer();
+        cus.id = this.addUserForm.value.customerControl;
+        this.user.customer = cus;
+
         this.saveUser(this.user);
     }
 
-    onEditSubmit(){
+    onEditSubmit() {
         if (this.editUserForm.invalid) {
             return;
         }
-        
+
         this.user.password = this.editUserForm.value.ePassword;
         this.user.activeFlg = this.editUserForm.value.eStatus;
         this.user.email = this.editUserForm.value.eEmail;
@@ -149,5 +178,8 @@ export class CEUserComponent implements OnInit {
         this.toastrService.error('', mes, {
             timeOut: config.timeoutToast
         });
+    }
+
+    onChangeCustomer() {
     }
 }

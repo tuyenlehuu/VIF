@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
+import { TokenResetPass } from '../models/TokenResetPass';
 
 @Injectable()
 export class UserService{
@@ -56,4 +57,13 @@ export class UserService{
     deleteByUsername(username: string) {
         return this.http.delete(`${config.apiUrl}/user/deleteByName/${username}`);
     }
+
+    prepareResetPassword(username: string){
+        return this.http.get(`${config.apiUrl}/public/prepare-reset-password/${username}`);
+    }
+
+    resetPassword(tokenResetPass: TokenResetPass) {
+        return this.http.post(`${config.apiUrl}/public/reset-password`, tokenResetPass);
+    }
+    
 }

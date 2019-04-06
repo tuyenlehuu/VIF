@@ -16,9 +16,14 @@ public class AppParamServiceImpl implements AppParamService{
 	private AppParamDao appParamDao;
 	
 	@Override
-	public void updateAppParam(AppParam appParam) {
+	public boolean updateAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
-		appParamDao.updateAppParam(appParam);
+		if(appParamDao.isExist(appParam)) {
+			return false;
+		}
+		else
+		 appParamDao.updateAppParam(appParam);
+		return true;
 	}
 
 	@Override
@@ -48,5 +53,18 @@ public class AppParamServiceImpl implements AppParamService{
 	public List<AppParam> getAllAppParam() {
 		// TODO Auto-generated method stub
 		return appParamDao.getAllAppParam();
+	}
+
+	@Override
+	public List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String propKey, Integer activeFlg, String propType, String propValue, String description) {
+		// TODO Auto-generated method stub
+		return appParamDao.SearchAppParamByCondition(page, pageSize, columnSortName, asc, propKey, activeFlg, propType, propValue, description);
+	}
+
+	@Override
+	public int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description) {
+		// TODO Auto-generated method stub
+		return  appParamDao.getRowCount(propKey, activeFlg, propType, propValue, description);
 	}
 }

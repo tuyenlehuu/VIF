@@ -10,22 +10,11 @@ export class InvestorTransService{
     constructor(private http: HttpClient) { }
 
     buyCCQ(buyCCQObject: BuySellCCQ) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-
-        return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyCCQObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/investor-transaction/buyCCQ`, buyCCQObject).pipe(map(res => {return res;}));
     }
 
     sellCCQ(sellCCQObject: BuySellCCQ) {
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        };
-        return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject, httpOptions).pipe(map(res => {return res;}));
+        return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject).pipe(map(res => {return res;}));
     }
 
     searchInvestorHistoryByCondition(customerId: number, fromDate: string, toDate: string, pager: Pager){
@@ -48,4 +37,27 @@ export class InvestorTransService{
 
         return this.http.get<any>(url);
     }
+
+    exportCsv(customerId: number, fromDate: string, toDate: string){
+        var url = `${config.apiUrl}/investor-transaction/exportCSV/invest-history.csv?`;
+        var currentUser = localStorage.getItem("currentUser");
+        var token = JSON.parse(currentUser).token;
+        url = url + "access_token=" + token;
+        if(customerId){
+            url = url + "&customerId=" + customerId;
+        }
+
+        if(fromDate){
+            url = url + "&fromDate=" + fromDate;
+        }
+
+        if(toDate){
+            url = url + "&toDate=" + toDate;
+        }
+
+        window.open(url);
+
+        // return this.http.get<any>(url);
+    }
+
 }

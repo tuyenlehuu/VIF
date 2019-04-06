@@ -3,6 +3,7 @@ package vif.online.chungkhoan.dao;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.AppParam;
+import vif.online.chungkhoan.entities.User;
 
 public interface AppParamDao {
 	List<AppParam> getAllAppParam();
@@ -10,6 +11,8 @@ public interface AppParamDao {
 	boolean addAppParam(AppParam appParam);
 	void deleteAppParamById(int id);
 //	void updateAppParam(AppParam appParam, Integer id);
-	void updateAppParam(AppParam appParam);
+	boolean updateAppParam(AppParam appParam);
 	boolean isExist(AppParam appParam);
+	List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc, String propKey,Integer activeFlg,String propType,String propValueg, String description);
+	int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description);
 }
