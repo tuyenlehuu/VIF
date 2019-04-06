@@ -8,7 +8,7 @@
       <i class="fa fa-user"></i>
       <strong>{{'vif.appParam.title3' | translate}}</strong>
     </span>
-    <!--[Start] Create User-->
+    <!--[Start] Create AppParam-->
     <form [formGroup]="addAppParamForm" (ngSubmit)="onAddSubmit()">
       <div class="card-body" *ngIf="id==0">
         <div class="row">
@@ -84,7 +84,7 @@
                   <div *ngIf="addForm.propValue.invalid && (addForm.propValue.dirty || addForm.propValue.touched)"
                     class="alert alert-danger">
                     <div *ngIf="addForm.propValue.errors.required">
-                      {{'vif.message.propKey_require' | translate}}
+                      {{'vif.message.propValue_require' | translate}}
                     </div>
                   </div>
                 </div>
@@ -97,16 +97,13 @@
             <div class="row">
               <div class="col-md-3">
                 <label for="company">{{'vif.appParam.description' | translate}}<span
-                    class="asterisk">&#42;</span></label>
+                    class="asterisk"></span></label>
               </div>
               <div class="col-md-9">
                 <div class="form-group">
                   <input type="text" formControlName="description" class="form-control" id="description-id">
                   <div *ngIf="addForm.description.invalid && (addForm.description.dirty || addForm.description.touched)"
                     class="alert alert-danger">
-                    <div *ngIf="addForm.description.errors.required">
-                      {{'vif.message.description_require' | translate}}
-                    </div>
                   </div>
                 </div>
               </div>
@@ -119,9 +116,9 @@
         </div>
       </div>
     </form>
-    <!--[End] Create User-->
+    <!--[End] Create AppParam-->
 
-    <!--[Start] Edit User -->
+    <!--[Start] Edit AppParam -->
     <form *ngIf="appParam && id>0" [formGroup]="editAppParamForm" (ngSubmit)="onEditSubmit()">
       <div class="card-body" *ngIf="appParam && id>0">
         <div class="row">
@@ -231,5 +228,5 @@
         <button class="btn btn-secondary" routerLink="/app-param">{{'vif.global.button.cancel' | translate}}</button>
       </div>
     </form>
-    <!--[End] Edit User-->
+    <!--[End] Edit AppParam-->
   </div>

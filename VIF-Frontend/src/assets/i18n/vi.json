@@ -68,7 +68,7 @@
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
         "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
-        "propKey_require": "Kiểu là bắt buộc",
+        "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
         "description_require": "Mô tả là bắt buộc",
@@ -111,14 +111,18 @@
     },
 
     "appParam":{
+        "action": "Hành động",
         "description": "Mô tả",
-        "prop_key": "Kiểu",
+        "prop_key": "Mã khóa",
         "prop_type": "Loại",
         "prop_value": "Giá trị",
         "status": "Trạng thái",
         "title1": "Quản lí config",
         "title2": "Tạo mới config",
-        "title3": "Cập nhật config"
+        "title3": "Cập nhật config",
+        "propKey_placeholder": "Nhập vào mã khóa",
+        "propValue_placeholder": "Nhập vào giá trị",
+        "description_placeholder": "Nhập vào mô tả"
     },
     "invest_management":{
         "title_invest_trans": "Giao dịch đầu tư",

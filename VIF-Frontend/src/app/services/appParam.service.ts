@@ -20,7 +20,7 @@ export class AppParamService {
         url = url + "&propKey=" + appParamCondition.propKey;
     }
 
-    if(appParamCondition.propType){
+    if(appParamCondition.propType != null && appParamCondition.propType !== '0'){
         url = url + "&propType=" +appParamCondition.propType; 
     }
 
@@ -28,7 +28,7 @@ export class AppParamService {
         url = url + "&propValue=" + appParamCondition.propValue;
     }
 
-    if(appParamCondition.activeFlg){
+    if(appParamCondition.activeFlg != null && appParamCondition.activeFlg !== -1){
         url = url + "&activeFlg=" + appParamCondition.activeFlg;
     }
 

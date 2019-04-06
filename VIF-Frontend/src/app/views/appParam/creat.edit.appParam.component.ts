@@ -31,11 +31,11 @@ export class CEAppParamComponent implements OnInit {
   propType = [
     {
       name: 'Phí giao dịch CCQ',
-      value: 1
+      value: '1'
     },
     {
       name: 'Phí giao dịch chứng khoán',
-      value: 2
+      value: '2'
     }
   ];
 
@@ -57,10 +57,10 @@ export class CEAppParamComponent implements OnInit {
   createForm() {
     this.addAppParamForm = this.fb.group({
       propKey: ['', Validators.required],
-      propType: ['', Validators.required],
+      propType: ['1', Validators.required],
       propValue: ['', Validators.required],
-      status: ['', Validators.required],
-      description: ['', Validators.required]
+      status: [1, Validators.required],
+      description: []
     });
   }
   
@@ -101,7 +101,7 @@ export class CEAppParamComponent implements OnInit {
     if (this.addAppParamForm.invalid) {
       return;
     }
-    this.appParam.propKey = this.addAppParamForm.value.username;
+    this.appParam.propKey = this.addAppParamForm.value.propKey;
     this.appParam.propType = this.addAppParamForm.value.propType;
     this.appParam.propValue = this.addAppParamForm.value.propValue;
     this.appParam.activeFlg = this.addAppParamForm.value.status;

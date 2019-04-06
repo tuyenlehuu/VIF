@@ -5,4 +5,9 @@ export class AppParam {
   propType: string;
   propValue: string;
   activeFlg: number;
+
+  public constructor() {
+    this.activeFlg = -1;
+    this.propType = '0';
+  }
 }

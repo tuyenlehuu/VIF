@@ -13,6 +13,6 @@ public interface AppParamDao {
 //	void updateAppParam(AppParam appParam, Integer id);
 	boolean updateAppParam(AppParam appParam);
 	boolean isExist(AppParam appParam);
-	List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc, String propKey,String propType,String propValue,Integer activeFlg, String description);
+	List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc, String propKey,Integer activeFlg,String propType,String propValueg, String description);
 	int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description);
 }

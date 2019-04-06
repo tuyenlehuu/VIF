@@ -14,12 +14,12 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="company">{{'vif.appParam.prop_key' | translate}}<span
-                        class="asterisk">&#42;</span></label>
+                        class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
                       <input type="text" name="propKey" [(ngModel)]="appParamSearch.propKey" class="form-control"
-                        id="propKey-id">
+                        id="propKey-id" placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="company">{{'vif.appParam.prop_type' | translate}}<span
-                        class="asterisk">&#42;</span></label>
+                        class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -45,12 +45,12 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="company">{{'vif.appParam.prop_value' | translate}}<span
-                        class="asterisk">&#42;</span></label>
+                        class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
                       <input type="text" name="propValue" [(ngModel)]="appParamSearch.propValue" class="form-control"
-                        id="propValue-id">
+                        id="propValue-id" placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="company">{{'vif.appParam.status' | translate}}<span
-                        class="asterisk">&#42;</span></label>
+                        class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -76,12 +76,12 @@
                 <div class="row">
                   <div class="col-md-3">
                     <label for="company">{{'vif.appParam.description' | translate}}<span
-                        class="asterisk">&#42;</span></label>
+                        class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
                       <input type="text" name="description" [(ngModel)]="appParamSearch.description"
-                        class="form-control" id="description-id">
+                        class="form-control" id="description-id" placeholder="{{'vif.appParam.description_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -97,6 +97,7 @@
                 <th>{{'vif.appParam.prop_value' | translate}}</th>
                 <th>{{'vif.appParam.status' | translate}}</th>
                 <th>{{'vif.appParam.description' | translate}}</th>
+                <th>{{'vif.appParam.action' | translate}}</th>
               </tr>
             </thead>
             <tbody>

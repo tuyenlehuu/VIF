@@ -73,7 +73,7 @@ public class AppParamDaoImpl implements AppParamDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc,
-			String propKey, String propType, String propValue, Integer activeFlg, String description) {
+			String propKey, Integer activeFlg, String propType, String propValue,  String description) {
 		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
@@ -84,7 +84,7 @@ public class AppParamDaoImpl implements AppParamDao{
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
 		if(propKey != null && !propKey.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("propKey"), propKey));
+			predicates.add(criteriaBuilder.like(from.get("propKey"), "%"+propKey+"%"));
 		}
 		
 		if(activeFlg != null) {
@@ -100,7 +100,7 @@ public class AppParamDaoImpl implements AppParamDao{
 		}
 		
 		if(description != null && !description.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("description"), description));
+			predicates.add(criteriaBuilder.like(from.get("description"), "%"+description+"%"));
 		}
 		
 		select.select(from).where(predicates.toArray(new Predicate[]{}));

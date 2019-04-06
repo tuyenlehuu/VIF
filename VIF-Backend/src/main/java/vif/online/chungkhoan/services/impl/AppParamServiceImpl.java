@@ -59,7 +59,7 @@ public class AppParamServiceImpl implements AppParamService{
 	public List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc,
 			String propKey, Integer activeFlg, String propType, String propValue, String description) {
 		// TODO Auto-generated method stub
-		return appParamDao.SearchAppParamByCondition(page, pageSize, columnSortName, asc, propKey, propValue, propType, activeFlg, description);
+		return appParamDao.SearchAppParamByCondition(page, pageSize, columnSortName, asc, propKey, activeFlg, propType, propValue, description);
 	}
 
 	@Override

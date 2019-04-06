@@ -20,6 +20,10 @@ export class AppParamComponent implements OnInit {
 
     status = [
         {
+            name: 'Chọn trạng thái',
+            value: -1
+        },
+        {
             name: 'Hoạt động',
             value: 1
         },
@@ -31,16 +35,20 @@ export class AppParamComponent implements OnInit {
 
     propType = [
         {
+            name: 'Chọn loại',
+            value: '0'
+        },
+        {
             name: 'Phí giao dịch CCQ',
-            value: 1
+            value: '1'
         },
         {
             name: 'Phí giao dịch chứng khoán',
-            value: 2
+            value: '2'
         }
-    ]
+    ];
 
-    constructor(private appParamService: AppParamService, private modalService: BsModalService, private toastrService: ToastrService) { }
+    constructor(private appParamService: AppParamService, private modalService: BsModalService, private toastrService: ToastrService, ) { }
 
     ngOnInit(): void {
         this.appParamService.getAll().pipe(first()).subscribe((res: any) => {
@@ -69,6 +77,7 @@ export class AppParamComponent implements OnInit {
     deleteAppParam() {
         this.appParamService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
+            this.getPage(1);
         }, catchError => {
             console.log("result: ", catchError);
         });
