@@ -42,7 +42,7 @@ export class BranchComponent implements OnInit {
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
            this.branchs=respons;
-           console.log("this.branchs: ", this.branchs);
+        //    console.log("this.branchs: ", this.branchs);
        });
     }
     // getPage(page: number) {
@@ -77,7 +77,11 @@ export class BranchComponent implements OnInit {
         // console.log("Start delete: ", this.modalRef.content);
         this.branchService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
-           
+            
+            this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
+                this.branchs=respons;
+             //    console.log("this.branchs: ", this.branchs);
+            }); 
             
         }, catchError => {
             console.log("result: ", catchError);
@@ -90,11 +94,11 @@ export class BranchComponent implements OnInit {
     }
 
     search() {
-        console.log(this.branchSearch);
+        // console.log(this.branchSearch);
         this.branchService.getBranchsByCondition(this.branchSearch).pipe(first()).subscribe((rep:any)=>{
             this.branchs=rep.data;
             this.total = rep.totalRow;
-            console.log("branchs:",this.branchs);
+            // console.log("branchs:",this.branchs);
         })
         // console.log("da bam duoc vao nut search")
     }

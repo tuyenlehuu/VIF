@@ -65,14 +65,14 @@
         
       </div>
       <button type="submit" style="margin-bottom: 1em "
-        class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+        class="btn btn-primary">{{'vif.branch.add'| translate}}</button>
         <button type="submit" style="margin-bottom: 1em " [routerLink]="['/branch-managenment']"
-        class="btn btn-primary">{{'vif.branch.cancer'| translate}}</button>
+        class="btn btn-secondary">{{'vif.branch.cancer'| translate}}</button>
     </form>
   </div>
   <!--end create-->
 
-  <!--end edit-->
+  <!--start edit-->
   <form *ngIf="branch && id>0" [formGroup]="editBranchForm" (ngSubmit)="onEditSubmit()">
   <div class="card-body" *ngIf="branch && id>0">
     
@@ -84,9 +84,7 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-
                 <input type="text" formControlName="eBranchCodeControl"  class="form-control">
-
               </div>
             </div>
           </div>
@@ -126,7 +124,8 @@
         
       </div>
       <!--end row2-->
-      <button type="submit" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.search'| translate}}</button>
+      <button type="submit" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.update'| translate}}</button>
+      <button type="submit" [routerLink]="['/branch-managenment']" style="margin-bottom: 1em " class="btn btn-secondary">{{'vif.branch.cancer'| translate}}</button>
     
   </div>
 </form>

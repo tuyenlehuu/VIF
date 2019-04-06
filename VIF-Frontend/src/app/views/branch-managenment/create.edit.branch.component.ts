@@ -7,6 +7,7 @@ import { Branch } from '../../models/Branch.model';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
     templateUrl: 'create.edit.branch.component.html'
 })
@@ -20,7 +21,7 @@ export class CEBranchComponent implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router,
         private toastrService: ToastrService, private fb: FormBuilder,
-        private branchService: BranchService) {
+        private branchService: BranchService, private translateService: TranslateService) {
         this.createForm();
         
     }
@@ -38,14 +39,11 @@ export class CEBranchComponent implements OnInit {
             });
         } else {
             this.branch = new Branch();
-            console.log("man hinh them moi", this.id);
+            // console.log("man hinh them moi", this.id);
         }
     }
     status = [
-        {
-            name: 'Chọn trạng thái',
-            value: -1
-        },
+        
         {
                 name: 'Hoạt động',
                 value: 1
@@ -81,13 +79,14 @@ export class CEBranchComponent implements OnInit {
         this.addBranchForm = this.fb.group({
             aBranchCodeControl: ['', Validators.required],
             aBranchNameControl: ['', Validators.required],
-            aActiveFlgControl: ['', Validators.required]
+            aActiveFlgControl: [1, Validators.required]
         });
     }
 
     createEditForm() {
         this.editBranchForm = this.fb.group({
-            eBranchCodeControl: [this.branch!=null?this.branch.branchCode:'', Validators.required],
+
+            eBranchCodeControl: [{value:this.branch.branchCode,disabled:true},Validators.required],
             eBranchNameControl: [this.branch!=null?this.branch.branchName:'', Validators.required],
             eActiveFlgControl: [this.branch!=null?this.branch.activeFlg:'', Validators.required]
         });
@@ -98,7 +97,7 @@ export class CEBranchComponent implements OnInit {
         if (this.editBranchForm.invalid) {
             return;
         }
-        this.branch.branchCode=this.editBranchForm.value.eBranchCodeControl;
+        
         this.branch.branchName=this.editBranchForm.value.eBranchNameControl;
         this.branch.activeFlg=this.editBranchForm.value.eActiveFlgControl;
         this.saveBranch(this.branch);
@@ -117,20 +116,22 @@ export class CEBranchComponent implements OnInit {
     saveBranch(branch:Branch){
         if(branch.id>0){
             this.branchService.update(branch).subscribe((res:any) =>{
-                console.log("new branch:",res);
-                this.showSuccess('Cập nhật thành công');
+                // console.log("new branch:",res);
+                this.translateService.get('vif.message.update_success').subscribe((res: string) => {
+                    this.showSuccess(res);
+                });
                 this.router.navigate(['/branch-managenment']);
             },(err) =>{
-                this.showError('Cập nhật user không thành công!');
-                console.log(err);
+                this.showError('Cập nhật không thành công!');
+                // console.log(err);
             });
         }else{
             this.branchService.register(branch).subscribe(res => {
                 this.showSuccess('Thêm mới thành công');
                 this.router.navigate(['/branch-managenment']);
             }, (err) => {
-                this.showError('Thêm mới user không thành công!');
-                console.log(err);
+                this.showError('Thêm mới không thành công!');
+                // console.log(err);
             });
         }
     }
