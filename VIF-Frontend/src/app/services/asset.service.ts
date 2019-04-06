@@ -39,4 +39,14 @@ export class AssetService{
     deleteAssetByCode(assetCode: string) {
         return this.http.delete(`${config.apiUrl}/asset/deleteAssetByCode/${assetCode}`);
     }
+
+    getAssetById(id: number) {
+        return this.http.get(`${config.apiUrl}/asset/getAssetById/${id}`);
+    }
+
+    getGroupAsset() {
+        return this.http.get(`${config.apiUrl}/asset/group/getAlls`);
+    }
+
+    
 }

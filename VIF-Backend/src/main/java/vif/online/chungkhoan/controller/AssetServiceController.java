@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.services.AssetService;
+import vif.online.chungkhoan.services.GroupAssetService;
 
 @Controller
 @RequestMapping("asset")
@@ -30,6 +32,9 @@ import vif.online.chungkhoan.services.AssetService;
 public class AssetServiceController {
 	@Autowired
 	private AssetService assetService;
+	
+	@Autowired
+	private GroupAssetService groupAssetService;
 
 	@GetMapping("/getAlls")
 	public ResponseEntity<ApiResponse> getAllsAsset() {
@@ -133,4 +138,25 @@ public class AssetServiceController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	@GetMapping("getAssetById/{id}")
+	public ResponseEntity<ApiResponse> getAssetByCode(@PathVariable("id") Integer id) {
+		ApiResponse object = new ApiResponse();
+		Asset asset = assetService.getAssetById(id);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(asset);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
+	@GetMapping("group/getAlls")
+	public ResponseEntity<ApiResponse> getAllsGroup() {
+		ApiResponse object = new ApiResponse();
+		List<GroupAsset> list = groupAssetService.getAlls();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
 }

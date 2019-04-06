@@ -36,8 +36,8 @@ export const navItems: NavData[] = [
     icon: 'icon-speedometer'
   },
   {
-    name: 'Quản lý tài sản khác',
-    url: '/other-asset-management',
+    name: 'Quản lý tài sản',
+    url: '/asset-management',
     icon: 'icon-note'
   },
   {

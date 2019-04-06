@@ -33,4 +33,6 @@ public interface AssetDao {
 
 	boolean isExists(Asset asset);
 
+	Asset getAssetById(Integer id);
+
 }
