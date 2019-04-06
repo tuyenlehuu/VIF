@@ -1,0 +1,146 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.appParam.title1' | translate }}</span>
+          <button class="btn btn-primary" style="float: right;"
+            [routerLink]="['/app-param/ce-appParam', 0]">{{ 'vif.global.button.add' | translate }}</button>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.appParam.prop_key' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="propKey" [(ngModel)]="appParamSearch.propKey" class="form-control"
+                        id="propKey-id">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.appParam.prop_type' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <select id="select1" name="select1" class="form-control" [(ngModel)]="appParamSearch.propType">
+                        <option [ngValue]="prT.value" *ngFor="let prT of propType">{{prT.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.appParam.prop_value' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="propValue" [(ngModel)]="appParamSearch.propValue" class="form-control"
+                        id="propValue-id">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.appParam.status' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <select id="select1" name="select1" class="form-control" [(ngModel)]="appParamSearch.activeFlg">
+                        <option [ngValue]="atFlg.value" *ngFor="let atFlg of status">{{atFlg.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.appParam.description' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="description" [(ngModel)]="appParamSearch.description"
+                        class="form-control" id="description-id">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{'vif.appParam.prop_key' | translate}}</th>
+                <th>{{'vif.appParam.prop_type' | translate}}</th>
+                <th>{{'vif.appParam.prop_value' | translate}}</th>
+                <th>{{'vif.appParam.status' | translate}}</th>
+                <th>{{'vif.appParam.description' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{item.propKey}}</td>
+                <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
+                <td>{{item.propValue}}</td>
+                <td>{{item.activeFlg==1?'Hoạt động': 'Ngừng hoạt động'}}</td>
+                <td>{{item.description}}</td>
+                <td>
+                  <a [routerLink]="['/app-param/ce-appParam', item.id]"><i class="fa fa-pencil"></i></a>
+                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)">
+                    <i class="fa fa-minus-circle"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf= "appParams && appParams.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.global.other.confirmDelCf' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+      (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary"
+      (click)="deleteAppParam()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+</ng-template>

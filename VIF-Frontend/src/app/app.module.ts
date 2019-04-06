@@ -14,7 +14,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
 
-import { AppComponent } from './app.component';
+import { AppComponent} from './app.component'
 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
@@ -31,6 +31,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
+import { AppParamService } from './services/appParam.service';
 import { InvestorTransService } from './services/investor.transaction.service';
 
 const APP_CONTAINERS = [
@@ -90,6 +91,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   OauthService,
   UserService,
   CustomerService,
+  AppParamService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   InvestorTransService,

@@ -76,6 +76,10 @@ export const routes: Routes = [
       {
         path: 'charts',
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      },
+      {
+        path: 'app-param',
+        loadChildren: './views/appParam/appParam.module#AppParamModule'
       }
     ]
   },

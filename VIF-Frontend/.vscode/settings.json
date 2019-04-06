@@ -1,0 +1,8 @@
+{
+ "terminal.integrated.rightClickBehavior": "default",
+ "editor.parameterHints.cycle": true,
+ "debug.openExplorerOnEnd": true,
+ "scm.alwaysShowActions": true,
+"extensions.closeExtensionDetailsOnViewChange": true,
+"editor.tabSize": 2
+}

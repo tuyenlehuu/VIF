@@ -5,18 +5,17 @@ import { CommonModule } from '@angular/common';
 // import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
-import { UserComponent } from './user.component';
-import { CEUserComponent } from './create.edit.user.component';
-
-import { UserRoutingModule } from './user-routing.module';
+import { AppParamComponent } from './appParam.component';
+import { AppParamRoutingModule } from './appParam-routing.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
+import { CEAppParamComponent } from './creat.edit.appParam.component';
 
 @NgModule({
-  imports:[
+  imports: [
     FormsModule,
-    UserRoutingModule,
+    AppParamRoutingModule,
     CommonModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -24,6 +23,6 @@ import { AppTranslationModule } from '../../app.translation.module';
     AppTranslationModule,
     NgxPaginationModule
   ],
-  declarations: [UserComponent, CEUserComponent]
+  declarations: [AppParamComponent, CEAppParamComponent]
 })
-export class UserModule { }
+export class AppParamModule { }

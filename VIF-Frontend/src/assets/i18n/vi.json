@@ -42,6 +42,7 @@
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
+            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau"
@@ -56,7 +57,11 @@
         "password_notmatch": "*Mật khẩu không khớp nhau!",
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
-        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!"
+        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+        "propKey_require": "Kiểu là bắt buộc",
+        "propType_require": "Loại là bắt buộc",
+        "propValue_require": "Giá trị là bắt buộc",
+        "description_require": "Mô tả là bắt buộc"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -86,6 +91,16 @@
             "typeOfTrans": "Loại GD",
             "create_date": "Ngày GD"
         }
+    },
+    "appParam":{
+        "description": "Mô tả",
+        "prop_key": "Kiểu",
+        "prop_type": "Loại",
+        "prop_value": "Giá trị",
+        "status": "Trạng thái",
+        "title1": "Quản lí config",
+        "title2": "Tạo mới config",
+        "title3": "Cập nhật config"
     }
   }
 }

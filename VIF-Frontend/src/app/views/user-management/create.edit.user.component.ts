@@ -72,14 +72,14 @@ export class CEUserComponent implements OnInit {
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]],
             role: ['ROLE_USER', Validators.required],
             status: [1, Validators.required]
-        },{
-            validator: [MustMatch('password', 'confirmPassword'), RequireCombo('role')]
-        });
+        }, {
+                validator: [MustMatch('password', 'confirmPassword'), RequireCombo('role')]
+            });
     }
 
-    createEditForm(){
+    createEditForm() {
         this.editUserForm = this.fb.group({
-            eUsername: [{value: this.user.username, disabled: true}, Validators.required],
+            eUsername: [{ value: this.user.username, disabled: true }, Validators.required],
             eEmail: [this.user.email, Validators.required],
             eRole: [this.user.role, Validators.required],
             eStatus: [this.user.activeFlg, Validators.required]
@@ -126,11 +126,11 @@ export class CEUserComponent implements OnInit {
         this.saveUser(this.user);
     }
 
-    onEditSubmit(){
+    onEditSubmit() {
         if (this.editUserForm.invalid) {
             return;
         }
-        
+
         this.user.password = this.editUserForm.value.ePassword;
         this.user.activeFlg = this.editUserForm.value.eStatus;
         this.user.email = this.editUserForm.value.eEmail;

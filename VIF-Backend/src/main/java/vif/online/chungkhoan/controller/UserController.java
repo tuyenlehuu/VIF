@@ -20,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
-import vif.online.chungkhoan.repositories.UserRepository;
 import vif.online.chungkhoan.services.UserService;
 
 /**
@@ -34,9 +33,6 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUserName(@PathVariable("username") String username) {

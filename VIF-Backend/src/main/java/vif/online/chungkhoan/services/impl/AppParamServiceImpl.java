@@ -54,4 +54,17 @@ public class AppParamServiceImpl implements AppParamService{
 		// TODO Auto-generated method stub
 		return appParamDao.getAllAppParam();
 	}
+
+	@Override
+	public List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String propKey, Integer activeFlg, String propType, String propValue, String description) {
+		// TODO Auto-generated method stub
+		return appParamDao.SearchAppParamByCondition(page, pageSize, columnSortName, asc, propKey, propValue, propType, activeFlg, description);
+	}
+
+	@Override
+	public int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description) {
+		// TODO Auto-generated method stub
+		return  appParamDao.getRowCount(propKey, activeFlg, propType, propValue, description);
+	}
 }
