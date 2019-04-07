@@ -2,7 +2,6 @@ import { User } from './User.model';
 
 export class Customer {
     id: number;
-    username: string;
     code: string;
     email: string;
     activeFlg: number;

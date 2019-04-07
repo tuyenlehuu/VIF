@@ -22,6 +22,32 @@
         "status": "Trạng thái",
         "action": "Hành động"
     },
+    "customer":{
+        "title1": "Quản lý nhà đầu tư",
+        "title2": "Tạo mới nhà đầu tư",
+        "title3": "Cập nhật người dùng",
+        "fullName": "Họ và tên",
+        "fullName_placeholder": "Nhập họ và tên",
+        "email": "Email",
+        "email_placeholder": "Nhập email",
+        "status": "Trạng thái",
+        "avatar": "Ảnh đại diện",
+        "avatar_placeholder": "Chọn file",
+        "action": "Hành động",
+        "code": "Mã NĐT",
+        "code_placeholder": "Nhập mã NĐT",
+        "identityNumber": "Số CMT",
+        "identityNumber_placeholder": "Nhập số CMT",
+        "dateOfBirth": "Ngày sinh",
+        "dateOfBirth_placeholder": "Nhập ngày sinh",
+        "identityDocFront": "Mặt trước CMT",
+        "identityDocBack": "Mặt sau CMT",
+        "signContractDate": "Ngày kí hợp đồng"
+       
+
+
+
+    },
     "global":{
         "button":{
             "add": "Thêm mới",
@@ -41,7 +67,8 @@
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "note": "Lưu ý"
+            "note": "Lưu ý",
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer"
         }
     },
     "message":{
@@ -53,7 +80,17 @@
         "password_notmatch": "*Mật khẩu không khớp nhau!",
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
-        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!"
+        "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+        "avatar_require":"Vui lòng chọn tệp",
+        "dateOfBirth_require": "*Chưa chọn ngày sinh",
+        "fullName_require": "*Tên là bắt buộc",
+        "identityNumber_require": "Số CMT chưa chính xác",
+        "signContractDate_require": "*Thông tin bắt buộc",
+        "dateOfBirth_invalid": "Ngày sinh sai định dạng"
+      
+    
+        
+
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",

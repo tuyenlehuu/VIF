@@ -9,7 +9,7 @@ import vif.online.chungkhoan.entities.User;
 
 public interface CustomerService {
 	List<Customer> getAllCustomers();
-	
+
 	Customer getCustomerById(int id);
 
 	Customer getCustomerByCode(String code);
@@ -25,9 +25,8 @@ public interface CustomerService {
 	List<User> getListUserById(int id);
 
 	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
-			String fullName,  Integer activeFlg);
+			String fullName, Integer activeFlg);
 
-	int getRowCount(String fullName,  Integer activeFlg, String code);
-
+	int getRowCount(String fullName, Integer activeFlg, String code);
 
 }

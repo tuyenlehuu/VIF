@@ -1,0 +1,130 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.customer.title1' | translate }}</span>
+          <button class="btn btn-primary" [routerLink]="['/customer-management/ce-customer-management', 0]"
+            style="float: right;">{{ 'vif.global.button.add' | translate }}</button>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.customer.fullName' | translate}}<span
+                        class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="fullName" [(ngModel)]="customerSearch.fullName" class="form-control"
+                        id="fullName-id" placeholder="{{'vif.customer.fullName_placeholder' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.customer.email' | translate}}<span class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="email" [(ngModel)]="customerSearch.email" class="form-control"
+                        id="email-id" placeholder="{{'vif.customer.email_placeholder' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.customer.code' | translate}}<span class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <input type="text" name="code" [(ngModel)]="customerSearch.code" class="form-control"
+                        id="code-id" placeholder="{{'vif.customer.code_placeholder' | translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.customer.status' | translate}}<span class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <select id="select-status" name="selectStatus" class="form-control"
+                        [(ngModel)]="customerSearch.activeFlg">
+                        <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
+
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{'vif.customer.fullName' | translate}}</th>
+                <th>{{'vif.customer.email' | translate}}</th>
+                <th>{{'vif.customer.code' | translate}}</th>
+                <th>{{'vif.customer.status' | translate}}</th>
+                <th>{{'vif.customer.action' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="customers && customers.length > 0">
+              <tr
+                *ngFor="let customer of customers | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{customer.fullName}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.code}}</td>
+                <td>{{customer.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
+                <td>
+                  <a [routerLink]="['/customer-management/ce-customer-management', customer.id]"><i class="fa fa-pencil"></i></a>
+                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, customer.id)"><i
+                      class="fa fa-trash-o"></i></a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!customers || (customers && customers.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="customers && customers.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.global.other.confirmDelCustomer' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+      (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary"
+      (click)="deleteCustomer()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+</ng-template>
