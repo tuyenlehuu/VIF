@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="group_asset")
 public class GroupAsset implements Serializable{
@@ -82,6 +84,7 @@ public class GroupAsset implements Serializable{
 		this.activeFlg = activeFlg;
 	}
 
+	@JsonIgnore
 	public List<Asset> getAssets() {
 		return assets;
 	}

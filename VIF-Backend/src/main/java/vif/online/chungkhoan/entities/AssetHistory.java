@@ -45,6 +45,9 @@ public class AssetHistory {
 	@Column(name = "ACTIVE_FLG", nullable = false)
     private Integer activeFlg = 1;
 	
+	@Column(name = "LAST_OF_MONTH_FLG")
+    private Integer lastOfMonthFlg = 0;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ASSET_ID")
     private Asset asset;
@@ -119,5 +122,14 @@ public class AssetHistory {
 
 	public void setOrginalPrice(BigDecimal orginalPrice) {
 		this.orginalPrice = orginalPrice;
+	}
+
+	public Integer getLastOfMonthFlg() {
+		return lastOfMonthFlg;
+	}
+
+	public void setLastOfMonthFlg(Integer lastOfMonthFlg) {
+		this.lastOfMonthFlg = lastOfMonthFlg;
 	}	
+
 }

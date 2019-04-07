@@ -1,6 +1,7 @@
 package vif.online.chungkhoan.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="user", uniqueConstraints = { @UniqueConstraint(columnNames = { "USER_NAME" }) })
@@ -50,7 +51,14 @@ public class User implements Serializable{
     @Column(name = "IS_DELETED")
     private Integer isDeleted = 0;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "TOKEN_RESET")
+    private String tokenReset;
+    
+    @Column(name = "TOKEN_RESET_EXPRIED", columnDefinition = "DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date tokenResetExpried;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 	
@@ -118,7 +126,6 @@ public class User implements Serializable{
 		return password;
 	}
 
-	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -129,5 +136,21 @@ public class User implements Serializable{
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getTokenReset() {
+		return tokenReset;
+	}
+
+	public void setTokenReset(String tokenReset) {
+		this.tokenReset = tokenReset;
+	}
+
+	public Date getTokenResetExpried() {
+		return tokenResetExpried;
+	}
+
+	public void setTokenResetExpried(Date tokenResetExpried) {
+		this.tokenResetExpried = tokenResetExpried;
 	}
 }

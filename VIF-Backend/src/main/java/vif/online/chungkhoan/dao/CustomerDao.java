@@ -33,4 +33,5 @@ public interface CustomerDao {
 
 	int getRowCount(String fullName, Integer activeFlg, String code);
 
+
 }

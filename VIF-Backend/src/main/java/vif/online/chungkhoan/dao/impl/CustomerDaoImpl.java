@@ -8,10 +8,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,8 +101,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	}
 
 	@Override
-	public boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ) {
+	public boolean updateCCQCustomer(Customer customer) {
 		// TODO Auto-generated method stub
+
 		Customer cus = entityManager.find(Customer.class, customer.getId());
 		if (cus != null) {
 			cus.setOrginalCCQPrice(newCCQPrice);
@@ -120,6 +123,16 @@ public class CustomerDaoImpl implements CustomerDao {
 			return cus.getUsers();
 		}
 		return null;
+
+
+
+	@Override
+	public BigDecimal getTotalMoneyOfCustomers() {
+		// TODO Auto-generated method stub
+		String sql = "SELECT SUM(total_ccq*orginal_ccq_price) FROM customer";
+		Query query = entityManager.createNativeQuery(sql);
+		BigDecimal totalMoney = (BigDecimal) query.getSingleResult();
+		return totalMoney;
 
 	}
 	// doing_customer

@@ -25,4 +25,8 @@ public interface UserService {
 	int getRowCount(String username, Integer activeFlg, String email, String role);
 
 	void deleteUserById(Integer id);
+
+	boolean resetPassword(String username, String token, String newPass);
+
+	boolean prepareResetPassword(String username);
 }

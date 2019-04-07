@@ -1,0 +1,54 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container pt-4">
+      <div class="row" *ngIf="!isAfterReset">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body pt-4">
+              <form [formGroup]="forgotForm" (ngSubmit)="onSubmit()">
+                <h1>{{'vif.forgot_pass.title'|translate}}</h1>
+                <p class="text-muted">{{'vif.forgot_pass.sub_title'|translate}}</p>
+                <div *ngIf="f.username.invalid && (f.username.dirty || f.username.touched)" class="alert alert-danger">
+                  <div *ngIf="f.username.errors.required">
+                    {{'vif.message.username_require' | translate}}
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" formControlName="username" placeholder="{{'vif.user.username' | translate}}"
+                    autocomplete="username" required>
+                </div>
+
+                <div *ngIf="f.recaptcha.invalid && (f.recaptcha.dirty || f.recaptcha.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="f.recaptcha.errors.required">
+                    {{'vif.forgot_pass.captcha_required' | translate}}
+                  </div>
+                </div>
+                <div class="input-group mb-3">
+                  <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (reset)="handleReset()" (expire)="handleExpire()"
+                    (load)="handleLoad()" (success)="handleSuccess($event)" [useGlobalDomain]="false" [size]="size"
+                    formControlName="recaptcha">
+                  </ngx-recaptcha2>
+                </div>
+                <button type="submit" class="btn btn-block btn-success">{{'vif.global.button.reset_pass'|translate}}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isAfterReset">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body pt-4">
+              <h3>{{'vif.forgot_pass.title_success'|translate}}</h3>
+              <p style="color:black;">{{'vif.forgot_pass.content_success'|translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
