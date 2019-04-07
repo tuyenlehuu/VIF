@@ -29,7 +29,7 @@ export class AppParamComponent implements OnInit {
         },
         {
             name: 'Ngừng hoạt động',
-            value: 0
+            value: 0 && null
         }
     ];
 

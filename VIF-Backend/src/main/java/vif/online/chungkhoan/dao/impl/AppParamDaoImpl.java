@@ -87,7 +87,7 @@ public class AppParamDaoImpl implements AppParamDao{
 			predicates.add(criteriaBuilder.like(from.get("propKey"), "%"+propKey+"%"));
 		}
 		
-		if(activeFlg != -1) {
+		if(activeFlg != null) {
 			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
 		}
 		
