@@ -63,7 +63,7 @@ export class CEAppParamComponent implements OnInit {
       description: []
     });
   }
-  
+
   createEditForm() {
     this.editAppParamForm = this.fb.group({
       ePropKey: [this.appParam.propKey, Validators.required],
