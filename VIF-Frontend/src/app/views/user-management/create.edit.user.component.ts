@@ -139,6 +139,7 @@ export class CEUserComponent implements OnInit {
 
     onAddSubmit() {
         this.submitted = true;
+
         // stop here if form is invalid
         if (this.addUserForm.invalid) {
             return;

@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.repositories.CustomerRepository;
 import vif.online.chungkhoan.services.BranchService;
 import vif.online.chungkhoan.services.CustomerService;
@@ -69,6 +71,22 @@ public class BranchController {
 	public ResponseEntity<Void> deleteBranchById(@PathVariable("id") Integer id) {
 		branchService.deleteBranchById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	@GetMapping("getBranchsByCondition")
+	public ResponseEntity<ApiResponse> SearchBranchByCondition(
+			@RequestParam(value = "branchCode", required = false) String branchCode,
+			@RequestParam(value = "activeFlg", required = false) Integer activeFlg,
+			@RequestParam(value = "branchName", required = false) String branchName
+			) {
+		ApiResponse object = new ApiResponse();
+		int rowCount=branchService.getRowCount(branchCode, activeFlg, branchName);
+		List<Branch> list = branchService.SearchBranchByCondition(branchCode, activeFlg, branchName);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		object.setTotalRow(rowCount);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	
 	

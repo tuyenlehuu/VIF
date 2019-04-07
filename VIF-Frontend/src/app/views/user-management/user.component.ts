@@ -45,8 +45,8 @@ export class UserComponent implements OnInit {
             value: -1
         },
         {
-            name: 'Hoạt động',
-            value: 1
+                name: 'Hoạt động',
+                value: 1
         },
         {
             name: 'Ngừng hoạt động',
@@ -66,6 +66,7 @@ export class UserComponent implements OnInit {
     }
 
     getPage(page: number) {
+        console.log(this.userSearch);
         var pager: Pager = new Pager();
         pager.page = page;
         pager.pageSize = this.pageSize;
@@ -73,7 +74,8 @@ export class UserComponent implements OnInit {
             this.users = respons.data;
             this.total = respons.totalRow;
             this.p = page;
-            // console.log("data: ", respons);
+            console.log("data: ", this.users);
+            console.log("p: ", this.p);
         });
     }
 

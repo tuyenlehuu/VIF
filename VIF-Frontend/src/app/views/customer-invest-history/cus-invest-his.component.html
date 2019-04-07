@@ -71,13 +71,13 @@
               </tr>
             </thead>
             <tbody *ngIf="investorHisLst && investorHisLst.length > 0">
-              <tr *ngFor="let investHis of investorHisLst | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
-                <td>{{investHis.code}}</td>
-                <td>{{investHis.customer.fullName}}</td>
-                <td>{{investHis.amountCCQ | number:'.2-2'}}</td>
-                <td>{{investHis.priceOfCCQ | number:'.2-2'}}</td>
-                <td>{{investHis.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
-                <td>{{investHis.createDate | date: 'dd/MM/yyyy'}}</td>
+                <tr *ngFor="let investHis of investorHisLst | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                  <td>{{investHis.code}}</td>
+                  <td>{{investHis.customer.fullName}}</td>
+                  <td>{{investHis.amountCCQ | number:'.2-2'}}</td>
+                  <td>{{investHis.priceOfCCQ | number:'.2-2'}}</td>
+                  <td>{{investHis.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
+                  <td>{{investHis.createDate | date: 'dd/MM/yyyy'}}</td>
               </tr>
             </tbody>
             <tbody *ngIf="!investorHisLst || (investorHisLst && investorHisLst.length <= 0)">
