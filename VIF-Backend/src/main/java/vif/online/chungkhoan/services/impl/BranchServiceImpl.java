@@ -57,17 +57,5 @@ public class BranchServiceImpl implements BranchService{
 		
 	}
 
-	@Override
-	public List<Branch> SearchBranchByCondition(String branchCode, Integer activeFlg, String branchName) {
-		// TODO Auto-generated method stub
-		return branchDao.SearchBranchByCondition(branchCode, activeFlg, branchName);
-	}
-
-	@Override
-	public int getRowCount(String branchCode, Integer activeFlg, String branchName) {
-		// TODO Auto-generated method stub
-		return branchDao.getRowCount(branchCode, activeFlg, branchName);
-	}
-
 	
 }

@@ -63,8 +63,7 @@ export class CEAssetComponent implements OnInit {
       assetName: ['', Validators.required],
       currentPrice: ['', Validators.required],
       description: [''],
-      orginalPrice: [''],
-      branchCode: ['']
+      orginalPrice: ['']
     });
   }
 

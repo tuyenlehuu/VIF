@@ -93,10 +93,6 @@ export const navItems: NavData[] = [
     icon: 'cui-british-pound'
   },
   {
-    name: 'Quản lý ngành CP',
-    url: '/branch-managenment',
-  },
-  {
     name: 'Quản lý config',
     url: '/app-param',
     icon: 'cui-british-pound'
