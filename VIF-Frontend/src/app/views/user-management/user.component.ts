@@ -74,8 +74,8 @@ export class UserComponent implements OnInit {
             this.users = respons.data;
             this.total = respons.totalRow;
             this.p = page;
-            console.log("data: ", this.users);
-            console.log("p: ", this.p);
+            // console.log("data: ", this.users);
+            // console.log("p: ", this.p);
         });
     }
 

@@ -44,7 +44,7 @@ export class UserService{
         }
 
     register(user: User) {
-        return this.http.post<any>(`${config.apiUrl}/user/add`, user).pipe(map(res => {return res;}));;
+        return this.http.post<any>(`${config.apiUrl}/user/add`, user).pipe(map(res => {return res;}));
     }
 
     update(user: User) {

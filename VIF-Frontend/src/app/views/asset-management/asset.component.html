@@ -4,11 +4,73 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <span>Quản lý tài sản khác</span>
+          <span>{{'vif.asset.title' | translate}}</span>
           <button class="btn btn-primary" [routerLink]="['/asset-management/create-edit-asset', 0]"
-            style="float: right;">Thêm mới</button>
+            style="float: right;">{{'vif.global.button.add' | translate}}</button>
         </div>
         <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.asset.asset_code' | translate}}</label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input type="text" name="assetCode" [(ngModel)]="assetSearch.assetCode" class="form-control"
+                      id="assetCode-id" placeholder="{{'vif.asset.asset_code_placeholder' | translate}}">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="offset-md-2 col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.asset.asset_name' | translate}}</label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input type="text" name="email" [(ngModel)]="assetSearch.assetName" class="form-control"
+                      id="assetName-id" placeholder="{{'vif.asset.asset_name_placeholder' | translate}}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.asset.asset_type' | translate}}</label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <ng-select [searchable]="true" [(ngModel)]="assetSearch.groupAsset.id">
+                      <ng-option [value]="group.id" *ngFor="let group of groupAssets">{{group.groupName}}</ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="offset-md-2 col-md-5">
+              <!-- <div class="row">
+                      <div class="col-md-3">
+                        <label for="company">{{'vif.user.status' | translate}}<span class="asterisk">&#42;</span></label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group">
+                          <select id="select-status" name="selectStatus" class="form-control"
+                            [(ngModel)]="userSearch.activeFlg">
+                            <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div> -->
+            </div>
+          </div>
+          <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
+
           <table class="table table-striped mt-3">
             <thead>
               <tr>
@@ -20,7 +82,8 @@
               </tr>
             </thead>
             <tbody *ngIf="assetList && assetList.length > 0">
-              <tr *ngFor="let item of assetList">
+              <tr
+                *ngFor="let item of assetList | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.assetCode}}</td>
                 <td>{{item.assetName}}</td>
                 <td>{{item.currentPrice}}</td>
@@ -37,9 +100,11 @@
             </tbody>
           </table>
           <hr />
-          <!-- <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
-            <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="{{'vif.global.other.previousLabel' | translate}}" nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
-          </ul> -->
+          <ul style="float:right;" class="pagination" *ngIf="assetList && assetList.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
         </div>
       </div>
     </div>

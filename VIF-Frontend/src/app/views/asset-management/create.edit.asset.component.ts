@@ -9,6 +9,7 @@ import { GroupAsset } from '../../models/GroupAsset.model';
 import { first } from 'rxjs/operators';
 import { Branch } from '../../models/Branch.model';
 import { BranchService } from '../../services/branch.service';
+import { config } from '../../config/application.config';
 
 @Component({
   selector: 'app-other.asset',
@@ -93,25 +94,76 @@ export class CEAssetComponent implements OnInit {
     }
 
     this.newAssetToAdd.activeFlg = 1;
-    this.newAssetToAdd.amount = this.addAssetForm.value.amount!=null?this.addAssetForm.value.amount:0;
+    this.newAssetToAdd.amount = this.addAssetForm.value.amount != null ? this.addAssetForm.value.amount : 0;
     this.newAssetToAdd.assetCode = this.addAssetForm.value.assetCode;
     this.newAssetToAdd.assetName = this.addAssetForm.value.assetName;
-    this.newAssetToAdd.currentPrice = this.addAssetForm.value.currentPrice!=null?this.addAssetForm.value.currentPrice:0;
+    this.newAssetToAdd.currentPrice = this.addAssetForm.value.currentPrice != null ? this.addAssetForm.value.currentPrice : 0;
     this.newAssetToAdd.description = this.addAssetForm.value.description;
-    this.newAssetToAdd.orginalPrice = this.addAssetForm.value.orginalPrice!=null?this.addAssetForm.value.orginalPrice:0;
-    
+    this.newAssetToAdd.orginalPrice = this.addAssetForm.value.orginalPrice != null ? this.addAssetForm.value.orginalPrice : 0;
+
     if (this.addAssetForm.value.groupAsset == 4) {
       this.newAssetToAdd.branchCode = null;
-    }else{
+    } else {
       this.newAssetToAdd.branchCode = this.addAssetForm.value.branchCode;
     }
 
-    console.log("this.newAssetToAdd", this.newAssetToAdd);
+    let mGroup: GroupAsset = new GroupAsset();
+    mGroup.id = this.groupAssetSelectedId;
+    mGroup.typeOfAsset = this.groupAssetSelectedId;
+    this.newAssetToAdd.groupAsset = mGroup;
+
+    if (this.id > 0) {
+      // update user
+      // this.userService.update(user).subscribe(res => {
+      //   // console.log("new user: ", res);
+      //   this.translateService.get('vif.message.update_success').subscribe((res: string) => {
+      //     this.showSuccess(res);
+      //   });
+      //   this.router.navigate(['/user-management']);
+      // }, (err) => {
+      //   this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
+      //     this.showError(res);
+      //   });
+      //   console.log(err);
+      // });
+    } else {
+      this.assetService.addAsset(this.newAssetToAdd).pipe(first()).subscribe((respons: any) => {
+        console.log("res", respons);
+        if (respons.code === 409) {
+          this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
+            this.showError(res);
+          });
+        } else if (respons.code === 200) {
+          this.translateService.get('vif.message.create_success').subscribe((res: string) => {
+            this.showSuccess(res);
+          });
+          this.router.navigate(['/asset-management']);
+        }
+      }, (err) => {
+        this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
+          this.showError(res);
+        });
+        console.log(err);
+      });
+    }
+
   }
 
   get addForm() { return this.addAssetForm.controls; }
 
   get editForm() { return this.editAssetForm.controls; }
+
+  showSuccess(mes: string) {
+    this.toastrService.success('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
+
+  showError(mes: string) {
+    this.toastrService.error('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
 
 
   onChangeTypeAsset() {
@@ -119,12 +171,12 @@ export class CEAssetComponent implements OnInit {
     this.groupAssetSelectedId = this.addAssetForm.value.groupAsset;
     if (this.groupAssetSelectedId == 4) {
       this.newAssetToAdd.branchCode = null;
-    }else{
+    } else {
       this.newAssetToAdd.branchCode = this.branchCodeSelected;
     }
     let mGroup: GroupAsset = new GroupAsset();
     mGroup.id = this.groupAssetSelectedId;
-    mGroup.type_of_asset = this.groupAssetSelectedId;
+    mGroup.typeOfAsset = this.groupAssetSelectedId;
     this.newAssetToAdd.groupAsset = mGroup;
   }
 
