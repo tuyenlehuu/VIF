@@ -62,6 +62,7 @@
     "message":{
         "username_require": "*Tên đăng nhập là bắt buộc",
         "user_exists": "User đã tồn tại trong hệ thống",
+        "appParam_exists": "Config đã tồn tại trong hệ thống",
         "email_require": "*Email là bắt buộc",
         "email_invalid": "*Email không đúng định dạng",
         "password_require": "*Mật khẩu là bắt buộc",
