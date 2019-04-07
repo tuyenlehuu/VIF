@@ -77,10 +77,10 @@
         },
         "other":{
             "emptyItem":"Không có bản ghi",
-            "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "note": "Lưu ý",
+            "confirmDel": "Bạn có thực sự muốn xóa user?",    
             "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
             "confirmDelCf": "Bạn có thực sự muốn xóa config?",
+            "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
             "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
@@ -113,6 +113,7 @@
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
         "create_failed": "Thêm mới không thành công"
+
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -102,15 +103,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public boolean updateCCQCustomer(Customer customer) {
 		// TODO Auto-generated method stub
-		Customer cus = entityManager.find(Customer.class, customer.getId());
-		if (cus != null) {
-			cus.setOrginalCCQPrice(newCCQPrice);
-			cus.setTotalCcq(newTotalCCQ);
-			entityManager.merge(cus);
+		entityManager.merge(customer);
 			return true;
-		}
-
-		return false;
+	
 
 	}
 

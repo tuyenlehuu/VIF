@@ -22,6 +22,10 @@ public interface CustomerDao {
 
 	void deleteCustomerById(Integer id);
 
+
+	boolean updateCCQCustomer(Customer customer);
+
+
 	List<User> getListUserById(int id);
 
 	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
@@ -29,8 +33,8 @@ public interface CustomerDao {
 
 	int getRowCount(String fullName, Integer activeFlg, String code);
 
-	boolean updateCCQCustomer(Customer customer);
 
 	BigDecimal getTotalMoneyOfCustomers();
+
 
 }
