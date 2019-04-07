@@ -5,7 +5,6 @@ import java.util.List;
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.entities.User;
 
-
 public interface BranchDao {
 	List<Branch> getAllBranchs();
 
@@ -15,13 +14,15 @@ public interface BranchDao {
 
 	boolean addBranch(Branch branch);
 
+	boolean branchExists(Branch branch);
+
 	void updateBranch(Branch branch);
 
 	void deleteBranchByCode(String code);
 
 	void deleteBranchById(Integer id);
-	
-	List<Branch> SearchBranchByCondition( String branchCode,Integer activeFlg, String branchName);
-	
+
+	List<Branch> SearchBranchByCondition(String branchCode, Integer activeFlg, String branchName);
+
 	int getRowCount(String branchCode, Integer activeFlg, String branchName);
 }

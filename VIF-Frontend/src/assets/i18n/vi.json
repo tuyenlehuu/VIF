@@ -52,16 +52,20 @@
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
+            "confirmDel1":"Bạn có thực sự muốn xoá chi nhánh?",
             "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
             "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
+
         }
     },
     "message":{
         "username_require": "*Tên đăng nhập là bắt buộc",
+        "username_require1":"*Mã chi nhánh là bắt buộc",
         "email_require": "*Email là bắt buộc",
+        "name_require": "*Tên chi nhánh là bắt buộc",
         "email_invalid": "*Email không đúng định dạng",
         "password_require": "*Mật khẩu là bắt buộc",
         "password_minlength": "*Mật khẩu tối thiểu phải có 8 ký tự",
@@ -121,8 +125,9 @@
         "add":"Thêm mới",
         "search":"Tìm kiếm",
         "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi tiết",
-        "cancer":"Cancel"
+        "name_placeholder":"Nhập tên chi nhánh",
+        "cancer":"Cancel",
+        "update":"Cập nhật"
     },
     "appParam":{
         "action": "Hành động",

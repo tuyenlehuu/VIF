@@ -51,7 +51,7 @@ public class BranchController {
 	public ResponseEntity<Void> addUser(@RequestBody Branch branch, UriComponentsBuilder builder) {
 		boolean flag = branchService.addBranch(branch);
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			return  addUser(branch,builder);
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(builder.path("/branch/{id}").buildAndExpand(branch.getId()).toUri());

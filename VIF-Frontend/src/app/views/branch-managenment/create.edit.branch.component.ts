@@ -130,8 +130,8 @@ export class CEBranchComponent implements OnInit {
                 this.showSuccess('Thêm mới thành công');
                 this.router.navigate(['/branch-managenment']);
             }, (err) => {
-                this.showError('Thêm mới không thành công!');
-                // console.log(err);
+                this.showError('Mã đã tồn tại vui lòng nhập mã khác!');
+                console.log(err);
             });
         }
     }

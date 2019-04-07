@@ -209,10 +209,8 @@ public class UserDaoImpl implements UserDao{
 		return lstResult.size();
 	}
 
-
 	@Override
 	public boolean prepareResetPassword(String username) {
-		// TODO Auto-generated method stub
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			String tokenReset = apiHelper.generateString(20);
@@ -239,7 +237,6 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public boolean resetPassword(String username, String token, String newPass) {
-		// TODO Auto-generated method stub
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			// check user, token, time expired

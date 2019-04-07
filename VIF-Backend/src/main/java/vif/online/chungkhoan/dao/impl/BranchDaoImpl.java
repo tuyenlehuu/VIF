@@ -123,7 +123,9 @@ public class BranchDaoImpl implements BranchDao{
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
 		if(branchCode != null && !branchCode.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("branchCode"), branchCode));
+			
+			predicates.add(criteriaBuilder.like(from.get("branchCode"),"%"+branchCode+"%"));
+			
 		}
 		
 		if(activeFlg != null) {
@@ -174,5 +176,13 @@ public class BranchDaoImpl implements BranchDao{
 		List<Branch> lstResult = query.getResultList();
 		return lstResult.size();
 	}
+
+	@Override
+	public boolean branchExists(Branch branch) {
+		if(getBranchByCode(branch.getBranchCode())!=null) return true;
+		else return false;
+	}
+
+	
 
 }

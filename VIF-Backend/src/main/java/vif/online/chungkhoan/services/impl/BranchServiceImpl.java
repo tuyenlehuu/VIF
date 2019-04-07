@@ -35,8 +35,12 @@ public class BranchServiceImpl implements BranchService{
 
 	@Override
 	public boolean addBranch(Branch branch) {
-		branchDao.addBranch(branch);
-		return true;
+		if(branchDao.branchExists(branch)) {
+			return false;
+		}
+			branchDao.addBranch(branch);
+			return true;
+		
 	}
 
 	@Override

@@ -42,20 +42,10 @@ export class BranchComponent implements OnInit {
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
            this.branchs=respons;
-        //    console.log("this.branchs: ", this.branchs);
+       
        });
     }
-    // getPage(page: number) {
-    //     var pager: Pager = new Pager();
-    //     pager.page = page;
-    //     pager.pageSize = this.pageSize;
-    //     this.branchService.getBranchByCondition(this.branchSearch, pager).pipe(first()).subscribe((respons: any) => {
-    //         this.branchs = respons.data;
-    //         this.total = respons.totalRow;
-    //         this.p = page;
-    //         // console.log("data: ", respons);
-    //     });
-    // }
+    
 
 
     showSuccess(mes: string) {
@@ -80,7 +70,7 @@ export class BranchComponent implements OnInit {
             
             this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
                 this.branchs=respons;
-             //    console.log("this.branchs: ", this.branchs);
+          
             }); 
             
         }, catchError => {
@@ -94,13 +84,13 @@ export class BranchComponent implements OnInit {
     }
 
     search() {
-        // console.log(this.branchSearch);
+        
         this.branchService.getBranchsByCondition(this.branchSearch).pipe(first()).subscribe((rep:any)=>{
             this.branchs=rep.data;
             this.total = rep.totalRow;
-            // console.log("branchs:",this.branchs);
+           
         })
-        // console.log("da bam duoc vao nut search")
+      
     }
     
 }
