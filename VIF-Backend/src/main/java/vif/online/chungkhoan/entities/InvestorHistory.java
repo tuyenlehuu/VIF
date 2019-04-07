@@ -57,7 +57,7 @@ public class InvestorHistory implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastUpdate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
@@ -117,7 +117,7 @@ public class InvestorHistory implements Serializable{
 		this.lastUpdate = lastUpdate;
 	}
 
-	@JsonIgnore
+
 	public Customer getCustomer() {
 		return customer;
 	}

@@ -61,14 +61,30 @@
             "login": "Đăng nhập",
             "buy_CCQ": "Mua CCQ",
             "sell_CCQ": "Bán CCQ",
+            "buy_Securities": "Mua chứng khoán",
+            "sell_Securities": "Bán chứng khoán",
             "buy": "Mua",
-            "sell": "Bán"
+            "sell": "Bán",
+            "export_excel": "Xuất excel",
+            "reset_pass": "Cấp lại mật khẩu",
+            "home_page": "Quay lại trang chủ"
+        },
+        "label":{
+            "sercurities" : "Chứng khoán",
+            "amount" : "Số lượng",
+            "price" : "Giá",
+            "total_value" : "Tổng giá trị"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
             "note": "Lưu ý",
-            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer"
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
+            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
+            "previousLabel": "Trước",
+            "nextLabel" :"Sau",
+            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
+
         }
     },
     "message":{
@@ -86,11 +102,17 @@
         "fullName_require": "*Tên là bắt buộc",
         "identityNumber_require": "Số CMT chưa chính xác",
         "signContractDate_require": "*Thông tin bắt buộc",
-        "dateOfBirth_invalid": "Ngày sinh sai định dạng"
-      
-    
-        
-
+        "dateOfBirth_invalid": "Ngày sinh sai định dạng",
+        "propKey_require": "Mã khóa là bắt buộc",
+        "propType_require": "Loại là bắt buộc",
+        "propValue_require": "Giá trị là bắt buộc",
+        "description_require": "Mô tả là bắt buộc",
+        "unit_price_zero": "Đơn giá phải lớn hơn 0",
+        "total_money": "Tổng tiền phải lớn hơn 0",
+        "update_success": "Cập nhật thành công!",
+        "update_failed": "Cập nhật không thành công",
+        "create_success": "Thêm mới thành công!",
+        "create_failed": "Thêm mới không thành công"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -105,7 +127,102 @@
         "amount_CCQ_required": "*Số CCQ không được để trống!",
         "money_zero": "*Số tiền phải lớn hơn 0!",
         "money_required": "*Số tiền không được để trống!",
-        "price_zero": "Giá phải lớn hơn 0"
+        "price_zero": "Giá phải lớn hơn 0",
+        "customer_required": "*Nhà đầu tư không được để trống!",
+        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!"
+    },
+    "cus_invest_history":{
+        "from_date": "Từ ngày",
+        "to_date": "Đến ngày",
+        "customer": "Nhà đầu tư",
+        "table":{
+            "code": "Mã giao dịch",
+            "customer": "Nhà đầu tư",
+            "amountCCQ": "Số CCQ",
+            "priceCCQ": "Giá CCQ",
+            "typeOfTrans": "Loại GD",
+            "create_date": "Ngày GD"
+        }
+    },
+
+    "appParam":{
+        "action": "Hành động",
+        "description": "Mô tả",
+        "prop_key": "Mã khóa",
+        "prop_type": "Loại",
+        "prop_value": "Giá trị",
+        "status": "Trạng thái",
+        "title1": "Quản lí config",
+        "title2": "Tạo mới config",
+        "title3": "Cập nhật config",
+        "propKey_placeholder": "Nhập vào mã khóa",
+        "propValue_placeholder": "Nhập vào giá trị",
+        "description_placeholder": "Nhập vào mô tả"
+    },
+    "invest_management":{
+        "title_invest_trans": "Giao dịch đầu tư",
+        "amount_asset_zero": "*Số lượng tài sản phải lớn hơn 0!",
+        "amount_asset_must_less": "*Số lượng vượt quá tài sản đang có!",
+        "total_buy_must_less": "*giá trị đặt mua phải nhỏ hơn số tiền mặt của quỹ!"
+    },
+    "forgot_pass":{
+        "title": "Quên mật khẩu",
+        "sub_title": "Cấp lại mật khẩu mới cho bạn",
+        "captcha_required": "*Captcha là bắt buộc!",
+        "title_success": "Reset mật khẩu thành công!",
+        "content_success": "Chúng tôi đã gửi vào email cho bạn. Vui lòng kiểm tra email và tiến hành reset mật khẩu"
+    },
+    "change_pass":{
+        "title": "Thay đổi mật khẩu",
+        "new_pass": "Mật khẩu mới",
+        "confirm_new_pass": "Nhập lại mật khẩu mới",
+        "title_success": "Thay đổi mật khẩu thành công!",
+        "content_success": "Bạn đã thay đổi mật khẩu thành công. Bắt đầu "
+    },
+    "error_page":{
+        "403": "403",
+        "404": "404",
+        "500": "500",
+        "403_title": "Oops! Không có quyền!",
+        "403_content": "Bạn không có quyền để truy cập trang này!"
+    },
+    "dashboard":{
+        "general_screen":{
+            "table":{
+                "asset_code": "Mã tài sản",
+                "amount": "Khối lượng",
+                "orginal_price": "Giá vốn",
+                "current_price": "Giá hiện tại",
+                "orginal_money": "Vốn",
+                "current_money": "Giá trị",
+                "rate_money": "Lãi/lỗ",
+                "total_asset": "Tổng tài sản",
+                "total_real_asset": "Tổng tài sản ròng",
+                "total_debt": "Tổng nợ"
+            }
+        },
+        "nav_report":{
+            "title":"NAV chi tiết",
+            "current_nav_title":"NAV hiện tại",
+            "chart_title":"Biểu đồ NAV của quỹ",
+            "table":{
+                "cus":"Nhà đầu tư",
+                "amountCCQ_before": "Số CCQ đầu kỳ",
+                "priceCCQ_before":"Giá đầu kỳ",
+                "money_before":"Vốn đầu kỳ",
+                "amountCCQ_after": "Số CCQ cuối kỳ",
+                "priceCCQ_after":"Giá cuối kỳ",
+                "money_after":"Vốn cuối kỳ",
+                "price_market":"Giá thị trường",
+                "real_asset":"Tài sản ròng",
+                "rate_up":"Tăng trưởng",
+                "amount": "Tổng CCQ",
+                "priceCCQ_market": "Giá thị trường",
+                "priceCCQ_avg":"Giá trung bình"
+            },
+            "view_near30_day": "30 ngày gần đây",
+            "view_all": "Tất cả"
+        }
     }
   }
 }

@@ -40,35 +40,36 @@
             </div>
 
             <div class="row">
-                    <div class="col-md-5">
-                      <div class="row">
-                        <div class="col-md-3">
-                          <label for="company">{{'vif.user.role' | translate}}<span class="asterisk">&#42;</span></label>
-                        </div>
-                        <div class="col-md-9">
-                          <div class="form-group">
-                            <select id="select1" name="select1" class="form-control" [(ngModel)]="userSearch.role">
-                              <option [ngValue]="r.value" *ngFor="let r of roles">{{r.name}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="offset-md-2 col-md-5">
-                      <div class="row">
-                        <div class="col-md-3">
-                          <label for="company">{{'vif.user.status' | translate}}<span class="asterisk">&#42;</span></label>
-                        </div>
-                        <div class="col-md-9">
-                          <div class="form-group">
-                            <select id="select-status" name="selectStatus" class="form-control" [(ngModel)]="userSearch.activeFlg">
-                              <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.user.role' | translate}}<span class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <select id="select1" name="select1" class="form-control" [(ngModel)]="userSearch.role">
+                        <option [ngValue]="r.value" *ngFor="let r of roles">{{r.name}}</option>
+                      </select>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.user.status' | translate}}<span class="asterisk">&#42;</span></label>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="form-group">
+                      <select id="select-status" name="selectStatus" class="form-control"
+                        [(ngModel)]="userSearch.activeFlg">
+                        <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
           <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
 
@@ -83,7 +84,8 @@
               </tr>
             </thead>
             <tbody *ngIf="users && users.length > 0">
-              <tr *ngFor="let user of users | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+              <tr
+                *ngFor="let user of users | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{user.username}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.role=='ROLE_ADMIN'?'Quản trị viên':user.role=='ROLE_USER'?'Nhà đầu tư':'Khách'}}</td>
@@ -101,7 +103,9 @@
           </table>
           <hr />
           <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
-            <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
           </ul>
         </div>
       </div>

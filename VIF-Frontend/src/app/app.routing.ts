@@ -4,10 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
+import { P403Component } from './views/error/403.component';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
+import { ChangePassComponent } from './views/change-pass/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -39,10 +41,17 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'change-pass',
+    component: ChangePassComponent,
     data: {
-      title: 'Register Page'
+      title: 'Thay đổi mật khẩu'
+    }
+  },
+  {
+    path: 'forgot-pass',
+    component: ResetPassComponent,
+    data: {
+      title: 'Cấp lại mật khẩu'
     }
   },
   {
@@ -58,16 +67,28 @@ export const routes: Routes = [
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'invest-management',
+        loadChildren: './views/invest-management/invest.module#InvestModule'
+      },
+      {
+        path: 'managementttttt',
+        loadChildren: './views/invest-management/invest.module#InvestModule'
+      },
+      {
         path: 'investor-transaction',
         loadChildren: './views/investor-transaction/investor.transaction.module#InvestorTransModule'
       },
       {
         path: 'user-management',
         loadChildren: './views/user-management/user.module#UserModule'
-      }
-      ,{
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
+      },
+      {
+        path: 'cus-invest-history',
+        loadChildren: './views/customer-invest-history/cus.invest.history.module#CusInvestHistoryModule'
+      },
+      {
+        path: 'asset-management',
+        loadChildren: './views/asset-management/asset.module#AssetModule'
       },
       {
         path: 'charts',
@@ -75,7 +96,16 @@ export const routes: Routes = [
       },
       {
         path: 'customer-management',
-        loadChildren: './views/customer-management/customer.module#CustomerModule' 
+        loadChildren: './views/customer-management/customer.module#CustomerModule'
+      },
+      {
+        path: 'app-param',
+        loadChildren: './views/appParam/appParam.module#AppParamModule'
+      },
+      {
+        path: '403',
+        component: P403Component
+
       }
     ]
   },
@@ -83,7 +113,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

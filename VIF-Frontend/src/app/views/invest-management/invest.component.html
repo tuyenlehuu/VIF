@@ -1,0 +1,231 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.invest_management.title_invest_trans' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <!--start button buy/ sell-->
+          <div class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
+            <div class="col-xs-12 col-12" style="text-align: center;">
+              <button type="button" [ngClass]="!isBuyScreen?'btn-secondary':'btn-success'" class="btn"
+                (click)="changeScreen(1)">{{'vif.global.button.buy' | translate}}</button>
+              <button style="margin-left: -5px;" type="button" [ngClass]="isBuyScreen?'btn-secondary':'btn-danger'" class="btn"
+                (click)="changeScreen(0)">{{'vif.global.button.sell' | translate}}</button>
+            </div>
+          </div>
+              <!--end button buy/ sell-->
+          <!--start buy screen-->
+          <div *ngIf="isBuyScreen" class="row pt-4 asset-avaiable" >
+            <div class="offset-md-6 col-md-3">
+                <div>Số tiền hiện hiện tại: {{amountMoneyAvaiable}}</div>
+            </div>
+        </div>
+          <div *ngIf="isBuyScreen && shareMaster.length >0" class="buy-screen pt-4" style="text-align: center;">
+            <form [formGroup]="buyForm" (ngSubmit)="saveInvestTransaction()" form.valid>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.sercurities' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group" *ngIf="shareMaster.length >0">
+                        <ng-select [searchable]="true" formControlName="bAssetSelectedId" (change)="onChangeAsset()">
+                          <ng-option [value]="s.id" *ngFor="let s of shareMaster">{{s.cpCode}}-{{s.cpName}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.amount' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="amount-buy-id" formControlName="bAmountAsset" (keyup)="onKeyBAmount($event)">
+                      </div>
+                      <div *ngIf="buyAssetForm.bAmountAsset.invalid && (buyAssetForm.bAmountAsset.dirty || buyAssetForm.bAmountAsset.touched)" class="alert alert-danger">
+                        <div *ngIf="buyAssetForm.bAmountAsset.errors.mustLessThan">
+                          {{'vif.invest_management.total_buy_must_less' | translate}}
+                        </div>
+                        <div *ngIf="buyAssetForm.bAmountAsset.errors.notEqualZero">
+                          {{'vif.invest_management.amount_asset_zero' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.price' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="money-buy-id" formControlName="bPrice"  (keyup)="onKeyBPrice($event)"
+                          placeholder="{{'vif.investor_trans.money_placeholder' | translate}}">
+                          <div *ngIf="buyAssetForm.bPrice.invalid && (buyAssetForm.bPrice.dirty || buyAssetForm.bPrice.touched)" class="alert alert-danger">
+                            <div *ngIf="buyAssetForm.bPrice.errors.notEqualZero">
+                              {{'vif.message.unit_price_zero' | translate}}
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.total_value' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="money-total-id" formControlName="bMoney">
+                          <div *ngIf="buyAssetForm.bMoney.invalid && (buyAssetForm.bMoney.dirty || buyAssetForm.bMoney.touched)" class="alert alert-danger">
+                            <div *ngIf="buyAssetForm.bMoney.errors.notEqualZero">
+                              {{'vif.message.total_money' | translate}}
+                            </div>            
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button type="submit" class="m-btn btn btn-success">{{'vif.global.button.buy' | translate}}</button>
+                  <button type="button" class="m-btn btn btn-secondary"
+                    (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--end buy screen-->
+        
+
+          <div *ngIf="!isBuyScreen" class="row pt-4 asset-avaiable" >
+            <div class="offset-md-6 col-md-3">
+                <div>Số cổ phiếu hiện tại: {{amountAssetAvaiable}}</div>
+            </div>
+         </div>
+          <!--start sell screen-->
+          <div *ngIf="!isBuyScreen && assets.length >0" class="buy-screen pt-4" style="text-align: center;">
+            <form [formGroup]="sellForm" (ngSubmit)="saveInvestTransaction()">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.sercurities' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">         
+                        <ng-select [searchable]="true" formControlName="sAssetSelectedId" (change)="onChangeAsset()">
+                          <ng-option [value]="a.id" *ngFor="let a of assets">{{a.assetCode}}-{{a.assetName}}</ng-option>
+                        </ng-select>
+                        <div *ngIf="sellAssetForm.sAssetSelectedId.invalid && (sellAssetForm.sAssetSelectedId.dirty || sellAssetForm.sAssetSelectedId.touched)" class="alert alert-danger">
+                          <div *ngIf="sellAssetForm.sAssetSelectedId.errors.required">
+                            {{'vif.investor_trans.customer_required' | translate}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.label.amount' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountAsset"
+                          placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
+                          <div *ngIf="sellAssetForm.sAmountAsset.invalid && (sellAssetForm.sAmountAsset.dirty || sellAssetForm.sAmountAsset.touched)" class="alert alert-danger">
+                              <div *ngIf="sellAssetForm.sAmountAsset.errors.mustLessThan">
+                                  {{'vif.invest_management.amount_asset_must_less' | translate}}
+                              </div>
+                              <div *ngIf="sellAssetForm.sAmountAsset.errors.notEqualZero">
+                                  {{'vif.invest_management.amount_asset_zero' | translate}}
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="text" style="display:none;" class="form-control" id="amount-buy-id" formControlName="sAmountAssetAvaiable">
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.money' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="money-sell-id" formControlName="sMoney">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="price-id" formControlName="sPrice" (keyup)="onKeySPrice($event)"
+                          placeholder="{{'vif.investor_trans.price_CCQ_placeholder' | translate}}">
+                          <div *ngIf="sellAssetForm.sPrice.invalid && (sellAssetForm.sPrice.dirty || sellAssetForm.sPrice.touched)" class="alert alert-danger">
+                            <div *ngIf="sellAssetForm.sPrice.errors.notEqualZero">
+                              {{'vif.investor_trans.price_zero' | translate}}
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button type="submit" class="m-btn btn btn-danger">{{'vif.global.button.sell' | translate}}</button>
+                  <button type="button" class="m-btn btn btn-secondary"
+                    (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--end sell screen-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

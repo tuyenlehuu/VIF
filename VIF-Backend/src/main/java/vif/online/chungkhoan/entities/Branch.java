@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "branch")
-public class Branch implements Serializable{
+public class Branch {
 	/**
 	 * 
 	 */

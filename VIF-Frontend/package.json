@@ -17,7 +17,6 @@
   "dependencies": {
     "@angular/animations": "^7.2.8",
     "@angular/common": "^7.2.6",
-    "@angular/compiler": "^7.2.6",
     "@angular/core": "^7.2.6",
     "@angular/forms": "^7.2.6",
     "@angular/http": "^7.2.6",
@@ -28,6 +27,7 @@
     "@coreui/coreui": "^2.1.7",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
+    "@ng-bootstrap/ng-bootstrap": "^4.1.0",
     "@ng-select/ng-select": "^2.16.2",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
@@ -40,6 +40,7 @@
     "mutationobserver-shim": "^0.3.3",
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.2.0",
+    "ngx-captcha": "^6.4.0",
     "ngx-currency": "^1.5.1",
     "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.2.1",
@@ -52,9 +53,10 @@
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.3",
+    "@angular-devkit/build-angular": "^0.13.6",
     "@angular/cli": "^7.3.3",
-    "@angular/compiler-cli": "^7.2.6",
+    "@angular/compiler": "^7.2.10",
+    "@angular/compiler-cli": "^7.2.10",
     "@angular/language-service": "^7.2.6",
     "@types/jasmine": "^3.3.9",
     "@types/jasminewd2": "^2.0.6",

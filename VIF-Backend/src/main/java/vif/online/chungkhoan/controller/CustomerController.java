@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("customer")
+@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
 public class CustomerController {
 
 	private static final String AVATAR_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\avatar\\";

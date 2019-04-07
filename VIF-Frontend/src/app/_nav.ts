@@ -37,26 +37,26 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Quản lý tài sản',
-    url: '/theme/colors',
+    url: '/asset-management',
     icon: 'icon-note'
   },
   {
     title: true,
-    name: 'Quản lý quỹ'
+    name: 'Quản lý đầu tư'
   },
   {
     name: 'Giao dịch đầu tư',
-    url: '/theme/typography',
+    url: '/invest-management',
     icon: 'fa fa-credit-card-alt'
   },
   {
     name: 'Phê duyệt đầu tư',
-    url: '/charts',
+    url: '/managementttttt',
     icon: 'icon-pencil'
   },
   {
     name: 'Lịch sử quỹ đầu tư',
-    url: '/theme/typography',
+    url: '/cus-invest-history',
     icon: 'icon-calendar'
   },
   {
@@ -70,7 +70,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Lịch sử NĐT',
-    url: '/theme/typography',
+    url: '/cus-invest-history',
     icon: 'icon-calendar'
   },
   {
@@ -90,6 +90,11 @@ export const navItems: NavData[] = [
   {
     name: 'Quản lý Phí',
     url: '/theme/typography',
+    icon: 'cui-british-pound'
+  },
+  {
+    name: 'Quản lý config',
+    url: '/app-param',
     icon: 'cui-british-pound'
   }
 ];

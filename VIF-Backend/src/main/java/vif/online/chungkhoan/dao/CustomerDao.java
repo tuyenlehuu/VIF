@@ -22,15 +22,15 @@ public interface CustomerDao {
 
 	void deleteCustomerById(Integer id);
 
-	boolean updateCCQCustomer(Customer customer, BigDecimal newCCQPrice, BigDecimal newTotalCCQ);
-
 	List<User> getListUserById(int id);
 
 	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
-			String fullName,  Integer activeFlg);
-
-	
+			String fullName, Integer activeFlg);
 
 	int getRowCount(String fullName, Integer activeFlg, String code);
+
+	boolean updateCCQCustomer(Customer customer);
+
+	BigDecimal getTotalMoneyOfCustomers();
 
 }
