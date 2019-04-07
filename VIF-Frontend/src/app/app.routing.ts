@@ -72,6 +72,10 @@ export const routes: Routes = [
       {
         path: 'charts',
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
+      },
+      {
+        path: 'customer-management',
+        loadChildren: './views/customer-management/customer.module#CustomerModule' 
       }
     ]
   },

@@ -9,9 +9,10 @@ import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.services.CustomerService;
 import vif.online.chungkhoan.entities.User;
+
 @Service(value = "customerService")
-public class CustomerServiceImpl implements CustomerService{
-	
+public class CustomerServiceImpl implements CustomerService {
+
 	@Autowired
 	private CustomerDao customerDao;
 
@@ -56,22 +57,22 @@ public class CustomerServiceImpl implements CustomerService{
 		// TODO Auto-generated method stub
 		customerDao.deleteCustomerById(id);
 	}
-	
+
 	@Override
-	public List<User> getListUserById(int id){
+	public List<User> getListUserById(int id) {
 		return customerDao.getListUserById(id);
 	}
-	
+
 	@Override
-	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
-			String fullName, Integer activeFlg){
+	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String code, String fullName, Integer activeFlg) {
 		return customerDao.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code, fullName, activeFlg);
 	}
-	
+
 	@Override
-	public int getRowCount(String fullName, Integer activeFlg, String code){
-		
-		return customerDao.getRowCount(fullName,  activeFlg, code);
+	public int getRowCount(String fullName, Integer activeFlg, String code) {
+
+		return customerDao.getRowCount(fullName, activeFlg, code);
 	}
 
 }
