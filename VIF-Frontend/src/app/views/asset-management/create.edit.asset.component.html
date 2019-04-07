@@ -11,7 +11,7 @@
 
   </div>
 
-  <form [formGroup]="addAssetForm" (ngSubmit)="onAddSubmit()">
+  <form *ngIf="branchShares && branchShares.length>0" [formGroup]="addAssetForm" (ngSubmit)="onAddSubmit()">
     <div class="card-body" *ngIf="id==0">
       <div class="row">
         <div class="col-md-5">
@@ -129,15 +129,15 @@
             </div>
           </div>
         </div>
-        <div class="offset-md-2 col-md-5">
+        <div *ngIf="groupAssetSelectedId==2" class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Ngành cổ phiếu</label>
+              <label for="company">Ngành cổ phiếu<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <select id="select2" name="select2" class="form-control" formControlName="branchCode">
-                  <option [ngValue]="item.value" *ngFor="let item of typeAsset">{{item.name}}</option>
+                  <option [ngValue]="item.branchCode" *ngFor="let item of branchShares">{{item.branchName}}</option>
                 </select>
               </div>
 

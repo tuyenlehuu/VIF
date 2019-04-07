@@ -4,6 +4,7 @@ import { User } from '../models/User.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
 import { TokenResetPass } from '../models/TokenResetPass';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService{
@@ -43,7 +44,7 @@ export class UserService{
         }
 
     register(user: User) {
-        return this.http.post(`${config.apiUrl}/user/add`, user);
+        return this.http.post<any>(`${config.apiUrl}/user/add`, user).pipe(map(res => {return res;}));;
     }
 
     update(user: User) {

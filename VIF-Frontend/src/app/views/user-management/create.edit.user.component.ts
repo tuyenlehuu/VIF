@@ -118,12 +118,18 @@ export class CEUserComponent implements OnInit {
                 console.log(err);
             });
         } else {
-            this.userService.register(user).subscribe(res => {
-                this.translateService.get('vif.message.create_success').subscribe((res: string) => {
-                    this.showSuccess(res);
-                });
-                
-                this.router.navigate(['/user-management']);
+            this.userService.register(user).pipe(first()).subscribe((respons: any) => {
+                console.log("res", respons);
+                if(respons.code === 409){
+                    this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
+                        this.showError(res);
+                    });
+                }else if(respons.code === 200){
+                    this.translateService.get('vif.message.create_success').subscribe((res: string) => {
+                        this.showSuccess(res);
+                    });
+                    this.router.navigate(['/user-management']);
+                }
             }, (err) => {
                 this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
                     this.showError(res);
