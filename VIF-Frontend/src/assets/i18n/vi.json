@@ -47,7 +47,8 @@
             "sercurities" : "Chứng khoán",
             "amount" : "Số lượng",
             "price" : "Giá",
-            "total_value" : "Tổng giá trị"
+            "total_value" : "Tổng giá trị",
+            "action":"Hành động"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
@@ -211,7 +212,9 @@
         "asset_code_placeholder": "Nhập vào mã tài sản",
         "asset_name": "Tên tài sản",
         "asset_name_placeholder": "Nhập vào tên tài sản",
-        "asset_type":"Loại tài sản"
+        "asset_type":"Loại tài sản",
+        "current_money": "Số tiền hiện tại",
+        "group_asset": "Nhóm tài sản"
     }
   }
 }
