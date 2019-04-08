@@ -1,15 +1,21 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.entities.Asset;
-import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
@@ -117,10 +123,87 @@ public class AssetDaoImpl implements AssetDao {
 	public Asset getAssetById(Integer id) {
 		// TODO Auto-generated method stub
 		Asset asset = entityManager.find(Asset.class, id);
-		if(asset != null) {
+		if (asset != null) {
 			return asset;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Asset> searchAssetsByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String assetCode, Integer groupAssetId, String assetName) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<Asset> from = criteriaQuery.from(Asset.class);
+
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
+
+		if (assetCode != null && !assetCode.equals("")) {
+			predicates.add(criteriaBuilder.like(from.get("assetCode"), "%"+assetCode+"%"));
+		}
+
+		if (groupAssetId != null) {
+			predicates.add(criteriaBuilder.equal(from.get("groupAsset"), groupAssetId));
+		}
+
+		if (assetName != null && !assetName.equals("")) {
+			predicates.add(criteriaBuilder.like(from.get("assetName"), "%"+assetName+"%"));
+		}
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+		if (columnSortName != null && !columnSortName.equals("")) {
+			if (asc == null || asc) {
+				select.orderBy(criteriaBuilder.asc(from.get(columnSortName)));
+			} else {
+				select.orderBy(criteriaBuilder.desc(from.get(columnSortName)));
+			}
+		}
+
+		Query query = entityManager.createQuery(criteriaQuery);
+		if (page >= 0 && pageSize >= 0) {
+			query.setFirstResult((page - 1) * pageSize);
+			query.setMaxResults(pageSize);
+		}
+		List<Asset> lstResult = query.getResultList();
+		return lstResult;
+	}
+
+	@Override
+	public int getRowCount(String assetCode, Integer groupAssetId, String assetName) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		Root<Asset> from = criteriaQuery.from(Asset.class);
+
+		CriteriaQuery<Object> select = criteriaQuery.select(from);
+		List<Predicate> predicates = new ArrayList<Predicate>();
+
+		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
+
+		if (assetCode != null && !assetCode.equals("")) {
+			predicates.add(criteriaBuilder.like(from.get("assetCode"), assetCode));
+		}
+
+		if (groupAssetId != null) {
+			predicates.add(criteriaBuilder.equal(from.get("groupAsset"), groupAssetId));
+		}
+
+		if (assetName != null && !assetName.equals("")) {
+			predicates.add(criteriaBuilder.like(from.get("assetName"), assetName));
+		}
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+		Query query = entityManager.createQuery(select);
+
+		List<Asset> lstResult = query.getResultList();
+		return lstResult.size();
 	}
 
 }

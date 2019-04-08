@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Asset } from '../models/Asset.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AssetService{
@@ -10,6 +11,27 @@ export class AssetService{
 
     getAll() {
         return this.http.get<any>(`${config.apiUrl}/asset/getAlls`);
+    }
+
+    getAssetsByCondition(assetCondition: Asset, pager: Pager){
+        if(!pager){
+            pager = new Pager();
+        }
+        var url = `${config.apiUrl}/asset/getAssetsByCondition?`;
+        url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
+        if(assetCondition.assetCode){
+            url = url + "&assetCode=" + assetCondition.assetCode;
+        }
+
+        if(assetCondition.assetName){
+            url = url + "&assetName=" + assetCondition.assetName;
+        }
+
+        if(assetCondition.groupAsset !=null && assetCondition.groupAsset.id !=null){
+            url = url + "&groupAssetId=" + assetCondition.groupAsset.id;
+        }
+        // console.log("url: ", url);
+        return this.http.get<any>(url);
     }
 
     getAllShares(){
@@ -21,7 +43,7 @@ export class AssetService{
     }
 
     addAsset(asset: Asset) {
-        return this.http.post(`${config.apiUrl}/asset/add`, asset);
+        return this.http.post<any>(`${config.apiUrl}/asset/add`, asset).pipe(map(res => {return res;}));;;
     }
 
     getOtherAssetNotShares(){

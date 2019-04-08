@@ -61,6 +61,8 @@
     },
     "message":{
         "username_require": "*Tên đăng nhập là bắt buộc",
+        "user_exists": "User đã tồn tại trong hệ thống",
+        "appParam_exists": "Config đã tồn tại trong hệ thống",
         "email_require": "*Email là bắt buộc",
         "email_invalid": "*Email không đúng định dạng",
         "password_require": "*Mật khẩu là bắt buộc",
@@ -189,6 +191,14 @@
             "view_near30_day": "30 ngày gần đây",
             "view_all": "Tất cả"
         }
+    },
+    "asset":{
+        "title": "Quản lý tài sản",
+        "asset_code": "Mã tài sản",
+        "asset_code_placeholder": "Nhập vào mã tài sản",
+        "asset_name": "Tên tài sản",
+        "asset_name_placeholder": "Nhập vào tên tài sản",
+        "asset_type":"Loại tài sản"
     }
   }
 }

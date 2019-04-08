@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -79,15 +80,21 @@ public class UserController {
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 
-	@PostMapping("add")
-	public ResponseEntity<Void> addUser(@RequestBody User user, UriComponentsBuilder builder) {
+	@RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity<ApiResponse> addUser(@RequestBody User user, UriComponentsBuilder builder) {
 		boolean flag = userService.addUser(user);
+		ApiResponse object = new ApiResponse();
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			object.setCode(409);
+			object.setErrors("User is exists!");
+			object.setStatus(false);
+			return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 
 	@PutMapping("update")

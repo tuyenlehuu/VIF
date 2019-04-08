@@ -35,4 +35,9 @@ public interface AssetDao {
 
 	Asset getAssetById(Integer id);
 
+	List<Asset> searchAssetsByCondition(int page, int pageSize, String columnSortName, Boolean asc, String assetCode,
+			Integer groupAssetId, String assetName);
+
+	int getRowCount(String assetCode, Integer groupAssetId, String assetName);
+
 }
