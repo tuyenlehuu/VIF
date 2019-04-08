@@ -74,8 +74,8 @@ export const navItems: NavData[] = [
     icon: 'icon-calendar'
   },
   {
-      title: true,
-      name: 'Danh mục'
+    title: true,
+    name: 'Danh mục'
   },
   {
     name: 'Quản lý User',
@@ -93,8 +93,12 @@ export const navItems: NavData[] = [
     icon: 'cui-british-pound'
   },
   {
+    title: true,
+    name: 'Quản lý config'
+  },
+  {
     name: 'Quản lý config',
     url: '/app-param',
-    icon: 'cui-british-pound'
+    icon: 'fa fa-cog'
   }
 ];

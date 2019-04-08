@@ -102,15 +102,15 @@
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
                 <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
-                <td>{{item.propValue}}</td>
+                <td style="padding-left: 4.4%">{{item.propValue}}</td>
                 <td>
-                  <i class="fa fa-check" style="font-size:25px;color:green" *ngIf="item.activeFlg==1"></i>
-                  <i class="fa fa-close" style="font-size:25px;color:red" *ngIf="item.activeFlg!=1"></i>
+                  <div *ngIf="item.activeFlg==1" style="padding-left: 20%"><i class="fa fa-check" style="font-size:25px;color:green"></i></div>
+                  <div *ngIf="item.activeFlg!=1" style="padding-left: 20%"><i class="fa fa-close" style="font-size:25px;color:red"></i></div>
                 </td>
                 <td>{{item.description}}</td>
-                <td>
+                <td  style="padding-left: 3%">
                   <a [routerLink]="['/app-param/ce-appParam', item.id]"><i class="fa fa-pencil"></i></a>
-                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)">
+                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)"  *ngIf="item.activeFlg==1">
                     <i class="fa fa-minus-circle"></i>
                   </a>
                 </td>
