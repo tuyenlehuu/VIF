@@ -8,8 +8,8 @@ import { AssetService } from '../../services/asset.service';
 import { Asset } from '../../models/Asset.model';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
-import { BuySellAsset } from '../../models/BuySellAsset.model.';
-import { InvestManagementService } from '../../services/invest.management.service.';
+import { BuySellAsset } from '../../models/BuySellAsset.model';
+import { InvestManagementService } from '../../services/invest.management.service';
 import { ShareMaster } from '../../models/ShareMaster.model';
 import { ShareMasterService } from '../../services/sharemaster.service';
 

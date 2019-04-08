@@ -9,18 +9,18 @@
         <div class="card-body">
 
           <!--start buy screen-->
-          <div class="row pt-4 asset-avaiable" >
+          <div class="row pt-4 asset-avaiable">
             <div class="offset-md-6 col-md-3">
-                <div>Số tiền hiện hiện tại: {{amountMoneyAvaiable}}</div>
+              <div>{{'vif.global.devidend.current_amount_sercurities' | translate}}: {{amountAssetAvaiable}}</div>
             </div>
-        </div>
+          </div>
           <div *ngIf="assets.length >0" class="buy-screen pt-4" style="text-align: center;">
             <form [formGroup]="devidendForm" (ngSubmit)="saveDevidendTransaction()" form.valid>
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.global.label.sercurities' | translate}}<span
+                      <label for="company">{{'vif.global.devidend.sercurities' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
@@ -33,12 +33,46 @@
                   </div>
                 </div>
               </div>
-      
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.devidend.devidend_type' | translate}}<span class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select formControlName="dType">
+                          <ng-option [value]="1">Cổ tức tiền</ng-option>
+                          <ng-option [value]="2">Cổ tức cổ phiếu</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.devidend.rate' | translate}}<span class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <input currencyMask type="text" class="form-control" id="d-rate-id" formControlName="dRate">
+                        <div *ngIf="gDevidendForm.dRate.invalid && (gDevidendForm.dRate.dirty || gDevidendForm.dRate.touched)" class="alert alert-danger">
+                            <div *ngIf="gDevidendForm.dRate.errors.notEqualZero">
+                              {{'vif.message.unit_price_zero' | translate}}
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="row mt-3">
                 <div class="offset-md-3 col-md-6 col-xs-12 my-button">
-                  <button type="submit" class="m-btn btn btn-success">Chia cổ tức</button>
-                  <button type="button" class="m-btn btn btn-secondary"
-                    (click)="resetForm()">Hủy</button>
+                  <button type="submit" class="m-btn btn btn-success">{{'vif.global.button.devidend_distribution' | translate}}</button>
+                  <button type="button" class="m-btn btn btn-secondary" (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
                 </div>
               </div>
             </form>
@@ -49,5 +83,3 @@
     </div>
   </div>
 </div>
-
-

@@ -8,21 +8,24 @@ import { AssetService } from '../../services/asset.service';
 import { Asset } from '../../models/Asset.model';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
-import { BuySellAsset } from '../../models/BuySellAsset.model.';
-import { InvestManagementService } from '../../services/invest.management.service.';
+import { BuySellAsset } from '../../models/BuySellAsset.model';
+import { InvestManagementService } from '../../services/invest.management.service';
+import { AppParam } from '../../models/AppParam.model';
+import { DevidendObject } from '../../models/Devidend.model';
 
 @Component({
     templateUrl: 'share-devidend.component.html',
     styleUrls: ['share-devidend.component.scss']
 })
 export class ShareDevidendComponent implements OnInit {
-  
     devidendForm: FormGroup;
     submitted = false;
     assets: Asset[] = [];
     dAssetSelectedId: number;
     responseObject: ResponseObject;
-    amountAssetAvaiable: number;
+    amountAssetAvaiable: number
+    dType: number;
+    dRate: number;
 
     constructor(private toastrService: ToastrService,
         private assetService: AssetService, private investManagementService: InvestManagementService,
@@ -31,54 +34,39 @@ export class ShareDevidendComponent implements OnInit {
     createDevidendForm() {
         this.devidendForm = this.fb.group({
             dAssetSelectedId: [this.dAssetSelectedId, Validators.required],
-            amountAssetAvaiable: [0],
-            dType: [0, Validators.required],
-            dRate: [0, Validators.required],
+            amountAssetAvaiable: [this.amountAssetAvaiable],
+            dType: [this.dType, Validators.required],
+            dRate: [this.dRate, Validators.required],
         }, {
-                validator: []
-            });
+                validator: [NotEqualZero('dRate')]
+        });
     }
 
     resetForm() {
-            this.createDevidendForm();
+        this.refreshData();
+        this.createDevidendForm();
     }
 
     saveDevidendTransaction() {
         if (this.devidendForm.invalid) {
             return;
         }
-        this.cashDeviden();
-        
+        this.devidendDistribution();
     }
 
-    cashDeviden(){
-        
-    }
+    devidendDistribution() {
+        let devidendobj : DevidendObject = new DevidendObject();
+        devidendobj.assetId = this.devidendForm.value.dAssetSelectedId;
+        devidendobj.amount = this.devidendForm.value.amountAssetAvaiable;
+        devidendobj.rate = this.devidendForm.value.dRate;
+        devidendobj.type = this.devidendForm.value.dType;
 
-    shareDeviden() {
-    }
-
- 
-    onKeyBPrice(event: any) {
-        if (this.devidendForm.invalid) {
-            return;
-        }
-      
-    }
-
-    onKeyBAmount(event: any) {
-        if (this.devidendForm.invalid) {
-            return;
-        }
-    }
-
-    onKeySPrice(event: any) {
-     
+        console.log(devidendobj);
     }
 
     get gDevidendForm() { return this.devidendForm.controls; }
 
-  
+
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
             timeOut: config.timeoutToast
@@ -91,10 +79,27 @@ export class ShareDevidendComponent implements OnInit {
         });
     }
 
-    refreshData(){
+    refreshData() {
+        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+            this.assets = respons.data;
+            if (this.assets) {
+                this.dAssetSelectedId = this.assets[0].id;
+                this.amountAssetAvaiable = this.assets[0].amount
+                this.dType = 1;
+                this.dRate = 0;
+                this.createDevidendForm();
+            }
+        });
     }
 
     onChangeAsset() {
+        this.dAssetSelectedId = this.devidendForm.value.dAssetSelectedId;
+        this.assets.forEach(asset => {
+            if (asset.id === this.dAssetSelectedId) {
+                this.amountAssetAvaiable = asset.amount;
+                this.gDevidendForm.amountAssetAvaiable.setValue(this.amountAssetAvaiable);
+            }
+        });
     }
 
     ngOnInit(): void {
@@ -103,10 +108,10 @@ export class ShareDevidendComponent implements OnInit {
             if (this.assets) {
                 this.dAssetSelectedId = this.assets[0].id;
                 this.amountAssetAvaiable = this.assets[0].amount
+                this.dType = 1;
+                this.dRate = 0;
+                this.createDevidendForm();
             }
         });
-        console.log(this.assets);
-        this.createDevidendForm();
     }
-
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { config } from '../config/application.config';
 import { map } from 'rxjs/operators';
-import { BuySellAsset } from '../models/BuySellAsset.model.';
+import { BuySellAsset } from '../models/BuySellAsset.model';
 import { Pager } from '../models/Pager';
 
 @Injectable()
