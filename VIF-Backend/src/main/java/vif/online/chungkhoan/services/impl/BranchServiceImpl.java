@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vif.online.chungkhoan.dao.BranchDao;
-import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.services.BranchService;
 

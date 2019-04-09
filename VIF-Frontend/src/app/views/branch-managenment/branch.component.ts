@@ -38,7 +38,6 @@ export class BranchComponent implements OnInit {
     constructor( private toastrService: ToastrService,private modalService: BsModalService, private branchService:BranchService) {  
     }
    
-
     ngOnInit(): void {
        this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
            this.branchs=respons;

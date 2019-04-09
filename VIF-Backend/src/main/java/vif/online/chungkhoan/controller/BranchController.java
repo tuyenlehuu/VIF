@@ -2,9 +2,7 @@ package vif.online.chungkhoan.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,13 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import vif.online.chungkhoan.entities.Branch;
-import vif.online.chungkhoan.entities.Customer;
-import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
-import vif.online.chungkhoan.repositories.CustomerRepository;
 import vif.online.chungkhoan.services.BranchService;
-import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("branch")

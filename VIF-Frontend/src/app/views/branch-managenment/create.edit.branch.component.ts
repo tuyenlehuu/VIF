@@ -40,7 +40,6 @@ export class CEBranchComponent implements OnInit {
             });
         } else {
             this.branch = new Branch();
-            // console.log("man hinh them moi", this.id);
         }
     }
     status = [

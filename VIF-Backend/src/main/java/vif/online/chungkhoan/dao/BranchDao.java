@@ -3,7 +3,6 @@ package vif.online.chungkhoan.dao;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Branch;
-import vif.online.chungkhoan.entities.User;
 
 public interface BranchDao {
 	List<Branch> getAllBranchs();
