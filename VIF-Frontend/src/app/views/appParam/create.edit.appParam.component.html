@@ -9,221 +9,103 @@
       <strong>{{'vif.appParam.title3' | translate}}</strong>
     </span>
   </div>
-    <!--[Start] Create AppParam-->
-    <form [formGroup]="addAppParamForm" (ngSubmit)="onAddSubmit()">
-      <div class="card-body" *ngIf="id==0">
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_key' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="propKey" class="form-control" id="propKey-id"
-                    placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
-                  <div *ngIf="addForm.propKey.invalid && (addForm.propKey.dirty || addForm.propKey.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="addForm.propKey.errors.required">
-                      {{'vif.message.propKey_require' | translate}}
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <!--[Start] Create AppParam-->
+  <form [formGroup]="addAppParamForm" (ngSubmit)="onAddSubmit()">
+    <div class="card-body" *ngIf="id==0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_key' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
-          </div>
-          <div class="offset-md-2 col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.status' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <select id="select-status" name="selectStatus" class="form-control" formControlName="status">
-                    <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
-                  </select>
-                  <div *ngIf="addForm.status.invalid && (addForm.status.dirty || addForm.status.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="addForm.status.errors.required">
-                      {{'vif.message.status_require' | translate}}
-                    </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="propKey" class="form-control" id="propKey-id"
+                  placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
+                <div *ngIf="addForm.propKey.invalid && (addForm.propKey.dirty || addForm.propKey.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.propKey.errors.required">
+                    {{'vif.message.propKey_require' | translate}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_type' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <select id="select-propType" name="select-propType" class="form-control" formControlName="propType">
-                    <option [ngValue]="prt.value" *ngFor="let prt of propType">{{prt.name}}</option>
-                  </select>
-                  <div *ngIf="addForm.propType.invalid && (addForm.propType.dirty || addForm.propType.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="addForm.propType.errors.required">
-                      {{'vif.message.propType_require' | translate}}
-                    </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.status' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-status" name="selectStatus" class="form-control" formControlName="status">
+                  <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                </select>
+                <div *ngIf="addForm.status.invalid && (addForm.status.dirty || addForm.status.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.status.errors.required">
+                    {{'vif.message.status_require' | translate}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="offset-md-2 col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_value' | translate}}<span
-                    class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="propValue" class="form-control" id="propValue-id"
-                    placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
-                  <div *ngIf="addForm.propValue.invalid && (addForm.propValue.dirty || addForm.propValue.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="addForm.propValue.errors.required">
-                      {{'vif.message.propValue_require' | translate}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.description' | translate}}<span class="asterisk"></span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="description" class="form-control" id="description-id"
-                    placeholder="{{'vif.appParam.description_placeholder' | translate}}">
-                  <div *ngIf="addForm.description.invalid && (addForm.description.dirty || addForm.description.touched)"
-                    class="alert alert-danger">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
-          <button class="btn btn-secondary" routerLink="/app-param">{{'vif.global.button.cancel' | translate}}</button>
         </div>
       </div>
-    </form>
-    <!--[End] Create AppParam-->
-
-    <!--[Start] Edit AppParam -->
-    <form *ngIf="appParam && id>0" [formGroup]="editAppParamForm" (ngSubmit)="onEditSubmit()">
-      <div class="card-body" *ngIf="appParam && id>0">
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_key' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="ePropKey" class="form-control" id="prop_key-edit-id"
-                    placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
-                  <div *ngIf="editForm.ePropKey.invalid && (editForm.ePropKey.dirty || editForm.ePropKey.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="editForm.ePropKey.errors.required">
-                      {{'vif.message.propKey_require' | translate}}
-                    </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_type' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-propType" name="select-propType" class="form-control" formControlName="propType">
+                  <option [ngValue]="prt.value" *ngFor="let prt of propType">{{prt.name}}</option>
+                </select>
+                <div *ngIf="addForm.propType.invalid && (addForm.propType.dirty || addForm.propType.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.propType.errors.required">
+                    {{'vif.message.propType_require' | translate}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="offset-md-2 col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_type' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <select id="select-propType" name="selectPropType" class="form-control" formControlName="ePropType">
-                    <option [ngValue]="prT.value" *ngFor="let prT of propType">{{prT.name}}</option>
-                  </select>
-                  <div *ngIf="editForm.ePropType.invalid && (editForm.ePropType.dirty || editForm.ePropType.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="editForm.ePropType.errors.required">
-                      {{'vif.message.propType_require' | translate}}
-                    </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_value' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="propValue" class="form-control" id="propValue-id"
+                  placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
+                <div *ngIf="addForm.propValue.invalid && (addForm.propValue.dirty || addForm.propValue.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.propValue.errors.required">
+                    {{'vif.message.propValue_require' | translate}}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.prop_value' | translate}}<span
-                    class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="ePropValue" class="form-control" id="prop_value-edit-id"
-                    placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
-                  <div *ngIf="editForm.ePropValue.invalid && (editForm.ePropValue.dirty || editForm.ePropValue.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="editForm.ePropValue.errors.required">
-                      {{'vif.message.propValue_require' | translate}}
-                    </div>
-                  </div>
-                </div>
-              </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.description' | translate}}<span class="asterisk"></span></label>
             </div>
-          </div>
-          <div class="offset-md-2 col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.status' | translate}}<span class="asterisk">&#42;</span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <select id="select-status" name="selectStatus" class="form-control" formControlName="eStatus">
-                    <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
-                  </select>
-                  <div *ngIf="editForm.eStatus.invalid && (editForm.eStatus.dirty || editForm.eStatus.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="editForm.eStatus.errors.required">
-                      {{'vif.message.status_require' | translate}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <div class="row">
-              <div class="col-md-3">
-                <label for="company">{{'vif.appParam.description' | translate}}<span class="asterisk"></span></label>
-              </div>
-              <div class="col-md-9">
-                <div class="form-group">
-                  <input type="text" formControlName="eDescription" class="form-control" id="description-edit-id"
-                    placeholder="{{'vif.appParam.description_placeholder' | translate}}">
-                  <div
-                    *ngIf="editForm.eDescription.invalid && (editForm.eDescription.dirty || editForm.eDescription.touched)"
-                    class="alert alert-danger">
-                    <div *ngIf="editForm.eDescription.errors.required">
-                      {{'vif.message.Description_require' | translate}}
-                    </div>
-                  </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="description" class="form-control" id="description-id"
+                  placeholder="{{'vif.appParam.description_placeholder' | translate}}">
+                <div *ngIf="addForm.description.invalid && (addForm.description.dirty || addForm.description.touched)"
+                  class="alert alert-danger">
                 </div>
               </div>
             </div>
@@ -231,9 +113,125 @@
         </div>
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary" type="submit">{{'vif.global.button.update' | translate}}</button>
+        <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
         <button class="btn btn-secondary" routerLink="/app-param">{{'vif.global.button.cancel' | translate}}</button>
       </div>
-    </form>
-    <!--[End] Edit AppParam-->
-  </div>
+    </div>
+  </form>
+  <!--[End] Create AppParam-->
+
+  <!--[Start] Edit AppParam -->
+  <form *ngIf="appParam && id>0" [formGroup]="editAppParamForm" (ngSubmit)="onEditSubmit()">
+    <div class="card-body" *ngIf="appParam && id>0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_key' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="ePropKey" class="form-control" id="prop_key-edit-id"
+                  placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
+                <div *ngIf="editForm.ePropKey.invalid && (editForm.ePropKey.dirty || editForm.ePropKey.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.ePropKey.errors.required">
+                    {{'vif.message.propKey_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_type' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-propType" name="selectPropType" class="form-control" formControlName="ePropType">
+                  <option [ngValue]="prT.value" *ngFor="let prT of propType">{{prT.name}}</option>
+                </select>
+                <div *ngIf="editForm.ePropType.invalid && (editForm.ePropType.dirty || editForm.ePropType.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.ePropType.errors.required">
+                    {{'vif.message.propType_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.prop_value' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="ePropValue" class="form-control" id="prop_value-edit-id"
+                  placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
+                <div *ngIf="editForm.ePropValue.invalid && (editForm.ePropValue.dirty || editForm.ePropValue.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.ePropValue.errors.required">
+                    {{'vif.message.propValue_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.status' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select-status" name="selectStatus" class="form-control" formControlName="eStatus">
+                  <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                </select>
+                <div *ngIf="editForm.eStatus.invalid && (editForm.eStatus.dirty || editForm.eStatus.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eStatus.errors.required">
+                    {{'vif.message.status_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.appParam.description' | translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eDescription" class="form-control" id="description-edit-id"
+                  placeholder="{{'vif.appParam.description_placeholder' | translate}}">
+                <div
+                  *ngIf="editForm.eDescription.invalid && (editForm.eDescription.dirty || editForm.eDescription.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eDescription.errors.required">
+                    {{'vif.message.Description_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary" type="submit">{{'vif.global.button.update' | translate}}</button>
+      <button class="btn btn-secondary" routerLink="/app-param">{{'vif.global.button.cancel' | translate}}</button>
+    </div>
+  </form>
+  <!--[End] Edit AppParam-->
+</div>
