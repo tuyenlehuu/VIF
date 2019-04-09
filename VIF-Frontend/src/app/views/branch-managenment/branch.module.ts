@@ -14,7 +14,6 @@ import{CEBranchComponent} from './create.edit.branch.component'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
-
 @NgModule({
   imports: [
     FormsModule,

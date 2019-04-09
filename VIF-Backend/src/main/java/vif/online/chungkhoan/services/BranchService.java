@@ -7,7 +7,7 @@ import vif.online.chungkhoan.entities.Customer;
 
 public interface BranchService {
 
-	List<Branch> getAllBranchs();
+	List<Branch> getAllBranchs(); 
 
 	Branch getBranchById(int id);
 
