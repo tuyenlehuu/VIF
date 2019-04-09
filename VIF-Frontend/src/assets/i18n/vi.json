@@ -47,7 +47,8 @@
             "sercurities" : "Chứng khoán",
             "amount" : "Số lượng",
             "price" : "Giá",
-            "total_value" : "Tổng giá trị"
+            "total_value" : "Tổng giá trị",
+            "action":"Hành động"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
@@ -64,6 +65,8 @@
     "message":{
         "username_require": "*Tên đăng nhập là bắt buộc",
         "username_require1":"*Mã chi nhánh là bắt buộc",
+        "user_exists": "User đã tồn tại trong hệ thống",
+        "appParam_exists": "Config đã tồn tại trong hệ thống",
         "email_require": "*Email là bắt buộc",
         "name_require": "*Tên chi nhánh là bắt buộc",
         "email_invalid": "*Email không đúng định dạng",
@@ -82,7 +85,8 @@
         "update_success": "Cập nhật thành công!",
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
-        "create_failed": "Thêm mới không thành công"
+        "create_failed": "Thêm mới không thành công",
+        "asset_exists": "Tài sản đã tồn tại trong hệ thống"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -208,6 +212,30 @@
             "view_near30_day": "30 ngày gần đây",
             "view_all": "Tất cả"
         }
+    },
+    "asset":{
+        "title": "Quản lý tài sản",
+        "asset_code": "Mã tài sản",
+        "asset_code_placeholder": "Nhập vào mã tài sản",
+        "asset_name": "Tên tài sản",
+        "asset_name_placeholder": "Nhập vào tên tài sản",
+        "asset_type":"Loại tài sản",
+        "current_money": "Số tiền hiện tại",
+        "group_asset": "Nhóm tài sản",
+        "title_add": "Tạo mới tài sản",
+        "title_edit": "Sửa tài sản",
+        "asset_code_required": "*Mã tài sản là bắt buộc",
+        "asset_name_required": "*Tên tài sản là bắt buộc",
+        "amount": "Số lượng",
+        "amount_placeholder": "Nhập vào số lượng tài sản",
+        "current_price": "Giá hiện tại",
+        "current_price_placeholder": "Nhập vào giá hiện tại",
+        "current_price_required": "*Giá hiện tại là bắt buộc",
+        "orginal_price": "Giá vốn",
+        "orginal_price_holder": "Nhập vào giá vốn",
+        "description": "Mô tả",
+        "description_placeholder": "Nhập vào mô tả",
+        "branch_code": "Ngành cổ phiếu"
     }
   }
 }

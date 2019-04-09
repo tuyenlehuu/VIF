@@ -2,27 +2,28 @@
   <div class="card-header">
     <span *ngIf="id==0">
       <i class="fa fa-user-plus"></i>
-      <strong>Tạo mới tài sản</strong>
+      <strong>{{'vif.asset.title_add' | translate}}</strong>
     </span>
     <span *ngIf="id>0">
       <i class="fa fa-user"></i>
-      <strong>Sửa tài sản</strong>
+      <strong>{{'vif.asset.title_edit' | translate}}</strong>
     </span>
 
   </div>
 
-  <form [formGroup]="addAssetForm" (ngSubmit)="onAddSubmit()">
-    <div class="card-body" *ngIf="id==0">
+  <form *ngIf="branchShares && branchShares.length>0" [formGroup]="addAssetForm" (ngSubmit)="onAddSubmit()">
+    <div class="card-body" *ngIf="groupAssets.length>0&&id==0">
       <div class="row">
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Loại tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_type' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <select id="select1" name="select1" class="form-control" formControlName="groupAsset" (change)="onChangeTypeAsset()">
-                  <option [ngValue]="r.value" *ngFor="let r of typeAsset">{{r.name}}</option>
+                <select id="select1" name="select1" class="form-control" formControlName="groupAsset"
+                  (change)="onChangeTypeAsset()">
+                  <option [ngValue]="r.id" *ngFor="let r of groupAssets">{{r.groupName}}</option>
                 </select>
               </div>
 
@@ -32,12 +33,167 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Mã tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="assetCode" class="form-control" id="assetcode-id"
-                  placeholder="Nhập vào mã tài sản">
+                  placeholder="{{'vif.asset.asset_code_placeholder' | translate}}">
+                <div *ngIf="addForm.assetCode.invalid && (addForm.assetCode.dirty || addForm.assetCode.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.assetCode.errors.required">
+                    {{'vif.asset.asset_code_required' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.asset_name' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="assetName" class="form-control" id="assetName-id"
+                  placeholder="{{'vif.asset.asset_name_placeholder' | translate}}">
+                <div *ngIf="addForm.assetName.invalid && (addForm.assetName.dirty || addForm.assetName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.assetName.errors.required">
+                    {{'vif.asset.asset_name_required' | translate}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.amount' | translate}}</label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="amount" class="form-control" id="amount-id"
+                  placeholder="{{'vif.asset.amount' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.current_price' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="currentPrice" class="form-control" id="currentPrice-id"
+                  placeholder="{{'vif.asset.current_price_placeholder' | translate}}">
+                <div
+                  *ngIf="addForm.currentPrice.invalid && (addForm.currentPrice.dirty || addForm.currentPrice.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.currentPrice.errors.required">
+                      {{'vif.asset.current_price_required' | translate}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.orginal_price' | translate}}</label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="orginalPrice" class="form-control" id="orginalPrice-id"
+                  placeholder="{{'vif.asset.orginal_price_holder' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.description' | translate}}</label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="description" class="form-control" id="description-id"
+                  placeholder="{{'vif.asset.description_placeholder' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="groupAssetSelectedId==2" class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.branch_code' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select2" name="select2" class="form-control" formControlName="branchCode">
+                  <option [ngValue]="item.branchCode" *ngFor="let item of branchShares">{{item.branchName}}</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
+        <button class="btn btn-secondary"
+          routerLink="/asset-management">{{'vif.global.button.cancel' | translate}}</button>
+      </div>
+    </div>
+    <!--[End] Create User-->
+  </form>
+
+  <!--[Start] Edit Asset -->
+  <form *ngIf="asset && id>0" [formGroup]="editAssetForm" (ngSubmit)="onEditSubmit()">
+    <div class="card-body" *ngIf="asset && id>0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.asset_type' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select4" name="select4" class="form-control" formControlName="eGroupAsset"
+                  (change)="onChangeTypeAssetEdit()">
+                  <option [ngValue]="r.id" *ngFor="let r of groupAssets">{{r.groupName}}</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.asset_code' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eAssetCode" class="form-control" id="eassetcode-id"
+                  placeholder="{{'vif.asset.asset_code_placeholder' | translate}}">
                 <!-- <div *ngIf="addForm.username.invalid && (addForm.username.dirty || addForm.username.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.username.errors.required">
@@ -56,12 +212,12 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Tên tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_name' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="assetName" class="form-control" id="assetName-id"
-                  placeholder="Nhập vào tên tài sản">
+                <input type="text" formControlName="eAssetName" class="form-control" id="eassetName-id"
+                  placeholder="{{'vif.asset.asset_name_placeholder' | translate}}">
               </div>
 
             </div>
@@ -70,25 +226,80 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Số lượng</label>
+              <label for="company">{{'vif.asset.amount' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <input type="text" formControlName="amount" class="form-control" id="amount-id"
-                  placeholder="Nhập vào số lượng tài sản">
-                <!-- <div *ngIf="addForm.username.invalid && (addForm.username.dirty || addForm.username.touched)"
-                  class="alert alert-danger">
-                  <div *ngIf="addForm.username.errors.required">
-                    {{'vif.message.username_require' | translate}}
-                  </div>
-                </div> -->
+                <input type="text" formControlName="eAmount" class="form-control" id="eamount-id"
+                  placeholder="{{'vif.asset.amount_placeholder' | translate}}">
               </div>
 
             </div>
           </div>
         </div>
       </div>
-      
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.current_price' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eCurrentPrice" class="form-control" id="ecurrentPrice-id"
+                  placeholder="{{'vif.asset.current_price_placeholder' | translate}}">
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.orginal_price' | translate}}</label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eOrginalPrice" class="form-control" id="eorginalPrice-id"
+                  placeholder="{{'vif.asset.orginal_price_holder' | translate}}">
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.description' | translate}}</label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eDescription" class="form-control" id="edescription-id"
+                  placeholder="{{'vif.asset.description_placeholder' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="groupAssetSelectedId==2" class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.asset.branch_code' | translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <select id="select3" name="select3" class="form-control" formControlName="eBranchCode">
+                  <option [ngValue]="item.branchCode" *ngFor="let item of branchShares">{{item.branchName}}</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="card-footer">
         <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
@@ -96,6 +307,6 @@
           routerLink="/asset-management">{{'vif.global.button.cancel' | translate}}</button>
       </div>
     </div>
-    <!--[End] Create User-->
   </form>
+  <!--[End] Edit Asset-->
 </div>

@@ -3,7 +3,6 @@ package vif.online.chungkhoan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
+
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
-import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.services.AssetService;
@@ -46,6 +45,27 @@ public class AssetServiceController {
 		object.setData(list);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
+	
+	@GetMapping("getAssetsByCondition")
+	public ResponseEntity<ApiResponse> SearchAssetsByCondition(@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "pageSize", required = true) int pageSize,
+			@RequestParam(value = "columnSortName", required = false) String columnSortName,
+			@RequestParam(value = "asc", required = false) Boolean asc,
+			@RequestParam(value = "assetCode", required = false) String assetCode,
+			@RequestParam(value = "groupAssetId", required = false) Integer groupAssetId,
+			@RequestParam(value = "assetName", required = false) String assetName) {
+		ApiResponse object = new ApiResponse();
+		List<Asset> list = assetService.SearchAssetsByCondition(page, pageSize, columnSortName, asc, assetCode, groupAssetId, assetName);
+		int rowCount = assetService.getRowCount(assetCode, groupAssetId, assetName);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		object.setPage(page);
+		object.setPageSize(pageSize);
+		object.setTotalRow(rowCount);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
 
 	@GetMapping("getAssetByCode/{assetCode}")
 	public ResponseEntity<ApiResponse> getAssetByCode(@PathVariable("assetCode") String assetCode) {
@@ -59,14 +79,30 @@ public class AssetServiceController {
 	}
 
 	@PostMapping("add")
-	public ResponseEntity<Void> addAsset(@RequestBody Asset asset, UriComponentsBuilder builder) {
+	public ResponseEntity<ApiResponse> addAsset(@RequestBody Asset asset) {
+		ApiResponse object = new ApiResponse();
+		GroupAsset group = groupAssetService.getByGroupById(asset.getGroupAsset()!=null?asset.getGroupAsset().getId():0);
+		if(group == null) {
+			object.setCode(500);
+			object.setErrors("Group asset can be not null!");
+			object.setStatus(true);
+			return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+		}
+		
+		asset.setGroupAsset(group);
+		
 		boolean flag = assetService.addAsset(asset);
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			object.setCode(409);
+			object.setErrors("User is exists!");
+			object.setStatus(false);
+			return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/getAssetByCode/{assetCode}").buildAndExpand(asset.getAssetCode()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/buySercurities", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -126,12 +162,14 @@ public class AssetServiceController {
 		return new ResponseEntity<Asset>(asset, HttpStatus.OK);
 	}
 
+
 	@DeleteMapping("deleteAssetByCode/{assetCode}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("assetCode") String assetCode) {
 		assetService.deleteAssetByCode(assetCode);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+
 	@DeleteMapping("deleteAssetById/{id}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("id") Integer id) {
 		assetService.deleteAssetById(id);

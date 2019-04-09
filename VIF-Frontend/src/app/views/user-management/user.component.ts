@@ -73,7 +73,6 @@ export class UserComponent implements OnInit {
             this.users = respons.data;
             this.total = respons.totalRow;
             this.p = page;
-           
         });
     }
 
