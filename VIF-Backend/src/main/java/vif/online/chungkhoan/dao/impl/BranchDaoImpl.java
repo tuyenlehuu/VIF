@@ -17,16 +17,15 @@ import org.springframework.transaction.annotation.Transactional;
 import vif.online.chungkhoan.dao.BranchDao;
 import vif.online.chungkhoan.entities.Branch;
 
-
 @Transactional
-@Repository(value="branchDao")
-public class BranchDaoImpl implements BranchDao{
+@Repository(value = "branchDao")
+public class BranchDaoImpl implements BranchDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@SuppressWarnings("unchecked")
-	
+
 	@Override
 	public List<Branch> getAllBranchs() {
 		// TODO Auto-generated method stub
@@ -37,12 +36,12 @@ public class BranchDaoImpl implements BranchDao{
 	@Override
 	public Branch getBranchById(int id) {
 		return entityManager.find(Branch.class, id);
-		
+
 	}
 
 	@Override
 	public Branch getBranchByCode(String code) {
-		
+
 		String hql = "FROM Branch as b WHERE b.branchCode = :branchCode and b.activeFlg=1";
 		@SuppressWarnings("unchecked")
 		List<Branch> lstResult = entityManager.createQuery(hql).setParameter("branchCode", code).getResultList();
@@ -54,7 +53,7 @@ public class BranchDaoImpl implements BranchDao{
 
 	@Override
 	public boolean addBranch(Branch branch) {
-		if(branch==null) {
+		if (branch == null) {
 			return false;
 		}
 		entityManager.persist(branch);
@@ -63,22 +62,22 @@ public class BranchDaoImpl implements BranchDao{
 
 	@Override
 	public void updateBranch(Branch branch) {
-	
+
 		entityManager.merge(branch);
-		
+
 	}
 
 	@Override
 	public void deleteBranchByCode(String code) {
-		Branch branch= getBranchByCode(code);
+		Branch branch = getBranchByCode(code);
 		branch.setActiveFlg(0);
 		entityManager.merge(branch);
-	
+
 	}
 
 	@Override
 	public void deleteBranchById(Integer id) {
-		Branch branch=entityManager.find(Branch.class, id);
+		Branch branch = entityManager.find(Branch.class, id);
 		branch.setActiveFlg(0);
 		entityManager.merge(branch);
 	}
@@ -88,29 +87,29 @@ public class BranchDaoImpl implements BranchDao{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<Branch> from = criteriaQuery.from(Branch.class);
-		
+
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
-		
+
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		
-		if(branchCode != null && !branchCode.equals("")) {
-			
-			predicates.add(criteriaBuilder.like(from.get("branchCode"),"%"+branchCode+"%"));
-			
+
+		if (branchCode != null && !branchCode.equals("")) {
+
+			predicates.add(criteriaBuilder.like(from.get("branchCode"), "%" + branchCode + "%"));
+
 		}
-		
-		if(activeFlg != null) {
+
+		if (activeFlg != null) {
 			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
 		}
-		
-		if(branchName != null && !branchName.equals("")) {
+
+		if (branchName != null && !branchName.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("branchName"), branchName));
 		}
-		
-		select.select(from).where(predicates.toArray(new Predicate[]{}));
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
 
 		Query query = entityManager.createQuery(criteriaQuery);
-		
+
 		List<Branch> lstResult = query.getResultList();
 
 		return lstResult;
@@ -122,26 +121,24 @@ public class BranchDaoImpl implements BranchDao{
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<Branch> from = criteriaQuery.from(Branch.class);
-		
+
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		
-		
-		
-		if(branchCode != null && !branchCode.equals("")) {
+
+		if (branchCode != null && !branchCode.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("branchCode"), branchCode));
 		}
-		
-		if(activeFlg != null) {
+
+		if (activeFlg != null) {
 			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
 		}
-		
-		if(branchName != null && !branchName.equals("")) {
+
+		if (branchName != null && !branchName.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("branchName"), branchName));
 		}
-	
-		select.select(from).where(predicates.toArray(new Predicate[]{}));
-		
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
+
 		Query query = entityManager.createQuery(select);
 
 		List<Branch> lstResult = query.getResultList();
@@ -150,8 +147,10 @@ public class BranchDaoImpl implements BranchDao{
 
 	@Override
 	public boolean branchExists(Branch branch) {
-		if(getBranchByCode(branch.getBranchCode())!=null) return true;
-		else return false;
+		if (getBranchByCode(branch.getBranchCode()) != null)
+			return true;
+		else
+			return false;
 	}
 
 }

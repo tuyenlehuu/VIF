@@ -18,7 +18,7 @@ export class CEBranchComponent implements OnInit {
     branch: Branch;
     addBranchForm: FormGroup;
     editBranchForm: FormGroup;
-    submitted = false;
+    submitted = false; 
 
     constructor(private route: ActivatedRoute, private router: Router,
         private toastrService: ToastrService, private fb: FormBuilder,

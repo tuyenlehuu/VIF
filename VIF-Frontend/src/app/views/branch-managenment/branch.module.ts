@@ -30,3 +30,4 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   declarations: [BranchComponent,CEBranchComponent]
 })
 export class BranchModule { }
+ 

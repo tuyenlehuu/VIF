@@ -8,4 +8,4 @@ export class Branch{
     public constructor() {
         this.activeFlg = -1;
     }
-}
+} 

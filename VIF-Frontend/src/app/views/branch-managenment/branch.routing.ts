@@ -28,7 +28,6 @@ const routes: Routes = [
           title:''
         }
       },
-
     ]
     
   }

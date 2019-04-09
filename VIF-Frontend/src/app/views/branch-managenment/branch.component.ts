@@ -81,7 +81,6 @@ export class BranchComponent implements OnInit {
     changeScreen(typeScreen: number) {
         
     }
-
     search() {
         
         this.branchService.getBranchsByCondition(this.branchSearch).pipe(first()).subscribe((rep:any)=>{
