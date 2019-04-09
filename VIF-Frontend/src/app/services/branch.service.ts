@@ -60,14 +60,14 @@ export class BranchService{
     // }
     getBranchsByCondition(branchCondition: Branch){
        
-        console.log("branchCondision",branchCondition.branchCode);
+        // console.log("branchCondision",branchCondition.branchCode);
         var url = `${config.apiUrl}/branch/getBranchsByCondition?`;
         
         if(branchCondition.branchCode){
             // branchCodition là object chứa đk search của e 
             // nó là 1 object kiểu Branch
             // branchSearch luôn có branchCode = null nên nó ko vào đây
-            console.log("vao tday");
+            // console.log("vao tday");
             url = url + "&branchCode=" + branchCondition.branchCode;
         }
 
@@ -75,12 +75,10 @@ export class BranchService{
             url = url + "&branchName=" + branchCondition.branchName;
         }
 
-        
-
         if(branchCondition.activeFlg !=null && branchCondition.activeFlg !== -1){
             url = url + "&activeFlg=" + branchCondition.activeFlg;
         }
-        console.log("url: ", url);
+        // console.log("url: ", url);
         return this.http.get<any>(url);
     }
 }

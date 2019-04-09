@@ -82,7 +82,7 @@ export class UserComponent implements OnInit {
     }
 
     deleteUser() {
-        // console.log("Start delete: ", this.modalRef.content);
+       
         this.userService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
             // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
@@ -102,7 +102,6 @@ export class UserComponent implements OnInit {
     }
 
     search() {
-        // console.log("userSearch: ", this.userSearch);
         this.getPage(1);
     }
 }

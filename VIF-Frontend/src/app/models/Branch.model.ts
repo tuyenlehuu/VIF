@@ -5,6 +5,6 @@ export class Branch{
     activeFlg: number;
 
     public constructor() {
-        this.activeFlg = 1;
+        this.activeFlg = -1;
     }
 }

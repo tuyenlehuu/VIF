@@ -8,6 +8,7 @@ import { MustMatch, RequireCombo } from '../../helpers/function.share';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
 import { TranslateService } from '@ngx-translate/core';
+import { pipe } from 'rxjs';
 @Component({
     templateUrl: 'create.edit.branch.component.html'
 })
@@ -126,12 +127,23 @@ export class CEBranchComponent implements OnInit {
                 // console.log(err);
             });
         }else{
-            this.branchService.register(branch).subscribe(res => {
-                this.showSuccess('Thêm mới thành công');
-                this.router.navigate(['/branch-managenment']);
-            }, (err) => {
-                this.showError('Thêm mới không thành công!');
-                // console.log(err);
+            this.branchService.register(branch).pipe(first()).subscribe((respones:any) => {
+                console.log("res",respones);
+                if(respones.code === 409){
+                    this.translateService.get('vif.branch.exit').subscribe((rep:string)=>{
+                        this.showError(rep);
+                    });
+                }else if(respones.code === 200){
+                    this.translateService.get('vif.message.create_success').subscribe((rep:string)=>{
+                        this.showSuccess(rep);
+                    });
+                    this.router.navigate(['/branch-managenment']);
+                }
+                (err)=>{
+                    this.translateService.get('vif.message.create_failed').subscribe((rep:string)=>{
+                        this.showError(rep);
+                    });
+                }
             });
         }
     }

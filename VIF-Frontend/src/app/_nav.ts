@@ -88,13 +88,9 @@ export const navItems: NavData[] = [
     icon: 'icon-user'
   },
   {
-    name: 'Quản lý Phí',
-    url: '/theme/typography',
+    name: 'Quản lý ngành CP',
+    url: '/branch-managenment',
     icon: 'cui-british-pound'
-  },
-  {
-    title: true,
-    name: 'Quản lý config'
   },
   {
     name: 'Quản lý config',
