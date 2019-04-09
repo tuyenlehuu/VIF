@@ -45,8 +45,8 @@ export class UserComponent implements OnInit {
             value: -1
         },
         {
-                name: 'Hoạt động',
-                value: 1
+            name: 'Hoạt động',
+            value: 1
         },
         {
             name: 'Ngừng hoạt động',
@@ -82,7 +82,7 @@ export class UserComponent implements OnInit {
     }
 
     deleteUser() {
-       
+
         this.userService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
             // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
