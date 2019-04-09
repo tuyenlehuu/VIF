@@ -63,10 +63,10 @@ public class AppParamController {
 		ApiResponse object = new ApiResponse();
 		if (flag == false) {
 			object.setCode(409);
-			object.setErrors("da ton tai");
+			object.setErrors(null);
 			object.setStatus(true);
 			object.setData(null);
-			return new ResponseEntity<ApiResponse>(object,HttpStatus.CONFLICT);
+			return new ResponseEntity<ApiResponse>(object,HttpStatus.OK);
 		}
 //		HttpHeaders headers = new HttpHeaders();
 //		headers.setLocation(builder.path("/appParam/{id}").buildAndExpand(appParam.getId()).toUri());
@@ -85,7 +85,7 @@ public class AppParamController {
 			object.setErrors("da ton tai");
 			object.setStatus(true);
 			object.setData(null);
-			return new ResponseEntity<ApiResponse>(object,HttpStatus.CONFLICT);
+			return new ResponseEntity<ApiResponse>(object,HttpStatus.OK);
 		}
 		object.setCode(200);
 		object.setData("update thanh cong");

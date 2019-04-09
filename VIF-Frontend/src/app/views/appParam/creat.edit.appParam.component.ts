@@ -78,16 +78,24 @@ export class CEAppParamComponent implements OnInit {
 
   saveAppParam(appParam: AppParam) {
     if (this.id > 0) {
-      this.appParamService.update(appParam).subscribe(res => {
-        this.showSuccess('Cập nhật thành công');
+      this.appParamService.update(appParam).pipe(first()).subscribe((respons: any) => {
+        console.log("res", respons);
+        if(respons.code === 409){
+          this.showError('Config đã tồn tại');
+        }else{
+        this.showSuccess('Cập nhật thành công');}
         this.router.navigate(['/app-param']);
       }, (err) => {
         this.showError('Cập nhật config không thành công!');
         console.log(err);
       });
     } else {
-      this.appParamService.register(appParam).subscribe(res => {
-        this.showSuccess('Thêm mới thành công');
+      this.appParamService.register(appParam).pipe(first()).subscribe((respons: any) => {
+        console.log("res", respons);
+        if(respons.code === 409){
+          this.showError('Config đã tồn tại');
+        }else{
+        this.showSuccess('Thêm mới thành công');}
         this.router.navigate(['/app-param']);
       }, (err) => {
         this.showError('Thêm mới config không thành công!');
