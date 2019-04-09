@@ -91,7 +91,7 @@
               <tr>
                 <th>{{'vif.appParam.prop_key' | translate}}</th>
                 <th>{{'vif.appParam.prop_type' | translate}}</th>
-                <th>{{'vif.appParam.prop_value' | translate}}</th>
+                <th style="text-align: right;padding-right: 5%">{{'vif.appParam.prop_value' | translate}}</th>
                 <th>{{'vif.appParam.status' | translate}}</th>
                 <th>{{'vif.appParam.description' | translate}}</th>
                 <th>{{'vif.appParam.action' | translate}}</th>
@@ -102,15 +102,15 @@
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
                 <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
-                <td style="padding-left: 4.4%">{{item.propValue}}</td>
+                <td style="text-align: right;padding-right: 5%">{{item.propValue}}</td>
                 <td>
-                  <div *ngIf="item.activeFlg==1" style="padding-left: 20%"><i class="fa fa-check"
+                  <div *ngIf="item.activeFlg==1" style="padding-left: 22%"><i class="fa fa-check"
                       style="font-size:25px;color:green"></i></div>
-                  <div *ngIf="item.activeFlg!=1" style="padding-left: 20%"><i class="fa fa-close"
+                  <div *ngIf="item.activeFlg!=1" style="padding-left: 22%"><i class="fa fa-close"
                       style="font-size:25px;color:red"></i></div>
                 </td>
                 <td>{{item.description}}</td>
-                <td style="padding-left: 3%">
+                <td style="padding-left: 3.3%">
                   <a [routerLink]="['/app-param/ce-appParam', item.id]"><i class="fa fa-pencil"></i></a>
                   <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)"
                     *ngIf="item.activeFlg==1">
