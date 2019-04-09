@@ -128,7 +128,6 @@ export class CEBranchComponent implements OnInit {
             });
         }else{
             this.branchService.register(branch).pipe(first()).subscribe((respones:any) => {
-                console.log("res",respones);
                 if(respones.code === 409){
                     this.translateService.get('vif.branch.exit').subscribe((rep:string)=>{
                         this.showError(rep);

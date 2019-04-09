@@ -82,7 +82,7 @@ export class UserComponent implements OnInit {
     }
 
     deleteUser() {
-       
+
         this.userService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
             // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
