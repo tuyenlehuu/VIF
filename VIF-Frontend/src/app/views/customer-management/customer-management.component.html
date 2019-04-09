@@ -48,8 +48,8 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <input type="text" name="code" [(ngModel)]="customerSearch.code" class="form-control"
-                        id="code-id" placeholder="{{'vif.customer.code_placeholder' | translate}}">
+                      <input type="text" name="code" [(ngModel)]="customerSearch.code" class="form-control" id="code-id"
+                        placeholder="{{'vif.customer.code_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -57,7 +57,8 @@
               <div class="offset-md-2 col-md-5">
                 <div class="row">
                   <div class="col-md-3">
-                    <label for="company">{{'vif.customer.status' | translate}}<span class="asterisk">&#42;</span></label>
+                    <label for="company">{{'vif.customer.status' | translate}}<span
+                        class="asterisk">&#42;</span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -90,11 +91,20 @@
                 <td>{{customer.email}}</td>
                 <td>{{customer.code}}</td>
                 <td>{{customer.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
+
                 <td>
-                  <a [routerLink]="['/customer-management/ce-customer-management', customer.id]"><i class="fa fa-pencil"></i></a>
-                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, customer.id)"><i
-                      class="fa fa-trash-o"></i></a>
+                  <a [routerLink]="['/customer-management/ce-customer-management', customer.id]"><i
+                      class="fa fa-pencil"></i></a>
+                  
+                    <a *ngIf="customer.activeFlg==1" style="color: red; cursor: pointer; margin-left: 10px;"
+                      (click)="confirmDel(template, customer.id)"><i class="fa fa-trash-o"></i></a>
+                    <a  [routerLink]="['/customer-management/user-customer-management', customer.id]" style="color: blue; cursor: pointer;margin-left: 10px;" ><i class='fa fa-address-book'></i></a>  
+
+                 
+
                 </td>
+
+
               </tr>
             </tbody>
             <tbody *ngIf="!customers || (customers && customers.length <= 0)">
@@ -128,3 +138,16 @@
       (click)="deleteCustomer()">{{'vif.global.button.accept' | translate}}</button>
   </div>
 </ng-template>
+
+
+<ng-template #showUser>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.customer.title4' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+</ng-template>
+
+

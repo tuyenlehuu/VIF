@@ -37,14 +37,10 @@ import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("customer")
-@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
+@CrossOrigin(origins = { "http://localhost:8080", "http://18.136.211.82:8080" })
 public class CustomerController {
 
-	private static final String AVATAR_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\avatar\\";
-	private static final String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_front\\";
-	private static final String DOC_BACK_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_back\\";
 	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
-
 	@Autowired
 	private CustomerService customerService;
 
@@ -99,7 +95,8 @@ public class CustomerController {
 	@PostMapping("upFileAvatar")
 	public ResponseEntity<String> saveFileAvatar(@RequestParam("file") MultipartFile file) {
 
-		String path = AVATAR_UPLOAD_DIRECTORY;
+		
+
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
@@ -107,26 +104,16 @@ public class CustomerController {
 		if (file.getSize() > MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
-		try {
-			String filename = file.getOriginalFilename();
-			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
-			stream.write(bytes);
-			stream.flush();
-			stream.close();
 
-		} catch (IOException e) {
-			return new ResponseEntity<String>("something went wrong", HttpStatus.OK);
-		}
+		String status = customerService.saveFileAvatar(file);
 
-		return new ResponseEntity<String>("You successfully uploaded!", HttpStatus.OK);
+		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
-	
-	@PostMapping("upFileDocBack")
-	public ResponseEntity<String> saveFileDocBack(@RequestParam("file") MultipartFile file) {
 
-		String path = DOC_BACK_UPLOAD_DIRECTORY;
+	@PostMapping("upFileDocBack")
+	public ResponseEntity<String> saveFileDocBack(MultipartFile file) {
+
+		
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
@@ -134,26 +121,16 @@ public class CustomerController {
 		if (file.getSize() > MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
-		try {
-			String filename = file.getOriginalFilename();
-			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
-			stream.write(bytes);
-			stream.flush();
-			stream.close();
 
-		} catch (IOException e) {
-			return new ResponseEntity<String>("something went wrong", HttpStatus.OK);
-		}
+		String status = customerService.saveFileDocBack(file);
 
-		return new ResponseEntity<String>("You successfully uploaded!", HttpStatus.OK);
+		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
 
 	@PostMapping("upFileDocFront")
-	public ResponseEntity<String> saveFileDocFront(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<String> saveFileDocFront(MultipartFile file) {
 
-		String path = DOC_FRONT_UPLOAD_DIRECTORY;
+	
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
@@ -161,22 +138,11 @@ public class CustomerController {
 		if (file.getSize() > MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
-		try {
-			String filename = file.getOriginalFilename();
-			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
-			stream.write(bytes);
-			stream.flush();
-			stream.close();
 
-		} catch (IOException e) {
-			return new ResponseEntity<String>("something went wrong", HttpStatus.OK);
-		}
+		String status = customerService.saveFileDocFront(file);
 
-		return new ResponseEntity<String>("You successfully uploaded!", HttpStatus.OK);
+		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
-
 
 	@GetMapping("UsersById/{id}")
 	public ResponseEntity<List<User>> getListUserById(@PathVariable("id") int id) {
@@ -192,11 +158,12 @@ public class CustomerController {
 			@RequestParam(value = "asc", required = false) Boolean asc,
 			@RequestParam(value = "fullName", required = false) String fullName,
 			@RequestParam(value = "activeFlg", required = false) Integer activeFlg,
-			@RequestParam(value = "code", required = false) String code) {
+			@RequestParam(value = "code", required = false) String code,
+			@RequestParam(value = "email", required = false) String email) {
 		ApiResponse object = new ApiResponse();
 		List<Customer> list = customerService.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code,
-				fullName, activeFlg);
-		int rowCount = customerService.getRowCount(fullName, activeFlg, code);
+				fullName, activeFlg, email);
+		int rowCount = customerService.getRowCount(fullName, activeFlg, code, email);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);

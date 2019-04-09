@@ -71,6 +71,7 @@ export class CustomerManagementComponent implements OnInit {
             console.log("result: ", catchError);
         });
         this.modalRef.hide();
+       
     }
 
     showSuccess(mes: string) {

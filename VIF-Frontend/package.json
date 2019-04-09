@@ -31,6 +31,8 @@
     "@ng-select/ng-select": "^2.16.2",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@types/jquery": "^3.3.29",
+    "angular-http-file-upload": "0.0.6",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "core-js": "^2.6.5",

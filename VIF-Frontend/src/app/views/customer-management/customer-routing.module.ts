@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import {UserCustomerComponent} from './customer-users';
 import { CustomerManagementComponent } from './customer-management.component';
 import { CECustomerComponent } from './customer-management.create.edit';
 
@@ -30,6 +30,15 @@ const routes: Routes = [
           title: '',
           myId: 'myId'
         }
+      },
+      {
+        path: 'user-customer-management/:id',
+        component: UserCustomerComponent,
+        data: {
+          title: '',
+          myId: 'hehe'
+        }
+        
       }
     ]
   }
