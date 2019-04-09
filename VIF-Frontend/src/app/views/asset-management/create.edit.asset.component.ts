@@ -29,23 +29,12 @@ export class CEAssetComponent implements OnInit {
   newAssetToAdd: Asset = new Asset();
   groupAssetSelectedId: number = 2;
 
-  typeAsset = [
-    {
-      name: 'Chứng khoán',
-      value: 2
-    },
-    {
-      name: 'Tài sản khác',
-      value: 4
-    }
-  ];
-
   constructor(private route: ActivatedRoute, private assetService: AssetService, private router: Router,
     private toastrService: ToastrService, private fb: FormBuilder, private translateService: TranslateService,
     private branchService: BranchService) {
-    // this.assetService.getGroupAsset().pipe(first()).subscribe((res: any)=>{
-    //   this.groupAssets = res.data;
-    // });
+    this.assetService.getGroupAsset().pipe(first()).subscribe((res: any) => {
+      this.groupAssets = res.data;
+    });
     this.branchService.getAll().pipe(first()).subscribe((res: any) => {
       this.branchShares = res;
       if (this.branchShares.length > 0) {
@@ -56,13 +45,16 @@ export class CEAssetComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.id = this.route.snapshot.params['id'];
     if (this.id > 0) {
-      this.assetService.getAssetById(this.id).subscribe((res: Asset) => {
-        this.asset = res;
+      this.assetService.getAssetById(this.id).subscribe((res: any) => {
+        this.asset = res.data;
         // console.log("current user: ", this.user);
+        if (this.asset.groupAsset.id === 2) {
+          this.groupAssetSelectedId = 2;
+        } else {
+          this.groupAssetSelectedId = 4;
+        }
         this.createEditForm();
       })
     } else {
@@ -85,12 +77,30 @@ export class CEAssetComponent implements OnInit {
 
   createEditForm() {
     this.editAssetForm = this.fb.group({
+      eGroupAsset: [this.asset.groupAsset != null ? this.asset.groupAsset.id : 0, Validators.required],
+      eAssetCode: [this.asset.assetCode, Validators.required],
+      eAmount: [this.asset.amount],
+      eAssetName: [this.asset.assetName, Validators.required],
+      eCurrentPrice: [this.asset.currentPrice, Validators.required],
+      eDescription: [this.asset.description],
+      eOrginalPrice: [this.asset.orginalPrice],
+      eBranchCode: [this.asset.branchCode]
     });
   }
 
   onAddSubmit() {
     if (this.addAssetForm.invalid) {
       return;
+    }
+
+    if (this.addAssetForm.value.groupAsset == 2 && !this.addAssetForm.value.branchCode) {
+      return;
+    }
+
+    if (this.addAssetForm.value.groupAsset == 4) {
+      this.newAssetToAdd.branchCode = null;
+    } else {
+      this.newAssetToAdd.branchCode = this.addAssetForm.value.branchCode;
     }
 
     this.newAssetToAdd.activeFlg = 1;
@@ -101,52 +111,66 @@ export class CEAssetComponent implements OnInit {
     this.newAssetToAdd.description = this.addAssetForm.value.description;
     this.newAssetToAdd.orginalPrice = this.addAssetForm.value.orginalPrice != null ? this.addAssetForm.value.orginalPrice : 0;
 
-    if (this.addAssetForm.value.groupAsset == 4) {
-      this.newAssetToAdd.branchCode = null;
-    } else {
-      this.newAssetToAdd.branchCode = this.addAssetForm.value.branchCode;
-    }
+
 
     let mGroup: GroupAsset = new GroupAsset();
     mGroup.id = this.groupAssetSelectedId;
     mGroup.typeOfAsset = this.groupAssetSelectedId;
     this.newAssetToAdd.groupAsset = mGroup;
 
-    if (this.id > 0) {
-      // update user
-      // this.userService.update(user).subscribe(res => {
-      //   // console.log("new user: ", res);
-      //   this.translateService.get('vif.message.update_success').subscribe((res: string) => {
-      //     this.showSuccess(res);
-      //   });
-      //   this.router.navigate(['/user-management']);
-      // }, (err) => {
-      //   this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
-      //     this.showError(res);
-      //   });
-      //   console.log(err);
-      // });
-    } else {
-      this.assetService.addAsset(this.newAssetToAdd).pipe(first()).subscribe((respons: any) => {
-        console.log("res", respons);
-        if (respons.code === 409) {
-          this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
-            this.showError(res);
-          });
-        } else if (respons.code === 200) {
-          this.translateService.get('vif.message.create_success').subscribe((res: string) => {
-            this.showSuccess(res);
-          });
-          this.router.navigate(['/asset-management']);
-        }
-      }, (err) => {
-        this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
+    this.assetService.addAsset(this.newAssetToAdd).pipe(first()).subscribe((respons: any) => {
+      if (respons.code === 409) {
+        this.translateService.get('vif.message.asset_exists').subscribe((res: string) => {
           this.showError(res);
         });
-        console.log(err);
+      } else if (respons.code === 200) {
+        this.translateService.get('vif.message.create_success').subscribe((res: string) => {
+          this.showSuccess(res);
+        });
+        this.router.navigate(['/asset-management']);
+      }
+    }, (err) => {
+      this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
+        this.showError(res);
       });
+      console.log(err);
+    });
+
+  }
+
+  onEditSubmit() {
+    if (this.editAssetForm.invalid) {
+      return;
     }
 
+    if (this.editAssetForm.value.eGroupAsset == 2 && !this.editAssetForm.value.eBranchCode) {
+      return;
+    }
+
+    let mGroup: GroupAsset = new GroupAsset();
+    mGroup.id = this.editAssetForm.value.eGroupAsset;
+    this.asset.groupAsset = mGroup;
+    this.asset.assetCode = this.editAssetForm.value.eAssetCode;
+    this.asset.amount = this.editAssetForm.value.eAmount;
+    this.asset.assetName = this.editAssetForm.value.eAssetName;
+    this.asset.currentPrice = this.editAssetForm.value.eCurrentPrice;
+    this.asset.description = this.editAssetForm.value.eDescription;
+    this.asset.orginalPrice = this.editAssetForm.value.eOrginalPrice;
+    this.asset.branchCode = this.editAssetForm.value.eGroupAsset == 2 ? this.editAssetForm.value.eBranchCode : null;
+    // console.log("my Asset: ", this.asset);
+
+    this.assetService.update(this.asset).subscribe(res => {
+      // console.log("new user: ", res);
+      this.translateService.get('vif.message.update_success').subscribe((res: string) => {
+        this.showSuccess(res);
+      });
+      this.router.navigate(['/asset-management']);
+    }, (err) => {
+      this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
+        this.showError(res);
+      });
+      console.log(err);
+    });
   }
 
   get addForm() { return this.addAssetForm.controls; }
@@ -167,7 +191,6 @@ export class CEAssetComponent implements OnInit {
 
 
   onChangeTypeAsset() {
-    // console.log("this.addAssetForm.value.typeAsset;", this.addAssetForm.value.typeAsset);
     this.groupAssetSelectedId = this.addAssetForm.value.groupAsset;
     if (this.groupAssetSelectedId == 4) {
       this.newAssetToAdd.branchCode = null;
@@ -178,6 +201,15 @@ export class CEAssetComponent implements OnInit {
     mGroup.id = this.groupAssetSelectedId;
     mGroup.typeOfAsset = this.groupAssetSelectedId;
     this.newAssetToAdd.groupAsset = mGroup;
+  }
+
+  onChangeTypeAssetEdit() {
+    this.groupAssetSelectedId = this.editAssetForm.value.eGroupAsset;
+    if (this.editAssetForm.value.eGroupAsset == 2) {
+      this.editForm.eBranchCode.setValue(this.branchShares[0].branchCode);
+    } else {
+      this.editForm.eBranchCode.setValue(null);
+    }
   }
 
 }
