@@ -91,7 +91,7 @@
               <tr>
                 <th>{{'vif.appParam.prop_key' | translate}}</th>
                 <th>{{'vif.appParam.prop_type' | translate}}</th>
-                <th style="text-align: right;padding-right: 5%">{{'vif.appParam.prop_value' | translate}}</th>
+                <th style="text-align: right;padding-right: 7%">{{'vif.appParam.prop_value' | translate}}</th>
                 <th>{{'vif.appParam.status' | translate}}</th>
                 <th>{{'vif.appParam.description' | translate}}</th>
                 <th>{{'vif.appParam.action' | translate}}</th>
@@ -102,7 +102,7 @@
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
                 <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
-                <td style="text-align: right;padding-right: 5%">{{item.propValue}}</td>
+                <td style="text-align: right;padding-right: 7%">{{item.propValue}}</td>
                 <td>
                   <div *ngIf="item.activeFlg==1" style="padding-left: 22%"><i class="fa fa-check"
                       style="font-size:25px;color:green"></i></div>
