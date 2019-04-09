@@ -2,11 +2,11 @@
   <div class="card-header">
     <span *ngIf="id==0">
       <i class="fa fa-user-plus"></i>
-      <strong>Tạo mới tài sản</strong>
+      <strong>{{'vif.asset.title_add' | translate}}</strong>
     </span>
     <span *ngIf="id>0">
       <i class="fa fa-user"></i>
-      <strong>Sửa tài sản</strong>
+      <strong>{{'vif.asset.title_edit' | translate}}</strong>
     </span>
 
   </div>
@@ -17,7 +17,7 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Loại tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_type' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
@@ -33,20 +33,19 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Mã tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="assetCode" class="form-control" id="assetcode-id"
-                  placeholder="Nhập vào mã tài sản">
+                  placeholder="{{'vif.asset.asset_code_placeholder' | translate}}">
                 <div *ngIf="addForm.assetCode.invalid && (addForm.assetCode.dirty || addForm.assetCode.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.assetCode.errors.required">
-                    *Mã tài sản là bắt buộc
+                    {{'vif.asset.asset_code_required' | translate}}
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -57,16 +56,16 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Tên tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_name' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="assetName" class="form-control" id="assetName-id"
-                  placeholder="Nhập vào tên tài sản">
+                  placeholder="{{'vif.asset.asset_name_placeholder' | translate}}">
                 <div *ngIf="addForm.assetName.invalid && (addForm.assetName.dirty || addForm.assetName.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.assetName.errors.required">
-                    *Tên tài sản là bắt buộc
+                    {{'vif.asset.asset_name_required' | translate}}
                   </div>
                 </div>
               </div>
@@ -77,14 +76,13 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Số lượng</label>
+              <label for="company">{{'vif.asset.amount' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="amount" class="form-control" id="amount-id"
-                  placeholder="Nhập vào số lượng tài sản">
+                  placeholder="{{'vif.asset.amount' | translate}}">
               </div>
-
             </div>
           </div>
         </div>
@@ -94,17 +92,17 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Giá hiện tại<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.current_price' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="currentPrice" class="form-control" id="currentPrice-id"
-                  placeholder="Nhập vào giá hiện tại">
+                  placeholder="{{'vif.asset.current_price_placeholder' | translate}}">
                 <div
                   *ngIf="addForm.currentPrice.invalid && (addForm.currentPrice.dirty || addForm.currentPrice.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.currentPrice.errors.required">
-                    *Giá hiện tại là bắt buộc
+                      {{'vif.asset.current_price_required' | translate}}
                   </div>
                 </div>
               </div>
@@ -115,14 +113,13 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Giá vốn</label>
+              <label for="company">{{'vif.asset.orginal_price' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="orginalPrice" class="form-control" id="orginalPrice-id"
-                  placeholder="Nhập vào giá vốn">
+                  placeholder="{{'vif.asset.orginal_price_holder' | translate}}">
               </div>
-
             </div>
           </div>
         </div>
@@ -132,12 +129,12 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Mô tả</label>
+              <label for="company">{{'vif.asset.description' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="description" class="form-control" id="description-id"
-                  placeholder="Nhập vào mô tả">
+                  placeholder="{{'vif.asset.description_placeholder' | translate}}">
               </div>
             </div>
           </div>
@@ -145,7 +142,7 @@
         <div *ngIf="groupAssetSelectedId==2" class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Ngành cổ phiếu<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.branch_code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
@@ -175,7 +172,7 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Loại tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_type' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
@@ -191,12 +188,12 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Mã tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eAssetCode" class="form-control" id="eassetcode-id"
-                  placeholder="Nhập vào mã tài sản">
+                  placeholder="{{'vif.asset.asset_code_placeholder' | translate}}">
                 <!-- <div *ngIf="addForm.username.invalid && (addForm.username.dirty || addForm.username.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.username.errors.required">
@@ -215,12 +212,12 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Tên tài sản<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.asset_name' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eAssetName" class="form-control" id="eassetName-id"
-                  placeholder="Nhập vào tên tài sản">
+                  placeholder="{{'vif.asset.asset_name_placeholder' | translate}}">
               </div>
 
             </div>
@@ -229,12 +226,12 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Số lượng</label>
+              <label for="company">{{'vif.asset.amount' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eAmount" class="form-control" id="eamount-id"
-                  placeholder="Nhập vào số lượng tài sản">
+                  placeholder="{{'vif.asset.amount_placeholder' | translate}}">
               </div>
 
             </div>
@@ -246,12 +243,12 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Giá hiện tại<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.current_price' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eCurrentPrice" class="form-control" id="ecurrentPrice-id"
-                  placeholder="Nhập vào giá hiện tại">
+                  placeholder="{{'vif.asset.current_price_placeholder' | translate}}">
               </div>
 
             </div>
@@ -260,12 +257,12 @@
         <div class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Giá vốn</label>
+              <label for="company">{{'vif.asset.orginal_price' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eOrginalPrice" class="form-control" id="eorginalPrice-id"
-                  placeholder="Nhập vào giá vốn">
+                  placeholder="{{'vif.asset.orginal_price_holder' | translate}}">
               </div>
 
             </div>
@@ -277,12 +274,12 @@
         <div class="col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Mô tả</label>
+              <label for="company">{{'vif.asset.description' | translate}}</label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
                 <input type="text" formControlName="eDescription" class="form-control" id="edescription-id"
-                  placeholder="Nhập vào mô tả">
+                  placeholder="{{'vif.asset.description_placeholder' | translate}}">
               </div>
             </div>
           </div>
@@ -290,7 +287,7 @@
         <div *ngIf="groupAssetSelectedId==2" class="offset-md-2 col-md-5">
           <div class="row">
             <div class="col-md-3">
-              <label for="company">Ngành cổ phiếu<span class="asterisk">&#42;</span></label>
+              <label for="company">{{'vif.asset.branch_code' | translate}}<span class="asterisk">&#42;</span></label>
             </div>
             <div class="col-md-9">
               <div class="form-group">
