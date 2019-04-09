@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
-import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.services.AssetService;
@@ -163,12 +162,14 @@ public class AssetServiceController {
 		return new ResponseEntity<Asset>(asset, HttpStatus.OK);
 	}
 
+
 	@DeleteMapping("deleteAssetByCode/{assetCode}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("assetCode") String assetCode) {
 		assetService.deleteAssetByCode(assetCode);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+
 	@DeleteMapping("deleteAssetById/{id}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("id") Integer id) {
 		assetService.deleteAssetById(id);

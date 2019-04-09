@@ -91,7 +91,8 @@
         "update_success": "Cập nhật thành công!",
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
-        "create_failed": "Thêm mới không thành công"
+        "create_failed": "Thêm mới không thành công",
+        "asset_exists": "Tài sản đã tồn tại trong hệ thống"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -224,7 +225,21 @@
         "asset_name_placeholder": "Nhập vào tên tài sản",
         "asset_type":"Loại tài sản",
         "current_money": "Số tiền hiện tại",
-        "group_asset": "Nhóm tài sản"
+        "group_asset": "Nhóm tài sản",
+        "title_add": "Tạo mới tài sản",
+        "title_edit": "Sửa tài sản",
+        "asset_code_required": "*Mã tài sản là bắt buộc",
+        "asset_name_required": "*Tên tài sản là bắt buộc",
+        "amount": "Số lượng",
+        "amount_placeholder": "Nhập vào số lượng tài sản",
+        "current_price": "Giá hiện tại",
+        "current_price_placeholder": "Nhập vào giá hiện tại",
+        "current_price_required": "*Giá hiện tại là bắt buộc",
+        "orginal_price": "Giá vốn",
+        "orginal_price_holder": "Nhập vào giá vốn",
+        "description": "Mô tả",
+        "description_placeholder": "Nhập vào mô tả",
+        "branch_code": "Ngành cổ phiếu"
     }
   }
 }
