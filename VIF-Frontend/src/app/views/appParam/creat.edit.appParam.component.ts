@@ -38,6 +38,7 @@ export class CEAppParamComponent implements OnInit {
       value: '2'
     }
   ];
+  translateService: any;
 
   constructor(private route: ActivatedRoute, private appParamService: AppParamService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
     this.createForm();
@@ -66,11 +67,11 @@ export class CEAppParamComponent implements OnInit {
 
   createEditForm() {
     this.editAppParamForm = this.fb.group({
-      ePropKey: [this.appParam.propKey, Validators.required],
-      ePropType: [this.appParam.propType, Validators.required],
+      ePropKey: [{ value: this.appParam.propKey, disabled: true }, Validators.required],
+      ePropType: [{ value: this.appParam.propType, disabled: true }, Validators.required],
       ePropValue: [this.appParam.propValue, Validators.required],
       eStatus: [this.appParam.activeFlg, Validators.required],
-      eDescription: [this.appParam.description, Validators.required]
+      eDescription: [this.appParam.description]
     });
   }
   get addForm() { return this.addAppParamForm.controls; }
@@ -78,24 +79,22 @@ export class CEAppParamComponent implements OnInit {
 
   saveAppParam(appParam: AppParam) {
     if (this.id > 0) {
-      this.appParamService.update(appParam).pipe(first()).subscribe((respons: any) => {
-        console.log("res", respons);
-        if(respons.code === 409){
-          this.showError('Config đã tồn tại');
-        }else{
-        this.showSuccess('Cập nhật thành công');}
+      this.appParamService.update(appParam).subscribe(() => {
+        console.log("appParam: ", appParam);
+        this.showSuccess('Update thành công');
         this.router.navigate(['/app-param']);
       }, (err) => {
-        this.showError('Cập nhật config không thành công!');
+        this.showError('Update thất bại');
         console.log(err);
       });
     } else {
       this.appParamService.register(appParam).pipe(first()).subscribe((respons: any) => {
         console.log("res", respons);
-        if(respons.code === 409){
+        if (respons.code === 409) {
           this.showError('Config đã tồn tại');
-        }else{
-        this.showSuccess('Thêm mới thành công');}
+        } else {
+          this.showSuccess('Thêm mới thành công');
+        }
         this.router.navigate(['/app-param']);
       }, (err) => {
         this.showError('Thêm mới config không thành công!');
@@ -122,8 +121,9 @@ export class CEAppParamComponent implements OnInit {
       return;
     }
 
-    this.appParam.propKey = this.editAppParamForm.value.ePropKey;
-    this.appParam.propType = this.editAppParamForm.value.ePropType;
+    console.log("this.appParam AAAAAAAA", this.appParam);
+    // this.appParam.propKey = this.editAppParamForm.value.ePropKey;
+    // this.appParam.propType = this.editAppParamForm.value.ePropType;
     this.appParam.propValue = this.editAppParamForm.value.ePropValue;
     this.appParam.activeFlg = this.editAppParamForm.value.eStatus;
     this.appParam.description = this.editAppParamForm.value.eDescription;

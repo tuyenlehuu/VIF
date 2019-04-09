@@ -79,5 +79,10 @@ public class AppParam implements Serializable{
 	public void setActiveFlg(Integer activeFlg) {
 		this.activeFlg = activeFlg;
 	}
+
+	public Integer returnId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
 	
 }
