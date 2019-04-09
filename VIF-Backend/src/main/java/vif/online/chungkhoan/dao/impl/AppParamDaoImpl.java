@@ -65,6 +65,11 @@ public class AppParamDaoImpl implements AppParamDao{
 
 	@Override
 	public boolean isExist(AppParam appParam) {
+		// Truong hop update status
+		if(appParam.getActiveFlg()==0) {
+			return false;
+		}		
+		// Truong hop update cac truong khac
 		// TODO Auto-generated method stub
 		String hql = "FROM AppParam as a WHERE a.activeFlg=1 AND a.propKey = :propKey AND a.propType = :propType";
 		return entityManager.createQuery(hql).setParameter("propKey", appParam.getPropKey()).setParameter("propType", appParam.getPropType()).getResultList().size() >0?true:false;
