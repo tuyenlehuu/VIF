@@ -114,6 +114,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public boolean updateCCQCustomer(Customer customer) {
 		// TODO Auto-generated method stub
+
 		entityManager.merge(customer);
 		return true;
 
@@ -127,6 +128,10 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 		return null;
 	}
+
+
+
+
 
 	@Override
 	public BigDecimal getTotalMoneyOfCustomers() {
@@ -143,6 +148,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc,
 			String code, String fullName, Integer activeFlg, String email) {
+
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
@@ -168,6 +174,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			predicates.add(criteriaBuilder.like(from.get("email"), "%" + email + "%"));
 		}
 
+
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
 
 		if (columnSortName != null && !columnSortName.equals("")) {
@@ -190,7 +197,9 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
+
 	public int getRowCount(String fullName, Integer activeFlg, String code, String email) {
+
 		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
@@ -200,7 +209,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
 		if (fullName != null && !fullName.equals("")) {
+
 			predicates.add(criteriaBuilder.like(from.get("fullName"), "%" + fullName + "%"));
+
 		}
 
 		if (activeFlg != null) {
@@ -208,11 +219,13 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 
 		if (code != null && !code.equals("")) {
+
 			predicates.add(criteriaBuilder.like(from.get("code"), "%" + code + "%"));
 		}
 
 		if (email != null) {
 			predicates.add(criteriaBuilder.like(from.get("email"), "%" + email + "%"));
+
 		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
@@ -222,6 +235,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		List<Customer> lstResult = query.getResultList();
 		return lstResult.size();
 	}
+
 
 	@Override
 	public String saveFileAvatar(MultipartFile file) {
@@ -279,4 +293,5 @@ public class CustomerDaoImpl implements CustomerDao {
 
 		return " :)) success ";
 	}
+
 }

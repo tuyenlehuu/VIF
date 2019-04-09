@@ -14,7 +14,9 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 
 
 
+
 @Component({
+
     templateUrl: 'customer-management.create.edit.component.html',
     styleUrls: ['./customer-management.c.e.css']
 
@@ -27,6 +29,7 @@ export class CECustomerComponent implements OnInit {
     addCustomerForm: FormGroup;
     submitted = false;
     editCustomerForm: FormGroup;
+
     showDateOfBirth: string;
     showSignContractDate: string;
     colorTheme = 'theme-blue';
@@ -34,6 +37,7 @@ export class CECustomerComponent implements OnInit {
     localUrlBack: any[];
     localUrlFront: any[];
     selectFileAvatar: File;
+
 
 
 
@@ -49,9 +53,11 @@ export class CECustomerComponent implements OnInit {
         }
     ];
 
+
     constructor(private route: ActivatedRoute, private customerService: CustomerService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
 
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+
 
         this.createForm();
     }
@@ -64,6 +70,7 @@ export class CECustomerComponent implements OnInit {
                 this.customer = res;
 
                 this.createEditForm();
+
 
             })
         } else {
@@ -110,15 +117,14 @@ export class CECustomerComponent implements OnInit {
         this.setTextBirthOfDate(dateBirth.toDateString());
         this.setTextSignContractDate(dateSign.toDateString());
 
-
-
-
     }
 
     saveCustomer(customer: Customer) {
         if (this.id > 0) {
 
+
             this.customerService.update(customer).subscribe(res => {
+
 
                 this.showSuccess('Cập nhật thành công');
                 this.router.navigate(['/customer-management']);
@@ -190,8 +196,6 @@ export class CECustomerComponent implements OnInit {
 
 
     
-
-
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
             timeOut: config.timeoutToast
@@ -203,7 +207,6 @@ export class CECustomerComponent implements OnInit {
             timeOut: config.timeoutToast
         });
     }
-
 
 
     showPreviewAvatar(event: any) {

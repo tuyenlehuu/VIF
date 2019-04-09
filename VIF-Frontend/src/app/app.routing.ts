@@ -97,11 +97,10 @@ export const routes: Routes = [
       {
 
         path: 'customer-management',
+
         loadChildren: './views/customer-management/customer.module#CustomerModule'
       },
       {
-
-
         path: 'app-param',
         loadChildren: './views/appParam/appParam.module#AppParamModule'
       },

@@ -10,7 +10,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 import {UserCustomerComponent} from './customer-users';
+
 //import { CustomerManagementComponent } from './customer-management/customer-management.component';
 
 @NgModule({
@@ -25,6 +27,8 @@ import {UserCustomerComponent} from './customer-users';
     NgxPaginationModule,
     BsDatepickerModule.forRoot()
   ],
+
   declarations: [CustomerManagementComponent, CECustomerComponent, UserCustomerComponent]
+
 })
 export class CustomerModule{ }

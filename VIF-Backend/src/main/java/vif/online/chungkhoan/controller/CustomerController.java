@@ -40,7 +40,9 @@ import vif.online.chungkhoan.services.CustomerService;
 @CrossOrigin(origins = { "http://localhost:8080", "http://18.136.211.82:8080" })
 public class CustomerController {
 
+
 	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
+
 	@Autowired
 	private CustomerService customerService;
 
@@ -105,6 +107,7 @@ public class CustomerController {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
 
+
 		String status = customerService.saveFileAvatar(file);
 
 		return new ResponseEntity<String>(status, HttpStatus.OK);
@@ -120,6 +123,7 @@ public class CustomerController {
 
 		if (file.getSize() > MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
+	
 		}
 
 		String status = customerService.saveFileDocBack(file);
@@ -130,7 +134,6 @@ public class CustomerController {
 	@PostMapping("upFileDocFront")
 	public ResponseEntity<String> saveFileDocFront(MultipartFile file) {
 
-	
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
@@ -139,10 +142,12 @@ public class CustomerController {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
 
+
 		String status = customerService.saveFileDocFront(file);
 
 		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
+
 
 	@GetMapping("UsersById/{id}")
 	public ResponseEntity<List<User>> getListUserById(@PathVariable("id") int id) {
@@ -164,6 +169,7 @@ public class CustomerController {
 		List<Customer> list = customerService.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code,
 				fullName, activeFlg, email);
 		int rowCount = customerService.getRowCount(fullName, activeFlg, code, email);
+
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);

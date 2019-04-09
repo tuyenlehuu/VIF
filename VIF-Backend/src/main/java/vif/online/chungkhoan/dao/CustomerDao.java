@@ -25,7 +25,9 @@ public interface CustomerDao {
 	void deleteCustomerById(Integer id);
 
 
+
 	boolean updateCCQCustomer(Customer customer);
+
 
 
 	List<User> getListUserById(int id);
@@ -35,12 +37,12 @@ public interface CustomerDao {
 
 	int getRowCount(String fullName, Integer activeFlg, String code, String email);
 
-
 	BigDecimal getTotalMoneyOfCustomers();
 	
 	String saveFileAvatar(MultipartFile file);
 	String saveFileDocBack(MultipartFile file);
 	String saveFileDocFront(MultipartFile file);
+
 
 
 }

@@ -65,6 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDao.getListUserById(id);
 	}
 
+
 	@Override
 	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc,
 			String code, String fullName, Integer activeFlg, String email) {
@@ -94,5 +95,6 @@ public class CustomerServiceImpl implements CustomerService {
 		// TODO Auto-generated method stub
 		return customerDao.saveFileDocFront(file);
 	}
+
 
 }

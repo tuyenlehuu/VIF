@@ -13,6 +13,7 @@ export class CustomerService {
         return this.http.get<any>(`${config.apiUrl}/customer/getAlls`);
     }
 
+
     getCustomersByCondition(customerCondition: Customer, pager: Pager) {
         if (!pager) {
             pager = new Pager();
@@ -47,7 +48,9 @@ export class CustomerService {
     }
 
     update(customer: Customer) {
+
         return this.http.put(`${config.apiUrl}/customer/update`, customer);
+
     }
 
     deleteCustomerById(id: number) {
@@ -57,6 +60,7 @@ export class CustomerService {
     deleteByCustomerByCode(code: string) {
         return this.http.delete(`${config.apiUrl}/customer/deleteByCode/${code}`);
     }
+
 
     upFile(file: FormData): boolean {
         // debugger;
@@ -68,6 +72,7 @@ export class CustomerService {
 
     getUsers(id: Number) {
         return this.http.get(`${config.apiUrl}/customer/UsersById/${id}`);
+
 
     }
 

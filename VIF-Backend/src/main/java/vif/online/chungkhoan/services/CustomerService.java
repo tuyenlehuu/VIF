@@ -29,6 +29,7 @@ public interface CustomerService {
 	List<User> getListUserById(int id);
 
 	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
+
 			String fullName, Integer activeFlg, String email);
 
 	int getRowCount(String fullName, Integer activeFlg, String code, String email);
@@ -38,5 +39,6 @@ public interface CustomerService {
 	String saveFileDocBack(MultipartFile file);
 
 	String saveFileDocFront(MultipartFile file);
+
 
 }
