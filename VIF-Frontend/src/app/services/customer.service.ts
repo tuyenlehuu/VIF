@@ -3,38 +3,33 @@ import { HttpClient } from '@angular/common/http';
 import { Customer } from '../models/Customer.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
-import { map } from 'rxjs/operators';
 
 @Injectable()
-export class CustomerService {
+export class CustomerService{
     constructor(private http: HttpClient) { }
 
     getAll() {
         return this.http.get<any>(`${config.apiUrl}/customer/getAlls`);
     }
-
-    getCustomersByCondition(customerCondition: Customer, pager: Pager) {
-        if (!pager) {
+    
+    getCustomersByCondition(customerCondition: Customer, pager: Pager){
+        if(!pager){
             pager = new Pager();
         }
         var url = `${config.apiUrl}/customer/getCustomersByCondition?`;
         url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
-        if (customerCondition.fullName) {
+        if(customerCondition.fullName){
             url = url + "&fullName=" + customerCondition.fullName;
         }
 
-        if (customerCondition.code) {
+        if(customerCondition.code){
             url = url + "&code=" + customerCondition.code;
         }
 
-        if (customerCondition.activeFlg != null && customerCondition.activeFlg !== -1) {
+        if(customerCondition.activeFlg !=null && customerCondition.activeFlg !== -1){
             url = url + "&activeFlg=" + customerCondition.activeFlg;
         }
-
-        if (customerCondition.email) {
-            url = url + "&email=" + customerCondition.email;
-        }
-
+     
         return this.http.get<any>(url);
     }
 
@@ -47,7 +42,7 @@ export class CustomerService {
     }
 
     update(customer: Customer) {
-        return this.http.put(`${config.apiUrl}/customer/update`, customer);
+        return this.http.put(`${config.apiUrl}/customer/update`, customer); 
     }
 
     deleteCustomerById(id: number) {
@@ -58,17 +53,8 @@ export class CustomerService {
         return this.http.delete(`${config.apiUrl}/customer/deleteByCode/${code}`);
     }
 
-    upFile(file: FormData): boolean {
-        // debugger;
-        // if (this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file)) { return true; }
-        this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file).pipe(map(res => {console.log("ABCAAA", res); return res;}));
-        return false;
-
-    }
-
-    getUsers(id: Number) {
-        return this.http.get(`${config.apiUrl}/customer/UsersById/${id}`);
-
+    upFile(file: File){
+        return this.http.post(`${config.apiUrl}/customer/upFile`, file);
     }
 
 }

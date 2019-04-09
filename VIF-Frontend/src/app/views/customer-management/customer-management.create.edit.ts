@@ -8,16 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe, formatDate } from '@angular/common';
 import { isDate } from 'util';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { BsDatepickerConfig, BsDatepickerDirective, BsLocaleService } from 'ngx-bootstrap';
-import { defineLocale } from 'ngx-bootstrap/chronos';
-
+import {BsDatepickerConfig, BsDatepickerDirective, BsLocaleService} from 'ngx-bootstrap';
+import {defineLocale} from 'ngx-bootstrap/chronos';
 
 
 
 @Component({
-    templateUrl: 'customer-management.create.edit.component.html',
-    styleUrls: ['./customer-management.c.e.css']
-
+    templateUrl: 'customer-management.create.edit.component.html'
 })
 export class CECustomerComponent implements OnInit {
     customer: Customer;
@@ -27,14 +24,8 @@ export class CECustomerComponent implements OnInit {
     addCustomerForm: FormGroup;
     submitted = false;
     editCustomerForm: FormGroup;
-    showDateOfBirth: string;
-    showSignContractDate: string;
+    dateOfBirth : Date;
     colorTheme = 'theme-blue';
-    localUrlAvatar: any[];
-    localUrlBack: any[];
-    localUrlFront: any[];
-    selectFileAvatar: File;
-
 
 
 
@@ -49,22 +40,20 @@ export class CECustomerComponent implements OnInit {
         }
     ];
 
-    constructor(private route: ActivatedRoute, private customerService: CustomerService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
-
+    constructor( private route: ActivatedRoute, private customerService: CustomerService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
+        
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
-
+        
         this.createForm();
     }
 
     ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
-        console.log("id:",this.id);
         if (this.id > 0) {
             this.customerService.getById(this.id).subscribe((res: Customer) => {
                 this.customer = res;
-
+               
                 this.createEditForm();
-
             })
         } else {
             this.customer = new Customer();
@@ -76,50 +65,29 @@ export class CECustomerComponent implements OnInit {
             fullName: ['', Validators.required],
             identityNumber: ['', Validators.required],
             email: ['', Validators.required],
-            dateOfBirth: [new Date(), Validators.required],
+            dateOfBirth: [ new Date() , Validators.required],
             avatar: ['', Validators.required],
             status: [1, Validators.required],
             identityDocFront: ['', Validators.required],
-            identityDocBack: ['', Validators.required],
-            signContractDate: [new Date(), Validators.required]
+            identityDocBack: [new Date(), Validators.required] ,
+            signContractDate: [new Date(),Validators.required]
         });
     }
 
-    setTextBirthOfDate(dateToString: string): void {
-        this.showDateOfBirth = dateToString;
-        console.log('cus.ShowBirthDate1: ' + this.showDateOfBirth);
-    }
-
-    setTextSignContractDate(dateToString: string): void {
-        this.showSignContractDate = dateToString;
-    }
-
-    createEditForm() {
+    createEditForm(){
         this.editCustomerForm = this.fb.group({
-            eFullName: [{ value: this.customer.fullName, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
-            eEmail: [{ value: this.customer.email, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
-            eDateOfBirth: [{ value: this.customer.dateOfBirth, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
-            eSignContractDate: [{ value: this.customer.signContractDate, disabled: true }, Validators.required],
-            eIdentityNumber: [{ value: this.customer.identityNumber, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required]
+            eFullName: [this.customer.fullName, Validators.required],
+            eEmail: [this.customer.email, Validators.required],
+            eDateOfBirth : [this.customer.dateOfBirth, Validators.required],
+            eStatus: [this.customer.activeFlg, Validators.required]
         });
-
-        var dateBirth: Date = new Date(this.customer.dateOfBirth);
-        console.log('cus.BirthDate1: ' + dateBirth.toDateString());
-        console.log('cus.BirthDate2: ' + this.editCustomerForm.value.eDateOfBirth);
-        var dateSign: Date = new Date(this.customer.signContractDate);
-        this.setTextBirthOfDate(dateBirth.toDateString());
-        this.setTextSignContractDate(dateSign.toDateString());
-
-
-
-
     }
 
     saveCustomer(customer: Customer) {
         if (this.id > 0) {
-
+          
             this.customerService.update(customer).subscribe(res => {
-
+          
                 this.showSuccess('Cập nhật thành công');
                 this.router.navigate(['/customer-management']);
             }, (err) => {
@@ -148,49 +116,28 @@ export class CECustomerComponent implements OnInit {
             return;
         }
         this.customer.fullName = this.addCustomerForm.value.fullName;
-        this.customer.email = this.addCustomerForm.value.email;
+        this.customer.email= this.addCustomerForm.value.email;
         this.customer.identityNumber = this.addCustomerForm.value.identityNumber;
-        this.customer.avatar = this.addCustomerForm.value.avatar;
+        this.customer.avatar= this.addCustomerForm.value.avatar;
         this.customer.dateOfBirth = this.addCustomerForm.value.dateOfBirth;
         this.customer.activeFlg = this.addCustomerForm.value.activeFlg;
-        this.customer.identityDocBack = this.addCustomerForm.value.identityDocBack;
-        this.customer.identityDocFront = this.addCustomerForm.value.identityDocFront;
-        this.customer.signContractDate = this.addCustomerForm.value.signContractDate;
-
-        //this.upLoadFile(event);
+        this.customer.identityDocBack=this.addCustomerForm.value.identityDocBack;
+        this.customer.identityDocFront=this.addCustomerForm.value.identityDocFront;
+        this.customer.signContractDate=this.addCustomerForm.value.signContractDate;
         this.saveCustomer(this.customer);
-
-
-
-
-
     }
 
-    onEditSubmit() {
+    onEditSubmit(){
         if (this.editCustomerForm.invalid) {
             return;
         }
-
-        this.customer.fullName = this.editCustomerForm.value.eFullName;
-        this.customer.email = this.editCustomerForm.value.eEmail;
-        this.customer.dateOfBirth = this.editCustomerForm.value.eDateOfBirth;
-        this.customer.identityNumber = this.editCustomerForm.value.eIdentityNumber;
-        console.log('cus.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
-        this.saveCustomer(this.customer);
         
-
-
-        // console.log('cus.signDate: ' + this.customer.signContractDate);
-        // console.log('edit.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
-        // console.log('cus.BirthDate: ' + this.customer.dateOfBirth);
+        this.customer.fullName = this.editCustomerForm.value.fullName;
+        this.customer.email = this.editCustomerForm.value.email;
+        this.customer.dateOfBirth = this.editCustomerForm.value.dateOfBirth;
+        this.customer.activeFlg = this.editCustomerForm.value.activeFlg;
+        this.saveCustomer(this.customer);
     }
-
-    //file upload event  
-
-
-
-    
-
 
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
@@ -203,54 +150,4 @@ export class CECustomerComponent implements OnInit {
             timeOut: config.timeoutToast
         });
     }
-
-
-
-    showPreviewAvatar(event: any) {
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (event: any) => {
-                this.localUrlAvatar = event.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
-
-    showPreviewBack(event: any) {
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (event: any) => {
-                this.localUrlBack = event.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
-
-    showPreviewFront(event: any) {
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (event: any) => {
-                this.localUrlFront = event.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
-
-    onFileUpload(event: any) {
-        // debugger
-        this.selectFileAvatar = event.target.files[0];
-        const uploadData =  new FormData();
-        uploadData.append('file',this.selectFileAvatar,this.selectFileAvatar.name);
-        // console.log("data :", uploadData.get('avatar'));
-        var result: Boolean = this.customerService.upFile(uploadData);
-        // console.log("data :", result);
-    }
-
-
-    //-----------------
-
-
-
-
-
 }
