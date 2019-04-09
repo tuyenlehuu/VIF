@@ -66,7 +66,6 @@ export class UserComponent implements OnInit {
     }
 
     getPage(page: number) {
-        console.log(this.userSearch);
         var pager: Pager = new Pager();
         pager.page = page;
         pager.pageSize = this.pageSize;
@@ -74,8 +73,7 @@ export class UserComponent implements OnInit {
             this.users = respons.data;
             this.total = respons.totalRow;
             this.p = page;
-            console.log("data: ", this.users);
-            console.log("p: ", this.p);
+           
         });
     }
 
@@ -85,7 +83,7 @@ export class UserComponent implements OnInit {
     }
 
     deleteUser() {
-        // console.log("Start delete: ", this.modalRef.content);
+       
         this.userService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
             // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
@@ -105,7 +103,6 @@ export class UserComponent implements OnInit {
     }
 
     search() {
-        // console.log("userSearch: ", this.userSearch);
         this.getPage(1);
     }
 }

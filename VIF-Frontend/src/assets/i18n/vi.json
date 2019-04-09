@@ -126,8 +126,9 @@
         "search":"Tìm kiếm",
         "code_placeholder": "Nhập vào mã chi nhánh",
         "name_placeholder":"Nhập tên chi nhánh",
-        "cancer":"Cancel",
-        "update":"Cập nhật"
+        "cancer":"Huỷ bỏ",
+        "update":"Cập nhật",
+        "exit":"Mã chi nhánh bị trùng"
     },
     "appParam":{
         "action": "Hành động",

@@ -48,14 +48,19 @@ public class BranchController {
 		return new ResponseEntity<Branch>(branch, HttpStatus.OK);
 	}
 	@PostMapping("/add")
-	public ResponseEntity<Void> addUser(@RequestBody Branch branch, UriComponentsBuilder builder) {
+	public ResponseEntity<ApiResponse> addBranch(@RequestBody Branch branch, UriComponentsBuilder builder) {
 		boolean flag = branchService.addBranch(branch);
+		ApiResponse object=new ApiResponse();
 		if (flag == false) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			object.setCode(409);
+			object.setStatus(true);
+			return new ResponseEntity<ApiResponse>(object,HttpStatus.OK);
 		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/branch/{id}").buildAndExpand(branch.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		object.setCode(200);
+		object.setStatus(true);
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.setLocation(builder.path("/branch/{id}").buildAndExpand(branch.getId()).toUri());
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	@PutMapping("update")
 	public ResponseEntity<Branch> updateBranch(@RequestBody Branch branch) {
