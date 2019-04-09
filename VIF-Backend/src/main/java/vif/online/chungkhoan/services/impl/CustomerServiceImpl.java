@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.services.CustomerService;
@@ -65,14 +67,32 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc,
-			String code, String fullName, Integer activeFlg) {
-		return customerDao.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code, fullName, activeFlg);
+			String code, String fullName, Integer activeFlg, String email) {
+		return customerDao.SearchCustomerByCondition(page, pageSize, columnSortName, asc, code, fullName, activeFlg, email);
 	}
 
 	@Override
-	public int getRowCount(String fullName, Integer activeFlg, String code) {
+	public int getRowCount(String fullName, Integer activeFlg, String code, String email) {
 
-		return customerDao.getRowCount(fullName, activeFlg, code);
+		return customerDao.getRowCount(fullName, activeFlg, code, email);
+	}
+
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return customerDao.saveFileAvatar(file);
+	}
+
+	@Override
+	public String saveFileDocBack(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return customerDao.saveFileDocBack(file);
+	}
+
+	@Override
+	public String saveFileDocFront(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return customerDao.saveFileDocFront(file);
 	}
 
 }

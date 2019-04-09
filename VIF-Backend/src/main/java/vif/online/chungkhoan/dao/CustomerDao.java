@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
 
@@ -29,12 +31,16 @@ public interface CustomerDao {
 	List<User> getListUserById(int id);
 
 	List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc, String code,
-			String fullName, Integer activeFlg);
+			String fullName, Integer activeFlg, String email);
 
-	int getRowCount(String fullName, Integer activeFlg, String code);
+	int getRowCount(String fullName, Integer activeFlg, String code, String email);
 
 
 	BigDecimal getTotalMoneyOfCustomers();
+	
+	String saveFileAvatar(MultipartFile file);
+	String saveFileDocBack(MultipartFile file);
+	String saveFileDocFront(MultipartFile file);
 
 
 }

@@ -91,9 +91,10 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <input #dtLanc="bsDatepicker"  class="form-control " formControlName="dateOfBirth"
-                                    [(ngModel)]="dateOfBirth"  id="dateOfBirth-id" 
-                                    placeholder="{{'vif.customer.dateOfBirth_placeholder' | translate}}" bsDatepicker [maxDate]="maxDate">
+                                <input #dtLanc="bsDatepicker" class="form-control " formControlName="dateOfBirth"
+                                    [(ngModel)]="dateOfBirth" id="dateOfBirth-id"
+                                    placeholder="{{'vif.customer.dateOfBirth_placeholder' | translate}}" bsDatepicker
+                                    [maxDate]="maxDate">
                                 <div *ngIf="addForm.dateOfBirth.invalid && (addForm.dateOfBirth.dirty || addForm.dateOfBirth.touched)"
                                     class="alert alert-danger">
                                     <div *ngIf="addForm.dateOfBirth.errors.required">
@@ -117,8 +118,12 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <div class="form-group">
-                                    <input type="file" formControlName="avatar" class="form-control" id="avater-id"
-                                        placeholder="{{'vif.customer.avatar_placeholder'}}">
+
+                                    <input type="file"  (change)="showPreviewAvatar($event)" class="upload"
+                                        formControlName="avatar" class="form-control" id="avatar-id"
+                                        accept=" .jpg,.jpeg,.png " ngModel (change)="onFileUpload($event)">
+                                        
+                                    <img [src]="localUrlAvatar" *ngIf="localUrlAvatar" class="imgPlaceholder" width="100px" height="100px" >
                                     <div *ngIf="addForm.avatar.invalid && (addForm.avatar.dirty || addForm.avatar.touched)"
                                         class="alert alert-danger">
                                         <div *ngIf="addForm.avatar.errors.required">
@@ -167,7 +172,9 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <input type="file" formControlName="identityDocFront" class="form-control"
+                                (change)="showPreviewFront($event)"
                                     id="identityDocFront-id">
+                                    <img [src]="localUrlFront" *ngIf="localUrlFront" class="imgPlaceholder" width="100px" height="100px" >
 
                                 <div *ngIf="addForm.identityDocFront.invalid && (addForm.identityDocFront.dirty || addForm.identityDocFront.touched)"
                                     class="alert alert-danger">
@@ -189,7 +196,9 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <input type="file" formControlName="identityDocBack" class="form-control"
+                                (change)="showPreviewBack($event)"
                                     id="identityDocBack-id">
+                                    <img [src]="localUrlBack" *ngIf="localUrlBack" class="imgPlaceholder" width="100px" height="100px" >
 
                                 <div *ngIf="addForm.identityDocBack.invalid && (addForm.identityDocBack.dirty || addForm.identityDocBack.touched)"
                                     class="alert alert-danger">
@@ -213,8 +222,10 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <input type="date" formControlName="signContractDate" class="form-control"
-                                    id="signContractDate-id">
+                                <input #dtLanc="bsDatepicker" class="form-control " formControlName="signContractDate"
+                                    id="signContractDate-id"
+                                    placeholder="{{'vif.customer.signContractDate_placeholder' | translate}}"
+                                    bsDatepicker>
 
                                 <div *ngIf="addForm.signContractDate.invalid && (addForm.signContractDate.dirty || addForm.signContractDate.touched)"
                                     class="alert alert-danger">
@@ -300,13 +311,14 @@
                         <div class="col-md-9">
                             <div class="form-group">
                                 <input type="text" class="form-control" formControlName="eDateOfBirth"
-                                    [bsConfig]="bsConfig" [(ngModel)]="dateOfBirth" bsDatepicker id="eDateOfBirth-id"
+                                    [bsConfig]="bsConfig" bsDatepicker value="{{showDateOfBirth | date : 'short'}}"
                                     placeholder="{{'vif.customer.dateOfBirth_placeholder' | translate}}">
                                 <div *ngIf="editForm.eDateOfBirth.invalid && (editForm.eDateOfBirth.dirty || editForm.eDateOfBirth.touched)"
                                     class="alert alert-danger">
                                     <div *ngIf="editForm.eDateOfBirth.errors.required">
                                         {{'vif.message.dateOfBirth_require' | translate}}
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -315,16 +327,23 @@
                 <div class="offset-md-2 col-md-5">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="company">{{'vif.customer.status' | translate}}<span
+                            <label for="company">{{'vif.customer.identityNumber' | translate}}<span
                                     class="asterisk">&#42;</span></label>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <select id="select-eStatus" name="selectStatus" class="form-control"
-                                    formControlName="eStatus">
-                                    <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}
-                                    </option>
-                                </select>
+                                <input type="text" class="form-control" formControlName="eIdentityNumber"
+                                    id="eIdentityNumber-id"
+                                    placeholder="{{'vif.customer.identityNumber_placeholder' | translate}}">
+
+                                <div *ngIf="editForm.eIdentityNumber.invalid && (editForm.eIdentityNumber.dirty || editForm.eIdentityNumber.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="editForm.eIdentityNumber.errors.required">
+                                        {{'vif.message.identityNumber_require' | translate}}
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -332,11 +351,46 @@
             </div>
 
 
+
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="company">{{'vif.customer.signContractDate' | translate}}<span
+                                    class="asterisk">&#42;</span></label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName="eSignContractDate"
+                                    value="{{showSignContractDate | date : 'short'}}" [bsConfig]="bsConfig" bsDatepicker
+                                    placeholder="{{eSignContractDate}}">
+
+
+                                <div *ngIf="editForm.eSignContractDate.invalid && (editForm.eSignContractDate.dirty || editForm.eSignContractDate.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="editForm.eSignContractDate.errors.required">
+                                        {{'vif.message.signContractDate_require' | translate}}
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+
             <!--Doc front / back -->
 
 
 
-            <div class="card-footer">
+            <div *ngIf="customer.activeFlg==1" class="card-footer">
                 <button class="btn btn-primary" type="submit">{{'vif.global.button.update' | translate}}</button>
                 <button class="btn btn-secondary"
                     routerLink="/customer-management">{{'vif.global.button.cancel' | translate}}</button>
@@ -344,4 +398,6 @@
         </div>
     </form>
 </div>
+
+
 <!--[End] Edit-->

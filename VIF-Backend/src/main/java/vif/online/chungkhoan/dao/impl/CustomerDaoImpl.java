@@ -1,5 +1,9 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +18,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
@@ -25,6 +31,11 @@ import vif.online.chungkhoan.entities.User;
 @Transactional
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
+
+	private static final String AVATAR_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\avatar\\";
+	private static final String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_front\\";
+	private static final String DOC_BACK_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_back\\";
+	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -104,8 +115,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	public boolean updateCCQCustomer(Customer customer) {
 		// TODO Auto-generated method stub
 		entityManager.merge(customer);
-			return true;
-	
+		return true;
 
 	}
 
@@ -117,7 +127,6 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 		return null;
 	}
-
 
 	@Override
 	public BigDecimal getTotalMoneyOfCustomers() {
@@ -133,7 +142,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Customer> SearchCustomerByCondition(int page, int pageSize, String columnSortName, Boolean asc,
-			String code, String fullName, Integer activeFlg) {
+			String code, String fullName, Integer activeFlg, String email) {
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
@@ -144,17 +153,20 @@ public class CustomerDaoImpl implements CustomerDao {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
 		if (fullName != null && !fullName.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("fullName"), fullName));
+			predicates.add(criteriaBuilder.like(from.get("fullName"), "%" + fullName + "%"));
 		}
 
 		if (code != null && !code.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("code"), code));
+			predicates.add(criteriaBuilder.like(from.get("code"), "%" + code + "%"));
 		}
-		
-		if(activeFlg != null) {
+
+		if (activeFlg != null) {
 			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
 		}
-		
+
+		if (email != null && !email.equals("")) {
+			predicates.add(criteriaBuilder.like(from.get("email"), "%" + email + "%"));
+		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
 
@@ -178,7 +190,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int getRowCount(String fullName, Integer activeFlg, String code) {
+	public int getRowCount(String fullName, Integer activeFlg, String code, String email) {
 		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
@@ -188,7 +200,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
 		if (fullName != null && !fullName.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("fullName"), fullName));
+			predicates.add(criteriaBuilder.like(from.get("fullName"), "%" + fullName + "%"));
 		}
 
 		if (activeFlg != null) {
@@ -196,7 +208,11 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 
 		if (code != null && !code.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("code"), code));
+			predicates.add(criteriaBuilder.like(from.get("code"), "%" + code + "%"));
+		}
+
+		if (email != null) {
+			predicates.add(criteriaBuilder.like(from.get("email"), "%" + email + "%"));
 		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
@@ -205,5 +221,62 @@ public class CustomerDaoImpl implements CustomerDao {
 
 		List<Customer> lstResult = query.getResultList();
 		return lstResult.size();
+	}
+
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		String path = AVATAR_UPLOAD_DIRECTORY;
+		try {
+			String filename = file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			stream.write(bytes);
+			stream.flush();
+			stream.close();
+
+		} catch (IOException e) {
+			return "Something wrong";
+		}
+
+		return " :)) success ";
+	}
+
+	@Override
+	public String saveFileDocBack(MultipartFile file) {
+		String path = DOC_BACK_UPLOAD_DIRECTORY;
+		try {
+			String filename = file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			stream.write(bytes);
+			stream.flush();
+			stream.close();
+
+		} catch (IOException e) {
+			return "Something wrong";
+		}
+
+		return " :)) success ";
+	}
+
+	@Override
+	public String saveFileDocFront(MultipartFile file) {
+		String path = DOC_FRONT_UPLOAD_DIRECTORY;
+		try {
+			String filename = file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			stream.write(bytes);
+			stream.flush();
+			stream.close();
+
+		} catch (IOException e) {
+			return "Something wrong";
+		}
+
+		return " :)) success ";
 	}
 }

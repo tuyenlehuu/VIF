@@ -26,6 +26,7 @@
         "title1": "Quản lý nhà đầu tư",
         "title2": "Tạo mới nhà đầu tư",
         "title3": "Cập nhật người dùng",
+        "title4": "Danh sách user đang sở hữu",
         "fullName": "Họ và tên",
         "fullName_placeholder": "Nhập họ và tên",
         "email": "Email",
@@ -42,11 +43,10 @@
         "dateOfBirth_placeholder": "Nhập ngày sinh",
         "identityDocFront": "Mặt trước CMT",
         "identityDocBack": "Mặt sau CMT",
-        "signContractDate": "Ngày kí hợp đồng"
+        "signContractDate": "Ngày kí hợp đồng",
+        "signContractDate_placeholder": "Nhập ngày kí hợp đồng"
+    
        
-
-
-
     },
     "global":{
         "button":{
@@ -102,7 +102,8 @@
         "fullName_require": "*Tên là bắt buộc",
         "identityNumber_require": "Số CMT chưa chính xác",
         "signContractDate_require": "*Thông tin bắt buộc",
-        "dateOfBirth_invalid": "Ngày sinh sai định dạng",
+        "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
+        "dateOfBirth_invalid": "Ngày sinh không tồn tại",
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
