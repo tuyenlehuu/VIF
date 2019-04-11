@@ -218,9 +218,6 @@
                 <div
                   *ngIf="editForm.eDescription.invalid && (editForm.eDescription.dirty || editForm.eDescription.touched)"
                   class="alert alert-danger">
-                  <div *ngIf="editForm.eDescription.errors.required">
-                    {{'vif.message.Description_require' | translate}}
-                  </div>
                 </div>
               </div>
             </div>
