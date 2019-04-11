@@ -89,12 +89,12 @@
           <table class="table table-striped mt-3">
             <thead>
               <tr>
-                <th>{{'vif.appParam.prop_key' | translate}}</th>
+                <th>{{'vif.appParam.prop_key' | translate}}</th> 
                 <th>{{'vif.appParam.prop_type' | translate}}</th>
-                <th style="text-align: right;padding-right: 7%">{{'vif.appParam.prop_value' | translate}}</th>
-                <th>{{'vif.appParam.status' | translate}}</th>
+                <th style="text-align: right;">{{'vif.appParam.prop_value' | translate}}</th>
+                <th style="text-align: center;">{{'vif.appParam.status' | translate}}</th>
                 <th>{{'vif.appParam.description' | translate}}</th>
-                <th>{{'vif.appParam.action' | translate}}</th>
+                <th style="text-align: center;">{{'vif.appParam.action' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -102,7 +102,7 @@
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
                 <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
-                <td style="text-align: right;padding-right: 7%">{{item.propValue}}</td>
+                <td style="text-align: right;">{{item.propValue}}</td>
                 <td style="text-align: center">
                   <div *ngIf="item.activeFlg==1"><i class="fa fa-check"
                       style="font-size:25px;color:green"></i></div>
