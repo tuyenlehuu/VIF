@@ -17,6 +17,7 @@ export class BranchService{
         return this.http.get<any>(`${config.apiUrl}/branch/` + id);
     }
 
+
      
     // getBranchByCondition(branchCondition: Branch,pager:Pager){
     //     if(!pager){
@@ -40,6 +41,10 @@ export class BranchService{
     //     return this.http.get<any>(url);
     // }
 
+    
+    
+
+
     getById(id: number) {
             return this.http.get(`${config.apiUrl}/branch/${id}`);
         }
@@ -59,16 +64,13 @@ export class BranchService{
     // deleteByUsername(username: string) {
     //     return this.http.delete(`${config.apiUrl}/user/deleteByName/${username}`);
     // }
-    getBranchsByCondition(branchCondition: Branch){
-       
-        // console.log("branchCondision",branchCondition.branchCode);
+    getUsersByCondition(branchCondition: Branch, pager: Pager){
+        if(!pager){
+            pager = new Pager();
+        }
         var url = `${config.apiUrl}/branch/getBranchsByCondition?`;
-        
+        url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
         if(branchCondition.branchCode){
-            // branchCodition là object chứa đk search của e 
-            // nó là 1 object kiểu Branch
-            // branchSearch luôn có branchCode = null nên nó ko vào đây
-            // console.log("vao tday");
             url = url + "&branchCode=" + branchCondition.branchCode;
         }
 

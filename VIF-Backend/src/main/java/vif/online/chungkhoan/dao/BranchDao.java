@@ -21,7 +21,7 @@ public interface BranchDao {
 
 	void deleteBranchById(Integer id);
 
-	List<Branch> SearchBranchByCondition(String branchCode, Integer activeFlg, String branchName);
+	List<Branch> SearchBranchByCondition(int page, int pageSize, String columnSortName, Boolean asc,String branchCode, Integer activeFlg, String branchName);
 
 	int getRowCount(String branchCode, Integer activeFlg, String branchName);
 }
