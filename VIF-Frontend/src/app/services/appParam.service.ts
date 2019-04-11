@@ -10,34 +10,34 @@ export class AppParamService {
   getAll() {
     return this.http.get<any>(`${config.apiUrl}/app_param/getAlls`);
   }
-  getAppParamsByCondition(appParamCondition: AppParam, pager: Pager){
-    if(!pager){
-        pager = new Pager();
+  getAppParamsByCondition(appParamCondition: AppParam, pager: Pager) {
+    if (!pager) {
+      pager = new Pager();
     }
     var url = `${config.apiUrl}/app_param/getAppParamsByCondition?`;
     url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
-    if(appParamCondition.propKey){
-        url = url + "&propKey=" + appParamCondition.propKey;
+    if (appParamCondition.propKey) {
+      url = url + "&propKey=" + appParamCondition.propKey;
     }
 
-    if(appParamCondition.propType != null && appParamCondition.propType !== '0'){
-        url = url + "&propType=" +appParamCondition.propType; 
+    if (appParamCondition.propType != null && appParamCondition.propType !== '0') {
+      url = url + "&propType=" + appParamCondition.propType;
     }
 
-    if(appParamCondition.propValue){
-        url = url + "&propValue=" + appParamCondition.propValue;
+    if (appParamCondition.propValue) {
+      url = url + "&propValue=" + appParamCondition.propValue;
     }
 
-    if(appParamCondition.activeFlg != null && appParamCondition.activeFlg !== -1){
-        url = url + "&activeFlg=" + appParamCondition.activeFlg;
+    if (appParamCondition.activeFlg != null && appParamCondition.activeFlg !== -1) {
+      url = url + "&activeFlg=" + appParamCondition.activeFlg;
     }
 
-    if(appParamCondition.description){
+    if (appParamCondition.description) {
       url = url + "&description=" + appParamCondition.description;
-  }
+    }
     // console.log("url: ", url);
     return this.http.get<any>(url);
-}
+  }
 
   getById(id: number) {
     return this.http.get(`${config.apiUrl}/app_param/${id}`);

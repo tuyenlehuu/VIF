@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.AppParam;
+import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.services.AppParamService;
 
@@ -77,19 +78,8 @@ public class AppParamController {
 	}
 	
 	@PutMapping("update")
-	public Object updateAppParam(@RequestBody AppParam appParam) {
-		boolean flag = appParamService.updateAppParam(appParam);
-		ApiResponse object = new ApiResponse();
-		if (flag == false) {
-			object.setCode(409);
-			object.setErrors("da ton tai");
-			object.setStatus(true);
-			object.setData(null);
-			return new ResponseEntity<ApiResponse>(object,HttpStatus.OK);
-		}
-		object.setCode(200);
-		object.setData("update thanh cong");
-		object.setStatus(true);
+	public ResponseEntity<AppParam> updateAppParam(@RequestBody AppParam appParam) {
+		appParamService.updateAppParam(appParam);
 		return new ResponseEntity<AppParam>(appParam, HttpStatus.OK);
 	}
 	
