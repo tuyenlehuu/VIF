@@ -75,12 +75,12 @@
               </thead>
               <tbody *ngIf="branchs && branchs.length>0">
                 <tr
-                  *ngFor="let item of branchs | paginate: { id: 'server', itemsPerPage: 100, currentPage: 1, totalItems: total} ">
+                  *ngFor="let item of branchs | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total} ">
                   <td>{{item.branchCode}}</td>
                   <td>{{item.branchName}}</td>
                   <td>{{item.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}}</td>
-                  <td>
-                    <a [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]"><i
+                  <td >
+                    <a style="margin-left: 10%" [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]"><i
                         class="fa fa-pencil"></i></a>
                     <a *ngIf=" item.activeFlg>0 " style="color: red; cursor: pointer; margin-left: 10px;"
                       (click)="confirmDel(template, item.id)"> <i class="fa fa-minus-circle"></i></a>
@@ -92,7 +92,12 @@
               </tbody>
 
             </table>
-
+            <hr />
+            <ul style="float:right;" class="pagination" *ngIf="branchs && branchs.length > 0">
+              <pagination-controls (pageChange)="getPage($event)" id="server"
+                previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+                nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+            </ul>
           </form>
 
 
