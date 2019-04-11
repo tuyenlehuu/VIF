@@ -78,7 +78,7 @@ export class BranchComponent implements OnInit {
 
             this.branchService.getAll().pipe(first()).subscribe((respons: any) => {
                 this.branchs = respons;
-
+                this.getPage(1);
             });
 
         }, catchError => {
