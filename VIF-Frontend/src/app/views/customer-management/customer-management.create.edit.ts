@@ -29,6 +29,7 @@ export class CECustomerComponent implements OnInit {
     addCustomerForm: FormGroup;
     submitted = false;
     editCustomerForm: FormGroup;
+    //uploadForm: FormGroup; 
 
     showDateOfBirth: string;
     showSignContractDate: string;
@@ -63,6 +64,7 @@ export class CECustomerComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        
         this.id = this.route.snapshot.params['id'];
         console.log("id:",this.id);
         if (this.id > 0) {
@@ -80,6 +82,7 @@ export class CECustomerComponent implements OnInit {
 
     createForm() {
         this.addCustomerForm = this.fb.group({
+            profile: [''],
             fullName: ['', Validators.required],
             identityNumber: ['', Validators.required],
             email: ['', Validators.required],
@@ -163,6 +166,7 @@ export class CECustomerComponent implements OnInit {
         this.customer.identityDocFront = this.addCustomerForm.value.identityDocFront;
         this.customer.signContractDate = this.addCustomerForm.value.signContractDate;
 
+
         //this.upLoadFile(event);
         this.saveCustomer(this.customer);
 
@@ -240,13 +244,19 @@ export class CECustomerComponent implements OnInit {
     }
 
     onFileUpload(event: any) {
+        if (event.target.files.length > 0) {
         // debugger
+        let uploadData =  new FormData();
         this.selectFileAvatar = event.target.files[0];
-        const uploadData =  new FormData();
-        uploadData.append('file',this.selectFileAvatar,this.selectFileAvatar.name);
-        // console.log("data :", uploadData.get('avatar'));
+        console.log("data :",this.selectFileAvatar );
+       
+        this.addCustomerForm.get('profile').setValue(this.selectFileAvatar);
+        console.log("dataPro :",this.addCustomerForm.get('profile').value );
+        uploadData.set('file',this.addCustomerForm.get('profile').value);
+        console.log("data :", this.addCustomerForm);
         var result: Boolean = this.customerService.upFile(uploadData);
         // console.log("data :", result);
+        }
     }
 
 

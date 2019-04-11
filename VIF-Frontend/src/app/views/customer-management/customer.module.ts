@@ -25,7 +25,8 @@ import {UserCustomerComponent} from './customer-users';
     ReactiveFormsModule,
     AppTranslationModule,
     NgxPaginationModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'})
   ],
 
   declarations: [CustomerManagementComponent, CECustomerComponent, UserCustomerComponent]
