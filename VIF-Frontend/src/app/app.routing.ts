@@ -105,6 +105,10 @@ export const routes: Routes = [
         loadChildren: './views/appParam/appParam.module#AppParamModule'
       },
       {
+        path:"branch-managenment",
+        loadChildren: './views/branch-managenment/branch.module#BranchModule'
+      },
+      {
         path: '403',
         component: P403Component
 

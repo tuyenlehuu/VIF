@@ -1,24 +1,14 @@
 package vif.online.chungkhoan.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.repositories.CustomerRepository;
 import vif.online.chungkhoan.services.CustomerService;
 
@@ -39,9 +30,6 @@ import vif.online.chungkhoan.services.CustomerService;
 @RequestMapping("customer")
 @CrossOrigin(origins = { "http://localhost:8080", "http://18.136.211.82:8080" })
 public class CustomerController {
-
-
-	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
 
 	@Autowired
 	private CustomerService customerService;
@@ -96,18 +84,13 @@ public class CustomerController {
 
 	@PostMapping("upFileAvatar")
 	public ResponseEntity<String> saveFileAvatar(@RequestParam("file") MultipartFile file) {
-
-		
-
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
-
-
 		String status = customerService.saveFileAvatar(file);
 
 		return new ResponseEntity<String>(status, HttpStatus.OK);
@@ -115,15 +98,12 @@ public class CustomerController {
 
 	@PostMapping("upFileDocBack")
 	public ResponseEntity<String> saveFileDocBack(MultipartFile file) {
-
-		
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
-	
 		}
 
 		String status = customerService.saveFileDocBack(file);
@@ -138,7 +118,7 @@ public class CustomerController {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
 

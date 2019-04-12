@@ -4,10 +4,11 @@ import java.util.List;
 
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.User;
 
 public interface BranchService {
 
-	List<Branch> getAllBranchs();
+	List<Branch> getAllBranchs(); 
 
 	Branch getBranchById(int id);
 
@@ -20,4 +21,8 @@ public interface BranchService {
 	void deleteBranchByCode(String code);
 
 	void deleteBranchById(Integer id);
+	
+	List<Branch> SearchBranchByCondition( int page, int pageSize, String columnSortName, Boolean asc,String branchCode,Integer activeFlg, String branchName);
+	
+	int getRowCount(String branchCode, Integer activeFlg, String branchName);
 }

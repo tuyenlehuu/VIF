@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Customer } from '../models/Customer.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
@@ -50,7 +50,6 @@ export class CustomerService {
     update(customer: Customer) {
 
         return this.http.put(`${config.apiUrl}/customer/update`, customer);
-
     }
 
     deleteCustomerById(id: number) {
@@ -62,18 +61,12 @@ export class CustomerService {
     }
 
 
-    upFile(file: FormData): boolean {
-        // debugger;
-        // if (this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file)) { return true; }
-        this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file).pipe(map(res => {console.log("ABCAAA", res); return res;}));
-        return false;
-
+    upFile(file: FormData) {
+        return this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file, {responseType: 'text'});
     }
 
     getUsers(id: Number) {
         return this.http.get(`${config.apiUrl}/customer/UsersById/${id}`);
-
-
     }
 
 }

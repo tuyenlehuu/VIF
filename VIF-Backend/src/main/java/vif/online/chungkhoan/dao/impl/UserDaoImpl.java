@@ -104,8 +104,8 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean userExists(User user) {
 		// TODO Auto-generated method stub
-		String hql = "FROM User as u WHERE u.isDeleted = 0 AND u.username = :username";
-		return entityManager.createQuery(hql).setParameter("username", user.getUsername()).getResultList().size() >0?true:false;
+		String hql = "FROM User as u WHERE u.isDeleted = 0 AND (u.username = :username OR u.email=:email)";
+		return entityManager.createQuery(hql).setParameter("username", user.getUsername()).setParameter("email", user.getEmail()).getResultList().size() >0?true:false;
 	}
 
 	@Override
@@ -209,10 +209,8 @@ public class UserDaoImpl implements UserDao{
 		return lstResult.size();
 	}
 
-
 	@Override
 	public boolean prepareResetPassword(String username) {
-		// TODO Auto-generated method stub
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			String tokenReset = apiHelper.generateString(20);
@@ -239,7 +237,6 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public boolean resetPassword(String username, String token, String newPass) {
-		// TODO Auto-generated method stub
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			// check user, token, time expired

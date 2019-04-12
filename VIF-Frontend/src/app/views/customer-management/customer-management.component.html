@@ -95,21 +95,16 @@
                 <td>{{customer.email}}</td>
                 <td>{{customer.code}}</td>
                 <td>{{customer.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
-
                 <td>
                   <a [routerLink]="['/customer-management/ce-customer-management', customer.id]"><i
-                      class="fa fa-pencil"></i></a>
-                  
-                    <a *ngIf="customer.activeFlg==1" style="color: red; cursor: pointer; margin-left: 10px;"
-                      (click)="confirmDel(template, customer.id)"><i class="fa fa-trash-o"></i></a>
-                    <a  [routerLink]="['/customer-management/user-customer-management', customer.id]" style="color: blue; cursor: pointer;margin-left: 10px;" ><i class='fa fa-address-book'></i></a>  
-
-                 
-
+                      title="{{'vif.global.other.title_icon_edit' | translate}}" class="fa fa-pencil"></i></a>
+                  <a style="color: red; cursor: pointer; margin-left: 10px;"
+                    (click)="confirmDel(template, customer.id)"><i class="fa fa-trash-o"
+                      title="{{'vif.global.other.title_icon_del' | translate}}"></i></a>
+                  <a [routerLink]="['/customer-management/user-customer-management', customer.id]"
+                    style="color: blue; cursor: pointer;margin-left: 10px;"><i class='fa fa-address-book'
+                      title="{{'vif.global.other.title_icon_showuser' | translate}}"></i></a>
                 </td>
-
-
-
               </tr>
             </tbody>
             <tbody *ngIf="!customers || (customers && customers.length <= 0)">
@@ -144,8 +139,3 @@
   </div>
 
 </ng-template>
-
-
-
-
-

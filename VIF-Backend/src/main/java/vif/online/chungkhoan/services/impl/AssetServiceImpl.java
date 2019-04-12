@@ -17,6 +17,7 @@ import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.entities.ShareMaster;
 import vif.online.chungkhoan.entities.TransactionHistory;
+import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.AssetService;
@@ -216,6 +217,19 @@ public class AssetServiceImpl implements AssetService {
 	public Asset getAssetById(Integer id) {
 		// TODO Auto-generated method stub
 		return assetDao.getAssetById(id);
+	}
+
+	@Override
+	public List<Asset> SearchAssetsByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String assetCode, Integer groupAssetId, String assetName) {
+		// TODO Auto-generated method stub
+		return assetDao.searchAssetsByCondition(page, pageSize, columnSortName, asc, assetCode, groupAssetId, assetName);
+	}
+
+	@Override
+	public int getRowCount(String assetCode, Integer groupAssetId, String assetName) {
+		// TODO Auto-generated method stub
+		return assetDao.getRowCount(assetCode, groupAssetId, assetName);
 	}
 
 }

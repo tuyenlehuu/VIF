@@ -27,15 +27,11 @@ import org.springframework.web.multipart.MultipartFile;
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.IContaints;
 
 @Transactional
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
-
-	private static final String AVATAR_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\avatar\\";
-	private static final String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_front\\";
-	private static final String DOC_BACK_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_back\\";
-	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -239,7 +235,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public String saveFileAvatar(MultipartFile file) {
-		String path = AVATAR_UPLOAD_DIRECTORY;
+		String path = IContaints.FILE_UPLOAD.AVATAR_UPLOAD_DIRECTORY;
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
@@ -253,12 +249,12 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return " :)) success ";
+		return IContaints.RESPONSE_CODE.SUCCESS;
 	}
 
 	@Override
 	public String saveFileDocBack(MultipartFile file) {
-		String path = DOC_BACK_UPLOAD_DIRECTORY;
+		String path = IContaints.FILE_UPLOAD.DOC_BACK_UPLOAD_DIRECTORY;
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
@@ -272,12 +268,12 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return " :)) success ";
+		return IContaints.RESPONSE_CODE.SUCCESS;
 	}
 
 	@Override
 	public String saveFileDocFront(MultipartFile file) {
-		String path = DOC_FRONT_UPLOAD_DIRECTORY;
+		String path = IContaints.FILE_UPLOAD.DOC_FRONT_UPLOAD_DIRECTORY;
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
@@ -291,7 +287,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return " :)) success ";
+		return IContaints.RESPONSE_CODE.SUCCESS;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 
 public interface AssetService {
@@ -33,5 +34,10 @@ public interface AssetService {
 	public void deleteAssetById(Integer id);
 
 	public Asset getAssetById(Integer id);
+
+	public List<Asset> SearchAssetsByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String assetCode, Integer groupAssetId, String assetName);
+
+	public int getRowCount(String assetCode, Integer groupAssetId, String assetName);
 
 }
