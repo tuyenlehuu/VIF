@@ -22,6 +22,34 @@
         "status": "Trạng thái",
         "action": "Hành động"
     },
+    "customer":{
+        "title1": "Quản lý nhà đầu tư",
+        "title2": "Tạo mới nhà đầu tư",
+        "title3": "Cập nhật người dùng",
+
+        "title4": "Danh sách user đang sở hữu",
+
+        "fullName": "Họ và tên",
+        "fullName_placeholder": "Nhập họ và tên",
+        "email": "Email",
+        "email_placeholder": "Nhập email",
+        "status": "Trạng thái",
+        "avatar": "Ảnh đại diện",
+        "avatar_placeholder": "Chọn file",
+        "action": "Hành động",
+        "code": "Mã NĐT",
+        "code_placeholder": "Nhập mã NĐT",
+        "identityNumber": "Số CMT",
+        "identityNumber_placeholder": "Nhập số CMT",
+        "dateOfBirth": "Ngày sinh",
+        "dateOfBirth_placeholder": "Nhập ngày sinh",
+        "identityDocFront": "Mặt trước CMT",
+        "identityDocBack": "Mặt sau CMT",
+
+        "signContractDate": "Ngày kí hợp đồng",
+        "signContractDate_placeholder": "Nhập ngày kí hợp đồng"
+    
+    },
     "global":{
         "button":{
             "add": "Thêm mới",
@@ -54,12 +82,15 @@
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa user?",
             "confirmDel1":"Bạn có thực sự muốn xoá chi nhánh?",
+            "confirmDel": "Bạn có thực sự muốn xóa user?",    
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
             "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "note": "Lưu ý",
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
+            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
             "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
-
         }
     },
     "message":{
@@ -76,6 +107,16 @@
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
         "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+
+        "avatar_require":"Vui lòng chọn tệp",
+        "dateOfBirth_require": "*Chưa chọn ngày sinh",
+        "fullName_require": "*Tên là bắt buộc",
+        "identityNumber_require": "Số CMT chưa chính xác",
+        "signContractDate_require": "*Thông tin bắt buộc",
+
+        "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
+        "dateOfBirth_invalid": "Ngày sinh không tồn tại",
+
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
@@ -86,7 +127,8 @@
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
         "create_failed": "Thêm mới không thành công",
-        "asset_exists": "Tài sản đã tồn tại trong hệ thống"
+        "asset_exists": "Tài sản đã tồn tại trong hệ thống",
+        "create_failed": "Thêm mới không thành công"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
