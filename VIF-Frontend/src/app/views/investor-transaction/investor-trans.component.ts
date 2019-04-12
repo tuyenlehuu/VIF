@@ -122,7 +122,7 @@ export class InvestorTransComponent implements OnInit {
             if (this.responseObject.code === 200) {
                 this.showSuccess("Rút vốn thành công!");
                 this.resetForm();
-                this.amountCCQAvaiable = this.amountCCQAvaiable - sellCCQObject.amountCCQ;
+                this.amountCCQAvaiable = Number((this.amountCCQAvaiable - sellCCQObject.amountCCQ).toFixed(2));
             } else {
                 this.showError("Rút vốn thất bại. Vui lòng liên hệ quản trị viên!");
             }
@@ -181,19 +181,17 @@ export class InvestorTransComponent implements OnInit {
         if (this.isBuyScreen) {
             this.customerSelectedId = this.buyForm.value.bCustomerSelectedId;
             this.amountCCQAvaiable = 0;
-            this.customers.forEach(customer => {
-                if (customer.id === this.customerSelectedId) {
-                    this.amountCCQAvaiable = customer.totalCcq;
-                }
+            this.customerService.getById(this.customerSelectedId).subscribe((res:any) =>{
+                var mCus: Customer = res;
+                this.amountCCQAvaiable = mCus.totalCcq;
             });
         } else {
             this.customerSelectedId = this.sellForm.value.sCustomerSelectedId;
             this.amountCCQAvaiable = 0;
-            this.customers.forEach(customer => {
-                if (customer.id === this.customerSelectedId) {
-                    this.amountCCQAvaiable = customer.totalCcq;
-                    this.sellCCQForm.sAmountCCQAvai.setValue(customer.totalCcq);
-                }
+            this.customerService.getById(this.customerSelectedId).subscribe((res:any) =>{
+                var mCus: Customer = res;
+                this.amountCCQAvaiable = mCus.totalCcq;
+                this.sellCCQForm.sAmountCCQAvai.setValue(mCus.totalCcq);
             });
         }
     }
