@@ -109,7 +109,7 @@ export class CECustomerComponent implements OnInit {
             eFullName: [{ value: this.customer.fullName, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
             eEmail: [{ value: this.customer.email, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
             eDateOfBirth: [{ value: this.customer.dateOfBirth, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required],
-            eSignContractDate: [{ value: this.customer.signContractDate, disabled: true }, Validators.required],
+            eSignContractDate: [{ value: this.customer.signContractDate, disabled: (this.customer.activeFlg==1)?false : true }, Validators.required],
             eIdentityNumber: [{ value: this.customer.identityNumber, disabled: (this.customer.activeFlg==1)?false : true}, Validators.required]
         });
 
@@ -185,6 +185,7 @@ export class CECustomerComponent implements OnInit {
         this.customer.email = this.editCustomerForm.value.eEmail;
         this.customer.dateOfBirth = this.editCustomerForm.value.eDateOfBirth;
         this.customer.identityNumber = this.editCustomerForm.value.eIdentityNumber;
+        this.customer.signContractDate = this.editCustomerForm.value.eSignContractDate;
         console.log('cus.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
         this.saveCustomer(this.customer);
         
