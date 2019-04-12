@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="money-buy-id" formControlName="bMoney"
+                        <input currencyMask type="text" class="form-control" id="money-buy-id" formControlName="bMoney" (keyup)="onKeyBPrice($event)"
                           placeholder="{{'vif.investor_trans.money_placeholder' | translate}}">
                           <div *ngIf="buyCCQForm.bMoney.invalid && (buyCCQForm.bMoney.dirty || buyCCQForm.bMoney.touched)" class="alert alert-danger">
                             <div *ngIf="buyCCQForm.bMoney.errors.notEqualZero">
@@ -153,7 +153,7 @@
                     </div>
                     <div class="col-md-9">
                       <div class="form-group">
-                        <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountCCQ"
+                        <input currencyMask type="text" class="form-control" id="amount-sell-id" formControlName="sAmountCCQ" (keyup)="onKeySPrice($event)"
                           placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
                           <div *ngIf="sellCCQForm.sAmountCCQ.invalid && (sellCCQForm.sAmountCCQ.dirty || sellCCQForm.sAmountCCQ.touched)" class="alert alert-danger">
                             

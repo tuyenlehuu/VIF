@@ -160,20 +160,18 @@ export class InvestorTransComponent implements OnInit {
             return;
         }
         var mMoney = this.buyForm.value.bMoney;
-        var currentPrice = event.target.value;
-        currentPrice = currentPrice.toString().replace(',', '');
-        // console.log("currentPrice", currentPrice);
+        var currentPrice = this.buyForm.value.bPrice;
         this.buyCCQForm.bAmountCCQ.setValue(mMoney / currentPrice);
     }
+
 
     onKeySPrice(event: any) {
         if (this.sellForm.invalid) {
             return;
         }
         var mAmountCCQ = this.sellForm.value.sAmountCCQ;
-        var currentPrice = event.target.value;
-        currentPrice = currentPrice.toString().replace(',', '');
-        // console.log("currentPrice", currentPrice);
+        var currentPrice = this.sellForm.value.sPrice;
+        // currentPrice = currentPrice.toString().replace(',', '');
         this.sellCCQForm.sMoney.setValue(mAmountCCQ * currentPrice);
     }
 

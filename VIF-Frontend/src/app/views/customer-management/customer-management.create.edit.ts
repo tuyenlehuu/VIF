@@ -5,21 +5,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DatePipe, formatDate } from '@angular/common';
-import { isDate } from 'util';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BsDatepickerConfig, BsDatepickerDirective, BsLocaleService } from 'ngx-bootstrap';
-import { defineLocale } from 'ngx-bootstrap/chronos';
-
-
-
-
+import { first } from 'rxjs/operators';
 
 @Component({
-
     templateUrl: 'customer-management.create.edit.component.html',
     styleUrls: ['./customer-management.c.e.css']
-
 })
 export class CECustomerComponent implements OnInit {
     customer: Customer;
@@ -39,10 +30,6 @@ export class CECustomerComponent implements OnInit {
     localUrlFront: any[];
     selectFileAvatar: File;
 
-
-
-
-
     status = [
         {
             name: 'Hoạt động',
@@ -54,26 +41,18 @@ export class CECustomerComponent implements OnInit {
         }
     ];
 
-
     constructor(private route: ActivatedRoute, private customerService: CustomerService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
-
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
-
-
         this.createForm();
     }
 
     ngOnInit(): void {
-        
         this.id = this.route.snapshot.params['id'];
         console.log("id:",this.id);
         if (this.id > 0) {
             this.customerService.getById(this.id).subscribe((res: Customer) => {
                 this.customer = res;
-
                 this.createEditForm();
-
-
             })
         } else {
             this.customer = new Customer();
@@ -97,7 +76,7 @@ export class CECustomerComponent implements OnInit {
 
     setTextBirthOfDate(dateToString: string): void {
         this.showDateOfBirth = dateToString;
-        console.log('cus.ShowBirthDate1: ' + this.showDateOfBirth);
+        // console.log('cus.ShowBirthDate1: ' + this.showDateOfBirth);
     }
 
     setTextSignContractDate(dateToString: string): void {
@@ -114,8 +93,8 @@ export class CECustomerComponent implements OnInit {
         });
 
         var dateBirth: Date = new Date(this.customer.dateOfBirth);
-        console.log('cus.BirthDate1: ' + dateBirth.toDateString());
-        console.log('cus.BirthDate2: ' + this.editCustomerForm.value.eDateOfBirth);
+        // console.log('cus.BirthDate1: ' + dateBirth.toDateString());
+        // console.log('cus.BirthDate2: ' + this.editCustomerForm.value.eDateOfBirth);
         var dateSign: Date = new Date(this.customer.signContractDate);
         this.setTextBirthOfDate(dateBirth.toDateString());
         this.setTextSignContractDate(dateSign.toDateString());
@@ -124,11 +103,7 @@ export class CECustomerComponent implements OnInit {
 
     saveCustomer(customer: Customer) {
         if (this.id > 0) {
-
-
             this.customerService.update(customer).subscribe(res => {
-
-
                 this.showSuccess('Cập nhật thành công');
                 this.router.navigate(['/customer-management']);
             }, (err) => {
@@ -165,15 +140,8 @@ export class CECustomerComponent implements OnInit {
         this.customer.identityDocBack = this.addCustomerForm.value.identityDocBack;
         this.customer.identityDocFront = this.addCustomerForm.value.identityDocFront;
         this.customer.signContractDate = this.addCustomerForm.value.signContractDate;
-
-
         //this.upLoadFile(event);
         this.saveCustomer(this.customer);
-
-
-
-
-
     }
 
     onEditSubmit() {
@@ -185,21 +153,11 @@ export class CECustomerComponent implements OnInit {
         this.customer.email = this.editCustomerForm.value.eEmail;
         this.customer.dateOfBirth = this.editCustomerForm.value.eDateOfBirth;
         this.customer.identityNumber = this.editCustomerForm.value.eIdentityNumber;
-        console.log('cus.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
+        // console.log('cus.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
         this.saveCustomer(this.customer);
-        
-
-
-        // console.log('cus.signDate: ' + this.customer.signContractDate);
-        // console.log('edit.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
-        // console.log('cus.BirthDate: ' + this.customer.dateOfBirth);
     }
 
     //file upload event  
-
-
-
-    
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
             timeOut: config.timeoutToast
@@ -248,13 +206,13 @@ export class CECustomerComponent implements OnInit {
         // debugger
         let uploadData =  new FormData();
         this.selectFileAvatar = event.target.files[0];
-        console.log("data :",this.selectFileAvatar );
-       
         this.addCustomerForm.get('profile').setValue(this.selectFileAvatar);
-        console.log("dataPro :",this.addCustomerForm.get('profile').value );
         uploadData.set('file',this.addCustomerForm.get('profile').value);
-        console.log("data :", this.addCustomerForm);
-        var result: Boolean = this.customerService.upFile(uploadData);
+        this.customerService.upFile(uploadData).pipe(first()).subscribe((res:any)=>{
+            if(res == 'success'){
+                this.showSuccess("upload avatar success!");
+            }
+        });
         // console.log("data :", result);
         }
     }

@@ -80,17 +80,20 @@
         },
         "other":{
             "emptyItem":"Không có bản ghi",
-            "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "confirmDel1":"Bạn có thực sự muốn xoá chi nhánh?",
-            "confirmDel": "Bạn có thực sự muốn xóa user?",    
-            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
-            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
+            "confirmDel": "Bạn có thực sự muốn xóa người dùng?",
+            "confirmDel1":"Bạn có thực sự muốn khóa chi nhánh?",  
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa khách hàng",
+            "confirmDelCf": "Bạn có thực sự muốn khóa config?",
             "note": "Lưu ý",
-            "confirmDelCustomer": "Bạn có thực sự muốn xóa customer",
-            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
-            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
+            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?",
+            "title_icon_edit": "Sửa",
+            "title_icon_del": "Xóa",
+            "title_icon_supspend": "Block",
+            "title_active": "Hoạt động",
+            "title_inactive": "Ngừng hoạt động",
+            "title_icon_showuser": "Xem user tương ứng"
         }
     },
     "message":{

@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.repositories.CustomerRepository;
 import vif.online.chungkhoan.services.CustomerService;
 
@@ -29,9 +30,6 @@ import vif.online.chungkhoan.services.CustomerService;
 @RequestMapping("customer")
 @CrossOrigin(origins = { "http://localhost:8080", "http://18.136.211.82:8080" })
 public class CustomerController {
-
-
-	private static final int MAX_SIZE_FILE = 1024 * 1024 * 3;
 
 	@Autowired
 	private CustomerService customerService;
@@ -86,18 +84,13 @@ public class CustomerController {
 
 	@PostMapping("upFileAvatar")
 	public ResponseEntity<String> saveFileAvatar(@RequestParam("file") MultipartFile file) {
-
-		
-
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
-
-
 		String status = customerService.saveFileAvatar(file);
 
 		return new ResponseEntity<String>(status, HttpStatus.OK);
@@ -105,15 +98,12 @@ public class CustomerController {
 
 	@PostMapping("upFileDocBack")
 	public ResponseEntity<String> saveFileDocBack(MultipartFile file) {
-
-		
 		if (file.isEmpty()) {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
-	
 		}
 
 		String status = customerService.saveFileDocBack(file);
@@ -128,7 +118,7 @@ public class CustomerController {
 			return new ResponseEntity<String>("empty file", HttpStatus.OK);
 		}
 
-		if (file.getSize() > MAX_SIZE_FILE) {
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
 			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
 		}
 
