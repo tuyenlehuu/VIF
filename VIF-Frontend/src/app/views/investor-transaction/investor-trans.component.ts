@@ -104,7 +104,7 @@ export class InvestorTransComponent implements OnInit {
             if (this.responseObject.code === 200) {
                 this.showSuccess("Đầu tư thành công!");
                 this.resetForm();
-                this.amountCCQAvaiable = this.amountCCQAvaiable + Number((buyCCQObject.money/buyCCQObject.priceCCQ).toFixed(2));
+                this.amountCCQAvaiable = Number((this.amountCCQAvaiable + Number(buyCCQObject.money/buyCCQObject.priceCCQ)).toFixed(2));
             } else {
                 this.showError("Đầu tư thất bại. Vui lòng liên hệ quản trị viên!");
             }
