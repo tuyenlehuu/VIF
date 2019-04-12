@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.Branch;
+import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.services.BranchService;
 
@@ -80,17 +81,22 @@ public class BranchController {
 	}
 
 	@GetMapping("getBranchsByCondition")
-	public ResponseEntity<ApiResponse> SearchBranchByCondition(
+	public ResponseEntity<ApiResponse> SearchBranchByCondition(@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "pageSize", required = true) int pageSize,
+			@RequestParam(value = "columnSortName", required = false) String columnSortName,
+			@RequestParam(value = "asc", required = false) Boolean asc,
 			@RequestParam(value = "branchCode", required = false) String branchCode,
 			@RequestParam(value = "activeFlg", required = false) Integer activeFlg,
 			@RequestParam(value = "branchName", required = false) String branchName) {
 		ApiResponse object = new ApiResponse();
+		List<Branch> list = branchService.SearchBranchByCondition(page, pageSize, columnSortName, asc, branchCode, activeFlg, branchName);
 		int rowCount = branchService.getRowCount(branchCode, activeFlg, branchName);
-		List<Branch> list = branchService.SearchBranchByCondition(branchCode, activeFlg, branchName);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
 		object.setData(list);
+		object.setPage(page);
+		object.setPageSize(pageSize);
 		object.setTotalRow(rowCount);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
