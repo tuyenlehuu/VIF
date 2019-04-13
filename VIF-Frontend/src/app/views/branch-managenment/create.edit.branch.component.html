@@ -11,8 +11,6 @@
     </span>
   </div>
 
-  
-
   <!--create Branch-->
   <div class="card-body" *ngIf="id==0">
     <form [formGroup]="addBranchForm" (ngSubmit)="onAddSubmit()">
@@ -25,7 +23,14 @@
             <div class="col-md-9">
               <div class="form-group">
 
-                <input type="text" formControlName="aBranchCodeControl"  class="form-control">
+                <input type="text" formControlName="aBranchCodeControl"  class="form-control" 
+                placeholder="{{'vif.branch.code_placeholder' | translate}}">
+                <div *ngIf="addForm.aBranchCodeControl.invalid && (addForm.aBranchCodeControl.dirty || addForm.aBranchCodeControl.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aBranchCodeControl.errors.required">
+                    {{'vif.message.username_require1' | translate}}
+                  </div>
+                </div>
 
               </div>
             </div>
@@ -39,8 +44,14 @@
             <div class="col-md-9">
               <div class="form-group">
 
-                <input type="text" formControlName="aBranchNameControl"  class="form-control">
-
+                <input type="text" formControlName="aBranchNameControl"  class="form-control"
+                placeholder="{{'vif.branch.name_placeholder' | translate}}">
+                <div *ngIf="addForm.aBranchNameControl.invalid && (addForm.aBranchNameControl.dirty || addForm.aBranchNameControl.touched)"
+                class="alert alert-danger">
+                <div *ngIf="addForm.aBranchNameControl.errors.required">
+                  {{'vif.message.name_require' | translate}}
+                </div>
+              </div>
               </div>
             </div>
           </div>
@@ -121,7 +132,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <!--end row2-->
       <button type="submit" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.branch.update'| translate}}</button>

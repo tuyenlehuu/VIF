@@ -6,7 +6,6 @@ import { CEBranchComponent } from './create.edit.branch.component';
 const routes: Routes = [
   {
     path: '',
-    // component: BranchComponent,
     data: {
       title: 'Ngành cổ phiếu' 
     },
@@ -29,7 +28,6 @@ const routes: Routes = [
           title:''
         }
       },
-
     ]
     
   }

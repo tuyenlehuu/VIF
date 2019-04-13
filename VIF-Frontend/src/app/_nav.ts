@@ -84,17 +84,13 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Quản lý NĐT',
-    url: '/theme/colors',
+    url: '/customer-management',
     icon: 'icon-user'
   },
   {
-    name: 'Quản lý Phí',
-    url: '/theme/typography',
+    name: 'Quản lý ngành CP',
+    url: '/branch-managenment',
     icon: 'cui-british-pound'
-  },
-  {
-    title: true,
-    name: 'Quản lý config'
   },
   {
     name: 'Quản lý config',

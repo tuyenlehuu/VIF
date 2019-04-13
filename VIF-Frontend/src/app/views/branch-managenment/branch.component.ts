@@ -9,16 +9,17 @@ import { ResponseObject } from '../../models/Response.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
+
 @Component({
     templateUrl: 'branch.component.html',
     styleUrls: ['branch.component.css']
 })
 export class BranchComponent implements OnInit {
-    branchs:Branch[]=[];
-    total:number;
-    branchSearch: Branch=new Branch();
+    branchs: Branch[] = [];
+    total: number;
+    branchSearch: Branch = new Branch();
     pageSize: number = 5;
-    p:number=1;
+    p: number = 1;
     modalRef: BsModalRef;
     status = [
         {
@@ -26,8 +27,8 @@ export class BranchComponent implements OnInit {
             value: -1
         },
         {
-                name: 'Hoạt động',
-                value: 1
+            name: 'Hoạt động',
+            value: 1
         },
         {
             name: 'Ngừng hoạt động',
@@ -35,27 +36,24 @@ export class BranchComponent implements OnInit {
         }
     ];
 
-    constructor( private toastrService: ToastrService,private modalService: BsModalService, private branchService:BranchService) {  
+    constructor(private toastrService: ToastrService, private modalService: BsModalService, private branchService: BranchService) {
     }
-   
 
     ngOnInit(): void {
-       this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
-           this.branchs=respons;
-        //    console.log("this.branchs: ", this.branchs);
-       });
+        this.getPage(1);
     }
-    // getPage(page: number) {
-    //     var pager: Pager = new Pager();
-    //     pager.page = page;
-    //     pager.pageSize = this.pageSize;
-    //     this.branchService.getBranchByCondition(this.branchSearch, pager).pipe(first()).subscribe((respons: any) => {
-    //         this.branchs = respons.data;
-    //         this.total = respons.totalRow;
-    //         this.p = page;
-    //         // console.log("data: ", respons);
-    //     });
-    // }
+    getPage(page: number) {
+        var pager: Pager = new Pager();
+        pager.page = page;
+        pager.pageSize = this.pageSize;
+        this.branchService.getUsersByCondition(this.branchSearch, pager).pipe(first()).subscribe((respons: any) => {
+            this.branchs = respons.data;
+            this.total = respons.totalRow;
+            this.p = page;
+
+        })
+    }
+
 
 
     showSuccess(mes: string) {
@@ -77,12 +75,12 @@ export class BranchComponent implements OnInit {
         // console.log("Start delete: ", this.modalRef.content);
         this.branchService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
-            
-            this.branchService.getAll().pipe(first()).subscribe((respons:any) =>{
-                this.branchs=respons;
-             //    console.log("this.branchs: ", this.branchs);
-            }); 
-            
+
+            this.branchService.getAll().pipe(first()).subscribe((respons: any) => {
+                this.branchs = respons;
+                this.getPage(1);
+            });
+
         }, catchError => {
             console.log("result: ", catchError);
         });
@@ -90,17 +88,11 @@ export class BranchComponent implements OnInit {
     }
 
     changeScreen(typeScreen: number) {
-        
+
+    }
+    search() {
+        this.getPage(1);
+
     }
 
-    search() {
-        // console.log(this.branchSearch);
-        this.branchService.getBranchsByCondition(this.branchSearch).pipe(first()).subscribe((rep:any)=>{
-            this.branchs=rep.data;
-            this.total = rep.totalRow;
-            // console.log("branchs:",this.branchs);
-        })
-        // console.log("da bam duoc vao nut search")
-    }
-    
 }

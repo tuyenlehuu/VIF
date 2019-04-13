@@ -95,12 +95,23 @@ export const routes: Routes = [
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
       },
       {
+
+        path: 'customer-management',
+
+        loadChildren: './views/customer-management/customer.module#CustomerModule'
+      },
+      {
         path: 'app-param',
         loadChildren: './views/appParam/appParam.module#AppParamModule'
       },
       {
+        path:"branch-managenment",
+        loadChildren: './views/branch-managenment/branch.module#BranchModule'
+      },
+      {
         path: '403',
         component: P403Component
+
       }
     ]
   },
@@ -108,7 +119,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
