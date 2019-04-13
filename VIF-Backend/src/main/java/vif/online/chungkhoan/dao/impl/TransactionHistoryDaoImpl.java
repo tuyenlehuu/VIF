@@ -22,11 +22,11 @@ import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
-public class TransactionHistoryDaoImpl implements TransactionHistoryDao{
+public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Override
 	public boolean addTransactionHistory(TransactionHistory transHistory) {
 		// TODO Auto-generated method stub
@@ -36,40 +36,35 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao{
 
 	@Override
 	public List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName,
-			Boolean asc, Date createDate, String typeOfTransaction, Asset asset) {
+			Boolean asc,Date creatDate, String typeOfTransaction) {
 		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<TransactionHistory> from = criteriaQuery.from(TransactionHistory.class);
-		
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
-		
+
 		List<Predicate> predicates = new ArrayList<Predicate>();
-		
-		
-		if(createDate != null && !createDate.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("createDate"), createDate));
+
+		if (creatDate != null && !creatDate.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("creatDate"), creatDate));
 		}
-		
-		
-		if(typeOfTransaction != null && !typeOfTransaction.equals("")) {
+
+		if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
 		}
+
 		
-		if(asset != null && !asset.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("asset"), asset.getAssetCode()));
-		}
-		
-		select.select(from).where(predicates.toArray(new Predicate[]{}));
-		
-		if(columnSortName != null && !columnSortName.equals("")) {
-			if(asc== null || asc) {
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+		if (columnSortName != null && !columnSortName.equals("")) {
+			if (asc == null || asc) {
 				select.orderBy(criteriaBuilder.asc(from.get(columnSortName)));
-			}else {
+			} else {
 				select.orderBy(criteriaBuilder.desc(from.get(columnSortName)));
 			}
 		}
-		
+
 		Query query = entityManager.createQuery(criteriaQuery);
 		if (page >= 0 && pageSize >= 0) {
 			query.setFirstResult((page - 1) * pageSize);
@@ -81,37 +76,35 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao{
 	}
 
 	@Override
-	public int getRowCount(Date createDate, String typeOfTransaction, Asset asset) {
+	public int getRowCount(Date creatDate, String typeOfTransaction) {
 		// TODO Auto-generated method stub
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<TransactionHistory> from = criteriaQuery.from(TransactionHistory.class);
-		
+
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
-		
+
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		
-		
-		if(createDate != null && !createDate.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("createDate"), createDate));
+		if (creatDate != null && !creatDate.equals("")) {
+			predicates.add(criteriaBuilder.equal(from.get("creatDate"), creatDate));
 		}
 		
-		
-		if(typeOfTransaction != null && !typeOfTransaction.equals("")) {
+		if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
 		}
+
 		
-		if(asset != null && !asset.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("asset"), asset.getAssetCode()));
-		}
-		
-		select.select(from).where(predicates.toArray(new Predicate[]{}));
-		
+
+		select.select(from).where(predicates.toArray(new Predicate[] {}));
+
 		Query query = entityManager.createQuery(criteriaQuery);
-		
+
 		List<TransactionHistory> lstResult = query.getResultList();
 
 		return lstResult.size();
 	}
+
+	
 
 }

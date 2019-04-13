@@ -10,21 +10,24 @@ import vif.online.chungkhoan.dao.TransactionHistoryDao;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.TransactionHistory;
 import vif.online.chungkhoan.services.TransactionService;
+
 @Service
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	TransactionHistoryDao transactionHistoryDao;
+
 	@Override
 	public List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName,
-			Boolean asc, Date createDate, String typeOfTransaction, Asset asset) {
+			Boolean asc, Date creatDate, String typeOfTransaction) {
 		// TODO Auto-generated method stub
-		return transactionHistoryDao.SearchTransactionByCondition(page, pageSize, columnSortName, asc, createDate, typeOfTransaction, asset) ;
+		return transactionHistoryDao.SearchTransactionByCondition(page, pageSize, columnSortName, asc, creatDate,
+				typeOfTransaction);
 	}
 
 	@Override
-	public int getRowCount(Date createDate, String typeOfTransaction, Asset asset) {
+	public int getRowCount(Date creatDate, String typeOfTransaction) {
 		// TODO Auto-generated method stub
-		return transactionHistoryDao.getRowCount(createDate, typeOfTransaction, asset);
+		return transactionHistoryDao.getRowCount(creatDate, typeOfTransaction);
 	}
 
 }
