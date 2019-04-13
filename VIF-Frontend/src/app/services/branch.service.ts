@@ -18,6 +18,7 @@ export class BranchService{
     }
 
 
+
      
     // getBranchByCondition(branchCondition: Branch,pager:Pager){
     //     if(!pager){
@@ -43,6 +44,8 @@ export class BranchService{
 
     
     
+
+
 
 
     getById(id: number) {

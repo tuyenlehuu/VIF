@@ -19,4 +19,24 @@ public interface IContaints {
 	public interface PAGER{
 		public int MAX_PAGE_SIZE = 65000;
 	}
+	
+	public interface FILE_UPLOAD {
+		public int MAX_SIZE_FILE = 1024 * 1024 * 3;
+		
+		// dev env
+		public String AVATAR_UPLOAD_DIRECTORY = "D:\\upload_file\\avatar\\";
+		public String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\upload_file\\doc_front\\";
+		public String DOC_BACK_UPLOAD_DIRECTORY = "D:\\upload_file\\doc_back\\";
+		
+		// prod env
+//		public String AVATAR_UPLOAD_DIRECTORY = "/opt/upload_file/avatar";
+//		public String DOC_FRONT_UPLOAD_DIRECTORY = "/opt/upload_file/doc_front";
+//		public String DOC_BACK_UPLOAD_DIRECTORY = "/opt/upload_file/doc_back";
+	}
+	
+	public interface RESPONSE_CODE{
+		public String SUCCESS = "success";
+		public String ERROR = "error";
+		public String INPUT = "input";
+	}
 }

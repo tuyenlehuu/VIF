@@ -126,7 +126,11 @@ public class BranchDaoImpl implements BranchDao {
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
+
 		if (branchCode != null && !branchCode.equals("")) {
+
+
+		if(branchCode != null && !branchCode.equals("")) {
 
 			predicates.add(criteriaBuilder.like(from.get("branchCode"), "%" + branchCode + "%"));
 		}

@@ -84,7 +84,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Quản lý NĐT',
-    url: '/theme/colors',
+    url: '/customer-management',
     icon: 'icon-user'
   },
   {

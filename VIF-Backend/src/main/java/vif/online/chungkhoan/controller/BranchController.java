@@ -90,8 +90,13 @@ public class BranchController {
 			@RequestParam(value = "branchName", required = false) String branchName) {
 		ApiResponse object = new ApiResponse();
 
+
 		List<Branch> list = branchService.SearchBranchByCondition(page, pageSize, columnSortName, asc, branchCode,
 				activeFlg, branchName);
+		int rowCount = branchService.getRowCount(branchCode, activeFlg, branchName);
+
+
+		List<Branch> list = branchService.SearchBranchByCondition(page, pageSize, columnSortName, asc, branchCode, activeFlg, branchName);
 		int rowCount = branchService.getRowCount(branchCode, activeFlg, branchName);
 
 		object.setCode(200);

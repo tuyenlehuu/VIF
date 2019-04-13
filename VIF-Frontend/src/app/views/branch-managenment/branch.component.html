@@ -69,8 +69,8 @@
                 <tr>
                   <th scope="col">{{'vif.branch.code' | translate}}</th>
                   <th scope="col">{{'vif.branch.name' | translate }}</th>
-                  <th scope="col">{{'vif.branch.activeFlg' | translate }}</th>
-                  <th scope="col">{{'vif.branch.action' | translate }}</th>
+                  <th scope="col" class="textCenter">{{'vif.branch.activeFlg' | translate }}</th>
+                  <th scope="col" class="textCenter">{{'vif.branch.action' | translate }}</th>
                 </tr>
               </thead>
               <tbody *ngIf="branchs && branchs.length>0">
@@ -78,12 +78,19 @@
                   *ngFor="let item of branchs | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total} ">
                   <td>{{item.branchCode}}</td>
                   <td>{{item.branchName}}</td>
-                  <td>{{item.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}}</td>
-                  <td >
-                    <a style="margin-left: 10%" [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]"><i
-                        class="fa fa-pencil"></i></a>
+                  <td class="textCenter">
+                    <!-- {{item.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}} -->
+                    <div *ngIf="item.activeFlg==1"><i class="fa fa-check" title="{{'vif.global.other.title_active' | translate}}"
+                      style="font-size:25px;color:green"></i></div>
+                    <div *ngIf="item.activeFlg!=1"><i class="fa fa-close" title="{{'vif.global.other.title_inactive' | translate}}"
+                      style="font-size:25px;color:red"></i></div>
+                  </td>
+                  <td class="textCenter">
+                    <a [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]" >
+                      <i class="fa fa-pencil" title="{{'vif.global.other.title_icon_edit' | translate}}"></i></a>
                     <a *ngIf=" item.activeFlg>0 " style="color: red; cursor: pointer; margin-left: 10px;"
-                      (click)="confirmDel(template, item.id)"> <i class="fa fa-minus-circle"></i></a>
+                      (click)="confirmDel(template, item.id)"> <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
+                    <a *ngIf=" item.activeFlg<=0 " style="color: red; opacity: 0.2; margin-left: 10px;"> <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
                   </td>
                 </tr>
               </tbody>
