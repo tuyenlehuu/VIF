@@ -11,8 +11,8 @@ public interface TransactionHistoryDao {
 
 	public boolean addTransactionHistory(TransactionHistory transHistory);
 
-	List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName, Boolean asc, Date creatDate,
-		 String typeOfTransaction);
+	List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName, Boolean asc, String creatDate,
+		 String typeOfTransaction, Integer assetId);
 
-	int getRowCount( Date creatDate,String typeOfTransaction);
+	int getRowCount( String creatDate,String typeOfTransaction,Integer assetId);
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.entities.TransactionHistory;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
@@ -30,20 +31,18 @@ public class TransactionController {
 
 	@Autowired
 	TransactionService transactionService;
-	@Autowired
-	TransactionRepository transactionRepository;
 
 	@GetMapping("getTransactionsByCondition")
-	public ResponseEntity<ApiResponse> SearchUserByCondition(@RequestParam(value = "page", required = true) int page,
+	public ResponseEntity<ApiResponse> SearchInvestorHistoryByCondition(@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "columnSortName", required = false) String columnSortName,
 			@RequestParam(value = "asc", required = false) Boolean asc,
-			@RequestParam(value = "creatDate", required = false) Date creatDate,
-			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction) {
+			@RequestParam(value = "assetId", required = false) Integer assetId,
+			@RequestParam(value = "creatDate", required = false) String creatDate,
+			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction){
 		ApiResponse object = new ApiResponse();
-		List<TransactionHistory> list = transactionService.SearchTransactionByCondition(page, pageSize, columnSortName,
-				asc, creatDate , typeOfTransaction);
-		int rowCount = transactionService.getRowCount( creatDate, typeOfTransaction);
+		List<TransactionHistory> list = transactionService.SearchTransactionByCondition(page, pageSize, columnSortName, asc, creatDate, typeOfTransaction, assetId);
+		int rowCount = transactionService.getRowCount(creatDate, typeOfTransaction, assetId);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
@@ -53,5 +52,5 @@ public class TransactionController {
 		object.setTotalRow(rowCount);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
-	
+
 }

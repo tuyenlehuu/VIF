@@ -18,16 +18,16 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName,
-			Boolean asc, Date creatDate, String typeOfTransaction) {
+			Boolean asc, String creatDate, String typeOfTransaction,Integer assetId) {
 		// TODO Auto-generated method stub
 		return transactionHistoryDao.SearchTransactionByCondition(page, pageSize, columnSortName, asc, creatDate,
-				typeOfTransaction);
+				typeOfTransaction,assetId);
 	}
 
 	@Override
-	public int getRowCount(Date creatDate, String typeOfTransaction) {
+	public int getRowCount(String creatDate, String typeOfTransaction,Integer assetId) {
 		// TODO Auto-generated method stub
-		return transactionHistoryDao.getRowCount(creatDate, typeOfTransaction);
+		return transactionHistoryDao.getRowCount(creatDate, typeOfTransaction,assetId);
 	}
 
 }
