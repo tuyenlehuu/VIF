@@ -24,9 +24,9 @@ public interface IContaints {
 		public int MAX_SIZE_FILE = 1024 * 1024 * 3;
 		
 		// dev env
-		public String AVATAR_UPLOAD_DIRECTORY = "D:\\upload_file\\avatar\\";
-		public String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\upload_file\\doc_front\\";
-		public String DOC_BACK_UPLOAD_DIRECTORY = "D:\\upload_file\\doc_back\\";
+		public String AVATAR_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\avatar\\";
+		public String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_front\\";
+		public String DOC_BACK_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_back\\";
 		
 		// prod env
 //		public String AVATAR_UPLOAD_DIRECTORY = "/opt/upload_file/avatar";

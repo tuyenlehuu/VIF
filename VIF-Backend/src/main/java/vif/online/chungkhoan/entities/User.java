@@ -153,4 +153,6 @@ public class User implements Serializable{
 	public void setTokenResetExpried(Date tokenResetExpried) {
 		this.tokenResetExpried = tokenResetExpried;
 	}
+
+	
 }
