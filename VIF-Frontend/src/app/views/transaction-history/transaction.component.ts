@@ -32,10 +32,7 @@ export class TransactionComponent implements OnInit {
   assetID:number;
   typeOfTransaction1:string;
   status = [
-    {
-      name: 'Chọn loại',
-      value: '-1'
-  },
+    
     {
         name: 'Đầu tư',
         value: 'M'
@@ -51,7 +48,7 @@ export class TransactionComponent implements OnInit {
       this.assets=res.data;
     });
     this.getPage(1);
-    this.typeOfTransaction1="-1";
+
 
   }
 
