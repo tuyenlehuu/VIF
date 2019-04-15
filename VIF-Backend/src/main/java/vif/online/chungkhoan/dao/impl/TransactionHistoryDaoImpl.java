@@ -46,47 +46,46 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 			Root<TransactionHistory> from = criteriaQuery.from(TransactionHistory.class);
-			
+
 			CriteriaQuery<Object> select = criteriaQuery.select(from);
-			
+
 			List<Predicate> predicates = new ArrayList<Predicate>();
-			
-			if(assetId != null && assetId>0) {
+
+			if (creatDate != null && !creatDate.equals("")) {
+				Date cDate = formatter.parse(creatDate);
+				predicates.add(criteriaBuilder.equal(from.get("createDate"), cDate));
+			}
+
+			if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
+
+				predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
+			}
+			if (assetId != null && assetId > 0) {
 				predicates.add(criteriaBuilder.equal(from.get("asset"), assetId));
 			}
-			
-			if(creatDate != null && !creatDate.equals("")) {
-				Date cDate = formatter.parse(creatDate);
-				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), cDate));
-			}
-			
-			if(typeOfTransaction != null && !typeOfTransaction.equals("")) {
-				
-				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("typeOfTransaction"), typeOfTransaction));
-			}
-			
-			select.select(from).where(predicates.toArray(new Predicate[]{}));
-			
-			if(columnSortName != null && !columnSortName.equals("")) {
-				if(asc== null || asc) {
+
+			select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+			if (columnSortName != null && !columnSortName.equals("")) {
+				if (asc == null || asc) {
 					select.orderBy(criteriaBuilder.asc(from.get(columnSortName)));
-				}else {
+				} else {
 					select.orderBy(criteriaBuilder.desc(from.get(columnSortName)));
 				}
 			}
-			
+
 			Query query = entityManager.createQuery(criteriaQuery);
 			if (page >= 0 && pageSize >= 0) {
 				query.setFirstResult((page - 1) * pageSize);
 				query.setMaxResults(pageSize);
 			}
 			List<TransactionHistory> lstResult = query.getResultList();
-			
+
 			return lstResult;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -104,7 +103,7 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 			if (creatDate != null && !creatDate.equals("")) {
 				Date cDate = formatter.parse(creatDate);
-				predicates.add(criteriaBuilder.equal(from.get("creatDate"), cDate));
+				predicates.add(criteriaBuilder.equal(from.get("createDate"), cDate));
 			}
 
 			if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
@@ -126,5 +125,11 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public List<TransactionHistory> getAll() {
+		String hql = "from TransactionHistory as t WHERE t.activeFlg = 1 ORDER BY t.id asc";
+		return entityManager.createQuery(hql).getResultList();
 	}
 }

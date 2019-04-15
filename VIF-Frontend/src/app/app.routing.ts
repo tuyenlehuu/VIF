@@ -109,6 +109,10 @@ export const routes: Routes = [
         loadChildren: './views/branch-managenment/branch.module#BranchModule'
       },
       {
+        path:"transaction-history",
+        loadChildren: './views/transaction-history/transaction.module#TransactionModule'
+      },
+      {
         path: '403',
         component: P403Component
 

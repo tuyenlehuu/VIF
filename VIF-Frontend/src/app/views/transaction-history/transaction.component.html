@@ -1,0 +1,109 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{'vif.transaction.title'| translate}}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.transaction.creatdate'| translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" placeholder="{{'vif.transaction.createDate1' | translate}}" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="offset-md-2 col-md-5">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.transaction.typeOftransaction'|translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <select  id="select1" name="select1" class="form-control" [(ngModel)]="typeOfTransaction1">
+                      <option  [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- end row 1-->
+          <!--start row 2-->
+        <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.transaction.asset_ID'| translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <ng-select  placeholder="{{'vif.transaction.asset_ID1' | translate}}" [searchable]="true" [(ngModel)]="assetID">
+                      <ng-option [value]="c.id" *ngFor="let c of assets">{{c.id}}</ng-option>
+                    </ng-select>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        <!--end row 2-->
+          <div class="row">
+            <div class="col-12">
+              <button type="button" class="btn btn-primary" (click)="search()">{{'vif.transaction.search'|translate}}</button>
+              <button type="button" class="btn btn-primary" (click)="exportCSV()">{{'vif.transaction.excel'|translate}}</button>
+            </div>
+          </div>
+
+          <!--row table-->
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{'vif.transaction.creatdate' | translate}}</th>
+                <th style="text-align: left">{{'vif.transaction.description' | translate}}</th>
+                <th>{{'vif.transaction.typeOftransaction'| translate}}</th>
+                <th style="text-align: right">{{'vif.transaction.amount' | translate}}</th>
+                
+                <th style="text-align: right">{{'vif.transaction.price' | translate}}</th>
+               
+                <th  style="text-align: right">{{'vif.transaction.asset_ID' | translate}}</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="Transactions && Transactions.length > 0">
+              <tr *ngFor="let iteam of Transactions | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{iteam.createDate |  date: 'dd/MM/yyyy '}}</td>
+                <td style="text-align: left">{{iteam.description}}</td>
+                <td>{{iteam.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
+                <td style="text-align: right">{{iteam.amount|number:'.2-2'}}</td>
+                
+                <td style="text-align: right" >{{iteam.price | number:'.2-2'}}</td>
+               
+                <td  style="text-align: right">{{iteam.asset.id }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!Transactions || (Transactions && Transactions.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="Transactions && Transactions.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server" previousLabel="{{'vif.global.other.previousLabel' | translate}}" nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
+
+          <!--row table-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

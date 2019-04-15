@@ -30,4 +30,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return transactionHistoryDao.getRowCount(creatDate, typeOfTransaction,assetId);
 	}
 
+	@Override
+	public List<TransactionHistory> getAll() {
+		// TODO Auto-generated method stub
+		return transactionHistoryDao.getAll();
+	}
+
 }

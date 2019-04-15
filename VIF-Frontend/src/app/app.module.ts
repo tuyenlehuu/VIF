@@ -41,7 +41,7 @@ import { InvestManagementService } from './services/invest.management.service.';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ShareMasterService } from './services/sharemaster.service';
 import { BranchService } from './services/branch.service';
-
+import { TransactionService } from './services/transaction.service';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -111,7 +111,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AssetService,
   DashboardService,
   ShareMasterService,
-  BranchService
+  BranchService,
+  TransactionService
   ],
   bootstrap: [ AppComponent ]
 })

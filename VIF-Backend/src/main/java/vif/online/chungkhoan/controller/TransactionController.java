@@ -1,9 +1,12 @@
 package vif.online.chungkhoan.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,6 +24,8 @@ import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.entities.TransactionHistory;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.IContaints;
+import vif.online.chungkhoan.helper.WriteDataToCSV;
 import vif.online.chungkhoan.repositories.TransactionRepository;
 import vif.online.chungkhoan.services.TransactionService;
 
@@ -31,15 +36,24 @@ public class TransactionController {
 
 	@Autowired
 	TransactionService transactionService;
-
+	@GetMapping("getAlls")
+	public ResponseEntity<ApiResponse> getAllsTransaction() {
+		ApiResponse object = new ApiResponse();
+		List<TransactionHistory> list = transactionService.getAll();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
 	@GetMapping("getTransactionsByCondition")
 	public ResponseEntity<ApiResponse> SearchInvestorHistoryByCondition(@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "columnSortName", required = false) String columnSortName,
 			@RequestParam(value = "asc", required = false) Boolean asc,
-			@RequestParam(value = "assetId", required = false) Integer assetId,
 			@RequestParam(value = "creatDate", required = false) String creatDate,
-			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction){
+			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction,
+			@RequestParam(value = "assetId", required = false) Integer assetId){
 		ApiResponse object = new ApiResponse();
 		List<TransactionHistory> list = transactionService.SearchTransactionByCondition(page, pageSize, columnSortName, asc, creatDate, typeOfTransaction, assetId);
 		int rowCount = transactionService.getRowCount(creatDate, typeOfTransaction, assetId);
@@ -51,6 +65,20 @@ public class TransactionController {
 		object.setPageSize(pageSize);
 		object.setTotalRow(rowCount);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	@GetMapping("exportCSV/transaction-history.csv")
+	public ResponseEntity<Void> exportCSV(@RequestParam(value = "creatDate", required = false) String creatDate,
+			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction,
+			@RequestParam(value = "assetId", required = false) Integer assetId,
+			HttpServletResponse response) throws IOException{
+		response.setContentType("text/csv;charset=ISO-8859-1");
+	    response.setHeader("Content-Disposition", "attachment; filename=transaction-history.csv");
+	    List<TransactionHistory> list = transactionService.SearchTransactionByCondition(1, IContaints.PAGER.MAX_PAGE_SIZE, null, null, creatDate, typeOfTransaction, assetId);
+	    if(list.size()>0) {
+	    	WriteDataToCSV.exportTransactionHistoryToCsv(response.getWriter(),list);
+	    }
+	    
+	    return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }

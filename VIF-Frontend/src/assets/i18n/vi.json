@@ -281,6 +281,22 @@
         "description": "Mô tả",
         "description_placeholder": "Nhập vào mô tả",
         "branch_code": "Ngành cổ phiếu"
+    },
+    "transaction":{
+        "title":"Lịch sử thay đổi giao dịch",
+        "creatdate":"Ngày tạo",
+        "typeOftransaction":"Loại giao dịch",
+        "asset_ID":"Mã giao dịch",
+        "search":"Tìm kiếm",
+        "excel":"Excel",
+        "amount":"Số lượng",
+        "description":"Mô tả",
+        "price":"Giá",
+        "activeFlg":"Trạng thái",
+        "createDate1":"Nhập vào ngày tạo",
+        "asset_ID1":"Chọn mã giao dịch",
+        "type":"Chọn loại"
+
     }
   }
 }
