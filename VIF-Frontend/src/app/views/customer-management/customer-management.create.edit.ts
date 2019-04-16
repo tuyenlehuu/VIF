@@ -6,7 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerDirective, BsLocaleService, updateLocale } from 'ngx-bootstrap';
-import { first } from 'rxjs/operators';
+//import { Observable } from 'rxjs';
+import { forkJoin} from 'rxjs';
+//import { from } from 'rxjs';
+//import { concatAll } from 'rxjs/operators';
+
 
 
 @Component({
@@ -15,6 +19,7 @@ import { first } from 'rxjs/operators';
 })
 export class CECustomerComponent implements OnInit {
     customer: Customer;
+    //customer$: Observable<Customer>;
     bsConfig: Partial<BsDatepickerConfig>;
     sub: any;
     id: any;
@@ -131,32 +136,57 @@ export class CECustomerComponent implements OnInit {
         this.submitted = true;
 
 
-        if (this.addCustomerForm.invalid || this.customer.avatar == null || this.customer.identityDocBack == null || this.customer.identityDocFront == null) {
-
-            if (this.customer.avatar == null) { this.showError('Chưa upload ảnh đại diện!'); }
-            if (this.customer.identityDocBack == null) { this.showError('Chưa upload ảnh mặt sau CMT!'); }
-            if (this.customer.identityDocFront == null) { this.showError('Chưa upload ảnh mặt trước CMT!'); }
-            if (this.addCustomerForm.invalid) { this.showError('chưa hoàn thành thông tin!'); }
+        if (this.addCustomerForm.invalid) {
+            this.showError('Chưa hoàn thành thông tin!');
             return;
         }
 
         else {
-
             this.customer.fullName = this.addCustomerForm.value.fullName;
             this.customer.email = this.addCustomerForm.value.email;
             this.customer.identityNumber = this.addCustomerForm.value.identityNumber;
             this.customer.dateOfBirth = this.addCustomerForm.value.dateOfBirth;
             this.customer.activeFlg = this.addCustomerForm.value.activeFlg;
             this.customer.signContractDate = this.addCustomerForm.value.signContractDate;
-            console.log("path", this.customer.avatar);
-            this.saveCustomer(this.customer);
+            let uploadDataAva = new FormData();
+            let uploadDataBack = new FormData();
+            let uploadDataFront = new FormData();
+            uploadDataAva.set('file', this.addCustomerForm.get('fileAvatar').value);
+            uploadDataBack.set('file', this.addCustomerForm.get('fileBack').value);
+            uploadDataFront.set('file', this.addCustomerForm.get('fileFront').value);
+            //const fileGroup = of(ava, front, back);
+            forkJoin(
+                this.customerService.upFileFront(uploadDataFront),
 
+                this.customerService.upFileBack(uploadDataBack),
 
+                this.customerService.upFileAvatar(uploadDataAva)
+
+            )
+                .subscribe(([res1, res2, res3]) => {
+                    this.customer.identityDocFront = res1;
+                    this.customer.identityDocBack = res2;
+                    this.customer.avatar = res3;
+                    this.checkCompleteElement();
+                });
 
         }
 
     }
 
+
+    checkCompleteElement() {
+        if (this.customer.avatar != null && this.customer.identityDocBack != null && this.customer.identityDocFront != null) {
+            this.saveCustomer(this.customer);
+            return;
+        } else {
+            if (this.customer.avatar == null) { this.showError('Chưa upload ảnh đại diện!'); }
+            if (this.customer.identityDocBack == null) { this.showError('Chưa upload ảnh mặt sau CMT!'); }
+            if (this.customer.identityDocFront == null) { this.showError('Chưa upload ảnh mặt trước CMT!'); }
+        }
+
+
+    }
 
 
     onEditSubmit() {
@@ -223,34 +253,15 @@ export class CECustomerComponent implements OnInit {
             // debugger
             this.selectFileAvatar = event.target.files[0];
             this.addCustomerForm.get('fileAvatar').setValue(this.selectFileAvatar);
-            let uploadData = new FormData();
-            uploadData.set('file', this.addCustomerForm.get('fileAvatar').value);
-            this.customerService.upFileAvatar(uploadData).pipe(first()).subscribe((res: any) => {
-                this.customer.avatar = res;
-                console.log("path", res);
-                console.log("path", this.customer.avatar);
-                this.showSuccess("upload avatar success!");
-            });
-
-
-
+            //console.log("path", res);
+            console.log("path", this.customer.avatar);
         }
-
     }
 
     onUploadBack(event: any) {
         if (event.target.files.length > 0) {
-            // debugger
             this.selectFileAvatar = event.target.files[0];
             this.addCustomerForm.get('fileBack').setValue(this.selectFileAvatar);
-            // console.log("data :", result);
-            let uploadData = new FormData();
-            uploadData.set('file', this.addCustomerForm.get('fileBack').value);
-            this.customerService.upFileBack(uploadData).pipe(first()).subscribe((res: any) => {
-                this.customer.identityDocBack = res;
-                this.showSuccess("upload doc back success!");
-            });
-
         }
     }
 
@@ -259,15 +270,6 @@ export class CECustomerComponent implements OnInit {
             let uploadData = new FormData();
             this.selectFileAvatar = event.target.files[0];
             this.addCustomerForm.get('fileFront').setValue(this.selectFileAvatar);
-            uploadData.set('file', this.addCustomerForm.get('fileFront').value);
-            this.customerService.upFileFront(uploadData).pipe(first()).subscribe((res: any) => {
-                this.customer.identityDocFront = res;
-                this.showSuccess("upload doc front success!");
-            });
         }
-
     }
-
-
-
 }
