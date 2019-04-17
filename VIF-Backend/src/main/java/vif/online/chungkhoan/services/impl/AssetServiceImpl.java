@@ -72,26 +72,9 @@ public class AssetServiceImpl implements AssetService {
 	public ApiResponse buySercurities(Integer assetId, BigDecimal amount, BigDecimal price) {
 		// TODO Auto-generated method stub
 		ApiResponse response = new ApiResponse();
-		// get share master
-		ShareMaster shareMaster = shareMasterDao.getCophieuById(assetId);
-
-		// get asset if null create a new asset
-		Asset sercurity = assetDao.getAssetByCode(shareMaster.getCpCode());
-		if (sercurity == null) {
-			sercurity = new Asset();
-			sercurity.setAssetCode(shareMaster.getCpCode());
-			sercurity.setAssetName(shareMaster.getCpName());
-			sercurity.setAmount(new BigDecimal(0));
-			sercurity.setActiveFlg(IContaints.ASSET_CODE.ACTIVE);
-			sercurity.setBranchCode(null);
-			sercurity.setCurrentPrice(price);
-			sercurity.setDescription(shareMaster.getCpName());
-			sercurity.setOrginalPrice(price);
-			// set group asset
-			GroupAsset groupAsset = groupAssetDao.getGroupByCode(IContaints.ASSET_CODE.GROUP_ASSET_SHARE_CODE);
-			sercurity.setGroupAsset(groupAsset);
-			assetService.addAsset(sercurity); // add new share
-		}
+		// get asset
+		Asset sercurity = assetDao.getByAssetId(assetId);
+		
 		// add to asset transaction
 		TransactionHistory transHistory = new TransactionHistory();
 		transHistory.setActiveFlg(1);

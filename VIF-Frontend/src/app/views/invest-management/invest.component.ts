@@ -24,7 +24,7 @@ export class InvestComponent implements OnInit {
     submitted = false;
 
     assets: Asset[] = [];
-    shareMaster: ShareMaster[] = [];
+    bAssets: Asset[] = [];
     cashObj: Asset;
     sAssetSelectedId: number;
     bAssetSelectedId: number;
@@ -95,7 +95,7 @@ export class InvestComponent implements OnInit {
         buyAssetObject.assetId = this.buyForm.value.bAssetSelectedId;
         buyAssetObject.amount = this.buyForm.value.bAmountAsset;
         buyAssetObject.price = this.buyForm.value.bPrice;
-        
+
         this.investManagementService.buyAsset(buyAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
             if (this.responseObject.code === 200) {
@@ -112,6 +112,7 @@ export class InvestComponent implements OnInit {
         sellAssetObject.assetId = this.sellForm.value.sAssetSelectedId;
         sellAssetObject.amount = this.sellForm.value.sAmountAsset;
         sellAssetObject.price = this.sellForm.value.sPrice;
+        console.log(sellAssetObject);
 
         this.investManagementService.sellAsset(sellAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
@@ -131,8 +132,9 @@ export class InvestComponent implements OnInit {
         var mAmount = this.buyForm.value.bAmountAsset;
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
-        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice);
-        this.bAmountAvaiable = (this.amountMoneyAvaiable) / currentPrice;
+        mAmount = mAmount.toString().replace(',','');
+        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice * 1000);
+        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice * 1000);
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
     }
 
@@ -143,9 +145,10 @@ export class InvestComponent implements OnInit {
         var currentPrice = this.buyForm.value.bPrice;
         var mAmount = event.target.value;
         mAmount = mAmount.toString().replace(',', '');
-        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice);
+        currentPrice = currentPrice.toString().replace(',', '');
+        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice * 1000);
 
-        this.bAmountAvaiable = (this.amountMoneyAvaiable) / currentPrice;
+        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice * 1000);
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
     }
 
@@ -153,10 +156,22 @@ export class InvestComponent implements OnInit {
         if (this.sellForm.invalid) {
             return;
         }
-        var bAmountAsset = this.sellForm.value.sAmountAsset;
+        var sAmountAsset = this.sellForm.value.sAmountAsset;
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
-        this.sellAssetForm.sMoney.setValue(bAmountAsset * currentPrice);
+        sAmountAsset = sAmountAsset.toString().replace(',','');
+        this.sellAssetForm.sMoney.setValue(sAmountAsset * currentPrice * 1000);
+    }
+
+    onKeySAmount(event: any) {
+        if (this.sellForm.invalid) {
+            return;
+        }
+        var sAmount  = event.target.value;
+        var currentPrice = this.sellForm.value.sPrice;
+        currentPrice = currentPrice.toString().replace(',', '');
+        sAmount = sAmount.toString().replace(',','');
+        this.sellAssetForm.sMoney.setValue(sAmount * currentPrice * 1000);
     }
 
     get buyAssetForm() { return this.buyForm.controls; }
@@ -200,10 +215,10 @@ export class InvestComponent implements OnInit {
             }
         });
         // get all share from sharemaster
-        this.shareMasterService.getAllShares().pipe(first()).subscribe((respons: any) => {
-            this.shareMaster = respons;
-            if (this.shareMaster) {
-                this.bAssetSelectedId = this.shareMaster[0].id;
+        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+            this.bAssets = respons.data;
+            if (this.bAssets) {
+                this.bAssetSelectedId = this.bAssets[0].id;
                 this.bAmountAvaiable = 0;
                 this.createBuyForm();
             }
@@ -226,10 +241,10 @@ export class InvestComponent implements OnInit {
             }
         });
         // get all share from sharemaster
-        this.shareMasterService.getAllShares().pipe(first()).subscribe((respons: any) => {
-            this.shareMaster = respons;
-            if (this.shareMaster) {
-                this.bAssetSelectedId = this.shareMaster[0].id;
+        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+            this.bAssets = respons.data;
+            if (this.bAssets) {
+                this.bAssetSelectedId = this.bAssets[0].id;
                 this.bAmountAvaiable = 0;
                 this.createBuyForm();
             }
@@ -243,7 +258,7 @@ export class InvestComponent implements OnInit {
             if (this.cashObj) {
                 this.amountMoneyAvaiable = this.cashObj.currentPrice;
                 this.buyAssetForm.amountMoneyAvaiable.setValue(this.amountMoneyAvaiable);
-                this.shareMaster.forEach(share => {
+                this.bAssets.forEach(share => {
                     if (share.id === this.bAssetSelectedId) {
                         if (this.buyForm.value.bAmountAsset && this.buyForm.value.bPrice) {
                             this.bAmountAvaiable = this.amountMoneyAvaiable / this.buyForm.value.bPrice;
