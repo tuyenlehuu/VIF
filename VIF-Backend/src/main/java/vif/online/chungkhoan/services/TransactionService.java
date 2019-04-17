@@ -9,8 +9,8 @@ import vif.online.chungkhoan.entities.TransactionHistory;
 public interface TransactionService {
 	List<TransactionHistory> getAll();
 	List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName, Boolean asc,
-			String creatDate, String typeOfTransaction,Integer assetId);
+			String fromDate,String toDate, String typeOfTransaction,Integer assetId);
 
-	int getRowCount(String creatDate, String typeOfTransaction,Integer assetId);
+	int getRowCount(String fromDate,String toDate, String typeOfTransaction,Integer assetId);
 
 }

@@ -11,11 +11,11 @@
             <div class="col-md-5">
               <div class="row">
                 <div class="col-md-4">
-                  <label for="company">{{'vif.transaction.creatdate'| translate}}</label>
+                  <label for="company">{{'vif.transaction.fromDate'| translate}}</label>
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
-                    <input type="text" placeholder="{{'vif.transaction.createDate1' | translate}}" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
                   </div>
                 </div>
               </div>
@@ -24,13 +24,11 @@
             <div class="offset-md-2 col-md-5">
               <div class="row">
                 <div class="col-md-4">
-                  <label for="company">{{'vif.transaction.typeOftransaction'|translate}}</label>
+                  <label for="company">{{'vif.transaction.toDate'|translate}}</label>
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
-                    <select  id="select1" name="select1" class="form-control" [(ngModel)]="typeOfTransaction1">
-                      <option  [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
-                    </select>
+                      <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
                   </div>
 
                 </div>
@@ -49,8 +47,23 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <ng-select  placeholder="{{'vif.transaction.asset_ID1' | translate}}" [searchable]="true" [(ngModel)]="assetID">
-                      <ng-option [value]="c.id" *ngFor="let c of assets">{{c.id}}</ng-option>
+                      <ng-option [value]="c.id" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
                     </ng-select>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="offset-md-2 col-md-5">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.transaction.typeOftransaction'|translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <select  id="select1" name="select1" class="form-control" [(ngModel)]="transactionSearch.typeOfTransaction">
+                      <option  [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                    </select>
                   </div>
 
                 </div>
@@ -73,11 +86,9 @@
                 <th>{{'vif.transaction.creatdate' | translate}}</th>
                 <th style="text-align: left">{{'vif.transaction.description' | translate}}</th>
                 <th>{{'vif.transaction.typeOftransaction'| translate}}</th>
-                <th style="text-align: right">{{'vif.transaction.amount' | translate}}</th>
-                
-                <th style="text-align: right">{{'vif.transaction.price' | translate}}</th>
-               
-                <th  style="text-align: right">{{'vif.transaction.asset_ID' | translate}}</th>
+                <th  style="text-align: left">{{'vif.transaction.asset_ID' | translate}}</th>
+                <th style="text-align: right">{{'vif.transaction.amount' | translate}}</th>  
+                <th style="text-align: right">{{'vif.transaction.price' | translate}}</th>   
               </tr>
             </thead>
             <tbody *ngIf="Transactions && Transactions.length > 0">
@@ -85,11 +96,9 @@
                 <td>{{iteam.createDate |  date: 'dd/MM/yyyy '}}</td>
                 <td style="text-align: left">{{iteam.description}}</td>
                 <td>{{iteam.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
-                <td style="text-align: right">{{iteam.amount|number:'.2-2'}}</td>
-                
-                <td style="text-align: right" >{{iteam.price | number:'.2-2'}}</td>
-               
-                <td  style="text-align: right">{{iteam.asset.id }}</td>
+                <td  style="text-align: left">{{iteam.asset.assetCode }}</td>
+                <td style="text-align: right">{{iteam.amount|number:'.2-2'}}</td>  
+                <td style="text-align: right" >{{iteam.price | number:'.2-2'}}</td>  
               </tr>
             </tbody>
             <tbody *ngIf="!Transactions || (Transactions && Transactions.length <= 0)">

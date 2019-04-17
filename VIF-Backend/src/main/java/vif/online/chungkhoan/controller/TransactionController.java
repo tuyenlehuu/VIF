@@ -51,12 +51,13 @@ public class TransactionController {
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "columnSortName", required = false) String columnSortName,
 			@RequestParam(value = "asc", required = false) Boolean asc,
-			@RequestParam(value = "creatDate", required = false) String creatDate,
+			@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate,
 			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction,
 			@RequestParam(value = "assetId", required = false) Integer assetId){
 		ApiResponse object = new ApiResponse();
-		List<TransactionHistory> list = transactionService.SearchTransactionByCondition(page, pageSize, columnSortName, asc, creatDate, typeOfTransaction, assetId);
-		int rowCount = transactionService.getRowCount(creatDate, typeOfTransaction, assetId);
+		List<TransactionHistory> list = transactionService.SearchTransactionByCondition(page, pageSize, columnSortName, asc, fromDate,toDate, typeOfTransaction, assetId);
+		int rowCount = transactionService.getRowCount(fromDate,toDate, typeOfTransaction, assetId);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
@@ -67,13 +68,14 @@ public class TransactionController {
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	@GetMapping("exportCSV/transaction-history.csv")
-	public ResponseEntity<Void> exportCSV(@RequestParam(value = "creatDate", required = false) String creatDate,
+	public ResponseEntity<Void> exportCSV(@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate,
 			@RequestParam(value = "typeOfTransaction", required = false) String typeOfTransaction,
 			@RequestParam(value = "assetId", required = false) Integer assetId,
 			HttpServletResponse response) throws IOException{
 		response.setContentType("text/csv;charset=ISO-8859-1");
 	    response.setHeader("Content-Disposition", "attachment; filename=transaction-history.csv");
-	    List<TransactionHistory> list = transactionService.SearchTransactionByCondition(1, IContaints.PAGER.MAX_PAGE_SIZE, null, null, creatDate, typeOfTransaction, assetId);
+	    List<TransactionHistory> list = transactionService.SearchTransactionByCondition(1, IContaints.PAGER.MAX_PAGE_SIZE, null, null,fromDate,toDate , typeOfTransaction, assetId);
 	    if(list.size()>0) {
 	    	WriteDataToCSV.exportTransactionHistoryToCsv(response.getWriter(),list);
 	    }

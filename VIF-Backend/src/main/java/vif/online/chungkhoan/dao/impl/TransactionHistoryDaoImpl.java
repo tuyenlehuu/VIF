@@ -40,7 +40,7 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 	@Override
 	public List<TransactionHistory> SearchTransactionByCondition(int page, int pageSize, String columnSortName,
-			Boolean asc, String creatDate, String typeOfTransaction, Integer assetId) {
+			Boolean asc, String fromDate,String toDate, String typeOfTransaction, Integer assetId) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -51,14 +51,20 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
-			if (creatDate != null && !creatDate.equals("")) {
-				Date cDate = formatter.parse(creatDate);
-				predicates.add(criteriaBuilder.equal(from.get("createDate"), cDate));
+			if (fromDate != null && !fromDate.equals("")) {
+				Date fDate = formatter.parse(fromDate);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+			}
+			if (toDate != null && !toDate.equals("")) {
+				Date tDate = formatter.parse(toDate);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
 			}
 
 			if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
 
-				predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
+				if(!typeOfTransaction.equals("-1")) {
+					predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
+				}
 			}
 			if (assetId != null && assetId > 0) {
 				predicates.add(criteriaBuilder.equal(from.get("asset"), assetId));
@@ -90,7 +96,7 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 	}
 
 	@Override
-	public int getRowCount(String creatDate, String typeOfTransaction, Integer assetId) {
+	public int getRowCount(String fromDate,String toDate, String typeOfTransaction, Integer assetId) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -101,13 +107,21 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
-			if (creatDate != null && !creatDate.equals("")) {
-				Date cDate = formatter.parse(creatDate);
-				predicates.add(criteriaBuilder.equal(from.get("createDate"), cDate));
+			if (fromDate != null && !fromDate.equals("")) {
+				Date fDate = formatter.parse(fromDate);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+			}
+			if (toDate != null && !toDate.equals("")) {
+				Date tDate = formatter.parse(toDate);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
 			}
 
+
 			if (typeOfTransaction != null && !typeOfTransaction.equals("")) {
-				predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
+				if(!typeOfTransaction.equals("-1")) {
+					predicates.add(criteriaBuilder.equal(from.get("typeOfTransaction"), typeOfTransaction));
+				}
+				
 			}
 			if (assetId != null && assetId > 0) {
 				predicates.add(criteriaBuilder.equal(from.get("asset"), assetId));

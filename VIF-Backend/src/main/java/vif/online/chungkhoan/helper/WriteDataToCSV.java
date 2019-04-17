@@ -43,7 +43,7 @@ public class WriteDataToCSV {
 	  }
 	
 	public static void exportTransactionHistoryToCsv(PrintWriter writer,List<TransactionHistory> transactionHistoryLst) {
-	    String[] CSV_HEADER = { "Ngày Tạo","Mô Tả","Số Lượng","Loại Giao Dịch","Giá","Mã Giao Dịch"};
+	    String[] CSV_HEADER = { "Ngày Tạo","Mô Tả","Loại Giao Dịch","Mã Giao Dịch","Số Lượng","Giá"};
 	    try (
 	      CSVWriter csvWriter = new CSVWriter(writer,
 	                    CSVWriter.DEFAULT_SEPARATOR,
@@ -58,9 +58,10 @@ public class WriteDataToCSV {
 	        		item.getCreateDate().toGMTString(),
 	        		item.getDescription(),
 	        		item.getTypeOfTransaction(),
+	        		item.getAsset().getAssetCode(),
 	        		item.getAmount().toString(),
-	        		item.getPrice().toString(),
-	        		item.getAsset().getId().toString()
+	        		item.getPrice().toString()
+	        		
 	        };
 	        
 	        csvWriter.writeNext(data);

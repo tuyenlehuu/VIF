@@ -20,11 +20,13 @@ import { TransactionHistory } from '../../models/TransactionHistory';
 })
 export class TransactionComponent implements OnInit {
   assets: Asset[] = [];
+  transactionSearch:TransactionHistory=new TransactionHistory();
   responseObject: ResponseObject;
   date: any;
   bsConfig: Partial<BsDatepickerConfig>;
-  colorTheme = "theme-red";
+  colorTheme = "theme-blue";
   fromDate: Date;
+  toDate:Date;
   p: number = 1;
   total: number;
   pageSize: number = 5;
@@ -32,7 +34,10 @@ export class TransactionComponent implements OnInit {
   assetID:number;
   typeOfTransaction1:string;
   status = [
-    
+    {
+      name: 'Chọn loại',
+      value: '-1'
+  },
     {
         name: 'Đầu tư',
         value: 'M'
@@ -47,6 +52,7 @@ export class TransactionComponent implements OnInit {
     this.assetService.getAll().pipe(first()).subscribe((res:any)=>{
       this.assets=res.data;
     });
+
     this.getPage(1);
 
 
@@ -77,7 +83,7 @@ export class TransactionComponent implements OnInit {
     var pager: Pager = new Pager();
     pager.page = page;
     pager.pageSize = this.pageSize;
-    this.transactionService.getTransactionsByCondition(formatDate(this.fromDate),this.typeOfTransaction1,this.assetID,pager).pipe(first()).subscribe((respons:any)=>{
+    this.transactionService.getTransactionsByCondition(formatDate(this.fromDate),formatDate(this.toDate),this.transactionSearch.typeOfTransaction,this.assetID,pager).pipe(first()).subscribe((respons:any)=>{
       this.Transactions=respons.data;
       this.total = respons.totalRow;
       this.p = page;
@@ -85,7 +91,7 @@ export class TransactionComponent implements OnInit {
    
   }
   exportCSV() {
-    this.transactionService.exportCsv(formatDate(this.fromDate),this.typeOfTransaction1,this.assetID);
+    this.transactionService.exportCsv(formatDate(this.fromDate),formatDate(this.toDate),this.transactionSearch.typeOfTransaction,this.assetID);
     // this.investorTransService.exportCsv(this.customerSelectedId, this.fromDate, this.toDate).subscribe(respons => this.downloadFile(respons),
     //     error => console.log('Error downloading the file.'),
     //     () => console.info('OK'));

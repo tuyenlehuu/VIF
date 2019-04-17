@@ -12,7 +12,7 @@ export class TransactionService{
     getAll() {
       return this.http.get<any>(`${config.apiUrl}/transaction/getAlls`);
   }
-    getTransactionsByCondition(fromDate:string,typeOftransaction1:string,assetID:number, pager: Pager){
+    getTransactionsByCondition(fromDate:string,toDate:string,typeOftransaction1:string,assetID:number, pager: Pager){
         if(!pager){
             pager = new Pager();
         }
@@ -20,7 +20,10 @@ export class TransactionService{
         url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
        
         if(fromDate){
-            url = url + "&creatDate=" + fromDate;
+            url = url + "&fromDate=" + fromDate;
+        }
+        if(toDate){
+            url = url + "&toDate=" + toDate;
         }
         if(typeOftransaction1){
           url = url + "&typeOfTransaction=" + typeOftransaction1;
@@ -34,7 +37,7 @@ export class TransactionService{
         // console.log("url: ", url);
         return this.http.get<any>(url);
     }
-    exportCsv(fromDate: string,typeOftransaction1:string,assetID:number ){
+    exportCsv(fromDate: string,toDate:string,typeOftransaction1:string,assetID:number ){
         var url = `${config.apiUrl}/transaction/exportCSV/transaction-history.csv?`;
         var currentUser = localStorage.getItem("currentUser");
         var token = JSON.parse(currentUser).token;
@@ -42,7 +45,11 @@ export class TransactionService{
        
 
         if(fromDate){
-            url = url + "&creatDate=" + fromDate;
+            url = url + "&fromDate=" + fromDate;
+        }
+        
+        if(toDate){
+            url = url + "&toDate=" + toDate;
         }
 
         if(typeOftransaction1){

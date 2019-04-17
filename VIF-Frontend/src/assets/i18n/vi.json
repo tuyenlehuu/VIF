@@ -285,10 +285,12 @@
     "transaction":{
         "title":"Lịch sử thay đổi giao dịch",
         "creatdate":"Ngày tạo",
+        "fromDate":"Từ ngày",
+        "toDate":"Đến ngày",
         "typeOftransaction":"Loại giao dịch",
         "asset_ID":"Mã giao dịch",
         "search":"Tìm kiếm",
-        "excel":"Excel",
+        "excel":"Xuất excel",
         "amount":"Số lượng",
         "description":"Mô tả",
         "price":"Giá",

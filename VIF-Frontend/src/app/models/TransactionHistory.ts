@@ -14,5 +14,6 @@ export class TransactionHistory {
 
     public constructor() {
         this.asset = new Asset(); 
+        this.typeOfTransaction="-1";
     }
 }

@@ -4,13 +4,18 @@ import { TransactionComponent } from './transaction.component';
 
 const routes: Routes = [
   {
+
     path: '',
-    component:TransactionComponent
+    component: TransactionComponent,
+    data:{
+    title: 'Lịch sử thay đổi tiền mặt'
   }
+  }
+  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TransactionRouting {}
+export class TransactionRouting { }
