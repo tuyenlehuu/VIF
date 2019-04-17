@@ -215,4 +215,10 @@ public class AssetServiceImpl implements AssetService {
 		return assetDao.getRowCount(assetCode, groupAssetId, assetName);
 	}
 
+	@Override
+	public List<Asset> getAllSharesForBuy() {
+		// TODO Auto-generated method stub
+		return assetDao.getAllSharesForBuy();
+	}
+
 }

@@ -26,6 +26,8 @@ public interface AssetService {
 	public List<Asset> getAlls();
 	
 	public List<Asset> getAllShares();
+	
+	public List<Asset> getAllSharesForBuy();
 
 	public List<Asset> getOtherAssetNotShares();
 

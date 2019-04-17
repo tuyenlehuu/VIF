@@ -214,8 +214,8 @@ export class InvestComponent implements OnInit {
                 this.amountAssetAvaiable = this.assets[0].amount
             }
         });
-        // get all share from sharemaster
-        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+        // get all share for buy
+        this.assetService.getAllSharesForBuy().pipe(first()).subscribe((respons: any) => {
             this.bAssets = respons.data;
             if (this.bAssets) {
                 this.bAssetSelectedId = this.bAssets[0].id;
@@ -240,8 +240,8 @@ export class InvestComponent implements OnInit {
                 this.amountAssetAvaiable = this.assets[0].amount
             }
         });
-        // get all share from sharemaster
-        this.assetService.getAllShares().pipe(first()).subscribe((respons: any) => {
+        // get all share for buy
+        this.assetService.getAllSharesForBuy().pipe(first()).subscribe((respons: any) => {
             this.bAssets = respons.data;
             if (this.bAssets) {
                 this.bAssetSelectedId = this.bAssets[0].id;

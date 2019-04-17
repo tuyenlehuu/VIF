@@ -38,6 +38,10 @@ export class AssetService{
         return this.http.get<any>(`${config.apiUrl}/asset/getAllShares`);
     }
 
+    getAllSharesForBuy(){
+        return this.http.get<any>(`${config.apiUrl}/asset/getAllSharesForBuy`);
+    }
+
     getByCode(assetCode: string) {
         return this.http.get(`${config.apiUrl}/asset/getAssetByCode/${assetCode}`);
     }
