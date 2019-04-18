@@ -6,10 +6,22 @@ const routes: Routes = [
   {
 
     path: '',
-    component: TransactionComponent,
     data:{
-    title: 'Lịch sử thay đổi tiền mặt'
-  }
+      title: 'Lịch sử thay đổi tiền mặt'
+    }, children:[
+      {
+        path:'',
+        redirectTo:'transaction-history'
+      },
+      {
+        path:'',
+        component:TransactionComponent,
+        data:{
+          title:''
+        }
+      }
+    ]
+    
   }
   
 ];

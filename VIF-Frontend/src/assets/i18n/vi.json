@@ -164,17 +164,17 @@
         }
     },
     "branch":{
-        "title":"Danh sách chi nhánh",
-        "title1":"Tạo mới chi nhánh ",
+        "title":"Danh sách nghành",
+        "title1":"Tạo mới nghành ",
         "title2":"Sửa nhánh ",
-        "code":"Mã chi nhánh",
-        "name": "Tên chi nhánh",
+        "code":"Mã nghành",
+        "name": "Tên nghành",
         "activeFlg":"Trạng thái",
         "action":"Hành động",
         "add":"Thêm mới",
         "search":"Tìm kiếm",
-        "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi nhánh",
+        "code_placeholder": "Nhập vào mã nghành",
+        "name_placeholder":"Nhập tên nghành",
         "cancer":"Huỷ bỏ",
         "update":"Cập nhật",
         "exit":"Mã chi nhánh bị trùng"

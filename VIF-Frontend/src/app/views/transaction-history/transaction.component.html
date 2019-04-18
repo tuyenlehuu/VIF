@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
-                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                    <input  type="text" (keydown.enter)="enterOnSubmitDate($event.target.value)" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
                   </div>
                 </div>
               </div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-8">
                   <div class="form-group">
-                      <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                      <input type="text" (keydown.enter)="enterOnSubmitDate($event.target.value)" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
                   </div>
 
                 </div>
@@ -95,7 +95,7 @@
               <tr *ngFor="let iteam of Transactions | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{iteam.createDate |  date: 'dd/MM/yyyy '}}</td>
                 <td style="text-align: left">{{iteam.description}}</td>
-                <td>{{iteam.typeOfTransaction == 'M'?'Đầu tư': 'Rút vốn'}}</td>
+                <td>{{iteam.typeOfTransaction == 'M'?'Đầu tư':iteam.typeOfTransaction=='B'?'Rút vốn':iteam.typeOfTransaction=='C'?'Cổ tức tiền':'Cổ tức cổ phiếu'}}</td>
                 <td  style="text-align: left">{{iteam.asset.assetCode }}</td>
                 <td style="text-align: right">{{iteam.amount|number:'.2-2'}}</td>  
                 <td style="text-align: right" >{{iteam.price | number:'.2-2'}}</td>  

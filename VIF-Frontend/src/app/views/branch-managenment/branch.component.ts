@@ -94,5 +94,13 @@ export class BranchComponent implements OnInit {
         this.getPage(1);
 
     }
+    onSubmit(){
+        if(this.branchSearch.branchCode){
+            this.getPage(1);
+        }
+        if(this.branchSearch.branchName){
+            this.getPage(1);
+        }
+    }
 
 }
