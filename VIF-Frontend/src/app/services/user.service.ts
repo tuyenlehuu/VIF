@@ -40,8 +40,8 @@ export class UserService{
     }
 
     getById(id: number) {
-            return this.http.get(`${config.apiUrl}/user/${id}`);
-        }
+        return this.http.get(`${config.apiUrl}/user/${id}`);
+    }
 
     register(user: User) {
         return this.http.post<any>(`${config.apiUrl}/user/add`, user).pipe(map(res => {return res;}));

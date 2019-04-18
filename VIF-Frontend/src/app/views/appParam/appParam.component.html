@@ -13,8 +13,7 @@
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-md-3">
-                    <label for="company">{{'vif.appParam.prop_key' | translate}}<span
-                        class="asterisk"></span></label>
+                    <label for="company">{{'vif.appParam.prop_key' | translate}}<span class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -27,8 +26,7 @@
               <div class="offset-md-2 col-md-5">
                 <div class="row">
                   <div class="col-md-3">
-                    <label for="company">{{'vif.appParam.prop_type' | translate}}<span
-                        class="asterisk"></span></label>
+                    <label for="company">{{'vif.appParam.prop_type' | translate}}<span class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -44,8 +42,7 @@
               <div class="col-md-5">
                 <div class="row">
                   <div class="col-md-3">
-                    <label for="company">{{'vif.appParam.prop_value' | translate}}<span
-                        class="asterisk"></span></label>
+                    <label for="company">{{'vif.appParam.prop_value' | translate}}<span class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -58,8 +55,7 @@
               <div class="offset-md-2 col-md-5">
                 <div class="row">
                   <div class="col-md-3">
-                    <label for="company">{{'vif.appParam.status' | translate}}<span
-                        class="asterisk"></span></label>
+                    <label for="company">{{'vif.appParam.status' | translate}}<span class="asterisk"></span></label>
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
@@ -81,7 +77,8 @@
                   <div class="col-md-9">
                     <div class="form-group">
                       <input type="text" name="description" [(ngModel)]="appParamSearch.description"
-                        class="form-control" id="description-id" placeholder="{{'vif.appParam.description_placeholder' | translate}}">
+                        class="form-control" id="description-id"
+                        placeholder="{{'vif.appParam.description_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -92,12 +89,12 @@
           <table class="table table-striped mt-3">
             <thead>
               <tr>
-                <th>{{'vif.appParam.prop_key' | translate}}</th>
+                <th>{{'vif.appParam.prop_key' | translate}}</th> 
                 <th>{{'vif.appParam.prop_type' | translate}}</th>
-                <th>{{'vif.appParam.prop_value' | translate}}</th>
-                <th>{{'vif.appParam.status' | translate}}</th>
+                <th style="text-align: right">{{'vif.appParam.prop_value' | translate}}</th>
+                <th style="text-align: center">{{'vif.appParam.status' | translate}}</th>
                 <th>{{'vif.appParam.description' | translate}}</th>
-                <th>{{'vif.appParam.action' | translate}}</th>
+                <th style="text-align: center">{{'vif.appParam.action' | translate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -105,20 +102,28 @@
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
                 <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
-                <td>{{item.propValue}}</td>
-                <td>{{item.activeFlg==1?'Hoạt động': 'Ngừng hoạt động'}}</td>
+                <td style="text-align: right;">{{item.propValue}}</td>
+                <td style="text-align: center">
+                  <div *ngIf="item.activeFlg==1"><i class="fa fa-check" title="{{'vif.global.other.title_active' | translate}}"
+                      style="font-size:25px;color:green"></i></div>
+                  <div *ngIf="item.activeFlg!=1"><i class="fa fa-close" title="{{'vif.global.other.title_inactive' | translate}}"
+                      style="font-size:25px;color:red"></i></div>
+                </td>
                 <td>{{item.description}}</td>
-                <td>
-                  <a [routerLink]="['/app-param/ce-appParam', item.id]"><i class="fa fa-pencil"></i></a>
-                  <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)">
-                    <i class="fa fa-minus-circle"></i>
+                <td style="text-align: center">
+                  <a [routerLink]="['/app-param/ce-appParam', item.id]"><i class="fa fa-pencil" title="{{'vif.global.other.title_icon_edit' | translate}}"></i></a>
+                  <a style="color: red; margin-left: 10px; cursor: pointer" (click)="confirmDel(template, item.id)" *ngIf="item.activeFlg==1">
+                    <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                  </a>
+                  <a style="color: red; margin-left: 10px; opacity: 0.2;" *ngIf="item.activeFlg<=0">
+                      <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
                   </a>
                 </td>
               </tr>
             </tbody>
           </table>
           <hr />
-          <ul style="float:right;" class="pagination" *ngIf= "appParams && appParams.length > 0">
+          <ul style="float:right;" class="pagination" *ngIf="appParams && appParams.length > 0">
             <pagination-controls (pageChange)="getPage($event)" id="server"
               previousLabel="{{'vif.global.other.previousLabel' | translate}}"
               nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>

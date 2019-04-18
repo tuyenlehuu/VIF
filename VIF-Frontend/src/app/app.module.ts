@@ -30,7 +30,6 @@ import { ChangePassComponent } from './views/change-pass/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OauthService } from './services/oauth.service';
 import { UserService } from './services/user.service';
-import{BranchService} from './services/branch.service';
 import { JWTInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -41,6 +40,8 @@ import { InvestorTransService } from './services/investor.transaction.service';
 import { InvestManagementService } from './services/invest.management.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ShareMasterService } from './services/sharemaster.service';
+import { BranchService } from './services/branch.service';
+
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -101,7 +102,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AuthGuard,
   OauthService,
   UserService,
-  BranchService,
   CustomerService,
   AppParamService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
@@ -111,6 +111,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AssetService,
   DashboardService,
   ShareMasterService,
+  BranchService
   ],
   bootstrap: [ AppComponent ]
 })

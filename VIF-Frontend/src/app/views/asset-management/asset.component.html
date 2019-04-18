@@ -54,19 +54,6 @@
               </div>
             </div>
             <div class="offset-md-2 col-md-5">
-              <!-- <div class="row">
-                      <div class="col-md-3">
-                        <label for="company">{{'vif.user.status' | translate}}<span class="asterisk">&#42;</span></label>
-                      </div>
-                      <div class="col-md-9">
-                        <div class="form-group">
-                          <select id="select-status" name="selectStatus" class="form-control"
-                            [(ngModel)]="userSearch.activeFlg">
-                            <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div> -->
             </div>
           </div>
           <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
@@ -74,11 +61,11 @@
           <table class="table table-striped mt-3">
             <thead>
               <tr>
-                <th>Mã tài sản</th>
-                <th>Tên tài sản</th>
-                <th>Số tiền hiện tại</th>
-                <th>Nhóm tài sản</th>
-                <th>Hành động</th>
+                <th>{{'vif.asset.asset_code' | translate}}</th>
+                <th>{{'vif.asset.asset_name' | translate}}</th>
+                <th>{{'vif.asset.current_money' | translate}}</th>
+                <th>{{'vif.asset.group_asset' | translate}}</th>
+                <th>{{'vif.global.label.action' | translate}}</th>
               </tr>
             </thead>
             <tbody *ngIf="assetList && assetList.length > 0">

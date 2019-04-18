@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
-import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
 import vif.online.chungkhoan.services.AssetService;
@@ -146,6 +145,17 @@ public class AssetServiceController {
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 	
+	@GetMapping("/getAllSharesForBuy")
+	public ResponseEntity<ApiResponse> getAllSharesForBuy() {
+		ApiResponse object = new ApiResponse();
+		List<Asset> list = assetService.getAllSharesForBuy();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
 	@GetMapping("getOtherAssetNotShares")
 	public ResponseEntity<ApiResponse> getOtherAssetNotShares() {
 		ApiResponse object = new ApiResponse();
@@ -163,12 +173,14 @@ public class AssetServiceController {
 		return new ResponseEntity<Asset>(asset, HttpStatus.OK);
 	}
 
+
 	@DeleteMapping("deleteAssetByCode/{assetCode}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("assetCode") String assetCode) {
 		assetService.deleteAssetByCode(assetCode);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+
 	@DeleteMapping("deleteAssetById/{id}")
 	public ResponseEntity<Void> deleteAssetByCode(@PathVariable("id") Integer id) {
 		assetService.deleteAssetById(id);

@@ -16,14 +16,9 @@ public class AppParamServiceImpl implements AppParamService{
 	private AppParamDao appParamDao;
 	
 	@Override
-	public boolean updateAppParam(AppParam appParam) {
+	public void updateAppParam(AppParam appParam) {
 		// TODO Auto-generated method stub
-		if(appParamDao.isExist(appParam)) {
-			return false;
-		}
-		else
-		 appParamDao.updateAppParam(appParam);
-		return true;
+		appParamDao.updateAppParam(appParam);
 	}
 
 	@Override

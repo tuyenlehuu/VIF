@@ -22,6 +22,34 @@
         "status": "Trạng thái",
         "action": "Hành động"
     },
+    "customer":{
+        "title1": "Quản lý nhà đầu tư",
+        "title2": "Tạo mới nhà đầu tư",
+        "title3": "Cập nhật người dùng",
+
+        "title4": "Danh sách user đang sở hữu",
+
+        "fullName": "Họ và tên",
+        "fullName_placeholder": "Nhập họ và tên",
+        "email": "Email",
+        "email_placeholder": "Nhập email",
+        "status": "Trạng thái",
+        "avatar": "Ảnh đại diện",
+        "avatar_placeholder": "Chọn file",
+        "action": "Hành động",
+        "code": "Mã NĐT",
+        "code_placeholder": "Nhập mã NĐT",
+        "identityNumber": "Số CMT",
+        "identityNumber_placeholder": "Nhập số CMT",
+        "dateOfBirth": "Ngày sinh",
+        "dateOfBirth_placeholder": "Nhập ngày sinh",
+        "identityDocFront": "Mặt trước CMT",
+        "identityDocBack": "Mặt sau CMT",
+
+        "signContractDate": "Ngày kí hợp đồng",
+        "signContractDate_placeholder": "Nhập ngày kí hợp đồng"
+    
+    },
     "global":{
         "button":{
             "add": "Thêm mới",
@@ -48,7 +76,8 @@
             "sercurities" : "Chứng khoán",
             "amount" : "Số lượng",
             "price" : "Giá",
-            "total_value" : "Tổng giá trị"
+            "total_value" : "Tổng giá trị",
+            "action":"Hành động"
         },
         "devidend":{
             "sercurities" : "Chứng khoán",
@@ -61,19 +90,29 @@
         },
         "other":{
             "emptyItem":"Không có bản ghi",
-            "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
+            "confirmDel": "Bạn có thực sự muốn xóa người dùng?",
+            "confirmDel1":"Bạn có thực sự muốn khóa chi nhánh?",  
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa khách hàng",
+            "confirmDelCf": "Bạn có thực sự muốn khóa config?",
             "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
-            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
+            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?",
+            "title_icon_edit": "Sửa",
+            "title_icon_del": "Xóa",
+            "title_icon_supspend": "Block",
+            "title_active": "Hoạt động",
+            "title_inactive": "Ngừng hoạt động",
+            "title_icon_showuser": "Xem user tương ứng"
         }
     },
     "message":{
         "username_require": "*Tên đăng nhập là bắt buộc",
+        "username_require1":"*Mã chi nhánh là bắt buộc",
         "user_exists": "User đã tồn tại trong hệ thống",
         "appParam_exists": "Config đã tồn tại trong hệ thống",
         "email_require": "*Email là bắt buộc",
+        "name_require": "*Tên chi nhánh là bắt buộc",
         "email_invalid": "*Email không đúng định dạng",
         "password_require": "*Mật khẩu là bắt buộc",
         "password_minlength": "*Mật khẩu tối thiểu phải có 8 ký tự",
@@ -81,6 +120,16 @@
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
         "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+
+        "avatar_require":"Vui lòng chọn tệp",
+        "dateOfBirth_require": "*Chưa chọn ngày sinh",
+        "fullName_require": "*Tên là bắt buộc",
+        "identityNumber_require": "Số CMT chưa chính xác",
+        "signContractDate_require": "*Thông tin bắt buộc",
+
+        "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
+        "dateOfBirth_invalid": "Ngày sinh không tồn tại",
+
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
@@ -90,6 +139,8 @@
         "update_success": "Cập nhật thành công!",
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
+        "create_failed": "Thêm mới không thành công",
+        "asset_exists": "Tài sản đã tồn tại trong hệ thống",
         "create_failed": "Thêm mới không thành công"
     },
     "investor_trans":{
@@ -133,8 +184,10 @@
         "add":"Thêm mới",
         "search":"Tìm kiếm",
         "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi tiết",
-        "cancer":"Cancel"
+        "name_placeholder":"Nhập tên chi nhánh",
+        "cancer":"Huỷ bỏ",
+        "update":"Cập nhật",
+        "exit":"Mã chi nhánh bị trùng"
     },
     "appParam":{
         "action": "Hành động",
@@ -221,7 +274,23 @@
         "asset_code_placeholder": "Nhập vào mã tài sản",
         "asset_name": "Tên tài sản",
         "asset_name_placeholder": "Nhập vào tên tài sản",
-        "asset_type":"Loại tài sản"
+        "asset_type":"Loại tài sản",
+        "current_money": "Số tiền hiện tại",
+        "group_asset": "Nhóm tài sản",
+        "title_add": "Tạo mới tài sản",
+        "title_edit": "Sửa tài sản",
+        "asset_code_required": "*Mã tài sản là bắt buộc",
+        "asset_name_required": "*Tên tài sản là bắt buộc",
+        "amount": "Số lượng",
+        "amount_placeholder": "Nhập vào số lượng tài sản",
+        "current_price": "Giá hiện tại",
+        "current_price_placeholder": "Nhập vào giá hiện tại",
+        "current_price_required": "*Giá hiện tại là bắt buộc",
+        "orginal_price": "Giá vốn",
+        "orginal_price_holder": "Nhập vào giá vốn",
+        "description": "Mô tả",
+        "description_placeholder": "Nhập vào mô tả",
+        "branch_code": "Ngành cổ phiếu"
     }
   }
 }

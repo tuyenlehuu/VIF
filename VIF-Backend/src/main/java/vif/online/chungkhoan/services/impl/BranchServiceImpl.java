@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import vif.online.chungkhoan.dao.BranchDao;
-import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Branch;
 import vif.online.chungkhoan.services.BranchService;
 
-@Service(value="branchService")
-public class BranchServiceImpl implements BranchService{
-	
+@Service(value = "branchService")
+public class BranchServiceImpl implements BranchService {
+
 	@Autowired
 	private BranchDao branchDao;
+
 	@Override
 	public List<Branch> getAllBranchs() {
 		// TODO Auto-generated method stub
@@ -35,32 +35,38 @@ public class BranchServiceImpl implements BranchService{
 
 	@Override
 	public boolean addBranch(Branch branch) {
+		if (branchDao.branchExists(branch)) {
+			return false;
+		}
 		branchDao.addBranch(branch);
 		return true;
+
 	}
 
 	@Override
 	public void updateBranch(Branch branch) {
-		
+
 		branchDao.updateBranch(branch);
 	}
 
 	@Override
 	public void deleteBranchByCode(String code) {
 		branchDao.deleteBranchByCode(code);
-		
+
 	}
 
 	@Override
 	public void deleteBranchById(Integer id) {
 		branchDao.deleteBranchById(id);
-		
+
 	}
 
 	@Override
-	public List<Branch> SearchBranchByCondition(String branchCode, Integer activeFlg, String branchName) {
+	public List<Branch> SearchBranchByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String branchCode, Integer activeFlg, String branchName) {
 		// TODO Auto-generated method stub
-		return branchDao.SearchBranchByCondition(branchCode, activeFlg, branchName);
+		return branchDao.SearchBranchByCondition(page, pageSize, columnSortName, asc, branchCode, activeFlg,
+				branchName);
 	}
 
 	@Override
@@ -69,5 +75,4 @@ public class BranchServiceImpl implements BranchService{
 		return branchDao.getRowCount(branchCode, activeFlg, branchName);
 	}
 
-	
 }
