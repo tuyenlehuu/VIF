@@ -221,4 +221,18 @@ public class AssetServiceImpl implements AssetService {
 		return assetDao.getAllSharesForBuy();
 	}
 
+	@Override
+	public ApiResponse devidendTrans(Integer assetId, BigDecimal amount, BigDecimal dType, BigDecimal dRate) {
+		// TODO Auto-generated method stub
+
+		ApiResponse response = new ApiResponse();
+
+		response.setCode(200);
+		response.setStatus(true);
+		response.setErrors(null);
+		response.setData("devidends success");
+
+		return response;
+	}
+
 }

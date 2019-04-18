@@ -13,6 +13,8 @@ public interface AssetService {
 	
 	public ApiResponse sellSercurities(Integer assetId, BigDecimal amount, BigDecimal price);
 	
+	public ApiResponse devidendTrans(Integer assetId, BigDecimal amount, BigDecimal dType, BigDecimal dRate);
+	
 	public ApiResponse cashDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate);
 	
 	public ApiResponse sercuritiesDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate);

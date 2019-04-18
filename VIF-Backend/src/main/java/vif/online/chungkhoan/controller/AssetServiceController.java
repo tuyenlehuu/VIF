@@ -22,6 +22,7 @@ import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
+import vif.online.chungkhoan.helper.DevidendObject;
 import vif.online.chungkhoan.services.AssetService;
 import vif.online.chungkhoan.services.GroupAssetService;
 
@@ -132,7 +133,23 @@ public class AssetServiceController {
 		result = assetService.sellSercurities(sellObject.getAssetId(),sellObject.getAmount() ,sellObject.getPrice());
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/devidendTrans", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> devidendTrans(@RequestBody DevidendObject devidendObj) {
+		ApiResponse result = new ApiResponse();
 
+		if (devidendObj == null || devidendObj.getAssetId() == null || devidendObj.getAmount() == null
+				|| devidendObj.getType() == null || devidendObj.getRate() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("missing parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		result = assetService.devidendTrans(devidendObj.getAssetId(), devidendObj.getAmount(), devidendObj.getType(),
+				devidendObj.getRate());
+
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
 	
 	@GetMapping("/getAllShares")
 	public ResponseEntity<ApiResponse> getAllShares() {

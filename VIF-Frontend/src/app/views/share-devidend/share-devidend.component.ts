@@ -8,9 +8,7 @@ import { AssetService } from '../../services/asset.service';
 import { Asset } from '../../models/Asset.model';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
-import { BuySellAsset } from '../../models/BuySellAsset.model';
 import { InvestManagementService } from '../../services/invest.management.service';
-import { AppParam } from '../../models/AppParam.model';
 import { DevidendObject } from '../../models/Devidend.model';
 
 @Component({
@@ -39,7 +37,7 @@ export class ShareDevidendComponent implements OnInit {
             dRate: [this.dRate, Validators.required],
         }, {
                 validator: [NotEqualZero('dRate')]
-        });
+            });
     }
 
     resetForm() {
@@ -55,12 +53,22 @@ export class ShareDevidendComponent implements OnInit {
     }
 
     devidendDistribution() {
-        let devidendobj : DevidendObject = new DevidendObject();
+        let devidendobj: DevidendObject = new DevidendObject();
         devidendobj.assetId = this.devidendForm.value.dAssetSelectedId;
         devidendobj.amount = this.devidendForm.value.amountAssetAvaiable;
         devidendobj.rate = this.devidendForm.value.dRate;
         devidendobj.type = this.devidendForm.value.dType;
 
+        this.investManagementService.devidendTrans(devidendobj).pipe(first()).subscribe((respons: any) => {
+            this.responseObject = respons;
+            if (this.responseObject.code === 200) {
+                this.showSuccess("Chia cổ tức thành công!");
+                this.resetForm();
+            } else {
+                this.showError("Không chia được cổ tức! Vui lòng liên hệ quản trị viên");
+            }
+        });
+        this.assetService.getAllShares();
         console.log(devidendobj);
     }
 

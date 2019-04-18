@@ -20,7 +20,7 @@ export const curencyMaskConfig = {
   decimal: ".",
   precision: 2,
   prefix: "",
-  suffix: "", 
+  suffix: "",
   thousands: ",",
   nullable: false
 };
