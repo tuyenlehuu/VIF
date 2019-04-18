@@ -132,7 +132,7 @@ export class InvestComponent implements OnInit {
         var mAmount = this.buyForm.value.bAmountAsset;
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
-        mAmount = mAmount.toString().replace(',','');
+        mAmount = mAmount.toString().replace(',', '');
         this.buyAssetForm.bMoney.setValue(mAmount * currentPrice * 1000);
         this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice * 1000);
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
@@ -159,7 +159,7 @@ export class InvestComponent implements OnInit {
         var sAmountAsset = this.sellForm.value.sAmountAsset;
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
-        sAmountAsset = sAmountAsset.toString().replace(',','');
+        sAmountAsset = sAmountAsset.toString().replace(',', '');
         this.sellAssetForm.sMoney.setValue(sAmountAsset * currentPrice * 1000);
     }
 
@@ -167,10 +167,10 @@ export class InvestComponent implements OnInit {
         if (this.sellForm.invalid) {
             return;
         }
-        var sAmount  = event.target.value;
+        var sAmount = event.target.value;
         var currentPrice = this.sellForm.value.sPrice;
         currentPrice = currentPrice.toString().replace(',', '');
-        sAmount = sAmount.toString().replace(',','');
+        sAmount = sAmount.toString().replace(',', '');
         this.sellAssetForm.sMoney.setValue(sAmount * currentPrice * 1000);
     }
 
@@ -199,7 +199,7 @@ export class InvestComponent implements OnInit {
         }
     }
 
-    refreshData(){
+    refreshData() {
         this.assetService.getByCode('CASH').pipe(first()).subscribe((respons: any) => {
             this.cashObj = respons.data;
             if (this.cashObj) {

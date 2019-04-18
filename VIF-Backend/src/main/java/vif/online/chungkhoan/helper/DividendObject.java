@@ -10,7 +10,7 @@ public class DividendObject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	Integer assetId;
 	BigDecimal amount;
-	BigDecimal type;
+	Integer type;
 	BigDecimal rate;
 
 	public Integer getAssetId() {
@@ -29,11 +29,11 @@ public class DividendObject implements Serializable {
 		this.amount = amount;
 	}
 
-	public BigDecimal getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(BigDecimal type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 

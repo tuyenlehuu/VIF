@@ -29,7 +29,7 @@ export class ShareDividendComponent implements OnInit {
         private assetService: AssetService, private investManagementService: InvestManagementService,
         private fb: FormBuilder) { }
 
-    createdividendForm() {
+    createDividendForm() {
         this.dividendForm = this.fb.group({
             dAssetSelectedId: [this.dAssetSelectedId, Validators.required],
             amountAssetAvaiable: [this.amountAssetAvaiable],
@@ -42,7 +42,7 @@ export class ShareDividendComponent implements OnInit {
 
     resetForm() {
         this.refreshData();
-        this.createdividendForm();
+        this.createDividendForm();
     }
 
     saveDevidendTransaction() {
@@ -68,8 +68,6 @@ export class ShareDividendComponent implements OnInit {
                 this.showError("Không chia được cổ tức! Vui lòng liên hệ quản trị viên");
             }
         });
-        this.assetService.getAllShares();
-        console.log(dividendobj);
     }
 
     get gdividendForm() { return this.dividendForm.controls; }
@@ -95,7 +93,7 @@ export class ShareDividendComponent implements OnInit {
                 this.amountAssetAvaiable = this.assets[0].amount
                 this.dType = 1;
                 this.dRate = 0;
-                this.createdividendForm();
+                this.createDividendForm();
             }
         });
     }
@@ -118,7 +116,7 @@ export class ShareDividendComponent implements OnInit {
                 this.amountAssetAvaiable = this.assets[0].amount
                 this.dType = 1;
                 this.dRate = 0;
-                this.createdividendForm();
+                this.createDividendForm();
             }
         });
     }

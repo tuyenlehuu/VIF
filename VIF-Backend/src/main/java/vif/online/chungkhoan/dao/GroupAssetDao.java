@@ -4,8 +4,6 @@ import java.util.List;
 
 import vif.online.chungkhoan.entities.GroupAsset;
 
-import java.util.List;
-
 public interface GroupAssetDao {
 	
 	public List<GroupAsset> getAlls();

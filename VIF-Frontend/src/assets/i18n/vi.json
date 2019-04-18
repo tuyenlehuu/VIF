@@ -83,7 +83,7 @@
             "sercurities" : "Chứng khoán",
             "current_amount_sercurities" : "Số cổ phiếu hiện tại",
             "amount" : "Số lượng",
-            "rate" : "Tỷ lệ",
+            "rate" : "Tỷ lệ (%)",
             "devidend_type" : "Loại cổ tức",
             "cash_devidend" : "Cổ tức tiền",
             "share_devidend" : "Cổ tức cổ phiếu"

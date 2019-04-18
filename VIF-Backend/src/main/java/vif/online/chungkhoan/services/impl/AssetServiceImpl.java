@@ -8,10 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import vif.online.chungkhoan.dao.AppParamDao;
 import vif.online.chungkhoan.dao.AssetDao;
 import vif.online.chungkhoan.dao.GroupAssetDao;
 import vif.online.chungkhoan.dao.ShareMasterDao;
 import vif.online.chungkhoan.dao.TransactionHistoryDao;
+import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.GroupAsset;
@@ -39,6 +41,9 @@ public class AssetServiceImpl implements AssetService {
 
 	@Autowired
 	private GroupAssetDao groupAssetDao;
+
+	@Autowired
+	private AppParamDao appParamDao;
 
 	@Override
 	public void updateAsset(Asset asset) {
@@ -74,7 +79,7 @@ public class AssetServiceImpl implements AssetService {
 		ApiResponse response = new ApiResponse();
 		// get asset
 		Asset sercurity = assetDao.getByAssetId(assetId);
-		
+
 		// add to asset transaction
 		TransactionHistory transHistory = new TransactionHistory();
 		transHistory.setActiveFlg(1);
@@ -119,7 +124,7 @@ public class AssetServiceImpl implements AssetService {
 	public ApiResponse sellSercurities(Integer assetId, BigDecimal amount, BigDecimal price) {
 		// TODO Auto-generated method stub
 		ApiResponse response = new ApiResponse();
-		
+
 		// get asset
 		Asset sercurity = assetDao.getByAssetId(assetId);
 		// add to asset transaction
@@ -147,28 +152,67 @@ public class AssetServiceImpl implements AssetService {
 		assetService.updateAsset(cAsset);
 		// update amount of asset, if amount is new
 		BigDecimal newAmount = sercurity.getAmount().subtract(amount);
-	    if(amount.equals(sercurity.getAmount())) {
-	    	sercurity.setActiveFlg(IContaints.ASSET_CODE.DEACTIVE_FLAG);
-	    }
-	    sercurity.setAmount(newAmount);
+		if (amount.equals(sercurity.getAmount())) {
+			sercurity.setActiveFlg(IContaints.ASSET_CODE.DEACTIVE_FLAG);
+		}
+		sercurity.setAmount(newAmount);
 		assetService.updateAsset(sercurity);
-		
+
 		response.setCode(200);
 		response.setStatus(true);
 		response.setErrors(null);
 		response.setData("Sell success");
 		return response;
 	}
-	
+
 	@Override
-	public ApiResponse dividendTrans(Integer assetId, BigDecimal amount, BigDecimal dType, BigDecimal dRate) {
+	public ApiResponse dividendTrans(Integer assetId, BigDecimal amount, int dType, BigDecimal dRate) {
 		// TODO Auto-generated method stub
 
 		ApiResponse response = new ApiResponse();
-		
-		// Dash Dividend
-		
-		
+
+		// get asset
+		Asset share = assetDao.getByAssetId(assetId);
+
+		if (dType == IContaints.ASSET_CODE.TYPE_CASH_DIVIDEND) {
+			// Case 1: Cash Dividend
+			Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+			if (cAsset == null) {
+				response.setCode(500);
+				response.setStatus(false);
+			}
+			AppParam dividendFee = appParamDao.getAppParamByPropKey(IContaints.ASSET_CODE.CASH_DIVIDEND_FEE);
+			// fee rate
+			BigDecimal dividenFeeRate = new BigDecimal(dividendFee.getPropValue()).divide(new BigDecimal(100));
+			// real money reciever rate = 100% - dividenFeeRate
+			BigDecimal realMoneyRecieveRate = new BigDecimal(1).subtract(dividenFeeRate);
+			// dividend rate
+			BigDecimal dividenRate = dRate.divide(new BigDecimal(100));
+			// calculate receive money
+			BigDecimal dividendMoney = share.getAmount().multiply(new BigDecimal(10000)).multiply(dividenRate)
+					.multiply(realMoneyRecieveRate);
+			// add cash to Fund's asset
+			BigDecimal currentMoney = cAsset.getCurrentPrice();
+			cAsset.setCurrentPrice(currentMoney.add(dividendMoney));
+			assetService.updateAsset(cAsset);
+
+			// recalculate share original price
+			BigDecimal newShareValue = share.getAmount()
+					.multiply(share.getOrginalPrice().multiply(new BigDecimal(1000))).subtract(dividendMoney);
+			BigDecimal newOriginalPrice = newShareValue.divide(share.getAmount());
+			share.setOrginalPrice(newOriginalPrice);
+			assetService.updateAsset(share);
+
+			// transaction history
+
+			// Share dividend
+		} else {
+			// Case 2: Share Dividend
+
+			// add more share & recalculate share original price
+
+			// transaction history
+		}
 
 		response.setCode(200);
 		response.setStatus(true);
@@ -212,7 +256,8 @@ public class AssetServiceImpl implements AssetService {
 	public List<Asset> SearchAssetsByCondition(int page, int pageSize, String columnSortName, Boolean asc,
 			String assetCode, Integer groupAssetId, String assetName) {
 		// TODO Auto-generated method stub
-		return assetDao.searchAssetsByCondition(page, pageSize, columnSortName, asc, assetCode, groupAssetId, assetName);
+		return assetDao.searchAssetsByCondition(page, pageSize, columnSortName, asc, assetCode, groupAssetId,
+				assetName);
 	}
 
 	@Override

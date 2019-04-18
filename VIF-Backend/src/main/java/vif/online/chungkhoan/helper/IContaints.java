@@ -13,7 +13,8 @@ public interface IContaints {
 		public int ACTIVE = 1; // ACTIVE FLAG
 		public int DEACTIVE_FLAG = 0; // DEACTIVE FLAG
 		public String GROUP_ASSET_SHARE_CODE = "SECURITIES";
-	
+		public int TYPE_CASH_DIVIDEND = 1;
+		public String CASH_DIVIDEND_FEE = "DEVIDEN_CASH_FEE";
 	}
 	
 	public interface PAGER{

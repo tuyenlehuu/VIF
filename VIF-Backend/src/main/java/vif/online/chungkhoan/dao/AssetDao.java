@@ -3,9 +3,6 @@ package vif.online.chungkhoan.dao;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.Asset;
-import vif.online.chungkhoan.entities.User;
-
-import java.util.List;
 
 public interface AssetDao {
 	
