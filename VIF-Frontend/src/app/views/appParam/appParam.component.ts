@@ -17,6 +17,9 @@ export class AppParamComponent implements OnInit {
     p: number = 1;
     total: number;
     pageSize: number = 5;
+    propKey : string;
+    propValue : string;
+    description: string;
 
     status = [
         {
@@ -96,5 +99,16 @@ export class AppParamComponent implements OnInit {
         this.getPage(1);
     }
 
-
+    enterOnSubmitPropKey(){
+        console.log(this.propKey);
+        this.getPage(1);
+    }
+    enterOnSubmitPropValue(){
+        console.log(this.propValue);
+        this.getPage(1);
+    }
+    enterOnSubmitDescription(){
+        console.log(this.description);
+        this.getPage(1);
+    }
 }
