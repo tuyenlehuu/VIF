@@ -10,8 +10,8 @@ import { NgxCurrencyModule } from "ngx-currency";
 import { NgSelectModule } from '@ng-select/ng-select';
 
 // Invest Routing
-import { ShareDevidenRoutingModule } from './share-deviden-routing.module';
-import { ShareDevidendComponent } from './share-devidend.component';
+import { ShareDividenRoutingModule } from './share-dividend-routing.module';
+import { ShareDividendComponent } from './share-dividend.component';
 
 export const curencyMaskConfig = {
   align: "left",
@@ -28,7 +28,7 @@ export const curencyMaskConfig = {
 @NgModule({
   imports: [
     CommonModule,
-    ShareDevidenRoutingModule,
+    ShareDividenRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     AppTranslationModule,
@@ -40,7 +40,7 @@ export const curencyMaskConfig = {
     NgSelectModule
   ],
   declarations: [
-    ShareDevidendComponent
+    ShareDividendComponent
   ]
 })
-export class ShareDevidendModule { }
+export class ShareDividendModule { }

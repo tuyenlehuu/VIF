@@ -72,7 +72,7 @@ export const routes: Routes = [
       },
       {
         path: 'invest-management/share-devidend',
-        loadChildren: './views/share-devidend/share-devidend.module#ShareDevidendModule'
+        loadChildren: './views/share-dividend/share-dividend.module#ShareDividendModule'
       },
       {
         path: 'managementttttt',

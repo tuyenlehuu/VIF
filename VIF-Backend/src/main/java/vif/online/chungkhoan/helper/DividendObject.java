@@ -3,7 +3,7 @@ package vif.online.chungkhoan.helper;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DevidendObject implements Serializable {
+public class DividendObject implements Serializable {
 	/**
 	 * 
 	 */

@@ -159,17 +159,23 @@ public class AssetServiceImpl implements AssetService {
 		response.setData("Sell success");
 		return response;
 	}
-
+	
 	@Override
-	public ApiResponse cashDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate) {
+	public ApiResponse dividendTrans(Integer assetId, BigDecimal amount, BigDecimal dType, BigDecimal dRate) {
 		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public ApiResponse sercuritiesDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate) {
-		// TODO Auto-generated method stub
-		return null;
+		ApiResponse response = new ApiResponse();
+		
+		// Dash Dividend
+		
+		
+
+		response.setCode(200);
+		response.setStatus(true);
+		response.setErrors(null);
+		response.setData("devidends success");
+
+		return response;
 	}
 
 	public List<Asset> getAllShares() {
@@ -219,20 +225,6 @@ public class AssetServiceImpl implements AssetService {
 	public List<Asset> getAllSharesForBuy() {
 		// TODO Auto-generated method stub
 		return assetDao.getAllSharesForBuy();
-	}
-
-	@Override
-	public ApiResponse devidendTrans(Integer assetId, BigDecimal amount, BigDecimal dType, BigDecimal dRate) {
-		// TODO Auto-generated method stub
-
-		ApiResponse response = new ApiResponse();
-
-		response.setCode(200);
-		response.setStatus(true);
-		response.setErrors(null);
-		response.setData("devidends success");
-
-		return response;
 	}
 
 }

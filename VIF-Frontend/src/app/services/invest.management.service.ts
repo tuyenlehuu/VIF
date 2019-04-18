@@ -4,7 +4,7 @@ import { config } from '../config/application.config';
 import { map } from 'rxjs/operators';
 import { BuySellAsset } from '../models/BuySellAsset.model';
 import { Pager } from '../models/Pager';
-import { DevidendObject } from '../models/Devidend.model';
+import { DividendObject } from '../models/Dividend.model';
 
 @Injectable()
 export class InvestManagementService {
@@ -18,8 +18,8 @@ export class InvestManagementService {
         return this.http.post<any>(`${config.apiUrl}/asset/sellSercurities`, sellAssetObject).pipe(map(res => { return res; }));
     }
 
-    devidendTrans(devidendObj: DevidendObject) {
-        return this.http.post<any>(`${config.apiUrl}/asset/devidendTrans`, devidendObj).pipe(map(res => { return res; }));
+    dividendTrans(dividendobj: DividendObject) {
+        return this.http.post<any>(`${config.apiUrl}/asset/dividendTrans`, dividendobj).pipe(map(res => { return res; }));
     }
 
 

@@ -15,7 +15,7 @@
             </div>
           </div>
           <div *ngIf="assets.length >0" class="buy-screen pt-4" style="text-align: center;">
-            <form [formGroup]="devidendForm" (ngSubmit)="saveDevidendTransaction()" form.valid>
+            <form [formGroup]="dividendForm" (ngSubmit)="saveDevidendTransaction()" form.valid>
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
@@ -62,9 +62,9 @@
                       <div class="form-group">
                         <input currencyMask type="text" class="form-control" id="d-rate-id" formControlName="dRate">
                         <div
-                          *ngIf="gDevidendForm.dRate.invalid && (gDevidendForm.dRate.dirty || gDevidendForm.dRate.touched)"
+                          *ngIf="gdividendForm.dRate.invalid && (gdividendForm.dRate.dirty || gdividendForm.dRate.touched)"
                           class="alert alert-danger">
-                          <div *ngIf="gDevidendForm.dRate.errors.notEqualZero">
+                          <div *ngIf="gdividendForm.dRate.errors.notEqualZero">
                             {{'vif.message.unit_price_zero' | translate}}
                           </div>
                         </div>

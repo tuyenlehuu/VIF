@@ -1,13 +1,13 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ShareDevidendComponent } from './share-devidend.component';
+import { ShareDividendComponent } from './share-dividend.component';
 
 
 
 const routes: Routes = [
   {
     path: '',
-    component: ShareDevidendComponent,
+    component: ShareDividendComponent,
     data: {
       title: 'Chia cổ tức'
     }
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ShareDevidenRoutingModule { }
+export class ShareDividenRoutingModule { }
