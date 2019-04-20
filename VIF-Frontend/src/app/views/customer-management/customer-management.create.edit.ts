@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsDatepickerConfig, BsDatepickerDirective, BsLocaleService, updateLocale } from 'ngx-bootstrap';
+import { BsDatepickerConfig} from 'ngx-bootstrap';
 //import { Observable } from 'rxjs';
 import { forkJoin } from 'rxjs';
 //import { from } from 'rxjs';
@@ -76,10 +76,11 @@ export class CECustomerComponent implements OnInit {
             email: ['', Validators.required],
             dateOfBirth: [new Date(), Validators.required],
             avatar: ['', Validators.required],
-            status: [1, Validators.required],
+            status: [{value:1,disabled: true}, Validators.required],
             identityDocFront: ['', Validators.required],
             identityDocBack: ['',Validators.required],
             signContractDate: [new Date(), Validators.required]
+            
         });
 
     }
@@ -200,14 +201,12 @@ export class CECustomerComponent implements OnInit {
         if (this.editCustomerForm.invalid) {
             return;
         }
-
         this.customer.fullName = this.editCustomerForm.value.eFullName;
         this.customer.email = this.editCustomerForm.value.eEmail;
         this.customer.dateOfBirth = this.editCustomerForm.value.eDateOfBirth;
         this.customer.identityNumber = this.editCustomerForm.value.eIdentityNumber;
         this.customer.signContractDate = this.editCustomerForm.value.eSignContractDate;
         console.log('cus.BirthDate: ' + this.editCustomerForm.value.eDateOfBirth);
-
         this.saveCustomer(this.customer);
     }
 

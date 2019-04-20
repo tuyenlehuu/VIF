@@ -33,6 +33,7 @@ export class InvestRequestComponent implements OnInit {
 
 
 
+    
     ngOnInit(): void {
         this.isBuyScreen = true;
         var pager: Pager = new Pager();
