@@ -168,23 +168,20 @@ public class AssetServiceImpl implements AssetService {
 	@Override
 	public ApiResponse dividendTrans(Integer assetId, BigDecimal amount, int dType, BigDecimal dRate) {
 		// TODO Auto-generated method stub
-
 		ApiResponse response = new ApiResponse();
-
 		// get asset
 		Asset share = assetDao.getByAssetId(assetId);
-
-		if (dType == IContaints.ASSET_CODE.TYPE_CASH_DIVIDEND) {
+		if (dType == IContaints.INVEST.TYPE_CASH_DIVIDEND) {
 			// Case 1: Cash Dividend
 			Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
 			if (cAsset == null) {
 				response.setCode(500);
 				response.setStatus(false);
 			}
-			AppParam dividendFee = appParamDao.getAppParamByPropKey(IContaints.ASSET_CODE.CASH_DIVIDEND_FEE);
+			AppParam dividendFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.CASH_DIVIDEND_FEE);
 			// fee rate
-			BigDecimal dividenFeeRate = new BigDecimal(dividendFee.getPropValue()).divide(new BigDecimal(100));
-			// real money reciever rate = 100% - dividenFeeRate
+			BigDecimal dividenFeeRate = new BigDecimal(dividendFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			// money after fee rate = 100% - dividenFeeRate
 			BigDecimal realMoneyRecieveRate = new BigDecimal(1).subtract(dividenFeeRate);
 			// dividend rate
 			BigDecimal dividenRate = dRate.divide(new BigDecimal(100));
@@ -197,28 +194,58 @@ public class AssetServiceImpl implements AssetService {
 			assetService.updateAsset(cAsset);
 
 			// recalculate share original price
-			BigDecimal newShareValue = share.getAmount()
+			BigDecimal newShareOriginalValue = share.getAmount()
 					.multiply(share.getOrginalPrice().multiply(new BigDecimal(1000))).subtract(dividendMoney);
-			BigDecimal newOriginalPrice = newShareValue.divide(share.getAmount());
+			BigDecimal newOriginalPrice = newShareOriginalValue.divide(share.getAmount()).divide(new BigDecimal(1000));
 			share.setOrginalPrice(newOriginalPrice);
 			assetService.updateAsset(share);
 
 			// transaction history
-
-			// Share dividend
+			TransactionHistory transactionHistory = new TransactionHistory();
+			transactionHistory.setPrice(dividendMoney.divide(share.getAmount()).divide(new BigDecimal(1000)));
+			transactionHistory.setAmount(share.getAmount());
+			transactionHistory.setDescription("Chi trả cổ tức tiền mặt. " + share.getAmount() + " "
+					+ share.getAssetCode() + " - Tỷ lệ " + dRate + "%");
+			transactionHistory.setActiveFlg(IContaints.INVEST.TRANS_ACTIVE);
+			transactionHistory.setStatus(IContaints.INVEST.APPROVED);
+			transactionHistory.setTypeOfTransaction("C");
+			transactionHistory.setFeeType(IContaints.INVEST.CASH_DIVIDEND_FEE);
+			transactionHistory.setAsset(share);
+			transactionHistory.setCreateDate(new Date());
+			transactionHistory.setLastUpdate(new Date());
+			transHistoryDao.addTransactionHistory(transactionHistory);
 		} else {
 			// Case 2: Share Dividend
-
 			// add more share & recalculate share original price
-
+			BigDecimal dividenShareAmount = share.getAmount().multiply(dRate).divide(new BigDecimal(100), 0,
+					BigDecimal.ROUND_HALF_EVEN);
+			// new original price
+			BigDecimal newShareAmount = share.getAmount().add(dividenShareAmount);
+			BigDecimal newOriginalPrice = share.getAmount().multiply(share.getOrginalPrice()).divide(newShareAmount,
+					BigDecimal.ROUND_UP);
+			share.setOrginalPrice(newOriginalPrice);
+			share.setAmount(newShareAmount);
+			assetService.updateAsset(share);
 			// transaction history
+			TransactionHistory transactionHistory = new TransactionHistory();
+			transactionHistory.setPrice(new BigDecimal(0));
+			transactionHistory.setAmount(dividenShareAmount);
+			transactionHistory.setDescription("Chi trả cổ tức cổ phiếu. " + share.getAmount() + " "
+					+ share.getAssetCode() + " - Tỷ lệ " + dRate + "%");
+			transactionHistory.setActiveFlg(IContaints.INVEST.TRANS_ACTIVE);
+			transactionHistory.setStatus(IContaints.INVEST.APPROVED);
+			transactionHistory.setTypeOfTransaction("S");
+			transactionHistory.setFeeType(null);
+			transactionHistory.setAsset(share);
+			transactionHistory.setCreateDate(new Date());
+			transactionHistory.setLastUpdate(new Date());
+			transHistoryDao.addTransactionHistory(transactionHistory);
 		}
 
 		response.setCode(200);
 		response.setStatus(true);
 		response.setErrors(null);
-		response.setData("devidends success");
-
+		response.setData("devidend trans success");
 		return response;
 	}
 

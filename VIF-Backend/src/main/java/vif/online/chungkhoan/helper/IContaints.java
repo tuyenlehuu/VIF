@@ -13,10 +13,18 @@ public interface IContaints {
 		public int ACTIVE = 1; // ACTIVE FLAG
 		public int DEACTIVE_FLAG = 0; // DEACTIVE FLAG
 		public String GROUP_ASSET_SHARE_CODE = "SECURITIES";
-		public int TYPE_CASH_DIVIDEND = 1;
-		public String CASH_DIVIDEND_FEE = "DEVIDEN_CASH_FEE";
 	}
 	
+	public interface INVEST {
+		public int TYPE_CASH_DIVIDEND = 1;
+		public String CASH_DIVIDEND_FEE = "DEVIDEN_CASH_FEE";
+		public int PENDING = 1;
+		public int APPROVED = 2;
+		public int REJECTED = 3;
+		public int TRANS_ACTIVE = 1;
+		public int TRANS_DEACTIVE = 0;
+	}
+
 	public interface PAGER{
 		public int MAX_PAGE_SIZE = 65000;
 	}
