@@ -1,0 +1,130 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.invest_request.title' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <!--start button buy/ sell-->
+          <div class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
+            <div class="col-xs-12 col-12" style="text-align: center;">
+              <button type="button" [ngClass]="!isBuyScreen?'btn-secondary':'btn-success'" class="btn"
+                (click)="changeScreen(1)">{{'vif.global.button.buy_CCQ' | translate}}</button>
+              <button style="margin-left: -5px;" type="button" [ngClass]="isBuyScreen?'btn-secondary':'btn-danger'"
+                class="btn" (click)="changeScreen(0)">{{'vif.global.button.sell_CCQ' | translate}}</button>
+            </div>
+          </div>
+
+          <!--end button buy/ sell-->
+          <div class="row pt-4 ccq-avaiable">
+            <div class="offset-md-6 col-md-3">
+              <div>Số CCQ hiện tại: {{amountCCQAvaiable}}</div>
+            </div>
+          </div>
+          <!--start buy screen-->
+          <div *ngIf="isBuyScreen" class="buy-screen" style="text-align: center;">
+            <div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <p>{{customer.fullName}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div>
+                        <input  currencyMask  type="text"  class="form-control" id="amount-buy-id" [(ngModel)]="CCQ"  name="bCCQ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button class="m-btn btn btn-success" 
+                  (click)="saveCCQ()">{{'vif.global.button.buy' | translate}}</button>
+                  <button  class="m-btn btn btn-secondary"
+                    (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end buy screen-->
+
+
+          <!--start sell screen-->
+          <div *ngIf="!isBuyScreen" class="buy-screen" style="text-align: center;">
+            <div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div>
+                        <p>{{customer.fullName}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div>
+                        <input currencyMask  type="text" class="form-control" id="amount-sell-id" [(ngModel)]="CCQ" name="sCCQ"
+                          placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}">
+                        <div *ngIf="CCQ>amountCCQAvaiable" class="alert alert-danger">
+                          {{'vif.investor_trans.amount_CCQ_must_less' | translate}}
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+
+              <div class="row mt-3">
+                <div class="offset-md-3 col-md-6 col-xs-12 my-button">
+                  <button  class="m-btn btn btn-danger"
+                  (click)="saveCCQ()">{{'vif.global.button.sell' | translate}}</button>
+                  <button  class="m-btn btn btn-secondary"
+                    (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!--end sell screen-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

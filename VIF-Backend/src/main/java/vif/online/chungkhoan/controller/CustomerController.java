@@ -42,6 +42,7 @@ public class CustomerController {
 		Customer customer = customerService.getCustomerById(id);
 		return new ResponseEntity(customer, HttpStatus.OK);
 	}
+	
 
 	@GetMapping("code/{code}")
 	public ResponseEntity<Customer> getCustomerByCode(@PathVariable("code") String code) {

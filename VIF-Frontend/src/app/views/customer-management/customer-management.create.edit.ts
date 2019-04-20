@@ -7,7 +7,7 @@ import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerDirective, BsLocaleService, updateLocale } from 'ngx-bootstrap';
 //import { Observable } from 'rxjs';
-import { forkJoin} from 'rxjs';
+import { forkJoin } from 'rxjs';
 //import { from } from 'rxjs';
 //import { concatAll } from 'rxjs/operators';
 
@@ -75,10 +75,10 @@ export class CECustomerComponent implements OnInit {
             identityNumber: ['', Validators.required],
             email: ['', Validators.required],
             dateOfBirth: [new Date(), Validators.required],
-            avatar: [''],
+            avatar: ['', Validators.required],
             status: [1, Validators.required],
-            identityDocFront: [''],
-            identityDocBack: [''],
+            identityDocFront: ['', Validators.required],
+            identityDocBack: ['',Validators.required],
             signContractDate: [new Date(), Validators.required]
         });
 
@@ -148,29 +148,36 @@ export class CECustomerComponent implements OnInit {
             this.customer.dateOfBirth = this.addCustomerForm.value.dateOfBirth;
             this.customer.activeFlg = this.addCustomerForm.value.activeFlg;
             this.customer.signContractDate = this.addCustomerForm.value.signContractDate;
-            let uploadDataAva = new FormData();
-            let uploadDataBack = new FormData();
-            let uploadDataFront = new FormData();
-            uploadDataAva.set('file', this.addCustomerForm.get('fileAvatar').value);
-            uploadDataBack.set('file', this.addCustomerForm.get('fileBack').value);
-            uploadDataFront.set('file', this.addCustomerForm.get('fileFront').value);
-            //const fileGroup = of(ava, front, back);
-            forkJoin(
-                this.customerService.upFileFront(uploadDataFront),
+            this.loadImage();
 
-                this.customerService.upFileBack(uploadDataBack),
-
-                this.customerService.upFileAvatar(uploadDataAva)
-
-            )
-                .subscribe(([res1, res2, res3]) => {
-                    this.customer.identityDocFront = res1;
-                    this.customer.identityDocBack = res2;
-                    this.customer.avatar = res3;
-                    this.checkCompleteElement();
-                });
 
         }
+
+    }
+
+    loadImage() {
+        let uploadDataAva = new FormData();
+        let uploadDataBack = new FormData();
+        let uploadDataFront = new FormData();
+        uploadDataAva.set('file', this.addCustomerForm.get('fileAvatar').value);
+        uploadDataBack.set('file', this.addCustomerForm.get('fileBack').value);
+        uploadDataFront.set('file', this.addCustomerForm.get('fileFront').value);
+        //const fileGroup = of(ava, front, back);
+        forkJoin(
+            this.customerService.upFileFront(uploadDataFront),
+
+            this.customerService.upFileBack(uploadDataBack),
+
+            this.customerService.upFileAvatar(uploadDataAva)
+
+        )
+            .subscribe(([res1, res2, res3]) => {
+                this.customer.identityDocFront = res1;
+                this.customer.identityDocBack = res2;
+                this.customer.avatar = res3;
+                this.checkCompleteElement();
+            });
+
 
     }
 

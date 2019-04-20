@@ -281,6 +281,9 @@
         "description": "Mô tả",
         "description_placeholder": "Nhập vào mô tả",
         "branch_code": "Ngành cổ phiếu"
+    },
+    "invest_request":{
+        "title": "Đăng kí đầu tư"
     }
   }
 }

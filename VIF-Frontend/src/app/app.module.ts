@@ -43,6 +43,7 @@ import { ShareMasterService } from './services/sharemaster.service';
 import { BranchService } from './services/branch.service';
 
 
+
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -62,6 +63,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { InvestRequestService } from './services/invest.request.service';
+
 
 @NgModule({
   imports: [
@@ -103,6 +106,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   OauthService,
   UserService,
   CustomerService,
+  InvestRequestService,
   AppParamService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

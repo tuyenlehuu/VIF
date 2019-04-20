@@ -96,5 +96,10 @@ export const navItems: NavData[] = [
     name: 'Quản lý config',
     url: '/app-param',
     icon: 'fa fa-cog'
+  },
+  {
+    name: 'Đăng kí đầu tư',
+    url: '/invest-request',
+    icon: 'fa fa-handshake-o'
   }
 ];
