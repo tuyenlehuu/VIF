@@ -17,7 +17,7 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <input type="text" name="propKey" [(ngModel)]="appParamSearch.propKey" class="form-control"
+                      <input type="text" (keydown.enter)="enterOnSubmitPropKey()" name="propKey" [(ngModel)]="appParamSearch.propKey" class="form-control"
                         id="propKey-id" placeholder="{{'vif.appParam.propKey_placeholder' | translate}}">
                     </div>
                   </div>
@@ -46,7 +46,7 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <input type="text" name="propValue" [(ngModel)]="appParamSearch.propValue" class="form-control"
+                      <input type="text" (keydown.enter)="enterOnSubmitPropValue()" name="propValue" [(ngModel)]="appParamSearch.propValue" class="form-control"
                         id="propValue-id" placeholder="{{'vif.appParam.propValue_placeholder' | translate}}">
                     </div>
                   </div>
@@ -76,7 +76,7 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <input type="text" name="description" [(ngModel)]="appParamSearch.description"
+                      <input type="text" (keydown.enter)="enterOnSubmitDescription()" name="description" [(ngModel)]="appParamSearch.description"
                         class="form-control" id="description-id"
                         placeholder="{{'vif.appParam.description_placeholder' | translate}}">
                     </div>
