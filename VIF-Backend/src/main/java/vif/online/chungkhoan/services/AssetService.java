@@ -13,9 +13,7 @@ public interface AssetService {
 	
 	public ApiResponse sellSercurities(Integer assetId, BigDecimal amount, BigDecimal price);
 	
-	public ApiResponse cashDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate);
-	
-	public ApiResponse sercuritiesDividend(Integer assetId, BigDecimal amount, BigDecimal dividendRate);
+	public ApiResponse dividendTrans(Integer assetId, BigDecimal amount, int dType, BigDecimal dRate);
 	
 	void updateAsset(Asset asset);
 
@@ -26,6 +24,8 @@ public interface AssetService {
 	public List<Asset> getAlls();
 	
 	public List<Asset> getAllShares();
+	
+	public List<Asset> getAllSharesForBuy();
 
 	public List<Asset> getOtherAssetNotShares();
 
