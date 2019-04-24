@@ -38,11 +38,11 @@ export class TransactionComponent implements OnInit {
       value: '-1'
     },
     {
-      name: 'Đầu tư',
+      name: 'Mua',
       value: 'M'
     },
     {
-      name: 'Rút vốn',
+      name: 'Bán',
       value: 'B'
     },
     {
@@ -83,7 +83,21 @@ export class TransactionComponent implements OnInit {
     });
   }
   search() {
-    this.getPage(1);
+    if(!this.fromDate && !this.toDate){
+      this.getPage(1);
+    }
+     else if(!this.fromDate){
+       this.showError("Mời bạn nhập ngày bắt đầu");
+     }else if(!this.toDate){
+       this.showError("Mời bạn nhập ngày tới");
+     }else if(this.fromDate && this.toDate){
+       var time=(this.toDate.getTime()-this.fromDate.getTime())/1000;
+       if(time<0){
+         this.showError("Ngày kết thúc nhỏ hơn ngày tới, vui lòng nhập lại!!!");
+       }else{
+         this.getPage(1);
+       }
+     }
   }
 
   getPage(page: number) {
