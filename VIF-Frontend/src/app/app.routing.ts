@@ -116,6 +116,10 @@ export const routes: Routes = [
         path: '403',
         component: P403Component
 
+      },
+      {
+        path:"invest-request",
+        loadChildren: './views/invest-request/invest-req.module#InvestRequestModule'
       }
     ]
   },

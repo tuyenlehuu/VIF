@@ -27,9 +27,45 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `app_param`
 --
+-- -----------------------------
+
+CREATE TABLE `user` (
+  `id` bigint(20) NOT NULL,
+  `active_flg` int(11) DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_deleted` int(11) DEFAULT NULL,
+  `is_online` int(11) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- --------asss------
+CREATE TABLE `invest_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT  ,
+  `customer_id` bigint(20) DEFAULT NULL,
+  `amount` decimal(19,2) DEFAULT NULL,
+  `type_of_request` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT 1,
+  `price` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`) VALUES
+(1,1,'12.00',1,'2018-10-21 00:00:00', 3,'100000000'),
+(2,2,'500.00',1,'2018-10-21 00:00:00', 1,'100000000'),
+(3,14,'67.00',2,'2018-10-21 00:00:00', 2,'100000000'),
+(4,7,'10000.00',2,'2018-10-21 00:00:00', 1,'100000000'),
+(5,10,'11110.00',1,'2018-10-21 00:00:00', 3,'100000000');
+
+
+
 
 CREATE TABLE `app_param` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL ,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `prop_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `prop_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1874,6 +1910,10 @@ INSERT INTO `user` (`id`, `active_flg`, `email`, `is_deleted`, `is_online`, `pas
 -- Indexes for dumped tables
 --
 
+
+
+
+
 --
 -- Indexes for table `app_param`
 --
@@ -2035,3 +2075,6 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+

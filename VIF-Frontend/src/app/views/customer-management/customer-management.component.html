@@ -98,7 +98,7 @@
                 <td>
                   <a [routerLink]="['/customer-management/ce-customer-management', customer.id]"><i
                       title="{{'vif.global.other.title_icon_edit' | translate}}" class="fa fa-pencil"></i></a>
-                  <a style="color: red; cursor: pointer; margin-left: 10px;"
+                  <a *ngIf="customer.activeFlg==1" style="color: red; cursor: pointer; margin-left: 10px;"
                     (click)="confirmDel(template, customer.id)"><i class="fa fa-trash-o"
                       title="{{'vif.global.other.title_icon_del' | translate}}"></i></a>
                   <a [routerLink]="['/customer-management/user-customer-management', customer.id]"

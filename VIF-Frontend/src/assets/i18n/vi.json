@@ -282,6 +282,7 @@
         "description_placeholder": "Nhập vào mô tả",
         "branch_code": "Ngành cổ phiếu"
     },
+
     "transaction":{
         "title":"Lịch sử thay đổi giao dịch",
         "creatdate":"Ngày tạo",
@@ -297,8 +298,10 @@
         "activeFlg":"Trạng thái",
         "createDate1":"Nhập vào ngày tạo",
         "asset_ID1":"Chọn mã giao dịch",
-        "type":"Chọn loại"
-
-    }
+        "type":"Chọn loại"  
+  },
+  "invest_request":{
+    "title": "Đăng kí đầu tư"
+}
   }
 }

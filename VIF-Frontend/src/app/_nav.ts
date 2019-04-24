@@ -56,7 +56,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Lịch sử quỹ đầu tư',
-    url: '/cus-invest-history',
+    url: '//transaction-history',
     icon: 'icon-calendar'
   },
   {
@@ -97,9 +97,10 @@ export const navItems: NavData[] = [
     url: '/app-param',
     icon: 'fa fa-cog'
   },
-  {
-    name: 'Lịch sử thay đổi tiền mặt ',
-    url: '/transaction-history',
-    icon: 'fa fa-history'
+{
+    name: 'Đăng kí đầu tư',
+    url: '/invest-request',
+    icon: 'fa fa-handshake-o'
+
   }
 ];

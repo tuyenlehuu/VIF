@@ -236,11 +236,13 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public String saveFileAvatar(MultipartFile file) {
 		String path = IContaints.FILE_UPLOAD.AVATAR_UPLOAD_DIRECTORY;
+		String pathFile = "";
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			File f = new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f));
+			pathFile=f.getPath();
 			stream.write(bytes);
 			stream.flush();
 			stream.close();
@@ -249,17 +251,19 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return IContaints.RESPONSE_CODE.SUCCESS;
+		return pathFile;
 	}
 
 	@Override
 	public String saveFileDocBack(MultipartFile file) {
 		String path = IContaints.FILE_UPLOAD.DOC_BACK_UPLOAD_DIRECTORY;
+		String pathFile = "";
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			File f = new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f));
+			pathFile=f.getPath();
 			stream.write(bytes);
 			stream.flush();
 			stream.close();
@@ -268,17 +272,19 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return IContaints.RESPONSE_CODE.SUCCESS;
+		return pathFile;
 	}
 
 	@Override
 	public String saveFileDocFront(MultipartFile file) {
 		String path = IContaints.FILE_UPLOAD.DOC_FRONT_UPLOAD_DIRECTORY;
+		String pathFile = "";
 		try {
 			String filename = file.getOriginalFilename();
 			byte[] bytes = file.getBytes();
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename)));
+			File f = new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f));
+			pathFile=f.getPath();
 			stream.write(bytes);
 			stream.flush();
 			stream.close();
@@ -287,7 +293,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			return "Something wrong";
 		}
 
-		return IContaints.RESPONSE_CODE.SUCCESS;
+		return pathFile;
 	}
 
 }
