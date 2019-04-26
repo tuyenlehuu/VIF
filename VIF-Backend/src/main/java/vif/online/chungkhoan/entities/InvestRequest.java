@@ -43,6 +43,9 @@ public class InvestRequest implements Serializable{
 	@Column(name="STATUS")
 	private Integer status =1; // 1-pending , 2-approval, 3-cancel 
 	
+	@Column(name="PRICE")
+	private BigDecimal price;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -96,6 +99,15 @@ public class InvestRequest implements Serializable{
 		this.id = id;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	
 	
 	
 	
