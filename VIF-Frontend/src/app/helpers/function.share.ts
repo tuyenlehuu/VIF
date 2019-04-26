@@ -59,7 +59,7 @@ export function ValidateSellAmount(controlName: string, controlNameCompare: stri
 
         // set error on matchingControl if validation fails
 
-        if (control.value > 0 && control.value >= controlCompare.value) {
+        if (control.value > 0 && control.value > controlCompare.value) {
             control.setErrors({ mustLessThan: true });
         } else if (control.value === 0) {
             control.setErrors({ notEqualZero: true });

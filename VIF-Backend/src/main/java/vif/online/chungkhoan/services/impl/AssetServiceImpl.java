@@ -85,7 +85,7 @@ public class AssetServiceImpl implements AssetService {
 		transHistory.setActiveFlg(1);
 		transHistory.setAmount(amount);
 		transHistory.setAsset(sercurity);
-		transHistory.setFeeType(null);
+		transHistory.setFeeType(IContaints.INVEST.BUY_FEE);
 		transHistory.setCreateDate(new Date());
 		transHistory.setDescription("VIF mua " + amount + " cổ phiếu" + sercurity.getAssetCode());
 		transHistory.setLastUpdate(new Date());
@@ -93,8 +93,12 @@ public class AssetServiceImpl implements AssetService {
 		transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
 		transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
 		transHistoryDao.addTransactionHistory(transHistory);
+		
+		AppParam buyFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.BUY_FEE);
+		// fee rate
+		BigDecimal buyFeeConfigRate = new BigDecimal(buyFeeConfig.getPropValue()).divide(new BigDecimal(100));
 
-		BigDecimal money = amount.multiply(price);
+		BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).add(buyFeeConfigRate));
 		// subtract money
 		Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
 		if (cAsset == null) {
@@ -132,7 +136,7 @@ public class AssetServiceImpl implements AssetService {
 		transHistory.setActiveFlg(1);
 		transHistory.setAmount(amount);
 		transHistory.setAsset(sercurity);
-		transHistory.setFeeType(null);
+		transHistory.setFeeType(IContaints.INVEST.SELL_FEE);
 		transHistory.setCreateDate(new Date());
 		transHistory.setDescription("VIF bán " + amount + " cổ phiếu" + sercurity.getAssetCode());
 		transHistory.setLastUpdate(new Date());
@@ -146,8 +150,13 @@ public class AssetServiceImpl implements AssetService {
 			response.setCode(500);
 			response.setStatus(false);
 		}
+		
 		BigDecimal oldMoney = cAsset.getCurrentPrice();
-		BigDecimal money = amount.multiply(price);
+//		BigDecimal money = amount.multiply(price);
+		AppParam sellFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.SELL_FEE);
+		// fee rate
+		BigDecimal sellFeeConfigRate = new BigDecimal(sellFeeConfig.getPropValue()).divide(new BigDecimal(100));
+		BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).subtract(sellFeeConfigRate));
 		cAsset.setCurrentPrice(oldMoney.add(money));
 		assetService.updateAsset(cAsset);
 		// update amount of asset, if amount is new
