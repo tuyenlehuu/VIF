@@ -23,12 +23,12 @@ export class InvestRequestComponent implements OnInit {
     submitted = false;
     amountCCQAvaiable: number;
     investRequest: InvestRequest = new InvestRequest();
-    CCQ: number = 0;
     date = new Date();
-    moneyTemp: number;
+    CCQ: number = 0;
     CCQTemp: number;
+    moneyTemp: number;
     money: number=0;
-    price: number= this.investRequest.price;
+    price: number;
     constructor(private toastrService: ToastrService, private userService: UserService, private requestService: InvestRequestService) {
     }
 
@@ -49,6 +49,11 @@ export class InvestRequestComponent implements OnInit {
             this.amountCCQAvaiable = this.customer.totalCcq;
         
         });
+        this.requestService.getPriceCCQ().subscribe((res:any)=>
+        {
+            this.price=res;
+            this.investRequest.price=res;
+        })
     }
 
    
@@ -76,6 +81,7 @@ export class InvestRequestComponent implements OnInit {
     }
 
     buyCCQ() {
+        this.investRequest.amount=null;
         this.investRequest.typeOfRequest = 1;
         this.investRequest.customer = this.customer;
         this.investRequest.money = this.money;
@@ -92,6 +98,7 @@ export class InvestRequestComponent implements OnInit {
     }
 
     sellCCQ() {
+        this.investRequest.money=null;
         this.investRequest.typeOfRequest = 2;
         this.investRequest.customer = this.customer;
         this.investRequest.amount = this.CCQ;
@@ -110,11 +117,15 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-        if (this.isBuyScreen == true && this.money != 0) {
-            this.buyCCQ();
+        if (this.isBuyScreen == true) {
+            if(this.money==0){
+                return this.showError("Thất bại! Số tiền không thể bằng 0!");
+            }
+            return this.buyCCQ();
+            
         } else {
 
-            if (this.CCQ > this.amountCCQAvaiable || this.CCQ == 0) {
+            if (this.CCQ > this.customer.totalCcq || this.CCQ == 0) {
 
                 return this.showError("Thất bại! Vui lòng nhập lại CCQ!");
 
@@ -126,15 +137,21 @@ export class InvestRequestComponent implements OnInit {
     }
 
     resetForm() {
-        this.CCQ = 0;
+        this.CCQTemp =0;
+        this.moneyTemp=0;
+        this.CCQ=0;
         this.money=0;
+        this.amountCCQAvaiable = this.customer.totalCcq;
     }
     onKeyMoney(event:any){
-        this.CCQTemp=this.money/this.price;
+        this.CCQTemp=Number((this.money/this.price).toFixed(2));
+       
     }
 
     onKeyCCQ(event:any){
-        this.moneyTemp=this.CCQ*this.price;
+        this.moneyTemp=Number((this.CCQ*this.price).toFixed(2));
+        this.amountCCQAvaiable = Number((this.customer.totalCcq-this.CCQ).toFixed(2));
+        
     }
 
 

@@ -136,7 +136,7 @@
                       <div>
                         <input currencyMask type="text" class="form-control" id="amount-sell-id" [(ngModel)]="CCQ"
                           name="sCCQ" placeholder="{{'vif.investor_trans.amount_CCQ_placeholder' | translate}}" (keyup)="onKeyCCQ($event)">
-                        <div *ngIf="CCQ>amountCCQAvaiable" class="alert alert-danger">
+                        <div *ngIf="CCQ>customer.totalCcq" class="alert alert-danger">
                           {{'vif.investor_trans.amount_CCQ_must_less' | translate}}
                         </div>
                       </div>

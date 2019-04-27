@@ -1,7 +1,10 @@
 package vif.online.chungkhoan.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.InvestRequest;
 
 
@@ -20,5 +23,9 @@ public interface InvestRequestService {
 			Integer status);
 
 	int getRowCount(Integer typeOfRequest, Integer status);
+
+	BigDecimal getPriceMaxDate();
+
+	
 
 }

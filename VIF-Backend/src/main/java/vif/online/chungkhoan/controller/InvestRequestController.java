@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
@@ -66,6 +69,14 @@ public class InvestRequestController {
 	}
 
 
+	@RequestMapping("getPriceCCQ")
+	public ResponseEntity<BigDecimal> getPriceCCQ() {
+		BigDecimal asset = investRequestService.getPriceMaxDate();
+
+		return new ResponseEntity<BigDecimal>(asset, HttpStatus.OK);
+	}
+	
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<InvestRequest> add(@RequestBody InvestRequest request, UriComponentsBuilder builder) {
 	  boolean bol=investRequestService.addInvestRequest(request);

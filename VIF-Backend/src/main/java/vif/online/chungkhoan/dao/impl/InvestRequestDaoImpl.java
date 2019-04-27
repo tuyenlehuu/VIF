@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.InvestRequestDao;
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
@@ -128,6 +130,15 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 
 		List<InvestRequest> lstResult = query.getResultList();
 		return lstResult.size();
+	}
+	
+	@Override
+	public BigDecimal getPriceMaxDate() {
+		String hql = "SELECT a.price FROM AssetHistory AS a WHERE a.assetCode='VIF_CCQ' ORDER BY a.updateDate DESC";
+		List<BigDecimal> price = (List<BigDecimal>) entityManager.createQuery(hql).getResultList();
+		return  price.get(0);
+		
+		
 	}
 
 }

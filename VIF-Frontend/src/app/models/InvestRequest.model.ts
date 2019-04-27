@@ -1,4 +1,6 @@
 import { Customer } from './Customer.model';
+import { InvestRequestService } from '../services/invest.request.service';
+import { Asset } from './Asset.model';
 
 export class InvestRequest {
 
@@ -14,7 +16,7 @@ export class InvestRequest {
   public constructor(){
     this.status=1;
     this.customer = new Customer();
-    this.price=2;
+   
   }
   
 }
