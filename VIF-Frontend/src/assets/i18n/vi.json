@@ -283,7 +283,10 @@
         "branch_code": "Ngành cổ phiếu"
     },
     "invest_request":{
-        "title": "Đăng kí đầu tư"
+        "title": "Đăng kí đầu tư",
+        "moneyInvest": "Tiền đầu tư",
+        "CCQTemp": "Số CCQ dự kiến",
+        "moneyTemp": "Số tiền dự kiến"
     }
   }
 }
