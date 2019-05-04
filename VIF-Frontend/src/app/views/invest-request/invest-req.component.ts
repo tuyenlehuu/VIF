@@ -8,6 +8,8 @@ import { UserService } from '../../services/user.service';
 import { Pager } from '../../models/Pager';
 import { InvestRequest } from '../../models/InvestRequest.model'
 import { InvestRequestService } from '../../services/invest.request.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ValidateSellAmount, NotEqualZero } from '../../helpers/function.share';
 
 
 @Component({
@@ -25,12 +27,15 @@ export class InvestRequestComponent implements OnInit {
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
     CCQ: number = 0;
-    CCQTemp: number;
-    moneyTemp: number;
-    money: number=0;
-    price: number;
-    constructor(private toastrService: ToastrService, private userService: UserService, private requestService: InvestRequestService) {
+    CCQTemp: number = 0;
+    moneyTemp: number = 0;
+    money: number = 0;
+    price: number = 0;
+    constructor(private toastrService: ToastrService, private userService: UserService, 
+        private requestService: InvestRequestService, private fb: FormBuilder) {
     }
+
+  
 
 
     ngOnInit(): void {
@@ -47,16 +52,19 @@ export class InvestRequestComponent implements OnInit {
             this.user = this.users[0];
             this.customer = this.user.customer;
             this.amountCCQAvaiable = this.customer.totalCcq;
-        
+            
+
         });
-        this.requestService.getPriceCCQ().subscribe((res:any)=>
-        {
-            this.price=res;
-            this.investRequest.price=res;
+        this.requestService.getPriceCCQ().subscribe((res: any) => {
+            this.price = res;
+            this.investRequest.price = res;
+            
         })
     }
 
-   
+
+ 
+
 
     showSuccess(mes: string) {
         this.toastrService.success('', mes, {
@@ -81,14 +89,14 @@ export class InvestRequestComponent implements OnInit {
     }
 
     buyCCQ() {
-        this.investRequest.amount=null;
+        this.investRequest.amount = this.CCQTemp;
         this.investRequest.typeOfRequest = 1;
         this.investRequest.customer = this.customer;
         this.investRequest.money = this.money;
         this.investRequest.createDate = this.date;
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
-            if(res!=null){
+            if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
             }
             () => {
@@ -98,7 +106,7 @@ export class InvestRequestComponent implements OnInit {
     }
 
     sellCCQ() {
-        this.investRequest.money=null;
+        this.investRequest.money = this.moneyTemp;
         this.investRequest.typeOfRequest = 2;
         this.investRequest.customer = this.customer;
         this.investRequest.amount = this.CCQ;
@@ -106,7 +114,7 @@ export class InvestRequestComponent implements OnInit {
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
             console.log("logggg", res);
-            if(res!=null){
+            if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
             }
             () => {
@@ -118,11 +126,11 @@ export class InvestRequestComponent implements OnInit {
 
     saveCCQ() {
         if (this.isBuyScreen == true) {
-            if(this.money==0){
+            if (this.money == 0) {
                 return this.showError("Thất bại! Số tiền không thể bằng 0!");
             }
             return this.buyCCQ();
-            
+
         } else {
 
             if (this.CCQ > this.customer.totalCcq || this.CCQ == 0) {
@@ -137,21 +145,22 @@ export class InvestRequestComponent implements OnInit {
     }
 
     resetForm() {
-        this.CCQTemp =0;
-        this.moneyTemp=0;
-        this.CCQ=0;
-        this.money=0;
+        this.CCQTemp = 0;
+        this.moneyTemp = 0;
+        this.CCQ = 0;
+        this.money = 0;
         this.amountCCQAvaiable = this.customer.totalCcq;
     }
-    onKeyMoney(event:any){
-        this.CCQTemp=Number((this.money/this.price).toFixed(2));
-       
+    onKeyMoney(event: any) {
+        this.CCQTemp = Number((this.money / (this.price * 1000)).toFixed(2));
+    
+
     }
 
-    onKeyCCQ(event:any){
-        this.moneyTemp=Number((this.CCQ*this.price).toFixed(2));
-        this.amountCCQAvaiable = Number((this.customer.totalCcq-this.CCQ).toFixed(2));
-        
+    onKeyCCQ(event: any) {
+        this.moneyTemp = Number((this.CCQ * this.price * 1000).toFixed(2));
+        this.amountCCQAvaiable = Number((this.customer.totalCcq - this.CCQ).toFixed(2));
+
     }
 
 

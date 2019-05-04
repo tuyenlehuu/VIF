@@ -286,7 +286,10 @@
         "title": "Đăng kí đầu tư",
         "moneyInvest": "Tiền đầu tư",
         "CCQTemp": "Số CCQ dự kiến",
-        "moneyTemp": "Số tiền dự kiến"
+        "moneyTemp": "Số tiền dự kiến",
+        "register_CCQ": "Đăng ký",
+        "CCQ_real": "Số CCQ hiện tại",
+        "CCQ_using": "Số CCQ khả dụng"
     }
   }
 }
