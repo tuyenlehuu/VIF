@@ -206,4 +206,11 @@ public class AssetDaoImpl implements AssetDao {
 		return lstResult.size();
 	}
 
+	@Override
+	public List<Asset> getAllSharesForBuy() {
+		// TODO Auto-generated method stub
+		String hql = "FROM Asset as a WHERE a.groupAsset = 2 ORDER BY a.branchCode desc";
+		return (List<Asset>) entityManager.createQuery(hql).getResultList();
+	}
+
 }

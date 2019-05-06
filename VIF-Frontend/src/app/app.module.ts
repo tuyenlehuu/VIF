@@ -37,7 +37,7 @@ import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
 import { AppParamService } from './services/appParam.service';
 import { InvestorTransService } from './services/investor.transaction.service';
-import { InvestManagementService } from './services/invest.management.service.';
+import { InvestManagementService } from './services/invest.management.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ShareMasterService } from './services/sharemaster.service';
 import { BranchService } from './services/branch.service';
