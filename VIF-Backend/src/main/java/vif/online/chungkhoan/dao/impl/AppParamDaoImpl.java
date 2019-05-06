@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.AppParamDao;
 import vif.online.chungkhoan.entities.AppParam;
+import vif.online.chungkhoan.entities.Asset;
 
 @Transactional
 @Repository(value="appParamDao")
@@ -161,5 +162,18 @@ public class AppParamDaoImpl implements AppParamDao{
 
 		List<AppParam> lstResult = query.getResultList();
 		return lstResult.size();
+	}
+
+	@Override
+	public AppParam getAppParamByPropKey(String propKey) {
+		// TODO Auto-generated method stub
+		String hql = "FROM AppParam as a WHERE a.activeFlg=1 AND a.propKey = :propKey";
+
+		@SuppressWarnings("unchecked")
+		List<AppParam> lstResult = entityManager.createQuery(hql).setParameter("propKey", propKey).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			return lstResult.get(0);
+		}
+		return null;
 	}
 }

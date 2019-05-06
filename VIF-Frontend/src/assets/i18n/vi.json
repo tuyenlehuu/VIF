@@ -69,7 +69,8 @@
             "sell": "Bán",
             "export_excel": "Xuất excel",
             "reset_pass": "Cấp lại mật khẩu",
-            "home_page": "Quay lại trang chủ"
+            "home_page": "Quay lại trang chủ",
+            "devidend_distribution": "Chia cổ tức"
         },
         "label":{
             "sercurities" : "Chứng khoán",
@@ -77,6 +78,15 @@
             "price" : "Giá",
             "total_value" : "Tổng giá trị",
             "action":"Hành động"
+        },
+        "devidend":{
+            "sercurities" : "Chứng khoán",
+            "current_amount_sercurities" : "Số cổ phiếu hiện tại",
+            "amount" : "Số lượng",
+            "rate" : "Tỷ lệ (%)",
+            "devidend_type" : "Loại cổ tức",
+            "cash_devidend" : "Cổ tức tiền",
+            "share_devidend" : "Cổ tức cổ phiếu"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
