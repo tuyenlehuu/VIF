@@ -18,27 +18,49 @@ import { ValidateSellAmount, NotEqualZero } from '../../helpers/function.share';
 
 })
 export class InvestRequestComponent implements OnInit {
-    isBuyScreen: boolean;
+    isBuyScreen: boolean = true;
     users: User[] = [];
     user: User = new User();
-    customer: Customer = new Customer();
+    customer: Customer;
     submitted = false;
     amountCCQAvaiable: number;
+    buyForm: FormGroup;
+    sellForm: FormGroup;
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
-    CCQ: number = 0;
-    CCQTemp: number = 0;
-    moneyTemp: number = 0;
-    money: number = 0;
-    price: number = 0;
-    constructor(private toastrService: ToastrService, private userService: UserService, 
+    price: number;
+    constructor(private toastrService: ToastrService, private userService: UserService,
         private requestService: InvestRequestService, private fb: FormBuilder) {
     }
 
-  
+
+    createBuyForm() {
+        this.buyForm = this.fb.group({
+            bCCQ: [{ value: 0, disabled: true }, Validators.required],
+            bMoney: [0, Validators.required],
+            price: [this.price, Validators.required]
+        }, {
+                validator: [NotEqualZero('bCCQ'), NotEqualZero('bMoney')]
+            });
+    }
+
+
+    createSellForm() {
+        this.sellForm = this.fb.group({
+            sCCQ: [0, Validators.required],
+            sMoney: [{ value: 0, disabled: true }, Validators.required],
+            sAmountCCQAvai: [this.amountCCQAvaiable],
+            price: [this.price, Validators.required]
+        }, {
+                validator: [ValidateSellAmount('sCCQ', 'sAmountCCQAvai'), NotEqualZero('sMoney')]
+            });
+    }
+
 
 
     ngOnInit(): void {
+
+
         this.isBuyScreen = true;
         var pager: Pager = new Pager();
         var x: string;
@@ -47,23 +69,27 @@ export class InvestRequestComponent implements OnInit {
         x = u.username.toString();
         this.user.username = x;
         pager.page = 1;
+
         this.userService.getUsersByCondition(this.user, pager).pipe(first()).subscribe((res: any) => {
             this.users = res.data;
             this.user = this.users[0];
             this.customer = this.user.customer;
             this.amountCCQAvaiable = this.customer.totalCcq;
-            
-
+            this.createBuyForm();
         });
-        this.requestService.getPriceCCQ().subscribe((res: any) => {
+
+        this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
             this.price = res;
             this.investRequest.price = res;
-            
+            console.log("RESSSSS", res);
         })
     }
 
+    get buyCCQForm() { return this.buyForm.controls; }
 
- 
+    get sellCCQForm() { return this.sellForm.controls; }
+
+
 
 
     showSuccess(mes: string) {
@@ -81,18 +107,17 @@ export class InvestRequestComponent implements OnInit {
     changeScreen(typeScreen: number) {
         if (typeScreen === 1) {
             this.isBuyScreen = true;
-            this.resetForm();
         } else {
             this.isBuyScreen = false;
-            this.resetForm();
         }
+        this.resetForm();
     }
 
     buyCCQ() {
-        this.investRequest.amount = this.CCQTemp;
+        this.investRequest.amount = this.buyForm.value.bCCQ;
         this.investRequest.typeOfRequest = 1;
         this.investRequest.customer = this.customer;
-        this.investRequest.money = this.money;
+        this.investRequest.money = this.buyForm.value.bMoney;
         this.investRequest.createDate = this.date;
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
@@ -106,14 +131,15 @@ export class InvestRequestComponent implements OnInit {
     }
 
     sellCCQ() {
-        this.investRequest.money = this.moneyTemp;
+        this.investRequest.money = this.sellForm.value.sMoney;
+        console.log("MONEYYYYYYY", this.sellForm.value.sMoney);
         this.investRequest.typeOfRequest = 2;
         this.investRequest.customer = this.customer;
-        this.investRequest.amount = this.CCQ;
+        this.investRequest.amount = this.sellForm.value.sCCQ;
         this.investRequest.createDate = this.date;
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
-            console.log("logggg", res);
+
             if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
             }
@@ -125,41 +151,41 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-        if (this.isBuyScreen == true) {
-            if (this.money == 0) {
-                return this.showError("Thất bại! Số tiền không thể bằng 0!");
+        if (this.isBuyScreen) {
+            this.submitted = true;
+            if (this.buyForm.invalid) {
+                return;
             }
-            return this.buyCCQ();
-
+            this.buyCCQ();
         } else {
-
-            if (this.CCQ > this.customer.totalCcq || this.CCQ == 0) {
-
-                return this.showError("Thất bại! Vui lòng nhập lại CCQ!");
-
+            this.submitted = true;
+            if (this.sellForm.invalid) {
+                return;
             }
-            return this.sellCCQ();
-
+            this.sellCCQ();
         }
 
     }
 
     resetForm() {
-        this.CCQTemp = 0;
-        this.moneyTemp = 0;
-        this.CCQ = 0;
-        this.money = 0;
         this.amountCCQAvaiable = this.customer.totalCcq;
+        if (this.isBuyScreen) {
+            this.createBuyForm();
+        } else {
+            this.createSellForm();
+        }
     }
     onKeyMoney(event: any) {
-        this.CCQTemp = Number((this.money / (this.price * 1000)).toFixed(2));
-    
-
+        this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / (this.price * 1000));
+        this.buyForm.value.bCCQ = Number((this.buyForm.value.bMoney / (this.price * 1000)).toFixed(2));
+        console.log("SELLLL", this.buyForm.value.bCCQ);
     }
 
     onKeyCCQ(event: any) {
-        this.moneyTemp = Number((this.CCQ * this.price * 1000).toFixed(2));
-        this.amountCCQAvaiable = Number((this.customer.totalCcq - this.CCQ).toFixed(2));
+        this.sellCCQForm.sMoney.setValue(Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2)));
+        this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
+        this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2));
+        console.log("SELLLL", this.sellForm.value.sMoney);
 
     }
 

@@ -289,7 +289,9 @@
         "moneyTemp": "Số tiền dự kiến",
         "register_CCQ": "Đăng ký",
         "CCQ_real": "Số CCQ hiện tại",
-        "CCQ_using": "Số CCQ khả dụng"
+        "CCQ_using": "Số CCQ khả dụng",
+        "CCQ_zero": "Số CCQ phải lớn hơn 0",
+        "price": "Giá CCQ"
     }
   }
 }
