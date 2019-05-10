@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.services.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.dao.InvestRequestDao;
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
@@ -68,6 +71,11 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 	public int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
 		return investRequestDao.getRowCount(typeOfRequest, status, fromDate, toDate);
+	}
+	
+	@Override
+	public BigDecimal getPriceMaxDate() {
+		return  investRequestDao.getPriceMaxDate();
 	}
 
 }

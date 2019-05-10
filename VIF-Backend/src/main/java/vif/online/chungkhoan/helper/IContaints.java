@@ -18,6 +18,8 @@ public interface IContaints {
 	public interface INVEST {
 		public int TYPE_CASH_DIVIDEND = 1;
 		public String CASH_DIVIDEND_FEE = "DEVIDEN_CASH_FEE";
+		public String BUY_FEE = "BUY_FEE";
+		public String SELL_FEE = "SELL_FEE";
 		public int PENDING = 1;
 		public int APPROVED = 2;
 		public int REJECTED = 3;

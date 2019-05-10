@@ -46,6 +46,9 @@ public class InvestRequest implements Serializable{
 	@Column(name="PRICE")
 	private BigDecimal price;
 	
+	@Column(name="MONEY")
+	private BigDecimal money;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -105,6 +108,14 @@ public class InvestRequest implements Serializable{
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
 	}
 
 	

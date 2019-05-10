@@ -10,6 +10,10 @@ import { InvestRequest } from '../models/InvestRequest.model';
 export class InvestRequestService{
     constructor(private http: HttpClient) { }
 
+    getPriceCCQ(){
+        return this.http.get<any>(`${config.apiUrl}/invest_request/getPriceCCQ`);
+    }
+
     getAll() {
         return this.http.get<any>(`${config.apiUrl}/invest_request/getAlls`);
     }

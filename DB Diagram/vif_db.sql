@@ -42,25 +42,8 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+
 -- --------asss------
-CREATE TABLE `invest_request` (
-  `id` int(11) NOT NULL AUTO_INCREMENT  ,
-  `customer_id` bigint(20) DEFAULT NULL,
-  `amount` decimal(19,2) DEFAULT NULL,
-  `type_of_request` int(11) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `status` int(11) DEFAULT 1,
-  `price` decimal(19,2) DEFAULT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`) VALUES
-(1,1,'12.00',1,'2018-10-21 00:00:00', 3,'100000000'),
-(2,2,'500.00',1,'2018-10-21 00:00:00', 1,'100000000'),
-(3,14,'67.00',2,'2018-10-21 00:00:00', 2,'100000000'),
-(4,7,'10000.00',2,'2018-10-21 00:00:00', 1,'100000000'),
-(5,10,'11110.00',1,'2018-10-21 00:00:00', 3,'100000000');
-
 
 
 
@@ -1910,6 +1893,24 @@ INSERT INTO `user` (`id`, `active_flg`, `email`, `is_deleted`, `is_online`, `pas
 -- Indexes for dumped tables
 --
 
+CREATE TABLE `invest_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT  ,
+  `customer_id` bigint(20) DEFAULT NULL,
+  `amount` decimal(19,2) DEFAULT NULL,
+  `type_of_request` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT 1,
+  `price` decimal(19,2) DEFAULT NULL,
+  `money` decimal(19,2) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`,`money`) VALUES
+(1,1,NULL,1,'2018-10-21 00:00:00', 3,'1000','1200000'),
+(2,2,NULL,1,'2018-10-21 00:00:00', 1,'1000','500000'),
+(3,14,'1',2,'2018-10-21 00:00:00', 2,'1000',NULL),
+(4,7,'10',2,'2018-10-21 00:00:00', 1,'1234',NULL),
+(5,10,'34',1,'2018-10-21 00:00:00', 3,'1111',NULL);
 
 
 
