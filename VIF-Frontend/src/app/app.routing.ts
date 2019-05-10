@@ -76,7 +76,7 @@ export const routes: Routes = [
       },
       {
         path: 'managementttttt',
-        loadChildren: './views/invest-management/invest.module#InvestModule'
+        loadChildren: './views/invest-appro/investAppro.module#InvestApproModule'
       },
       {
         path: 'investor-transaction',

@@ -1,7 +1,9 @@
 package vif.online.chungkhoan.dao.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -25,6 +27,8 @@ import vif.online.chungkhoan.entities.User;
 public class InvestRequestDaoImpl implements InvestRequestDao {
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -55,8 +59,9 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, Integer status) {
-
+			Integer typeOfRequest, Integer status, String fromDate, String toDate) {
+		
+		try {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
@@ -72,7 +77,17 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 		if (status != null && !status.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("status"), status));
 		}
-
+		
+		if(fromDate != null && !fromDate.equals("")) {
+			Date fDate = formatter.parse(fromDate);
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			Date tDate = formatter.parse(toDate);
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+		}
+			
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
 
 		Query query = entityManager.createQuery(criteriaQuery);
@@ -83,6 +98,11 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 		List<InvestRequest> lstResult = query.getResultList();
 
 		return lstResult;
+	}catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+	}
+		return null;
 	}
 
 	@Override
@@ -105,8 +125,9 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int getRowCount(Integer typeOfRequest, Integer status) {
+	public int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
+		try {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
@@ -121,6 +142,16 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 		if (status != null && !status.equals("")) {
 			predicates.add(criteriaBuilder.equal(from.get("status"), status));
 		}
+		
+		if(fromDate != null && !fromDate.equals("")) {
+			Date fDate = formatter.parse(fromDate);
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+		}
+		
+		if(toDate != null && !toDate.equals("")) {
+			Date tDate = formatter.parse(toDate);
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
 
@@ -128,6 +159,13 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 
 		List<InvestRequest> lstResult = query.getResultList();
 		return lstResult.size();
+	}catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
 	}
+		return 0;
+	}
+
+	
 
 }

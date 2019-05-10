@@ -59,15 +59,15 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, Integer status) {
+			Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status);
+		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status, fromDate, toDate);
 	}
 
 	@Override
-	public int getRowCount(Integer typeOfRequest, Integer status) {
+	public int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investRequestDao.getRowCount(typeOfRequest, status);
+		return investRequestDao.getRowCount(typeOfRequest, status, fromDate, toDate);
 	}
 
 }

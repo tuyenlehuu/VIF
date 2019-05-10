@@ -50,11 +50,13 @@ public class InvestRequestController {
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "asc", required = false) Boolean asc,
 			@RequestParam(value = "typeOfRequest", required = false) Integer typeOfRequest,
-			@RequestParam(value = "status", required = false) Integer status) {
+			@RequestParam(value = "status", required = false) Integer status,
+			@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate){
 		ApiResponse object = new ApiResponse();
 		List<InvestRequest> list = investRequestService.SearchInvestRequestByCondition(page, pageSize, asc,
-				typeOfRequest, status);
-		int rowCount = investRequestService.getRowCount(typeOfRequest, status);
+				typeOfRequest, status, fromDate, toDate);
+		int rowCount = investRequestService.getRowCount(typeOfRequest, status, fromDate, toDate);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);

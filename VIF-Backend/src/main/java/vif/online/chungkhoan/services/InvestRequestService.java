@@ -17,8 +17,8 @@ public interface InvestRequestService {
 	InvestRequest getInvestRequestById(int id);
 
 	List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc, Integer typeOfRequest,
-			Integer status);
+			Integer status, String fromDate, String toDate);
 
-	int getRowCount(Integer typeOfRequest, Integer status);
+	int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate);
 
 }

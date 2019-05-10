@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.investAppro.title1' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <button type="button" class="btn btn-primary"
+                (click)="search()">{{'vif.global.button.search' | translate}}</button>
+            </div>
+          </div>
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{ 'vif.investAppro.customer' | translate }}</th>
+                <th>{{ 'vif.investAppro.code' | translate }}</th>
+                <th>{{ 'vif.investAppro.money' | translate }}</th>
+                <th>{{ 'vif.investAppro.price' | translate }}</th>
+                <th>{{ 'vif.investAppro.amount' | translate }}</th>
+                <th>{{ 'vif.investAppro.priceOfRequest' | translate }}</th>
+                <th>{{ 'vif.investAppro.Date' | translate }}</th>
+                <th>{{ 'vif.investAppro.action' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of investAppros | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{item.customer.fullName}}</td>
+                <td>{{item.customer.code}}</td>
+                <td>{{item.money}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.priceOfRequest}}</td>
+                <td>{{item.Date}}</td>
+                <td> <a style="color: blue; cursor: pointer;margin-left: 10px;"><i class='fa fa-address-book'></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

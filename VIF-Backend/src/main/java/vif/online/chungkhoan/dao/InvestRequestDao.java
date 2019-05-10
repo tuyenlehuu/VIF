@@ -15,12 +15,12 @@ public interface InvestRequestDao {
 	boolean addInvestRequest(InvestRequest request);
 
 	List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc, Integer typeOfRequest,
-			Integer status);
+			Integer status, String fromDate, String toDate);
 
 	void updateInvestRequest(InvestRequest request);
 
 	boolean logicalRequest(InvestRequest request);
 
-	int getRowCount(Integer typeOfRequest, Integer status);
+	int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate);
 
 }
