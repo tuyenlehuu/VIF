@@ -83,6 +83,10 @@ export const routes: Routes = [
         loadChildren: './views/investor-transaction/investor.transaction.module#InvestorTransModule'
       },
       {
+        path: 'c_commission',
+        loadChildren: './views/c_commission/c_commission_module#CompanyCommissionModule'
+      },
+      {
         path: 'user-management',
         loadChildren: './views/user-management/user.module#UserModule'
       },
