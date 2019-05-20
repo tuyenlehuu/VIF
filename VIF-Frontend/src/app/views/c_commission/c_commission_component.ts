@@ -46,11 +46,8 @@ export class CompanyCommissionComponent implements OnInit {
         commissionObj.amount = this.cComForm.value.cAmount;
         commissionObj.cType = this.cComForm.value.cType;
         commissionObj.customerID = this.bCustomerSelectedId;
-        console.log(commissionObj);
         this.investorTransService.cCommissionDivide(commissionObj).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
-
-            console.log(this.responseObject);
             if (this.responseObject.code === 200) {
                 this.showSuccess("Chia lợi tức thành công!");
                 this.resetForm();
@@ -85,7 +82,6 @@ export class CompanyCommissionComponent implements OnInit {
 
     ngOnInit(): void {
         this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
-            // console.log("data: ", respons);
             this.customers = respons;
             if (this.customers) {
                 for (let i = 0; i < this.customers.length; i++) {

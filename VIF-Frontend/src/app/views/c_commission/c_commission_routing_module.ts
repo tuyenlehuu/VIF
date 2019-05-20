@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: CompanyCommissionComponent,
     data: {
-      title: 'Chia lợi tức cho công ty'
+      title: 'Lợi tức công ty'
     }
   }
 ];

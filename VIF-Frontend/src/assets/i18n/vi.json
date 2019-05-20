@@ -95,7 +95,8 @@
             "cash_commission": "Lợi tức tiền mặt",
             "ccq_commission": "Lợi tức CCQ",
             "commission_type_require": "Bắt buộc chọn loại lợi tức",
-            "commission_amount": "Số lượng lợi tức phải lớn hơn không"
+            "commission_amount": "Số lượng lợi tức phải lớn hơn không",
+            "commission_title": "Chia lợi tức cho công ty"
         },
         "other":{
             "emptyItem":"Không có bản ghi",
