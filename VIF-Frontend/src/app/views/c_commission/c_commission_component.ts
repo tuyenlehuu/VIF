@@ -9,6 +9,7 @@ import { config } from '../../config/application.config';
 import { CustomerService } from '../../services/customer.service';
 import { Customer } from '../../models/Customer.model';
 import { CommissionObj } from '../../models/CommissionObj.model';
+import { InvestorTransService } from '../../services/investor.transaction.service';
 
 @Component({
     templateUrl: 'c_commission_component.html',
@@ -21,7 +22,8 @@ export class CompanyCommissionComponent implements OnInit {
     cType: string;
     cAmount: Number;
     isCashCommission: boolean = true;
-    constructor(private customerService: CustomerService, private fb: FormBuilder, private toastrService: ToastrService) {
+    responseObject: ResponseObject;
+    constructor(private investorTransService: InvestorTransService, private customerService: CustomerService, private fb: FormBuilder, private toastrService: ToastrService) {
     }
     createCommissionDevideForm() {
         this.cComForm = this.fb.group({
@@ -32,6 +34,10 @@ export class CompanyCommissionComponent implements OnInit {
                 validator: [NotEqualZero('cAmount')]
             });
     }
+    resetForm() {
+        this.createCommissionDevideForm();
+    }
+
     comCommissionDivide() {
         if (this.cComForm.invalid) {
             return;
@@ -39,9 +45,19 @@ export class CompanyCommissionComponent implements OnInit {
         let commissionObj = new CommissionObj();
         commissionObj.amount = this.cComForm.value.cAmount;
         commissionObj.cType = this.cComForm.value.cType;
-        commissionObj.customerId = this.bCustomerSelectedId;
-
+        commissionObj.customerID = this.bCustomerSelectedId;
         console.log(commissionObj);
+        this.investorTransService.cCommissionDivide(commissionObj).pipe(first()).subscribe((respons: any) => {
+            this.responseObject = respons;
+
+            console.log(this.responseObject);
+            if (this.responseObject.code === 200) {
+                this.showSuccess("Chia lợi tức thành công!");
+                this.resetForm();
+            } else {
+                this.showError("Chia lợi tức thất bại. Vui lòng liên hệ quản trị viên!");
+            }
+        });
     }
 
     onChangeTypeCommission() {

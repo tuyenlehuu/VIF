@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellDTO;
+import vif.online.chungkhoan.helper.CommissionObj;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.helper.WriteDataToCSV;
 import vif.online.chungkhoan.services.InvestorTransService;
@@ -108,5 +109,22 @@ public class InvestorTransController {
 	    }
 	    
 	    return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/cCommissionDivide", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> cCommissionDivide(@RequestBody CommissionObj commissionObj) {
+		ApiResponse result = new ApiResponse();
+		if (commissionObj == null || commissionObj.getCustomerID() == null || commissionObj.getAmount() == null
+				|| commissionObj.getcType() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("missing parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+
+		result = investorTransService.cCommissionDivide(commissionObj.getCustomerID(), commissionObj.getAmount(),
+				commissionObj.getcType());
+
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 }

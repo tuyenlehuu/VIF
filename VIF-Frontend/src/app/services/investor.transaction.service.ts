@@ -4,6 +4,7 @@ import { config } from '../config/application.config';
 import { map } from 'rxjs/operators';
 import { BuySellCCQ } from '../models/BuySelCCQ.model';
 import { Pager } from '../models/Pager';
+import { CommissionObj } from '../models/CommissionObj.model';
 
 @Injectable()
 export class InvestorTransService{
@@ -15,6 +16,10 @@ export class InvestorTransService{
 
     sellCCQ(sellCCQObject: BuySellCCQ) {
         return this.http.post<any>(`${config.apiUrl}/investor-transaction/sellCCQ`, sellCCQObject).pipe(map(res => {return res;}));
+    }
+
+    cCommissionDivide(commissionObj: CommissionObj) {
+        return this.http.post<any>(`${config.apiUrl}/investor-transaction/cCommissionDivide`, commissionObj).pipe(map(res => {return res;}));
     }
 
     searchInvestorHistoryByCondition(customerId: number, fromDate: string, toDate: string, pager: Pager){

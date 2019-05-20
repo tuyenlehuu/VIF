@@ -19,4 +19,7 @@ public interface InvestorTransService {
 			Boolean asc, Integer customerId, String fromDate, String toDate);
 
 	int getRowCount(Integer customerId, String fromDate, String toDate);
+	
+	public ApiResponse cCommissionDivide(Integer customerId, BigDecimal amount, String cType);
+	
 }

@@ -1,5 +1,5 @@
 export class CommissionObj {
-    customerId: Number;
+    customerID: Number;
 	amount: Number;
-	cType: Number;
+	cType: String;
 }
