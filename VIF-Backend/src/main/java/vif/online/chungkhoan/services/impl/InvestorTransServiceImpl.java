@@ -618,5 +618,100 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 		resultResponse.setErrors(null);
 		return resultResponse;
 	}
+	
+	
+	public ApiResponse cCommissionDivide(Integer customerId, BigDecimal amount, String cType) {
+		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
+
+		Customer customer = customerDao.getCustomerById(customerId);
+		if (customer != null) {
+			if (cType.equals("CASH")) {
+				// subtract money from table Asset
+				Asset asset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+				BigDecimal oldMoney = asset.getCurrentPrice();
+				asset.setCurrentPrice(oldMoney.subtract(amount));
+				assetService.updateAsset(asset);
+				// Insert into table Transaction_History
+				TransactionHistory transHistory = new TransactionHistory();
+				transHistory.setActiveFlg(1);
+				transHistory.setAmount(amount);
+				transHistory.setAsset(asset);
+				transHistory.setFeeType(null);
+				transHistory.setCreateDate(new Date());
+				transHistory.setDescription("Chia lợi tức tiền mặt cho VIF");
+				transHistory.setLastUpdate(new Date());
+				transHistory.setPrice(new BigDecimal(0));
+				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+				transHistory.setTypeOfTransaction("C"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+				transHistoryDao.addTransactionHistory(transHistory);
+			} else {
+				// Insert into table Investor History
+				InvestorHistory investorHistory = new InvestorHistory();
+				String newCodeTrans = customer.getCode() + System.currentTimeMillis();
+				investorHistory.setCode(newCodeTrans);
+				investorHistory.setAmountCCQ(amount);
+				BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq()
+						: new BigDecimal(0);
+				investorHistory.setAmountCCQBefore(amountCCQBefore);
+				investorHistory.setCreateDate(new Date());
+				investorHistory.setCustomer(customer);
+				investorHistory.setLastUpdate(new Date());
+				investorHistory.setPriceOfCCQ(new BigDecimal(0));
+				investorHistory.setPriceOfCCQBefore(
+						customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+				investorHistory.setTypeOfTransaction("S");
+				investorHistoryDao.addInvestorHistory(investorHistory);
+
+				// Update amount of CCQ and price of CCQ in table Customer
+				customer.setLastCCQPrice(new BigDecimal(0));
+				BigDecimal newCCQPrice = getOrignalPriceOfCustomerBuy(customer, new BigDecimal(0), amount);
+				if (newCCQPrice != null) {
+					customer.setOrginalCCQPrice(newCCQPrice);
+					customer.setTotalCcq(amountCCQBefore.add(amount));
+				}
+				Boolean isUpdateCustomer = customerDao.updateCCQCustomer(customer);
+
+				// Add amount of CCQ in table Asset
+				Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
+				BigDecimal curentMoney = assetCCQ.getCurrentPrice().multiply(assetCCQ.getAmount());
+				BigDecimal originalMoney = assetCCQ.getOrginalPrice().multiply(assetCCQ.getAmount());
+				// add more CCQ
+				assetCCQ.setAmount(assetCCQ.getAmount().add(amount));
+				// re-calculate Current price
+				BigDecimal newCurrentPrice = curentMoney.divide(assetCCQ.getAmount(), RoundingMode.HALF_UP);
+				// re-calculate original price
+				assetCCQ.setOrginalPrice(originalMoney.divide(assetCCQ.getAmount(), RoundingMode.UP));
+				assetCCQ.setCurrentPrice(newCurrentPrice);
+				assetService.updateAsset(assetCCQ);
+
+				// Insert into table Transaction_History
+				TransactionHistory transHistory = new TransactionHistory();
+				transHistory.setActiveFlg(1);
+				transHistory.setAmount(amount);
+				transHistory.setAsset(assetCCQ);
+				transHistory.setFeeType(null);
+				transHistory.setCreateDate(new Date());
+				transHistory.setDescription("Chia lợi tức CCQ cho VIF");
+				transHistory.setLastUpdate(new Date());
+				transHistory.setPrice(new BigDecimal(0));
+				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+				transHistory.setTypeOfTransaction("S"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+				transHistoryDao.addTransactionHistory(transHistory);
+			}
+
+		} else {
+			resultResponse.setCode(500);
+			resultResponse.setStatus(false);
+			resultResponse.setErrors("Not exist customer!");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return resultResponse;
+		}
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		resultResponse.setData("Success!");
+		return resultResponse;
+	}
 
 }

@@ -70,7 +70,8 @@
             "export_excel": "Xuất excel",
             "reset_pass": "Cấp lại mật khẩu",
             "home_page": "Quay lại trang chủ",
-            "devidend_distribution": "Chia cổ tức"
+            "devidend_distribution": "Chia cổ tức",
+            "confirm" : "Xác nhận"
         },
         "label":{
             "sercurities" : "Chứng khoán",
@@ -87,6 +88,15 @@
             "devidend_type" : "Loại cổ tức",
             "cash_devidend" : "Cổ tức tiền",
             "share_devidend" : "Cổ tức cổ phiếu"
+        },
+        "company_commission" : {
+            "company_respresentative": "Đại diện công ty",
+            "type_of_company_commission": "Loại lợi tức",
+            "cash_commission": "Lợi tức tiền mặt",
+            "ccq_commission": "Lợi tức CCQ",
+            "commission_type_require": "Bắt buộc chọn loại lợi tức",
+            "commission_amount": "Số lượng lợi tức phải lớn hơn không",
+            "commission_title": "Chia lợi tức cho công ty"
         },
         "other":{
             "emptyItem":"Không có bản ghi",

@@ -26,4 +26,7 @@ public interface InvestorTransService {
 	public ApiResponse sellEnsureCCQ(BuySellDTO buyObject);
 
 	public ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode);
+	
+	public ApiResponse cCommissionDivide(Integer customerId, BigDecimal amount, String cType);
+	
 }
