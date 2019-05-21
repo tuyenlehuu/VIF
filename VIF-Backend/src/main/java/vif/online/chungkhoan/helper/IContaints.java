@@ -10,6 +10,7 @@ public interface IContaints {
 		public String SHARES = "SHARES"; // Co phieu
 		public String DEBT_LONG = "DEBT_LONG"; // No dai han
 		public String DEBT_SHORT = "DEBT_SHORT"; // No ngan han
+		public String DEBT = "DEBT"; // No
 		public int ACTIVE = 1; // ACTIVE FLAG
 		public int DEACTIVE_FLAG = 0; // DEACTIVE FLAG
 		public String GROUP_ASSET_SHARE_CODE = "SECURITIES";

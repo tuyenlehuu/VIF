@@ -39,4 +39,6 @@ public interface AssetDao {
 
 	int getRowCount(String assetCode, Integer groupAssetId, String assetName);
 
+	List<Asset> getAssetByGroupId(Integer groupId);
+
 }

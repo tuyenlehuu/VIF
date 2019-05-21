@@ -60,6 +60,9 @@ public class InvestorHistory implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
+	
+	@Column(name = "TYPE_OF_INVEST")
+    private Integer typeOfInvest;
 
 	public Long getId() {
 		return id;
@@ -140,5 +143,13 @@ public class InvestorHistory implements Serializable{
 
 	public void setPriceOfCCQBefore(BigDecimal priceOfCCQBefore) {
 		this.priceOfCCQBefore = priceOfCCQBefore;
+	}
+
+	public Integer getTypeOfInvest() {
+		return typeOfInvest;
+	}
+
+	public void setTypeOfInvest(Integer typeOfInvest) {
+		this.typeOfInvest = typeOfInvest;
 	}
 }

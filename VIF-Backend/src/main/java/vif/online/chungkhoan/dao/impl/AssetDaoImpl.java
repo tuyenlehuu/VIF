@@ -213,4 +213,16 @@ public class AssetDaoImpl implements AssetDao {
 		return (List<Asset>) entityManager.createQuery(hql).getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Asset> getAssetByGroupId(Integer groupId) {
+		// TODO Auto-generated method stub
+		String hql = "FROM Asset as a WHERE a.groupAsset.id = :groupId";
+		List<Asset> lstResult = entityManager.createQuery(hql).setParameter("groupId", groupId).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			return lstResult;
+		}
+		return null;
+	}
+
 }

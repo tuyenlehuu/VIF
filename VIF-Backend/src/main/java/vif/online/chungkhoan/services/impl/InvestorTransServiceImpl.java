@@ -16,10 +16,12 @@ import vif.online.chungkhoan.dao.InvestorHistoryDao;
 import vif.online.chungkhoan.dao.TransactionHistoryDao;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.entities.InvestorHistory;
 import vif.online.chungkhoan.entities.TransactionHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.BuySellDTO;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.AssetService;
 import vif.online.chungkhoan.services.InvestorTransService;
@@ -61,6 +63,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			investorHistory.setPriceOfCCQBefore(
 					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
 			investorHistory.setTypeOfTransaction("M");
+			investorHistory.setTypeOfInvest(1);
 			investorHistoryDao.addInvestorHistory(investorHistory);
 
 			// 3. Add money into table Asset and insert into table Transaction_History
@@ -310,6 +313,310 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 	public int getRowCount(Integer customerId, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
 		return investorHistoryDao.getRowCount(customerId, fromDate, toDate);
+	}
+
+	@Override
+	public ApiResponse buyEnsureCCQ(BuySellDTO buyObject) {
+		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
+		BigDecimal money = buyObject.getMoney();
+		BigDecimal priceEnsureCCQ = buyObject.getPriceCCQ();
+		BigDecimal amoutnCCQ = money.divide(priceEnsureCCQ, 2, RoundingMode.HALF_UP);
+		Customer customer = customerDao.getCustomerById(buyObject.getCustomerId());
+		if (customer != null) {			
+			
+			// 1. Add money into table Asset (for cash and debt) and insert into table Transaction_History
+			Asset asset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+			if (asset != null) {
+				BigDecimal oldMoney = asset.getCurrentPrice();
+				asset.setCurrentPrice(oldMoney.add(money));
+				assetService.updateAsset(asset);
+			} else {
+				Asset newAsset = new Asset();
+				newAsset.setAssetCode(IContaints.ASSET_CODE.CASH);
+				newAsset.setActiveFlg(1);
+				newAsset.setAssetName("Tien mat");
+				newAsset.setAmount(new BigDecimal(0));
+				newAsset.setBranchCode(null);
+				newAsset.setCurrentPrice(money);
+				newAsset.setDescription("Chung chi quy VIF");
+				newAsset.setOrginalPrice(new BigDecimal(0));
+
+				GroupAsset groupAsset = new GroupAsset();
+				groupAsset.setId(1); // Tien mat
+				newAsset.setGroupAsset(groupAsset);
+				assetService.addAsset(newAsset);
+			}
+			
+			// 2. Update with ensure CCQ
+			String ensureCCQCode = buyObject.getEnsureCCQCode()!=null?buyObject.getEnsureCCQCode():"";
+			Asset assetEnsureCCQ = assetService.getAssetByCode(ensureCCQCode);
+			if (assetEnsureCCQ != null) {
+				
+//				BigDecimal oldMoney = assetEnsureCCQ.getCurrentPrice();
+				assetEnsureCCQ.setCurrentPrice(getOrignalPriceOfEnsureCCQ(assetEnsureCCQ, money, amoutnCCQ, true));
+				assetEnsureCCQ.setAmount(assetEnsureCCQ.getAmount().add(amoutnCCQ));
+				assetService.updateAsset(assetEnsureCCQ);
+				
+				// 3. Insert into table Investor History
+				InvestorHistory investorHistory = new InvestorHistory();
+				String newCodeTrans = customer.getCode() + System.currentTimeMillis();
+				investorHistory.setCode(newCodeTrans);
+				investorHistory.setAmountCCQ(amoutnCCQ);
+				
+				investorHistory.setCreateDate(new Date());
+				investorHistory.setCustomer(customer);
+				investorHistory.setLastUpdate(new Date());
+				investorHistory.setPriceOfCCQ(priceEnsureCCQ);
+				
+				investorHistory.setTypeOfTransaction("M");
+				investorHistory.setTypeOfInvest(2);
+				
+				// 4. Insert or update into table Customer Asset
+				// Check exist customer asset
+				CustomerAsset cusAsset = customerDao.getCusAssetByCusAndAssetId(customer.getId(), assetEnsureCCQ.getId());
+				if(cusAsset != null) {
+					// calculate new price
+					cusAsset.setAmount(cusAsset.getAmount().add(amoutnCCQ));
+					cusAsset.setCurrentPrice(getNewPriceOfCusAsset(cusAsset, money, amoutnCCQ, true));
+					customerDao.updateCustomerAsset(cusAsset);
+					
+					// set amount and price before of customer
+					BigDecimal amountCCQBefore = cusAsset.getAmount() != null ? cusAsset.getAmount() : new BigDecimal(0);
+					investorHistory.setAmountCCQBefore(amountCCQBefore);
+					investorHistory.setPriceOfCCQBefore(
+							cusAsset.getCurrentPrice() != null ? cusAsset.getCurrentPrice() : new BigDecimal(0));
+				}else {
+					// insert new recode customer asset
+					CustomerAsset newItem = new CustomerAsset();
+					newItem.setCustomerId(customer.getId());
+					newItem.setAssetId(assetEnsureCCQ.getId());
+					newItem.setAmount(amoutnCCQ);
+					newItem.setCurrentPrice(priceEnsureCCQ);
+					customerDao.addCustomerAsset(newItem);
+					
+					// set amount and price before of customer
+					investorHistory.setAmountCCQBefore(new BigDecimal(0));
+					investorHistory.setPriceOfCCQBefore(new BigDecimal(0));
+				}
+				
+				investorHistoryDao.addInvestorHistory(investorHistory);
+			}else {
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Ensure CCQ is not exists!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
+			}
+
+			// 5. Insert into table Transaction_History
+			TransactionHistory transHistory = new TransactionHistory();
+			transHistory.setActiveFlg(1);
+			transHistory.setAmount(money);
+			transHistory.setAsset(asset);
+			transHistory.setFeeType(null);
+			transHistory.setCreateDate(new Date());
+			transHistory.setDescription(customer.getFullName() + " invest ensure CCQ to VIF");
+			transHistory.setLastUpdate(new Date());
+			transHistory.setPrice(new BigDecimal(0));
+			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+			transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+			transHistoryDao.addTransactionHistory(transHistory);
+		}else {
+			resultResponse.setCode(500);
+			resultResponse.setStatus(false);
+			resultResponse.setErrors("Customer is not exists!");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return resultResponse;
+		}
+		
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		resultResponse.setData("Buy ensure CCQ successfully!");
+		return resultResponse;
+	}
+	
+	@Override
+	public ApiResponse sellEnsureCCQ(BuySellDTO buyObject) {
+		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
+		BigDecimal money = buyObject.getMoney();
+		BigDecimal priceEnsureCCQ = buyObject.getPriceCCQ();
+		BigDecimal amoutnCCQ = money.divide(priceEnsureCCQ, 2, RoundingMode.HALF_UP);
+		Customer customer = customerDao.getCustomerById(buyObject.getCustomerId());
+		if (customer != null) {
+			// 1. Substract money into table Asset (for cash and debt) and insert into table Transaction_History
+			Asset asset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+			if (asset != null) {
+				BigDecimal oldMoney = asset.getCurrentPrice();
+				asset.setCurrentPrice(oldMoney.subtract(money));
+				assetService.updateAsset(asset);
+			} else {
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Cash is not exists!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
+			}
+			
+			// 3. Update with ensure CCQ
+			String ensureCCQCode = buyObject.getEnsureCCQCode()!=null?buyObject.getEnsureCCQCode():"";
+			Asset assetEnsureCCQ = assetService.getAssetByCode(ensureCCQCode);
+			if (assetEnsureCCQ != null) {
+//				BigDecimal oldMoney = assetEnsureCCQ.getCurrentPrice();
+				assetEnsureCCQ.setCurrentPrice(getOrignalPriceOfEnsureCCQ(assetEnsureCCQ, money, amoutnCCQ, false));
+				assetEnsureCCQ.setAmount(assetEnsureCCQ.getAmount().subtract(amoutnCCQ));
+				assetService.updateAsset(assetEnsureCCQ);
+				
+				// 1. Insert into table Investor History
+				InvestorHistory investorHistory = new InvestorHistory();
+				String newCodeTrans = customer.getCode() + System.currentTimeMillis();
+				investorHistory.setCode(newCodeTrans);
+				investorHistory.setAmountCCQ(amoutnCCQ);
+				
+				investorHistory.setCreateDate(new Date());
+				investorHistory.setCustomer(customer);
+				investorHistory.setLastUpdate(new Date());
+				investorHistory.setPriceOfCCQ(priceEnsureCCQ);
+				
+				investorHistory.setTypeOfTransaction("B");
+				investorHistory.setTypeOfInvest(2);
+				
+				
+				// 4. Insert or update into table Customer Asset
+				// Check exist customer asset
+				CustomerAsset cusAsset = customerDao.getCusAssetByCusAndAssetId(customer.getId(), assetEnsureCCQ.getId());
+				if(cusAsset != null) {
+					BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
+					investorHistory.setAmountCCQBefore(amountCCQBefore);
+					
+					investorHistory.setPriceOfCCQBefore(
+							customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+					investorHistoryDao.addInvestorHistory(investorHistory);
+					
+					// calculate new price
+					cusAsset.setAmount(cusAsset.getAmount().subtract(amoutnCCQ));
+					cusAsset.setCurrentPrice(getNewPriceOfCusAsset(cusAsset, money, amoutnCCQ, false));
+					customerDao.updateCustomerAsset(cusAsset);
+				}else {
+					resultResponse.setCode(500);
+					resultResponse.setStatus(false);
+					resultResponse.setErrors("Customer don't have any ensure CCQ!");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return resultResponse;
+				}
+			}else {
+				resultResponse.setCode(500);
+				resultResponse.setStatus(false);
+				resultResponse.setErrors("Ensure CCQ is not exists!");
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return resultResponse;
+			}
+
+			// 5. Insert into table Transaction_History
+			TransactionHistory transHistory = new TransactionHistory();
+			transHistory.setActiveFlg(1);
+			transHistory.setAmount(money);
+			transHistory.setAsset(asset);
+			transHistory.setFeeType(null);
+			transHistory.setCreateDate(new Date());
+			transHistory.setDescription(customer.getFullName() + " Sell ensure CCQ from VIF");
+			transHistory.setLastUpdate(new Date());
+			transHistory.setPrice(new BigDecimal(0));
+			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+			transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+			transHistoryDao.addTransactionHistory(transHistory);
+		}else {
+			resultResponse.setCode(500);
+			resultResponse.setStatus(false);
+			resultResponse.setErrors("Customer is not exists!");
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return resultResponse;
+		}
+		
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		resultResponse.setData("Buy ensure CCQ successfully!");
+		return resultResponse;
+	}
+	
+	// tinh toan ra gia von Ensure CCQ cua NDT khi mua vao
+	private BigDecimal getOrignalPriceOfEnsureCCQ(Asset currentEnsureCCQ, BigDecimal moneyAdd, BigDecimal ccqAdd, boolean isBuy) {
+		try {
+			BigDecimal currentAmountCCQ = currentEnsureCCQ.getAmount() != null ? currentEnsureCCQ.getAmount() : new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ.multiply(
+					currentEnsureCCQ.getCurrentPrice() != null ? currentEnsureCCQ.getCurrentPrice() : new BigDecimal(0));
+			if(isBuy) {
+				BigDecimal result = (currentMoney.add(moneyAdd)).divide(currentAmountCCQ.add(ccqAdd), 2,
+						RoundingMode.HALF_UP);
+				return result;
+			}else {
+				if(currentAmountCCQ.subtract(ccqAdd)!= new BigDecimal(0)) {
+					BigDecimal result = (currentMoney.subtract(moneyAdd)).divide(currentAmountCCQ.subtract(ccqAdd), 2,
+							RoundingMode.HALF_UP);
+					return result;
+				}else {
+					return new BigDecimal(0);
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+	
+	// tinh toan ra gia von Ensure CCQ cua NDT khi mua vao
+	private BigDecimal getNewPriceOfCusAsset(CustomerAsset cusAsset, BigDecimal moneyAdd, BigDecimal ccqAdd, boolean isBuy) {
+		try {
+			BigDecimal currentAmountCCQ = cusAsset.getAmount() != null ? cusAsset.getAmount()
+					: new BigDecimal(0);
+			BigDecimal currentMoney = currentAmountCCQ
+					.multiply(cusAsset.getCurrentPrice() != null ? cusAsset.getCurrentPrice()
+							: new BigDecimal(0));
+			if(isBuy) {
+				BigDecimal result = (currentMoney.add(moneyAdd)).divide(currentAmountCCQ.add(ccqAdd), 2,
+						RoundingMode.HALF_UP);
+				return result;
+			}else {
+				if(currentAmountCCQ.subtract(ccqAdd) != new BigDecimal(0)) {
+					BigDecimal result = (currentMoney.subtract(moneyAdd)).divide(currentAmountCCQ.subtract(ccqAdd), 2,
+							RoundingMode.HALF_UP);
+					return result;
+				}else {
+					return new BigDecimal(0);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	public ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode) {
+		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
+		Asset myEnsureCCQ = assetService.getAssetByCode(assetCode);
+		if(myEnsureCCQ != null) {
+			CustomerAsset cusAsset = customerDao.getCusAssetByCusAndAssetId(customerId, myEnsureCCQ.getId());
+			if(cusAsset != null) {
+				resultResponse.setData(cusAsset.getAmount());
+			}else {
+				resultResponse.setData(null);
+			}
+		}else {
+			resultResponse.setData(null);
+		}
+
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		return resultResponse;
 	}
 
 }

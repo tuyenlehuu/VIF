@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.IContaints;
 
@@ -288,6 +289,29 @@ public class CustomerDaoImpl implements CustomerDao {
 		}
 
 		return IContaints.RESPONSE_CODE.SUCCESS;
+	}
+
+	@Override
+	public CustomerAsset getCusAssetByCusAndAssetId(Integer customerId, Integer assetId) {
+		// TODO Auto-generated method stub
+		String hql = "FROM CustomerAsset as ca WHERE ca.customerId = :customerId AND ca.assetId = :assetId";
+		List<CustomerAsset> cusAssetLst = (List<CustomerAsset>) entityManager.createQuery(hql).setParameter("customerId", customerId).setParameter("assetId", assetId).getResultList();
+		if(cusAssetLst != null && cusAssetLst.size()>0) {
+			return cusAssetLst.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public void addCustomerAsset(CustomerAsset cusAsset) {
+		// TODO Auto-generated method stub
+		entityManager.persist(cusAsset);
+	}
+
+	@Override
+	public void updateCustomerAsset(CustomerAsset cusAsset) {
+		// TODO Auto-generated method stub
+		entityManager.merge(cusAsset);
 	}
 
 }

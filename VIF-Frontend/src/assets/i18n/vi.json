@@ -103,7 +103,9 @@
             "title_icon_supspend": "Block",
             "title_active": "Hoạt động",
             "title_inactive": "Ngừng hoạt động",
-            "title_icon_showuser": "Xem user tương ứng"
+            "title_icon_showuser": "Xem user tương ứng",
+            "transaction_type": "Loại giao dịch",
+            "ccq_db": "Mã CCQ đảm bảo"
         }
     },
     "message":{
@@ -126,10 +128,8 @@
         "fullName_require": "*Tên là bắt buộc",
         "identityNumber_require": "Số CMT chưa chính xác",
         "signContractDate_require": "*Thông tin bắt buộc",
-
         "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
         "dateOfBirth_invalid": "Ngày sinh không tồn tại",
-
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
@@ -139,7 +139,6 @@
         "update_success": "Cập nhật thành công!",
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
-        "create_failed": "Thêm mới không thành công",
         "asset_exists": "Tài sản đã tồn tại trong hệ thống",
         "create_failed": "Thêm mới không thành công"
     },
@@ -158,7 +157,9 @@
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0",
         "customer_required": "*Nhà đầu tư không được để trống!",
-        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!"
+        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!",
+        "amount": "Số lượng",
+        "price": "Giá tiền"
     },
     "cus_invest_history":{
         "from_date": "Từ ngày",

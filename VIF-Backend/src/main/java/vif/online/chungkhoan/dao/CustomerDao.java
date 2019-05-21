@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.User;
 
 public interface CustomerDao {
@@ -24,11 +25,7 @@ public interface CustomerDao {
 
 	void deleteCustomerById(Integer id);
 
-
-
 	boolean updateCCQCustomer(Customer customer);
-
-
 
 	List<User> getListUserById(int id);
 
@@ -43,6 +40,7 @@ public interface CustomerDao {
 	String saveFileDocBack(MultipartFile file);
 	String saveFileDocFront(MultipartFile file);
 
-
-
+	void addCustomerAsset(CustomerAsset cusAsset);
+	void updateCustomerAsset(CustomerAsset cusAsset);
+	CustomerAsset getCusAssetByCusAndAssetId(Integer customerId, Integer assetId);
 }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -108,5 +109,53 @@ public class InvestorTransController {
 	    }
 	    
 	    return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/buyEnsureCCQ", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> buyEnsureCCQ(@RequestBody BuySellDTO buyObject) {
+		ApiResponse result = new ApiResponse();
+		if(buyObject==null || buyObject.getCustomerId() == null || buyObject.getMoney()==null || buyObject.getPriceCCQ() == null || buyObject.getEnsureCCQCode() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("missing parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+		
+		result = investorTransService.buyEnsureCCQ(buyObject);
+		/*
+		 * if(isBuySuccess) { result.setCode(200); result.setStatus(true);
+		 * result.setData("Buy CCQ success!"); }else { result.setCode(500);
+		 * result.setStatus(false); result.setErrors("Buy CCQ failed!"); }
+		 */
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/sellEnsureCCQ", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> sellEnsureCCQ(@RequestBody BuySellDTO sellObject) {
+		ApiResponse result = new ApiResponse();
+		
+		if(sellObject==null || sellObject.getCustomerId() == null || sellObject.getAmountCCQ() == null || (sellObject.getAmountCCQ()!=null && sellObject.getAmountCCQ().compareTo(new BigDecimal(0))<=0) || sellObject.getPriceCCQ() == null || sellObject.getEnsureCCQCode() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("wrong parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+		
+		result = investorTransService.sellEnsureCCQ(sellObject);
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
+	
+	@GetMapping("getEnsureCCQByCusAsset/{customerId}/{assetCode}")
+	public ResponseEntity<ApiResponse> getEnsureCCQByCusAsset(@PathVariable("customerId") Integer customerId, @PathVariable("assetCode") String assetCode) {
+		ApiResponse result = new ApiResponse();
+		
+		if(customerId==null || assetCode == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("wrong parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+		result = investorTransService.getEnsureCCQByCusAsset(customerId, assetCode);
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 }
