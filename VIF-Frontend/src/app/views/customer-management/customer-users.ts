@@ -44,8 +44,6 @@ export class UserCustomerComponent implements OnInit {
             this.users = respons;
             this.total = respons.totalRow;
             this.p = page;
-            console.log("data:", respons);
-            
         });
     }
 

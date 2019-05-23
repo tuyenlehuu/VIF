@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
 import vif.online.chungkhoan.helper.NAVDTO;
@@ -49,5 +50,9 @@ public class DashboardController {
 		return new ResponseEntity<List<KeyNameValueDTO>>(navList, HttpStatus.OK);
 	}
 	
-	
+	@GetMapping("/get-debt-report")
+	public ResponseEntity<List<Asset>> getDebtData(@RequestParam(value = "username", required = false) String username) {
+		List<Asset> debtList = dashboardService.getDebtDataByUsername(username);
+		return new ResponseEntity<List<Asset>>(debtList, HttpStatus.OK);
+	}
 }

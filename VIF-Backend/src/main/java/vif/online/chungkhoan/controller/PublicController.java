@@ -95,4 +95,22 @@ public class PublicController {
 		response.setStatus(true);
 		return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
 	}
+	
+	@PostMapping("change-password")
+	public ResponseEntity<ApiResponse> changePassword(@RequestBody TokenResetPassDTO tokenResetDTO) {
+		boolean flag = userService.changePassword(tokenResetDTO);
+		ApiResponse response = new ApiResponse();
+		
+		if (flag == false) {
+			response.setCode(500);
+			response.setErrors("Reset password failed!");
+			response.setStatus(false);
+			return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
+		}
+		
+		response.setCode(200);
+		response.setData("Chage password successfully!");
+		response.setStatus(true);
+		return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
+	}
 }

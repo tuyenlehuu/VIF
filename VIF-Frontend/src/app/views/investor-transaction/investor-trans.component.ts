@@ -12,6 +12,8 @@ import { Customer } from '../../models/Customer.model';
 import { InvestorTransService } from '../../services/investor.transaction.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotEqualZero, ValidateSellAmount } from '../../helpers/function.share';
+import { AssetService } from '../../services/asset.service';
+import { Asset } from '../../models/Asset.model';
 
 @Component({
     templateUrl: 'investor-trans.component.html',
@@ -26,18 +28,35 @@ export class InvestorTransComponent implements OnInit {
     sellForm: FormGroup;
     submitted = false;
     amountCCQAvaiable: number;
+    assetSelectedCode: string;
+    isCCQDB = false;
+    isSellCCQDB = false;
+    transType = [
+        {
+            name: 'Giao dịch CCQ',
+            value: '1'
+        },
+        {
+            name: 'Giao dịch CCQ đảm bảo',
+            value: '2'
+        }
+    ];
+    assets: Asset[] = [];
 
     constructor(private modalService: BsModalService, private toastrService: ToastrService,
         private customerService: CustomerService, private investorTransService: InvestorTransService,
-        private fb: FormBuilder) {
+        private fb: FormBuilder, private assetService:AssetService) {
     }
 
     createBuyForm() {
+        this.isCCQDB = false;
         this.buyForm = this.fb.group({
             bCustomerSelectedId: [this.customerSelectedId, Validators.required],
             bAmountCCQ: [{ value: 0, disabled: true }, Validators.required],
             bMoney: [0, Validators.required],
-            bPrice: [0, Validators.required]
+            bPrice: [0, Validators.required],
+            bTransType: ['1', Validators.required],
+            bCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
                 validator: [NotEqualZero('bAmountCCQ'), NotEqualZero('bMoney'), NotEqualZero('bPrice')]
         });
@@ -49,7 +68,9 @@ export class InvestorTransComponent implements OnInit {
             sAmountCCQ: [0, Validators.required],
             sMoney: [{ value: 0, disabled: true }, Validators.required],
             sPrice: [0, Validators.required],
-            sAmountCCQAvai: [this.amountCCQAvaiable]
+            sAmountCCQAvai: [this.amountCCQAvaiable],
+            sTransType: ['1', Validators.required],
+            sCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
                 validator: [ValidateSellAmount('sAmountCCQ', 'sAmountCCQAvai'), NotEqualZero('sMoney'), NotEqualZero('sPrice')]
             });
@@ -64,6 +85,14 @@ export class InvestorTransComponent implements OnInit {
                 // console.log("data: ", this.customerSelectedId);
                 this.amountCCQAvaiable = this.customers[0].totalCcq;
                 this.createBuyForm();
+            }
+        });
+
+        this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
+            // console.log("data: ", respons);
+            this.assets = respons.data;
+            if(this.assets){
+                this.assetSelectedCode = this.assets[0].assetCode;
             }
         });
     }
@@ -85,6 +114,7 @@ export class InvestorTransComponent implements OnInit {
     }
 
     changeScreen(typeScreen: number) {
+        this.resetForm();
         if (typeScreen === 1) {
             this.isBuyScreen = true;
         } else {
@@ -136,15 +166,45 @@ export class InvestorTransComponent implements OnInit {
             if (this.buyForm.invalid) {
                 return;
             }
-            this.buyCCQ();
+            if(this.buyForm.value.bTransType=='1'){
+                this.buyCCQ();
+            }else{
+                // console.log("Mua trai phieu!");
+                this.buyEnsureCCQ();
+            }
         } else {
             this.submitted = true;
             // stop here if form is invalid
             if (this.sellForm.invalid) {
                 return;
             }
-            this.sellCCQ();
+            if(this.sellForm.value.bTransType=='1'){
+                this.sellCCQ();
+            }else{
+                console.log("Ban trai phieu!");
+                // this.sell
+            }
+            
         }
+    }
+
+    buyEnsureCCQ() {
+        let buyEnsureCCQObject: BuySellCCQ = new BuySellCCQ();
+        buyEnsureCCQObject.customerId = this.buyForm.value.bCustomerSelectedId;
+        buyEnsureCCQObject.money = this.buyForm.value.bMoney;
+        buyEnsureCCQObject.priceCCQ = this.buyForm.value.bPrice;
+        buyEnsureCCQObject.ensureCCQCode = this.buyForm.value.bCCQDBSelectedCode;
+
+        this.investorTransService.buyEnsureCCQ(buyEnsureCCQObject).pipe(first()).subscribe((respons: any) => {
+            this.responseObject = respons;
+            if (this.responseObject.code === 200) {
+                this.showSuccess("Đầu tư thành công!");
+                this.resetForm(); 
+                this.amountCCQAvaiable = Number((this.amountCCQAvaiable + Number(buyEnsureCCQObject.money/buyEnsureCCQObject.priceCCQ)).toFixed(2));
+            } else {
+                this.showError("Đầu tư thất bại. Vui lòng liên hệ quản trị viên!");
+            }
+        });
     }
 
     resetForm() {
@@ -153,6 +213,9 @@ export class InvestorTransComponent implements OnInit {
         } else {
             this.createSellForm();
         }
+        this.isCCQDB = false;
+        this.isSellCCQDB = false;
+        this.onChangeCustomer();
     }
 
     onKeyBPrice(event: any) {
@@ -192,6 +255,46 @@ export class InvestorTransComponent implements OnInit {
                 this.sellCCQForm.sAmountCCQAvai.setValue(mCus.totalCcq);
             });
         }
+    }
+
+    onChangeTransType(){
+        if(this.buyForm.value.bTransType == '2'){
+            this.isCCQDB = true;
+            this.onChangeEnsureCCQ();
+        }else{
+            this.isCCQDB = false;
+        }
+    }
+
+    onChangeSellTransType(){
+        // console.log("sTransType: ", this.sellForm.value.sTransType);
+        if(this.sellForm.value.sTransType == '2'){
+            this.isSellCCQDB = true;
+            this.onChangeEnsureCCQ();
+        }else{
+            this.isSellCCQDB = false;
+        }
+    }
+
+    onChangeEnsureCCQ(){
+        if(this.isBuyScreen){
+            this.investorTransService.getEnsureCCQByCusAsset(this.buyForm.value.bCustomerSelectedId, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
+                if(respons.data){
+                    this.amountCCQAvaiable = respons.data;
+                }else{
+                    this.amountCCQAvaiable = 0.00;
+                }
+            });
+        }else{
+            this.investorTransService.getEnsureCCQByCusAsset(this.sellForm.value.sCustomerSelectedId, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
+                if(respons.data){
+                    this.amountCCQAvaiable = respons.data;
+                }else{
+                    this.amountCCQAvaiable = 0.00;
+                }
+            });
+        }
+        
     }
 
 }

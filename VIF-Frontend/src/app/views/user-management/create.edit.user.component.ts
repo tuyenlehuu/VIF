@@ -115,11 +115,9 @@ export class CEUserComponent implements OnInit {
                 this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
                     this.showError(res);
                 });
-                console.log(err);
             });
         } else {
             this.userService.register(user).pipe(first()).subscribe((respons: any) => {
-                console.log("res", respons);
                 if(respons.code === 409){
                     this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
                         this.showError(res);
@@ -134,7 +132,6 @@ export class CEUserComponent implements OnInit {
                 this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
                     this.showError(res);
                 });
-                console.log(err);
             });
         }
     }

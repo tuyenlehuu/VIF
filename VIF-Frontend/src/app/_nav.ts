@@ -74,6 +74,11 @@ export const navItems: NavData[] = [
     icon: 'fa fa-credit-card-alt'
   },
   {
+    name: 'Lợi tức Công Ty',
+    url: '/c_commission',
+    icon: 'fa fa-money'
+  },
+  {
     name: 'Lịch sử NĐT',
     url: '/cus-invest-history',
     icon: 'icon-calendar'

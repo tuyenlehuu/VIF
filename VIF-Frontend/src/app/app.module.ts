@@ -26,7 +26,8 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
-import { ChangePassComponent } from './views/change-pass/change.pass.component';
+import { ChangeResetPassComponent } from './views/change-reset-pass/change.reset.pass.component';
+import { ChangePasswordComponent } from './views/change-password/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OauthService } from './services/oauth.service';
 import { UserService } from './services/user.service';
@@ -96,7 +97,8 @@ import { InvestRequestService } from './services/invest.request.service';
     P500Component,
     LoginComponent,
     ResetPassComponent,
-    ChangePassComponent
+    ChangeResetPassComponent,
+    ChangePasswordComponent
   ],
   providers: [{
     provide: LocationStrategy,

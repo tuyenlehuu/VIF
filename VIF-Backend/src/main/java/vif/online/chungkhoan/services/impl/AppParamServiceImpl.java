@@ -62,4 +62,10 @@ public class AppParamServiceImpl implements AppParamService{
 		// TODO Auto-generated method stub
 		return  appParamDao.getRowCount(propKey, activeFlg, propType, propValue, description);
 	}
+
+	@Override
+	public AppParam getAppParamByKeyType(String propKey, String propType) {
+		// TODO Auto-generated method stub
+		return appParamDao.getAppParamByKeyType(propKey, propType);
+	}
 }

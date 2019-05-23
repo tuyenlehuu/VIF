@@ -70,7 +70,8 @@
             "export_excel": "Xuất excel",
             "reset_pass": "Cấp lại mật khẩu",
             "home_page": "Quay lại trang chủ",
-            "devidend_distribution": "Chia cổ tức"
+            "devidend_distribution": "Chia cổ tức",
+            "confirm" : "Xác nhận"
         },
         "label":{
             "sercurities" : "Chứng khoán",
@@ -88,6 +89,15 @@
             "cash_devidend" : "Cổ tức tiền",
             "share_devidend" : "Cổ tức cổ phiếu"
         },
+        "company_commission" : {
+            "company_respresentative": "Đại diện công ty",
+            "type_of_company_commission": "Loại lợi tức",
+            "cash_commission": "Lợi tức tiền mặt",
+            "ccq_commission": "Lợi tức CCQ",
+            "commission_type_require": "Bắt buộc chọn loại lợi tức",
+            "commission_amount": "Số lượng lợi tức phải lớn hơn không",
+            "commission_title": "Chia lợi tức cho công ty"
+        },
         "other":{
             "emptyItem":"Không có bản ghi",
             "confirmDel": "Bạn có thực sự muốn xóa người dùng?",
@@ -103,7 +113,10 @@
             "title_icon_supspend": "Block",
             "title_active": "Hoạt động",
             "title_inactive": "Ngừng hoạt động",
-            "title_icon_showuser": "Xem user tương ứng"
+            "title_icon_showuser": "Xem user tương ứng",
+            "transaction_type": "Loại giao dịch",
+            "ccq_db": "Mã CCQ đảm bảo",
+            "status": "Trạng thái"
         }
     },
     "message":{
@@ -126,10 +139,8 @@
         "fullName_require": "*Tên là bắt buộc",
         "identityNumber_require": "Số CMT chưa chính xác",
         "signContractDate_require": "*Thông tin bắt buộc",
-
         "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
         "dateOfBirth_invalid": "Ngày sinh không tồn tại",
-
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
@@ -139,7 +150,6 @@
         "update_success": "Cập nhật thành công!",
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
-        "create_failed": "Thêm mới không thành công",
         "asset_exists": "Tài sản đã tồn tại trong hệ thống",
         "create_failed": "Thêm mới không thành công"
     },
@@ -158,7 +168,9 @@
         "money_required": "*Số tiền không được để trống!",
         "price_zero": "Giá phải lớn hơn 0",
         "customer_required": "*Nhà đầu tư không được để trống!",
-        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!"
+        "amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!",
+        "amount": "Số lượng",
+        "price": "Giá tiền"
     },
     "cus_invest_history":{
         "from_date": "Từ ngày",
@@ -221,7 +233,8 @@
         "new_pass": "Mật khẩu mới",
         "confirm_new_pass": "Nhập lại mật khẩu mới",
         "title_success": "Thay đổi mật khẩu thành công!",
-        "content_success": "Bạn đã thay đổi mật khẩu thành công. Bắt đầu "
+        "content_success": "Bạn đã thay đổi mật khẩu thành công. ",
+        "old_pass": "Mật khẩu cũ"
     },
     "error_page":{
         "403": "403",
@@ -266,6 +279,16 @@
             },
             "view_near30_day": "30 ngày gần đây",
             "view_all": "Tất cả"
+        },
+        "debt_report":{
+            "title": "Chứng chỉ quỹ đảm bảo",
+            "ensureCCQCode" : "Mã CCQ",
+            "amount": "Số lượng",
+            "current_price": "Giá hiện tại",
+            "orginal_price": "Giá vốn",
+            "rate_year": "Lãi suất năm",
+            "debt_money": "Nợ gốc",
+            "interest_money": "Tiền lãi" 
         }
     },
     "asset":{
@@ -302,6 +325,15 @@
         "CCQ_using": "Số CCQ khả dụng",
         "CCQ_zero": "Số CCQ phải lớn hơn 0",
         "price": "Giá CCQ"
+    },
+    "default_layout":{
+        "change_pass": "Đổi mật khẩu",
+        "logout": "Đăng xuất",
+        "goto_dashboard": "Dashboard",
+        "footer1": "VIF Investigation",
+        "footer2" : "2019 creativeLabs.",
+        "footer3" : "Powered by ",
+        "footer4" : "VIF Investigation"
     }
   }
 }
