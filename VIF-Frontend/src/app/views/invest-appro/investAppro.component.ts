@@ -62,11 +62,11 @@ export class InvestApproComponent implements OnInit {
     var pager: Pager = new Pager();
     pager.page = page;
     pager.pageSize = this.pageSize;
-    this.investApproService.getInvestRequestByCondition(this.investApproSearch, formatDate(this.fromDate), formatDate(this.toDate), pager).pipe(first()).subscribe((respons: any) => {
+    this.investApproService.getInvestApproByCondition(this.investApproSearch, formatDate(this.fromDate), formatDate(this.toDate), pager).pipe(first()).subscribe((respons: any) => {
       this.investAppros = respons;
       this.total = respons.totalRow;
       this.p = page;
-      console.log("data: ", respons);
+      //console.log("data: ", respons);
     });
   }
 }
