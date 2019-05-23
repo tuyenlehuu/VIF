@@ -107,13 +107,6 @@ export class AppParamComponent implements OnInit {
     }
     enterOnSubmitDescription() {
         console.log(this.description);
-    enterOnSubmitPropKey(){
-        this.getPage(1);
-    }
-    enterOnSubmitPropValue(){
-        this.getPage(1);
-    }
-    enterOnSubmitDescription(){
-        this.getPage(1);
-    }
+    }    
+
 }

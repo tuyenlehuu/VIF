@@ -115,7 +115,7 @@
             "title_inactive": "Ngừng hoạt động",
             "title_icon_showuser": "Xem user tương ứng",
             "title_appro":"Phê duyệt đầu tư",
-            "reject":"Bạn muốn từ chối đầu tư?"
+            "reject":"Bạn muốn từ chối đầu tư?",
             "transaction_type": "Loại giao dịch",
             "ccq_db": "Mã CCQ đảm bảo",
             "status": "Trạng thái"
