@@ -3,6 +3,7 @@ package vif.online.chungkhoan.services;
 import java.util.List;
 
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.TokenResetPassDTO;
 
 public interface UserService {
 	List<User> getAllUsers();
@@ -29,4 +30,6 @@ public interface UserService {
 	boolean resetPassword(String username, String token, String newPass);
 
 	boolean prepareResetPassword(String username);
+
+	boolean changePassword(TokenResetPassDTO tokenResetDTO);
 }

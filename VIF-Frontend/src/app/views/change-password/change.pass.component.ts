@@ -6,32 +6,29 @@ import { ResponseObject } from '../../models/Response.model';
 import { MustMatch } from '../../helpers/function.share';
 import { TokenResetPass } from '../../models/TokenResetPass';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { config } from '../../config/application.config';
 
 @Component({
   selector: 'app-change-pass',
   templateUrl: 'change.pass.component.html',
   styleUrls: ['change.pass.component.scss']
 })
-export class ChangePassComponent {
+export class ChangePasswordComponent {
   submitted = false;
   changePassForm: FormGroup;
   isChangedPass: boolean = false;
-  token: string;
-  username:string;
+  username: string;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private route:ActivatedRoute) { 
-    this.route.queryParams.subscribe(params => {
-      this.username = params['username'];
-      this.token = params['token'];
-  });
-    
-    this.createForm() 
+  constructor(private toastrService: ToastrService, private fb: FormBuilder, private userService: UserService, private route: ActivatedRoute) {
+    this.createForm();
   }
 
   createForm() {
     this.changePassForm = this.fb.group({
       newPass: ['', [Validators.required, Validators.minLength(8)]],
       confirmNewPass: ['', [Validators.required, Validators.minLength(8)]],
+      oldPass: ['', [Validators.required, Validators.minLength(8)]]
     }, {
         validator: [MustMatch('newPass', 'confirmNewPass')]
       });
@@ -44,6 +41,18 @@ export class ChangePassComponent {
   handleLoad() { }
   handleSuccess(event) { }
 
+  showSuccess(mes: string) {
+    this.toastrService.success('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
+
+  showError(mes: string) {
+    this.toastrService.error('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
+
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -51,14 +60,23 @@ export class ChangePassComponent {
       return;
     }
     // console.log("this.forgotForm.value: ", this.forgotForm.value.username);
-    var tokenResetPass:TokenResetPass = new TokenResetPass();
-    tokenResetPass.username = this.username;
-    tokenResetPass.token = this.token;
+    var tokenResetPass: TokenResetPass = new TokenResetPass();
+    var currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      var username = JSON.parse(currentUser).username;
+      tokenResetPass.username = username;
+    }
+
     tokenResetPass.newPass = this.changePassForm.value.newPass;
-    this.userService.resetPassword(tokenResetPass).pipe(first()).subscribe((res: any) => {
+    tokenResetPass.oldPass = this.changePassForm.value.oldPass;
+
+    this.userService.changePassword(tokenResetPass).pipe(first()).subscribe((res: any) => {
       var response: ResponseObject = res;
       if (response.code === 200) {
         this.isChangedPass = true;
+        localStorage.clear();
+      }else{
+        this.showError("Đổi mật khẩu không thành công! Vui lòng kiểm tra thông tin chính xác trước!");
       }
     });
 

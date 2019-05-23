@@ -233,7 +233,8 @@
         "new_pass": "Mật khẩu mới",
         "confirm_new_pass": "Nhập lại mật khẩu mới",
         "title_success": "Thay đổi mật khẩu thành công!",
-        "content_success": "Bạn đã thay đổi mật khẩu thành công. Bắt đầu "
+        "content_success": "Bạn đã thay đổi mật khẩu thành công. ",
+        "old_pass": "Mật khẩu cũ"
     },
     "error_page":{
         "403": "403",
@@ -303,6 +304,15 @@
         "description": "Mô tả",
         "description_placeholder": "Nhập vào mô tả",
         "branch_code": "Ngành cổ phiếu"
+    },
+    "default_layout":{
+        "change_pass": "Đổi mật khẩu",
+        "logout": "Đăng xuất",
+        "goto_dashboard": "Dashboard",
+        "footer1": "VIF Investigation",
+        "footer2" : "2019 creativeLabs.",
+        "footer3" : "Powered by ",
+        "footer4" : "VIF Investigation"
     }
   }
 }

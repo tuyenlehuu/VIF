@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.services.UserService;
 
 @Service(value = "userService")
@@ -112,6 +113,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 	public boolean resetPassword(String username, String token, String newPass) {
 		// TODO Auto-generated method stub
 		return userDao.resetPassword(username, token, newPass);
+	}
+
+	@Override
+	public boolean changePassword(TokenResetPassDTO tokenResetDTO) {
+		// TODO Auto-generated method stub
+		return userDao.changePassword(tokenResetDTO);
 	}
 
 }

@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.IContaints;
+import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.helper.VifApiHelper;
 import vif.online.chungkhoan.helper.VifMailHelper;
 
@@ -214,7 +216,7 @@ public class UserDaoImpl implements UserDao{
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			String tokenReset = apiHelper.generateString(20);
-			String mLink = "http://localhost:4200/#/change-pass?username="+username+"&token="+tokenReset;
+			String mLink = IContaints.CONFIG.LINK_CONFIG + "change-pass?username="+username+"&token="+tokenReset;
 			String content = "You're receiving this e-mail because you requested a password reset for your Postmates account. Please <a href='" + mLink + "'>click here</a> to choose a new password.";
 			try {
 				emailHepler.sendMailWithHTMLContent(user.getEmail(), "Reset password", content);
@@ -250,6 +252,26 @@ public class UserDaoImpl implements UserDao{
 					emailHepler.sendMailWithSimpleText(user.getEmail(), "Reset password Successfully", "You had change new password successfully!");
 					return true;
 				}
+			}
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean changePassword(TokenResetPassDTO tokenResetDTO) {
+		// TODO Auto-generated method stub
+		String hql = "FROM User as u WHERE u.username = :username AND u.isDeleted=0";
+		@SuppressWarnings("unchecked")
+		List<User> lstResult = entityManager.createQuery(hql).setParameter("username", tokenResetDTO.getUsername()).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			User mUser = lstResult.get(0);
+			if(passwordEncoder.matches(tokenResetDTO.getOldPass(), mUser.getPassword())) {
+				mUser.setPassword(passwordEncoder.encode(tokenResetDTO.getNewPass()));
+				entityManager.merge(mUser);
+				// send email inform
+				emailHepler.sendMailWithSimpleText(mUser.getEmail(), "Change password Successfully", "You had change new password successfully!");
+				return true;
 			}
 		}
 		return false;

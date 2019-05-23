@@ -51,4 +51,8 @@ public interface IContaints {
 		public String ERROR = "error";
 		public String INPUT = "input";
 	}
+	
+	public interface CONFIG{
+		public String LINK_CONFIG = "http://localhost:4200/#/";
+	}
 }

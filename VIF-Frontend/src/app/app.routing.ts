@@ -9,7 +9,8 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
-import { ChangePassComponent } from './views/change-pass/change.pass.component';
+import { ChangeResetPassComponent } from './views/change-reset-pass/change.reset.pass.component';
+import { ChangePasswordComponent } from './views/change-password/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -41,8 +42,15 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'change-pass',
-    component: ChangePassComponent,
+    path: 'change-reset-pass',
+    component: ChangeResetPassComponent,
+    data: {
+      title: 'Thay đổi mật khẩu'
+    }
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
     data: {
       title: 'Thay đổi mật khẩu'
     }
