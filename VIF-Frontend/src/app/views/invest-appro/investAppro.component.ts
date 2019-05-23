@@ -29,6 +29,7 @@ export class InvestApproComponent implements OnInit {
   investApproSearch: InvestAppro = new InvestAppro();
   fromDate: Date;
   toDate: Date;
+  modalRef: BsModalRef;
 
   typeOfRequest = [
     {
@@ -41,6 +42,21 @@ export class InvestApproComponent implements OnInit {
     },
     {
       name: 'Bán',
+      value: 2
+    }
+  ];
+
+  status = [
+    {
+      name: 'Pending',
+      value: 0
+    },
+    {
+      name: 'approval',
+      value: 1
+    },
+    {
+      name: 'reject',
       value: 2
     }
   ];
@@ -67,6 +83,26 @@ export class InvestApproComponent implements OnInit {
       this.total = respons.totalRow;
       this.p = page;
       //console.log("data: ", respons);
+    });
+  }
+  confirmDel(template: TemplateRef<any>, id: string) {
+    this.modalRef = this.modalService.show(template);
+    this.modalRef.content = id;
+  }
+  reject() {
+    this.investApproService.update(this.modalRef.content).subscribe(res => {
+      this.investApproSearch.status=3;
+      this.showSuccess('Từ chối thành công');
+      this.getPage(1);
+    }, catchError => {
+      console.log("result: ", catchError);
+    });
+    this.modalRef.hide();
+
+  }
+  showSuccess(mes: string) {
+    this.toastrService.success('', mes, {
+      timeOut: config.timeoutToast
     });
   }
 }

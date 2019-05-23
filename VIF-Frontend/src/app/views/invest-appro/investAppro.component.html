@@ -82,7 +82,10 @@
                 <td>{{item.createDate | date: 'dd/MM/yyyy'}}</td>
                 <td style="text-align: center"><a
                     [routerLink]="['/managementttttt//action-investAppro', item.customer.id]"><i
-                      title="{{'vif.global.other.title_appro' | translate}}" class="fa fa-pencil"></i></a></td>
+                      title="{{'vif.global.other.title_appro' | translate}}" class="fa fa-pencil"></i></a>
+                      <a style="color: red; margin-left: 10px; cursor: pointer" (click)="confirmDel(template, item.customer.id)">
+                        <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                      </a></td>
               </tr>
             </tbody>
           </table>
@@ -97,3 +100,20 @@
     </div>
   </div>
 </div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.global.other.reject' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+      (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary"
+      (click)="reject()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+</ng-template>

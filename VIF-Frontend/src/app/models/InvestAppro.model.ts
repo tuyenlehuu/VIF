@@ -10,4 +10,10 @@ export class InvestAppro{
   price: number;
   amount: number;
   createDate: Date;
+
+  public constructor(){
+    this.typeOfRequest=0;
+    this.customer = new Customer();
+   
+  }
 }

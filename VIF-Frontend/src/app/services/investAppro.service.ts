@@ -10,14 +10,14 @@ export class InvestApproService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        return this.http.get<any>(`${config.apiUrl}/invest_request/getAlls`);
+        return this.http.get<any>(`${config.apiUrl}/invest-appro/getAlls`);
     }
 
     getInvestApproByCondition(RequestCondition: InvestAppro, fromDate: string, toDate: string, pager: Pager) {
         if (!pager) {
             pager = new Pager();
         }
-        var url = `${config.apiUrl}/invest_request/getInvestRequestByCondition?`;
+        var url = `${config.apiUrl}/invest-appro/getInvestRequestsByCondition?`;
         url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
 
         if (RequestCondition.typeOfRequest) {
@@ -31,13 +31,11 @@ export class InvestApproService {
         if (toDate) {
             url = url + "&toDate=" + toDate;
         }
-
-        if (RequestCondition.status) {
-            url = url + "&status=" + RequestCondition.status;
-        }
-
         // console.log("url: ", url);
         return this.http.get<any>(url);
+    }
+    update(request: InvestAppro) {
+        return this.http.put(`${config.apiUrl}/invest_request/update`, request); 
     }
 
 }

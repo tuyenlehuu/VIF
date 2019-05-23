@@ -104,7 +104,8 @@
             "title_active": "Hoạt động",
             "title_inactive": "Ngừng hoạt động",
             "title_icon_showuser": "Xem user tương ứng",
-            "title_appro":"Phê duyệt đầu tư"
+            "title_appro":"Phê duyệt đầu tư",
+            "reject":"Bạn muốn từ chối đầu tư?"
         }
     },
     "message":{
