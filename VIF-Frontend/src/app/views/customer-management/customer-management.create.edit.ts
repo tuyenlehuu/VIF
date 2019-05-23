@@ -108,7 +108,7 @@ export class CECustomerComponent implements OnInit {
                 this.router.navigate(['/customer-management']);
             }, (err) => {
                 this.showError('Cập nhật customer không thành công!');
-                console.log(err);
+                // console.log(err);
             });
         } else {
             this.customerService.addCustomer(customer).subscribe(res => {
@@ -116,7 +116,7 @@ export class CECustomerComponent implements OnInit {
                 this.router.navigate(['/customer-management']);
             }, (err) => {
                 this.showError('Thêm mới customer không thành công!');
-                console.log(err);
+                // console.log(err);
             });
         }
     }

@@ -42,7 +42,7 @@ export class ChangePassComponent {
   handleReset() { }
   handleExpire() { }
   handleLoad() { }
-  handleSuccess(event) { console.log(event); }
+  handleSuccess(event) { }
 
   onSubmit() {
     this.submitted = true;

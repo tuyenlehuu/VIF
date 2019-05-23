@@ -133,7 +133,7 @@ export class CEAssetComponent implements OnInit {
       this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
         this.showError(res);
       });
-      console.log(err);
+      // console.log(err);
     });
 
   }
@@ -169,7 +169,7 @@ export class CEAssetComponent implements OnInit {
       this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
         this.showError(res);
       });
-      console.log(err);
+      // console.log(err);
     });
   }
 

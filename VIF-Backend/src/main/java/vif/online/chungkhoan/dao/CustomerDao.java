@@ -43,4 +43,5 @@ public interface CustomerDao {
 	void addCustomerAsset(CustomerAsset cusAsset);
 	void updateCustomerAsset(CustomerAsset cusAsset);
 	CustomerAsset getCusAssetByCusAndAssetId(Integer customerId, Integer assetId);
+	List<CustomerAsset> getListCusAssetByCusId(Integer customerId);
 }

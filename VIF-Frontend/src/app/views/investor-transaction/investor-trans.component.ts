@@ -280,7 +280,6 @@ export class InvestorTransComponent implements OnInit {
         if(this.isBuyScreen){
             this.investorTransService.getEnsureCCQByCusAsset(this.buyForm.value.bCustomerSelectedId, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
-                    console.log(respons.data);
                     this.amountCCQAvaiable = respons.data;
                 }else{
                     this.amountCCQAvaiable = 0.00;
@@ -289,7 +288,6 @@ export class InvestorTransComponent implements OnInit {
         }else{
             this.investorTransService.getEnsureCCQByCusAsset(this.sellForm.value.sCustomerSelectedId, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
-                    console.log(respons.data);
                     this.amountCCQAvaiable = respons.data;
                 }else{
                     this.amountCCQAvaiable = 0.00;

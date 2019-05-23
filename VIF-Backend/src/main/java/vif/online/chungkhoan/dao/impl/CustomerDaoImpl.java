@@ -314,4 +314,16 @@ public class CustomerDaoImpl implements CustomerDao {
 		entityManager.merge(cusAsset);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CustomerAsset> getListCusAssetByCusId(Integer customerId) {
+		// TODO Auto-generated method stub
+		String hql = "FROM CustomerAsset as ca WHERE ca.customerId = :customerId";
+		List<CustomerAsset> cusAssetLst = (List<CustomerAsset>) entityManager.createQuery(hql).setParameter("customerId", customerId).getResultList();
+		if(cusAssetLst != null && cusAssetLst.size()>0) {
+			return cusAssetLst;
+		}
+		return null;
+	}
+
 }

@@ -115,7 +115,8 @@
             "title_inactive": "Ngừng hoạt động",
             "title_icon_showuser": "Xem user tương ứng",
             "transaction_type": "Loại giao dịch",
-            "ccq_db": "Mã CCQ đảm bảo"
+            "ccq_db": "Mã CCQ đảm bảo",
+            "status": "Trạng thái"
         }
     },
     "message":{
