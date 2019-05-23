@@ -30,9 +30,8 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <select id="select" name="select" class="form-control" [(ngModel)]="appParamSearch.propType">
-                        <option [ngValue]="prT.value" *ngFor="let prT of propType">{{prT.name}}</option>
-                      </select>
+                      <input type="text" (keydown.enter)="enterOnSubmitPropType()" name="propType" [(ngModel)]="appParamSearch.propType" class="form-control"
+                        id="propType-id" placeholder="{{'vif.appParam.propType_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -101,7 +100,7 @@
               <tr
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
-                <td>{{item.propType==1?'Phí giao dịch CCQ': 'Phí giao dịch chứng khoán'}}</td>
+                <td>{{item.propType}}</td>
                 <td style="text-align: right;">{{item.propValue}}</td>
                 <td style="text-align: center">
                   <div *ngIf="item.activeFlg==1"><i class="fa fa-check" title="{{'vif.global.other.title_active' | translate}}"

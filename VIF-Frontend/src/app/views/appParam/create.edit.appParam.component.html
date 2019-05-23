@@ -61,9 +61,8 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <select id="select-propType" name="select-propType" class="form-control" formControlName="propType">
-                  <option [ngValue]="prt.value" *ngFor="let prt of propType">{{prt.name}}</option>
-                </select>
+                <input type="text" formControlName="propType" class="form-control" id="propKey-id"
+                  placeholder="{{'vif.appParam.propType_placeholder' | translate}}">
                 <div *ngIf="addForm.propType.invalid && (addForm.propType.dirty || addForm.propType.touched)"
                   class="alert alert-danger">
                   <div *ngIf="addForm.propType.errors.required">
@@ -150,9 +149,8 @@
             </div>
             <div class="col-md-9">
               <div class="form-group">
-                <select id="select-propType" name="selectPropType" class="form-control" formControlName="ePropType">
-                  <option [ngValue]="prT.value" *ngFor="let prT of propType">{{prT.name}}</option>
-                </select>
+                <input type="text" formControlName="ePropType" class="form-control" id="prop_type-edit-id"
+                  placeholder="{{'vif.appParam.propType_placeholder' | translate}}">
                 <div *ngIf="editForm.ePropType.invalid && (editForm.ePropType.dirty || editForm.ePropType.touched)"
                   class="alert alert-danger">
                   <div *ngIf="editForm.ePropType.errors.required">

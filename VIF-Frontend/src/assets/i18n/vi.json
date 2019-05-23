@@ -212,6 +212,7 @@
         "title2": "Tạo mới config",
         "title3": "Cập nhật config",
         "propKey_placeholder": "Nhập vào mã khóa",
+        "propType_placeholder": "Nhập vào loại",
         "propValue_placeholder": "Nhập vào giá trị",
         "description_placeholder": "Nhập vào mô tả"
     },
