@@ -62,13 +62,13 @@ export class CustomerManagementComponent implements OnInit {
     }
 
     deleteCustomer() {
-         console.log("Start delete: ", this.modalRef.content);
+        //  console.log("Start delete: ", this.modalRef.content);
         this.customerService.deleteCustomerById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
 
             this.getPage(1);
         }, catchError => {
-            console.log("result: ", catchError);
+            // console.log("result: ", catchError);
         });
         this.modalRef.hide();
     }

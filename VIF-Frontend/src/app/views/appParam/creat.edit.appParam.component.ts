@@ -80,16 +80,16 @@ export class CEAppParamComponent implements OnInit {
   saveAppParam(appParam: AppParam) {
     if (this.id > 0) {
       this.appParamService.update(appParam).subscribe(() => {
-        console.log("appParam: ", appParam);
+        // console.log("appParam: ", appParam);
         this.showSuccess('Update thành công');
         this.router.navigate(['/app-param']);
       }, (err) => {
         this.showError('Update thất bại');
-        console.log(err);
+        // console.log(err);
       });
     } else {
       this.appParamService.register(appParam).pipe(first()).subscribe((respons: any) => {
-        console.log("res", respons);
+        // console.log("res", respons);
         if (respons.code === 409) {
           this.showError('Config đã tồn tại');
         } else {
@@ -98,7 +98,7 @@ export class CEAppParamComponent implements OnInit {
         this.router.navigate(['/app-param']);
       }, (err) => {
         this.showError('Thêm mới config không thành công!');
-        console.log(err);
+        // console.log(err);
       });
     }
   }
@@ -121,7 +121,7 @@ export class CEAppParamComponent implements OnInit {
       return;
     }
 
-    console.log("this.appParam AAAAAAAA", this.appParam);
+    // console.log("this.appParam AAAAAAAA", this.appParam);
     // this.appParam.propKey = this.editAppParamForm.value.ePropKey;
     // this.appParam.propType = this.editAppParamForm.value.ePropType;
     this.appParam.propValue = this.editAppParamForm.value.ePropValue;

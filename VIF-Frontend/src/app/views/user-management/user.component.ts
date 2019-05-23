@@ -90,7 +90,7 @@ export class UserComponent implements OnInit {
             // });
             this.getPage(1);
         }, catchError => {
-            console.log("result: ", catchError);
+            // console.log("result: ", catchError);
         });
         this.modalRef.hide();
     }

@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <span>{{'vif.dashboard.debt_report.title' | translate}}</span>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>{{'vif.dashboard.debt_report.ensureCCQCode' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.amount' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.orginal_price' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.current_price' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.debt_money' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.interest_money' | translate}}</th>
+              <th>{{'vif.dashboard.debt_report.rate_year' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="assets.length>0">
+            <tr *ngFor="let item of assets">
+              <td>{{item.assetCode}}</td>
+              <td>{{item.amount | number:'.2-2'}}</td>
+              <td>{{item.currentPrice | number:'.2-2'}}</td>
+              <td>{{item.currentPrice | number:'.2-2'}}</td>
+              <td>{{item.currentPrice*item.amount | number:'.2-2'}}</td>
+              <td>{{item.currentPrice*item.amount | number:'.2-2'}}</td>
+              <td>{{item.description | number:'.2-2'}}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

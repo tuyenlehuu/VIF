@@ -65,6 +65,7 @@
                 <th>{{'vif.asset.asset_name' | translate}}</th>
                 <th>{{'vif.asset.current_money' | translate}}</th>
                 <th>{{'vif.asset.group_asset' | translate}}</th>
+                <th>{{'vif.global.other.status' | translate}}</th>
                 <th>{{'vif.global.label.action' | translate}}</th>
               </tr>
             </thead>
@@ -75,6 +76,7 @@
                 <td>{{item.assetName}}</td>
                 <td>{{item.currentPrice}}</td>
                 <td>{{item.groupAsset.groupName}}</td>
+                <td>{{item.activeFlg == 1?'Hoạt động':'Ngừng hoạt động'}}</td>
                 <td>
                   <a [routerLink]="['/asset-management/create-edit-asset', item.id]"><i class="fa fa-pencil"></i></a>
                   <a style="color: red; cursor: pointer; margin-left: 10px;" (click)="confirmDel(template, item.id)"><i

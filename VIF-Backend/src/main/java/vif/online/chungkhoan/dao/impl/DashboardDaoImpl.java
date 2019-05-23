@@ -12,12 +12,22 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.dao.DashboardDao;
+import vif.online.chungkhoan.dao.UserDao;
+import vif.online.chungkhoan.entities.AppParam;
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.DashBoard;
+import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
 import vif.online.chungkhoan.helper.NAVDTO;
+import vif.online.chungkhoan.services.AppParamService;
+import vif.online.chungkhoan.services.AssetService;
 
 @Transactional
 @Repository
@@ -25,6 +35,18 @@ public class DashboardDaoImpl implements DashboardDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private AssetService assetService;
+	
+	@Autowired
+	private CustomerDao cusDao;
+	
+	@Autowired
+	private AppParamService appParamService;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -302,6 +324,70 @@ public class DashboardDaoImpl implements DashboardDao {
 		}
 
 		return navLst;
+	}
+
+	@Override
+	public List<Asset> getDebtDataByUsername(String username) {
+		// TODO Auto-generated method stub
+		List<Asset> resultLst = new ArrayList<>();
+		List<Asset> tempLst;
+		// get user by username
+		User mUser = userDao.getUserByUserName(username);
+		if(mUser != null) {
+			if(mUser.getRole().equals(IContaints.ROLE.ROLE_ADMIN)) {
+				// user is administrator => get all debt in asset
+				tempLst =  assetService.getAssetByGroupId(3);
+			}else {
+				// user is customer => get debt of this customer in cus_asset
+				tempLst = getDebtAssetByCustomer(mUser.getCustomer().getId());
+			}
+			
+			for (Asset asset : tempLst) {
+				AppParam itemAppParam = appParamService.getAppParamByKeyType(asset.getAssetCode(), IContaints.CONFIG.INTEREST_RATE);
+				if(itemAppParam != null) {
+					asset.setDescription(itemAppParam.getPropValue());
+					resultLst.add(asset);
+				}else {
+					asset.setDescription("0");
+					resultLst.add(asset);
+				}
+			}
+			
+			if(resultLst !=null && resultLst.size() >0) {
+				return resultLst;
+			}
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<Asset> getDebtAssetByCustomer(Integer customerId){
+		String query = "SELECT a.code, a.name, ca.current_price, ca.amount"
+				+ " from asset a, customer_asset ca where ca.customer_id =:customerId and a.id=ca.asset_id";
+		
+		List<Object[]> rows = entityManager.createNativeQuery(query).setParameter("customerId", customerId).getResultList();
+		List<Asset> debtLst = new ArrayList<Asset>();
+		if (rows != null && rows.size() > 0) {
+			for (Object[] row : rows) {
+				Asset item = new Asset();
+				if (row[0] != null && !row[0].equals("")) {
+					item.setAssetCode(row[0].toString());
+				}
+				if (row[1] != null && !row[1].equals("")) {
+					item.setAssetName(row[1].toString());
+				}
+				if (row[2] != null && !row[2].equals("")) {
+					item.setCurrentPrice((BigDecimal) row[2]);
+				}
+				if (row[3] != null && !row[3].equals("")) {
+					item.setAmount((BigDecimal) row[3]);
+				}
+				debtLst.add(item);
+			}
+		}
+		
+		return debtLst;
 	}
 	
 }

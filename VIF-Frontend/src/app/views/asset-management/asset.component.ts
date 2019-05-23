@@ -25,7 +25,7 @@ export class AssetComponent implements OnInit {
   constructor(private assetService: AssetService, private modalService: BsModalService, private toastrService: ToastrService) {
     this.assetService.getGroupAsset().pipe(first()).subscribe((res: any) => {
       this.groupAssets = res.data;
-      console.log("this.groupAssets",this.groupAssets);
+      // console.log("this.groupAssets",this.groupAssets);
     });
   }
 
@@ -61,7 +61,7 @@ export class AssetComponent implements OnInit {
       this.showSuccess('Xóa thành công');
       this.getPage(1);
     }, catchError => {
-      console.log("result: ", catchError);
+      // console.log("result: ", catchError);
     });
     this.modalRef.hide();
   }

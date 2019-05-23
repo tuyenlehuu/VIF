@@ -11,9 +11,9 @@
           <div class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
             <div class="col-xs-12 col-12" style="text-align: center;">
               <button type="button" [ngClass]="!isBuyScreen?'btn-secondary':'btn-success'" class="btn"
-                (click)="changeScreen(1)">{{'vif.global.button.buy_CCQ' | translate}}</button>
+                (click)="changeScreen(1)">{{'vif.global.button.buy' | translate}}</button>
               <button style="margin-left: -5px;" type="button" [ngClass]="isBuyScreen?'btn-secondary':'btn-danger'" class="btn"
-                (click)="changeScreen(0)">{{'vif.global.button.sell_CCQ' | translate}}</button>
+                (click)="changeScreen(0)">{{'vif.global.button.sell' | translate}}</button>
             </div>
           </div>
 
@@ -48,11 +48,48 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                          <select id="select1" (change)="onChangeTransType()" name="select1" class="form-control" formControlName="bTransType">
+                            <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="bCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
@@ -89,7 +126,7 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                      <label for="company">{{'vif.investor_trans.price' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
@@ -144,11 +181,48 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.amount_CCQ' | translate}}<span
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                          <select id="select1" (change)="onChangeSellTransType()" name="select1" class="form-control" formControlName="sTransType">
+                            <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isSellCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="sCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.investor_trans.amount' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">
@@ -189,7 +263,7 @@
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
                     <div class="col-md-3 my-label">
-                      <label for="company">{{'vif.investor_trans.price_CCQ' | translate}}<span
+                      <label for="company">{{'vif.investor_trans.price' | translate}}<span
                           class="asterisk">&#42;</span></label>
                     </div>
                     <div class="col-md-9">

@@ -82,8 +82,6 @@ export class AppParamComponent implements OnInit {
         this.appParamService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
             this.getPage(1);
-        }, catchError => {
-            console.log("result: ", catchError);
         });
         this.modalRef.hide();
 
@@ -109,6 +107,13 @@ export class AppParamComponent implements OnInit {
     }
     enterOnSubmitDescription() {
         console.log(this.description);
+    enterOnSubmitPropKey(){
+        this.getPage(1);
+    }
+    enterOnSubmitPropValue(){
+        this.getPage(1);
+    }
+    enterOnSubmitDescription(){
         this.getPage(1);
     }
 }

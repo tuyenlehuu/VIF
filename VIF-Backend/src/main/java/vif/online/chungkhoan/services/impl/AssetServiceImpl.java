@@ -308,4 +308,10 @@ public class AssetServiceImpl implements AssetService {
 		return assetDao.getAllSharesForBuy();
 	}
 
+	@Override
+	public List<Asset> getAssetByGroupId(Integer groupId) {
+		// TODO Auto-generated method stub
+		return assetDao.getAssetByGroupId(groupId);
+	}
+
 }
