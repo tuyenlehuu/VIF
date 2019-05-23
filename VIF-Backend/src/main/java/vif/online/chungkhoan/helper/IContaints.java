@@ -54,5 +54,11 @@ public interface IContaints {
 	
 	public interface CONFIG{
 		public String LINK_CONFIG = "http://localhost:4200/#/";
+		public String INTEREST_RATE = "INTEREST_RATE";
+	}
+	
+	public interface ROLE{
+		public String ROLE_ADMIN = "ROLE_ADMIN";
+		public String ROLE_USER = "ROLE_USER";
 	}
 }

@@ -13,4 +13,5 @@ public interface AppParamService {
 	List<AppParam> SearchAppParamByCondition(int page, int pageSize, String columnSortName, Boolean asc, String propKey,
 			Integer activeFlg, String propType, String propValue, String description);
 	int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description);
+	public AppParam getAppParamByKeyType(String propKey, String propType);
 }

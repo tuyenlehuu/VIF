@@ -34,4 +34,9 @@ export class DashboardService{
         let url: string = `${config.apiUrl}/dashboard/get-nav-chart-report?isByMonth=` + isByMonth;
         return this.http.get<any>(url);
     }
+
+    getDebtReportData(username: string) {
+        let url: string = `${config.apiUrl}/dashboard/get-debt-report?username=` + username;
+        return this.http.get<any>(url);
+    }
 }

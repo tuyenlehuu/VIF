@@ -279,6 +279,16 @@
             },
             "view_near30_day": "30 ngày gần đây",
             "view_all": "Tất cả"
+        },
+        "debt_report":{
+            "title": "Chứng chỉ quỹ đảm bảo",
+            "ensureCCQCode" : "Mã CCQ",
+            "amount": "Số lượng",
+            "current_price": "Giá hiện tại",
+            "orginal_price": "Giá vốn",
+            "rate_year": "Lãi suất năm",
+            "debt_money": "Nợ gốc",
+            "interest_money": "Tiền lãi" 
         }
     },
     "asset":{

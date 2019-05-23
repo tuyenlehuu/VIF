@@ -18,12 +18,15 @@ import org.springframework.stereotype.Repository;
 import vif.online.chungkhoan.dao.CustomerDao;
 import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.dao.UserDao;
+import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
 import vif.online.chungkhoan.helper.NAVDTO;
+import vif.online.chungkhoan.services.AppParamService;
 import vif.online.chungkhoan.services.AssetService;
 
 @Transactional
@@ -41,6 +44,9 @@ public class DashboardDaoImpl implements DashboardDao {
 	
 	@Autowired
 	private CustomerDao cusDao;
+	
+	@Autowired
+	private AppParamService appParamService;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -323,24 +329,32 @@ public class DashboardDaoImpl implements DashboardDao {
 	@Override
 	public List<Asset> getDebtDataByUsername(String username) {
 		// TODO Auto-generated method stub
+		List<Asset> resultLst = new ArrayList<>();
+		List<Asset> tempLst;
 		// get user by username
 		User mUser = userDao.getUserByUserName(username);
 		if(mUser != null) {
-			if(mUser.getRole().contains("ADMIN")) {
+			if(mUser.getRole().equals(IContaints.ROLE.ROLE_ADMIN)) {
 				// user is administrator => get all debt in asset
-				return assetService.getAssetByGroupId(3);
+				tempLst =  assetService.getAssetByGroupId(3);
 			}else {
 				// user is customer => get debt of this customer in cus_asset
-				return getDebtAssetByCustomer(mUser.getCustomer().getId());
-				
-				/*List<CustomerAsset> lstCusAsset = cusDao.getListCusAssetByCusId(mUser.getCustomer().getId());
-				if(lstCusAsset != null && lstCusAsset.size()>0) {
-					List<Asset> lstAssets = new ArrayList<>();
-					for (CustomerAsset customerAsset : lstCusAsset) {
-						Asset itemAsset = new Asset();
-						itemAsset.set
-					}
-				}*/
+				tempLst = getDebtAssetByCustomer(mUser.getCustomer().getId());
+			}
+			
+			for (Asset asset : tempLst) {
+				AppParam itemAppParam = appParamService.getAppParamByKeyType(asset.getAssetCode(), IContaints.CONFIG.INTEREST_RATE);
+				if(itemAppParam != null) {
+					asset.setDescription(itemAppParam.getPropValue());
+					resultLst.add(asset);
+				}else {
+					asset.setDescription("0");
+					resultLst.add(asset);
+				}
+			}
+			
+			if(resultLst !=null && resultLst.size() >0) {
+				return resultLst;
 			}
 		}
 		
