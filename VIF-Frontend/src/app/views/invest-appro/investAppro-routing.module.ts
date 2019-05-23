@@ -1,14 +1,35 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InvestApproComponent } from './investAppro.component';
+import { ActionInvestApproComponent } from './action-investAppro.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: InvestApproComponent,
     data: {
       title: 'Phê duyệt đầu tư' 
-    }
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: 'invest-appro'
+      },
+      {
+        path: 'invest-appro',
+        component: InvestApproComponent,
+        data: {
+          title: ''
+        }
+      },
+      {
+        path: 'action-investAppro/:id',
+        component: ActionInvestApproComponent,
+        data: {
+          title: ''
+        }
+      },
+
+    ]
   }
 ];
 

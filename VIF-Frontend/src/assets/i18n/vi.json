@@ -103,7 +103,8 @@
             "title_icon_supspend": "Block",
             "title_active": "Hoạt động",
             "title_inactive": "Ngừng hoạt động",
-            "title_icon_showuser": "Xem user tương ứng"
+            "title_icon_showuser": "Xem user tương ứng",
+            "title_appro":"Phê duyệt đầu tư"
         }
     },
     "message":{
@@ -196,7 +197,7 @@
         "money": "Số tiền",
         "price": "Giá CCQ",
         "amount": "SL CCQ",
-        "priceOfRequest": "Loại GD",
+        "typeOfRequest": "Loại GD",
         "Date": "Ngày GD",
         "status": "Trạng thái",
         "action": "Hành động",

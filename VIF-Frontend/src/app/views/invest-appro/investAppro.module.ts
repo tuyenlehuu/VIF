@@ -6,27 +6,14 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AppTranslationModule } from '../../app.translation.module';
-import { NgxCurrencyModule } from "ngx-currency";
 import { NgSelectModule } from '@ng-select/ng-select';
 import {InvestApproComponent} from './investAppro.component';
 import {InvestApproRouting} from './investAppro-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-
-export const customCurrencyMaskConfig = {
-  align: "left",
-  allowNegative: false,
-  allowZero: true,
-  decimal: ".",
-  precision: 2,
-  prefix: "",
-  suffix: "", 
-  thousands: ",",
-  nullable: false
-};
+import { BsDatepickerModule } from 'ngx-bootstrap';
+import { ActionInvestApproComponent } from './action-investAppro.component';
 
 @NgModule({
   imports: [
-    HttpClientModule,
     FormsModule,
     InvestApproRouting,
     CommonModule,
@@ -35,10 +22,10 @@ export const customCurrencyMaskConfig = {
     ReactiveFormsModule,
     AppTranslationModule,
     NgxPaginationModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    NgSelectModule
+    NgSelectModule,
+    BsDatepickerModule.forRoot()
   ],
-  declarations: [InvestApproComponent]
+  declarations: [InvestApproComponent,ActionInvestApproComponent]
 })
 export class InvestApproModule {
    

@@ -7,6 +7,51 @@
         </div>
         <div class="card-body">
           <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.investAppro.fromDate' | translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="company">{{'vif.investAppro.toDate' | translate}}</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.typeOfRequest' | translate}}<span
+                      class="asterisk"></span></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <select id="select" name="select" class="form-control"
+                      [(ngModel)]="investApproSearch.typeOfRequest">
+                      <option [ngValue]="tor.value" *ngFor="let tor of typeOfRequest">{{tor.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-12">
               <button type="button" class="btn btn-primary"
                 (click)="search()">{{'vif.global.button.search' | translate}}</button>
@@ -17,12 +62,12 @@
               <tr>
                 <th>{{ 'vif.investAppro.customer' | translate }}</th>
                 <th>{{ 'vif.investAppro.code' | translate }}</th>
-                <th>{{ 'vif.investAppro.money' | translate }}</th>
-                <th>{{ 'vif.investAppro.price' | translate }}</th>
-                <th>{{ 'vif.investAppro.amount' | translate }}</th>
-                <th>{{ 'vif.investAppro.priceOfRequest' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.money' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.price' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.amount' | translate }}</th>
+                <th>{{ 'vif.investAppro.typeOfRequest' | translate }}</th>
                 <th>{{ 'vif.investAppro.Date' | translate }}</th>
-                <th>{{ 'vif.investAppro.action' | translate }}</th>
+                <th style="text-align: center">{{ 'vif.investAppro.action' | translate }}</th>
               </tr>
             </thead>
             <tbody>
@@ -30,16 +75,23 @@
                 *ngFor="let item of investAppros | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.customer.fullName}}</td>
                 <td>{{item.customer.code}}</td>
-                <td>{{item.money}}</td>
-                <td>{{item.price}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.priceOfRequest}}</td>
-                <td>{{item.Date}}</td>
-                <td> <a style="color: blue; cursor: pointer;margin-left: 10px;"><i class='fa fa-address-book'></i></a>
-                </td>
+                <td style="text-align: right">{{item.money}}</td>
+                <td style="text-align: right">{{item.price}}</td>
+                <td style="text-align: right">{{item.amount}}</td>
+                <td>{{item.typeOfRequest==1?'Mua':'Bán'}}</td>
+                <td>{{item.createDate | date: 'dd/MM/yyyy'}}</td>
+                <td style="text-align: center"><a
+                    [routerLink]="['/managementttttt//action-investAppro', item.customer.id]"><i
+                      title="{{'vif.global.other.title_appro' | translate}}" class="fa fa-pencil"></i></a></td>
               </tr>
             </tbody>
           </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="investAppros && investAppros.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
         </div>
       </div>
     </div>
