@@ -53,8 +53,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <button type="button" class="btn btn-primary"
-                (click)="search()">{{'vif.global.button.search' | translate}}</button>
+              <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
             </div>
           </div>
           <table class="table table-striped mt-3">
@@ -72,7 +71,7 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let item of investAppros | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                *ngFor="let item of investAppros | paginate: {id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.customer.fullName}}</td>
                 <td>{{item.customer.code}}</td>
                 <td style="text-align: right">{{item.money}}</td>
@@ -83,9 +82,10 @@
                 <td style="text-align: center"><a
                     [routerLink]="['/managementttttt//action-investAppro', item.customer.id]"><i
                       title="{{'vif.global.other.title_appro' | translate}}" class="fa fa-pencil"></i></a>
-                      <a style="color: red; margin-left: 10px; cursor: pointer" (click)="confirmDel(template, item.customer.id)">
-                        <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
-                      </a></td>
+                  <a style="color: red; margin-left: 10px; cursor: pointer"
+                    (click)="confirmDel(template, item.customer.id)">
+                    <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                  </a></td>
               </tr>
             </tbody>
           </table>
@@ -113,7 +113,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary"
       (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
-    <button type="button" class="btn btn-primary"
-      (click)="reject()">{{'vif.global.button.accept' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="reject()">{{'vif.global.button.accept' | translate}}</button>
   </div>
 </ng-template>

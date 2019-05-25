@@ -312,5 +312,17 @@ public class InvestApproServiceImpl implements InvestApproService {
 			return null;
 		}
 	}
+
+	@Override
+	public void reject(Integer id) {
+		// TODO Auto-generated method stub
+		investApproDao.reject(id);
+	}
+
+	@Override
+	public void accept(Integer id) {
+		// TODO Auto-generated method stub
+		investApproDao.accept(id);
+	}
 	
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.InvestApproDao;
+import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.InvestRequest;
 
 @Transactional
@@ -117,6 +118,22 @@ public class InvestApproDaoImpl implements InvestApproDao{
 			e.printStackTrace();
 		}
 			return 0;
+	}
+
+	@Override
+	public void reject(Integer id) {
+		// TODO Auto-generated method stub
+		InvestRequest investRequest = entityManager.find(InvestRequest.class, id);
+		investRequest.setStatus(3);
+		entityManager.merge(investRequest);
+	}
+
+	@Override
+	public void accept(Integer id) {
+		// TODO Auto-generated method stub
+		InvestRequest investRequest = entityManager.find(InvestRequest.class, id);
+		investRequest.setStatus(2);
+		entityManager.merge(investRequest);
 	}
 	
 }

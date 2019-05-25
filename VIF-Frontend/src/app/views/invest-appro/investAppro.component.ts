@@ -67,8 +67,7 @@ export class InvestApproComponent implements OnInit {
   ngOnInit(): void {
     this.investApproService.getAll().pipe(first()).subscribe((res: any) => {
       this.investAppros = res;
-      //console.log("data: ", res);
-    });
+  });
     this.search();
   }
   search() {
@@ -90,16 +89,13 @@ export class InvestApproComponent implements OnInit {
     this.modalRef.content = id;
   }
   reject() {
-    this.investApproService.update(this.modalRef.content).subscribe(res => {
-      this.investApproSearch.status=3;
-      this.showSuccess('Từ chối thành công');
-      this.getPage(1);
-    }, catchError => {
-      console.log("result: ", catchError);
+    this.investApproService.reject(this.modalRef.content).subscribe(res => {
+        this.showSuccess('Từ chối thành công');
+        this.getPage(1);
     });
     this.modalRef.hide();
 
-  }
+}
   showSuccess(mes: string) {
     this.toastrService.success('', mes, {
       timeOut: config.timeoutToast

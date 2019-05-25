@@ -13,6 +13,13 @@ export class InvestApproService {
         return this.http.get<any>(`${config.apiUrl}/invest-appro/getAlls`);
     }
 
+    reject(id:number){
+        return this.http.delete(`${config.apiUrl}/invest-appro/reject/${id}`);
+    }
+    accept(id:number){
+        return this.http.delete(`${config.apiUrl}/invest-appro/accept/${id}`);
+    }
+
     getInvestApproByCondition(RequestCondition: InvestAppro, fromDate: string, toDate: string, pager: Pager) {
         if (!pager) {
             pager = new Pager();
