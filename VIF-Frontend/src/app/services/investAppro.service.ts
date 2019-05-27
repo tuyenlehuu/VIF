@@ -4,6 +4,7 @@ import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
 import { map } from 'rxjs/operators';
 import { InvestAppro } from '../models/InvestAppro.model';
+import { InvestRequest } from '../models/InvestRequest.model';
 
 @Injectable()
 export class InvestApproService {
@@ -43,6 +44,15 @@ export class InvestApproService {
     }
     update(request: InvestAppro) {
         return this.http.put(`${config.apiUrl}/invest_request/update`, request); 
+    }
+    add(request: InvestRequest) {
+        var url = `${config.apiUrl}/invest_request/add`;
+        // var currentUser = localStorage.getItem("currentUser");
+        // var token = JSON.parse(currentUser).token;
+        // url = url + "access_token=" + token;
+         console.log("APIIIIIIIII",request);
+        return this.http.post(`${config.apiUrl}/invest_request/add`, request);
+        
     }
 
 }

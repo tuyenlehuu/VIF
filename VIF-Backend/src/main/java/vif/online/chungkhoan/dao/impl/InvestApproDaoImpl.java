@@ -62,8 +62,8 @@ public class InvestApproDaoImpl implements InvestApproDao{
 				Date tDate = formatter.parse(toDate);
 				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
 			}
-				
-			select.select(from).where(predicates.toArray(new Predicate[] {}));
+			
+			select.select(from).where(predicates.toArray(new Predicate[]{}));
 
 			Query query = entityManager.createQuery(criteriaQuery);
 			if (page >= 0 && pageSize >= 0) {

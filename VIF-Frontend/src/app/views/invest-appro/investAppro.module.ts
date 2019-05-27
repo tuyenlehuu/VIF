@@ -10,7 +10,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {InvestApproComponent} from './investAppro.component';
 import {InvestApproRouting} from './investAppro-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap';
-import { ActionInvestApproComponent } from './action-investAppro.component';
 
 @NgModule({
   imports: [
@@ -25,7 +24,7 @@ import { ActionInvestApproComponent } from './action-investAppro.component';
     NgSelectModule,
     BsDatepickerModule.forRoot()
   ],
-  declarations: [InvestApproComponent,ActionInvestApproComponent]
+  declarations: [InvestApproComponent]
 })
 export class InvestApproModule {
    

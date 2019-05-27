@@ -1,7 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { InvestApproComponent } from './investAppro.component';
-import { ActionInvestApproComponent } from './action-investAppro.component';
 
 const routes: Routes = [
   {
@@ -17,13 +16,6 @@ const routes: Routes = [
       {
         path: 'invest-appro',
         component: InvestApproComponent,
-        data: {
-          title: ''
-        }
-      },
-      {
-        path: 'action-investAppro/:id',
-        component: ActionInvestApproComponent,
         data: {
           title: ''
         }

@@ -21,6 +21,7 @@ export class InvestApproComponent implements OnInit {
   investAppros: InvestAppro[] = [];
   customers: Customer[] = [];
   customerId: number;
+  colorTheme = "theme-blue";
   responseObject: ResponseObject;
   p: number = 1;
   total: number;
@@ -67,7 +68,7 @@ export class InvestApproComponent implements OnInit {
   ngOnInit(): void {
     this.investApproService.getAll().pipe(first()).subscribe((res: any) => {
       this.investAppros = res;
-  });
+    });
     this.search();
   }
   search() {
@@ -78,7 +79,7 @@ export class InvestApproComponent implements OnInit {
     pager.page = page;
     pager.pageSize = this.pageSize;
     this.investApproService.getInvestApproByCondition(this.investApproSearch, formatDate(this.fromDate), formatDate(this.toDate), pager).pipe(first()).subscribe((respons: any) => {
-      this.investAppros = respons;
+      this.investAppros = respons.data;
       this.total = respons.totalRow;
       this.p = page;
       //console.log("data: ", respons);
@@ -90,15 +91,24 @@ export class InvestApproComponent implements OnInit {
   }
   reject() {
     this.investApproService.reject(this.modalRef.content).subscribe(res => {
-        this.showSuccess('Từ chối thành công');
-        this.getPage(1);
+      this.showSuccess('Từ chối thành công');
+      this.getPage(1);
     });
     this.modalRef.hide();
 
-}
+  }
+  accept() {
+    this.investApproService.accept(this.modalRef.content).subscribe(res => {
+      this.showSuccess('Chấp thuận đầu tư thành công');
+      this.getPage(1);
+    });
+    this.modalRef.hide();
+
+  }
   showSuccess(mes: string) {
     this.toastrService.success('', mes, {
       timeOut: config.timeoutToast
     });
   }
+
 }

@@ -116,6 +116,7 @@
             "title_icon_showuser": "Xem user tương ứng",
             "title_appro":"Phê duyệt đầu tư",
             "reject":"Bạn muốn từ chối đầu tư?",
+            "accept":"Bạn chắc chắn chấp thuận đâu tư?",
             "transaction_type": "Loại giao dịch",
             "ccq_db": "Mã CCQ đảm bảo",
             "status": "Trạng thái"
