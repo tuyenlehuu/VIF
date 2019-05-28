@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
@@ -120,5 +121,12 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		// TODO Auto-generated method stub
 		return userDao.changePassword(tokenResetDTO);
 	}
+	
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return userDao.saveFileAvatar(file);
+	}
+	
 
 }

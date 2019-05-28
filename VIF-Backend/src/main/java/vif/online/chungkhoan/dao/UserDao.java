@@ -2,6 +2,8 @@ package vif.online.chungkhoan.dao;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.TokenResetPassDTO;
 
@@ -34,4 +36,6 @@ public interface UserDao {
 	boolean prepareResetPassword(String username);
 
 	boolean changePassword(TokenResetPassDTO tokenResetDTO);
+
+	String saveFileAvatar(MultipartFile file);
 }

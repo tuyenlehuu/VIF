@@ -58,10 +58,13 @@ public class User implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date tokenResetExpried;
     
+	@Column(name = "AVATAR")
+	private String avatar;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
-	
+    
 	public Integer getId() {
 		return id;
 	}
@@ -153,6 +156,16 @@ public class User implements Serializable{
 	public void setTokenResetExpried(Date tokenResetExpried) {
 		this.tokenResetExpried = tokenResetExpried;
 	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	
+	
 
 	
 }
