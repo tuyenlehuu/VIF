@@ -22,6 +22,34 @@
         "status": "Trạng thái",
         "action": "Hành động"
     },
+    "customer":{
+        "title1": "Quản lý nhà đầu tư",
+        "title2": "Tạo mới nhà đầu tư",
+        "title3": "Cập nhật người dùng",
+
+        "title4": "Danh sách user đang sở hữu",
+
+        "fullName": "Họ và tên",
+        "fullName_placeholder": "Nhập họ và tên",
+        "email": "Email",
+        "email_placeholder": "Nhập email",
+        "status": "Trạng thái",
+        "avatar": "Ảnh đại diện",
+        "avatar_placeholder": "Chọn file",
+        "action": "Hành động",
+        "code": "Mã NĐT",
+        "code_placeholder": "Nhập mã NĐT",
+        "identityNumber": "Số CMT",
+        "identityNumber_placeholder": "Nhập số CMT",
+        "dateOfBirth": "Ngày sinh",
+        "dateOfBirth_placeholder": "Nhập ngày sinh",
+        "identityDocFront": "Mặt trước CMT",
+        "identityDocBack": "Mặt sau CMT",
+
+        "signContractDate": "Ngày kí hợp đồng",
+        "signContractDate_placeholder": "Nhập ngày kí hợp đồng"
+    
+    },
     "global":{
         "button":{
             "add": "Thêm mới",
@@ -41,7 +69,8 @@
             "sell": "Bán",
             "export_excel": "Xuất excel",
             "reset_pass": "Cấp lại mật khẩu",
-            "home_page": "Quay lại trang chủ"
+            "home_page": "Quay lại trang chủ",
+            "devidend_distribution": "Chia cổ tức"
         },
         "label":{
             "sercurities" : "Chứng khoán",
@@ -50,16 +79,31 @@
             "total_value" : "Tổng giá trị",
             "action":"Hành động"
         },
+        "devidend":{
+            "sercurities" : "Chứng khoán",
+            "current_amount_sercurities" : "Số cổ phiếu hiện tại",
+            "amount" : "Số lượng",
+            "rate" : "Tỷ lệ (%)",
+            "devidend_type" : "Loại cổ tức",
+            "cash_devidend" : "Cổ tức tiền",
+            "share_devidend" : "Cổ tức cổ phiếu"
+        },
         "other":{
             "emptyItem":"Không có bản ghi",
-            "confirmDel": "Bạn có thực sự muốn xóa user?",
-            "confirmDel1":"Bạn có thực sự muốn xoá chi nhánh?",
-            "confirmDelCf": "Bạn có thực sự muốn xóa config?",
+            "confirmDel": "Bạn có thực sự muốn xóa người dùng?",
+            "confirmDel1":"Bạn có thực sự muốn khóa chi nhánh?",  
+            "confirmDelCustomer": "Bạn có thực sự muốn xóa khách hàng",
+            "confirmDelCf": "Bạn có thực sự muốn khóa config?",
             "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
-            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?"
-
+            "confirmDelAsset": "Bạn có thực sự muốn xóa tài sản?",
+            "title_icon_edit": "Sửa",
+            "title_icon_del": "Xóa",
+            "title_icon_supspend": "Block",
+            "title_active": "Hoạt động",
+            "title_inactive": "Ngừng hoạt động",
+            "title_icon_showuser": "Xem user tương ứng"
         }
     },
     "message":{
@@ -76,6 +120,16 @@
         "role_require": "*Phân quyền là bắt buộc",
         "status_require": "*Trạng thái là bắt buộc",
         "wrong_pass": "Sai tên đăng nhập hoặc mật khẩu!",
+
+        "avatar_require":"Vui lòng chọn tệp",
+        "dateOfBirth_require": "*Chưa chọn ngày sinh",
+        "fullName_require": "*Tên là bắt buộc",
+        "identityNumber_require": "Số CMT chưa chính xác",
+        "signContractDate_require": "*Thông tin bắt buộc",
+
+        "signContractDate_invalid": "*Ngày đăng kí không tồn tại",
+        "dateOfBirth_invalid": "Ngày sinh không tồn tại",
+
         "propKey_require": "Mã khóa là bắt buộc",
         "propType_require": "Loại là bắt buộc",
         "propValue_require": "Giá trị là bắt buộc",
@@ -86,7 +140,8 @@
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
         "create_failed": "Thêm mới không thành công",
-        "asset_exists": "Tài sản đã tồn tại trong hệ thống"
+        "asset_exists": "Tài sản đã tồn tại trong hệ thống",
+        "create_failed": "Thêm mới không thành công"
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -119,17 +174,17 @@
         }
     },
     "branch":{
-        "title":"Danh sách chi nhánh",
-        "title1":"Tạo mới chi nhánh ",
+        "title":"Danh sách nghành",
+        "title1":"Tạo mới nghành ",
         "title2":"Sửa nhánh ",
-        "code":"Mã chi nhánh",
-        "name": "Tên chi nhánh",
+        "code":"Mã nghành",
+        "name": "Tên nghành",
         "activeFlg":"Trạng thái",
         "action":"Hành động",
         "add":"Thêm mới",
         "search":"Tìm kiếm",
-        "code_placeholder": "Nhập vào mã chi nhánh",
-        "name_placeholder":"Nhập tên chi nhánh",
+        "code_placeholder": "Nhập vào mã nghành",
+        "name_placeholder":"Nhập tên nghành",
         "cancer":"Huỷ bỏ",
         "update":"Cập nhật",
         "exit":"Mã chi nhánh bị trùng"
@@ -236,6 +291,27 @@
         "description": "Mô tả",
         "description_placeholder": "Nhập vào mô tả",
         "branch_code": "Ngành cổ phiếu"
-    }
+    },
+
+    "transaction":{
+        "title":"Lịch sử thay đổi giao dịch",
+        "creatdate":"Ngày tạo",
+        "fromDate":"Từ ngày",
+        "toDate":"Đến ngày",
+        "typeOftransaction":"Loại giao dịch",
+        "asset_ID":"Mã giao dịch",
+        "search":"Tìm kiếm",
+        "excel":"Xuất excel",
+        "amount":"Số lượng",
+        "description":"Mô tả",
+        "price":"Giá",
+        "activeFlg":"Trạng thái",
+        "createDate1":"Nhập vào ngày tạo",
+        "asset_ID1":"Chọn mã giao dịch",
+        "type":"Chọn loại"  
+  },
+  "invest_request":{
+    "title": "Đăng kí đầu tư"
+}
   }
 }

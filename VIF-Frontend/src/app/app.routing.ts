@@ -71,6 +71,10 @@ export const routes: Routes = [
         loadChildren: './views/invest-management/invest.module#InvestModule'
       },
       {
+        path: 'invest-management/share-devidend',
+        loadChildren: './views/share-dividend/share-dividend.module#ShareDividendModule'
+      },
+      {
         path: 'managementttttt',
         loadChildren: './views/invest-management/invest.module#InvestModule'
       },
@@ -95,16 +99,31 @@ export const routes: Routes = [
         loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
       },
       {
+
+        path: 'customer-management',
+
+        loadChildren: './views/customer-management/customer.module#CustomerModule'
+      },
+      {
         path: 'app-param',
         loadChildren: './views/appParam/appParam.module#AppParamModule'
       },
       {
-        path:"branch-managenment",
+        path: "branch-managenment",
         loadChildren: './views/branch-managenment/branch.module#BranchModule'
+      },
+      {
+        path:"transaction-history",
+        loadChildren: './views/transaction-history/transaction.module#TransactionModule'
       },
       {
         path: '403',
         component: P403Component
+
+      },
+      {
+        path:"invest-request",
+        loadChildren: './views/invest-request/invest-req.module#InvestRequestModule'
       }
     ]
   },
@@ -112,7 +131,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <!--/.col-->
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.customer.title4' | translate }}</span>
+
+        </div>
+
+        <div class="card-body">
+
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{'vif.user.username' | translate}}</th>
+                <th>{{'vif.user.email' | translate}}</th>
+                <th>{{'vif.user.role' | translate}}</th>
+                <th>{{'vif.user.status' | translate}}</th>
+
+              </tr>
+            </thead>
+            <tbody *ngIf="users && users.length > 0">
+              <tr
+                *ngFor="let user of users | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.role=='ROLE_ADMIN'?'Quản trị viên':user.role=='ROLE_USER'?'Nhà đầu tư':'Khách'}}</td>
+                <td>{{user.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
+
+              </tr>
+            </tbody>
+            <tbody *ngIf="!users || (users && users.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="users && users.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

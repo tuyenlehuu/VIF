@@ -83,7 +83,8 @@ public class BranchDaoImpl implements BranchDao {
 	}
 
 	@Override
-	public List<Branch> SearchBranchByCondition(String branchCode, Integer activeFlg, String branchName) {
+	public List<Branch> SearchBranchByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String branchCode, Integer activeFlg, String branchName) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<Branch> from = criteriaQuery.from(Branch.class);
@@ -103,7 +104,7 @@ public class BranchDaoImpl implements BranchDao {
 		}
 
 		if (branchName != null && !branchName.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("branchName"), branchName));
+			predicates.add(criteriaBuilder.like(from.get("branchName"), "%" + branchName + "%"));
 		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));
@@ -125,8 +126,9 @@ public class BranchDaoImpl implements BranchDao {
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if (branchCode != null && !branchCode.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("branchCode"), branchCode));
+		if(branchCode != null && !branchCode.equals("")) {
+
+			predicates.add(criteriaBuilder.like(from.get("branchCode"), "%" + branchCode + "%"));
 		}
 
 		if (activeFlg != null) {
@@ -134,7 +136,7 @@ public class BranchDaoImpl implements BranchDao {
 		}
 
 		if (branchName != null && !branchName.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("branchName"), branchName));
+			predicates.add(criteriaBuilder.like(from.get("branchName"), "%" + branchName + "%"));
 		}
 
 		select.select(from).where(predicates.toArray(new Predicate[] {}));

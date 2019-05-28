@@ -104,7 +104,7 @@ export class InvestorTransComponent implements OnInit {
             if (this.responseObject.code === 200) {
                 this.showSuccess("Đầu tư thành công!");
                 this.resetForm();
-                this.amountCCQAvaiable = this.amountCCQAvaiable + Number((buyCCQObject.money/buyCCQObject.priceCCQ).toFixed(2));
+                this.amountCCQAvaiable = Number((this.amountCCQAvaiable + Number(buyCCQObject.money/buyCCQObject.priceCCQ)).toFixed(2));
             } else {
                 this.showError("Đầu tư thất bại. Vui lòng liên hệ quản trị viên!");
             }
@@ -122,7 +122,7 @@ export class InvestorTransComponent implements OnInit {
             if (this.responseObject.code === 200) {
                 this.showSuccess("Rút vốn thành công!");
                 this.resetForm();
-                this.amountCCQAvaiable = this.amountCCQAvaiable - sellCCQObject.amountCCQ;
+                this.amountCCQAvaiable = Number((this.amountCCQAvaiable - sellCCQObject.amountCCQ).toFixed(2));
             } else {
                 this.showError("Rút vốn thất bại. Vui lòng liên hệ quản trị viên!");
             }
@@ -160,20 +160,18 @@ export class InvestorTransComponent implements OnInit {
             return;
         }
         var mMoney = this.buyForm.value.bMoney;
-        var currentPrice = event.target.value;
-        currentPrice = currentPrice.toString().replace(',', '');
-        // console.log("currentPrice", currentPrice);
+        var currentPrice = this.buyForm.value.bPrice;
         this.buyCCQForm.bAmountCCQ.setValue(mMoney / currentPrice);
     }
+
 
     onKeySPrice(event: any) {
         if (this.sellForm.invalid) {
             return;
         }
         var mAmountCCQ = this.sellForm.value.sAmountCCQ;
-        var currentPrice = event.target.value;
-        currentPrice = currentPrice.toString().replace(',', '');
-        // console.log("currentPrice", currentPrice);
+        var currentPrice = this.sellForm.value.sPrice;
+        // currentPrice = currentPrice.toString().replace(',', '');
         this.sellCCQForm.sMoney.setValue(mAmountCCQ * currentPrice);
     }
 
@@ -181,19 +179,17 @@ export class InvestorTransComponent implements OnInit {
         if (this.isBuyScreen) {
             this.customerSelectedId = this.buyForm.value.bCustomerSelectedId;
             this.amountCCQAvaiable = 0;
-            this.customers.forEach(customer => {
-                if (customer.id === this.customerSelectedId) {
-                    this.amountCCQAvaiable = customer.totalCcq;
-                }
+            this.customerService.getById(this.customerSelectedId).subscribe((res:any) =>{
+                var mCus: Customer = res;
+                this.amountCCQAvaiable = mCus.totalCcq;
             });
         } else {
             this.customerSelectedId = this.sellForm.value.sCustomerSelectedId;
             this.amountCCQAvaiable = 0;
-            this.customers.forEach(customer => {
-                if (customer.id === this.customerSelectedId) {
-                    this.amountCCQAvaiable = customer.totalCcq;
-                    this.sellCCQForm.sAmountCCQAvai.setValue(customer.totalCcq);
-                }
+            this.customerService.getById(this.customerSelectedId).subscribe((res:any) =>{
+                var mCus: Customer = res;
+                this.amountCCQAvaiable = mCus.totalCcq;
+                this.sellCCQForm.sAmountCCQAvai.setValue(mCus.totalCcq);
             });
         }
     }

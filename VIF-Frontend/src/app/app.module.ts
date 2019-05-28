@@ -37,10 +37,11 @@ import { AppTranslationModule } from './app.translation.module';
 import { CustomerService } from './services/customer.service';
 import { AppParamService } from './services/appParam.service';
 import { InvestorTransService } from './services/investor.transaction.service';
-import { InvestManagementService } from './services/invest.management.service.';
+import { InvestManagementService } from './services/invest.management.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ShareMasterService } from './services/sharemaster.service';
 import { BranchService } from './services/branch.service';
+import { TransactionService } from './services/transaction.service';
 
 
 const APP_CONTAINERS = [
@@ -62,6 +63,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { InvestRequestService } from './services/invest.request.service';
+
 
 @NgModule({
   imports: [
@@ -103,6 +106,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   OauthService,
   UserService,
   CustomerService,
+  InvestRequestService,
   AppParamService,
   { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
@@ -111,7 +115,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   AssetService,
   DashboardService,
   ShareMasterService,
-  BranchService
+  BranchService,
+  TransactionService
   ],
   bootstrap: [ AppComponent ]
 })

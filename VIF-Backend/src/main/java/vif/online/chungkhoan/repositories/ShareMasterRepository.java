@@ -9,3 +9,5 @@ import vif.online.chungkhoan.entities.ShareMaster;
 public interface ShareMasterRepository extends JpaRepository<ShareMaster, Integer> {
 
 }
+
+

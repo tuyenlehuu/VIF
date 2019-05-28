@@ -22,6 +22,7 @@ import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.GroupAsset;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.BuySellAssetObj;
+import vif.online.chungkhoan.helper.DividendObject;
 import vif.online.chungkhoan.services.AssetService;
 import vif.online.chungkhoan.services.GroupAssetService;
 
@@ -132,12 +133,39 @@ public class AssetServiceController {
 		result = assetService.sellSercurities(sellObject.getAssetId(),sellObject.getAmount() ,sellObject.getPrice());
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/dividendTrans", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody ResponseEntity<ApiResponse> dividendTrans(@RequestBody DividendObject dividendObj) {
+		ApiResponse result = new ApiResponse();
 
+		if (dividendObj == null || dividendObj.getAssetId() == null || dividendObj.getAmount() == null
+				|| dividendObj.getType() == null || dividendObj.getRate() == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("missing parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		result = assetService.dividendTrans(dividendObj.getAssetId(), dividendObj.getAmount(), dividendObj.getType(),
+				dividendObj.getRate());
+
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
 	
 	@GetMapping("/getAllShares")
 	public ResponseEntity<ApiResponse> getAllShares() {
 		ApiResponse object = new ApiResponse();
 		List<Asset> list = assetService.getAllShares();
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllSharesForBuy")
+	public ResponseEntity<ApiResponse> getAllSharesForBuy() {
+		ApiResponse object = new ApiResponse();
+		List<Asset> list = assetService.getAllSharesForBuy();
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
