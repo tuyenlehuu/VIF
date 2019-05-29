@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.UserService;
 
 /**
@@ -114,5 +116,19 @@ public class UserController {
 		userService.deleteUserById(id);
 //		userService.deleteUserById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	@PostMapping("upFileAvatar")
+	public ResponseEntity<String> saveFileAvatar(@RequestParam("file") MultipartFile file) {
+		if (file.isEmpty()) {
+			return new ResponseEntity<String>("empty file", HttpStatus.OK);
+		}
+
+		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
+			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
+		}
+		String status = userService.saveFileAvatar(file);
+
+		return new ResponseEntity<String>(status, HttpStatus.OK);
 	}
 }

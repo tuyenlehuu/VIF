@@ -83,19 +83,6 @@ public class CustomerController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@PostMapping("upFileAvatar")
-	public ResponseEntity<String> saveFileAvatar(@RequestParam("file") MultipartFile file) {
-		if (file.isEmpty()) {
-			return new ResponseEntity<String>("empty file", HttpStatus.OK);
-		}
-
-		if (file.getSize() > IContaints.FILE_UPLOAD.MAX_SIZE_FILE) {
-			return new ResponseEntity<String>("size too limited", HttpStatus.OK);
-		}
-		String status = customerService.saveFileAvatar(file);
-
-		return new ResponseEntity<String>(status, HttpStatus.OK);
-	}
 
 	@PostMapping("upFileDocBack")
 	public ResponseEntity<String> saveFileDocBack(MultipartFile file) {

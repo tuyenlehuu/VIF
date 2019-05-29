@@ -43,8 +43,8 @@ public class Customer implements Serializable {
 	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
 
-	@Column(name = "AVATAR")
-	private String avatar;
+	//@Column(name = "AVATAR")
+	//private String avatar;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -106,13 +106,13 @@ public class Customer implements Serializable {
 		this.fullName = fullName;
 	}
 
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
+//	public String getAvatar() {
+//		return avatar;
+//	}
+//
+//	public void setAvatar(String avatar) {
+//		this.avatar = avatar;
+//	}
 
 	public String getEmail() {
 		return email;
