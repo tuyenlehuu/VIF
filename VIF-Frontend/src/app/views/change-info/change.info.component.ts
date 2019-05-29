@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
-import { first } from 'rxjs/operators';
-import { ResponseObject } from '../../models/Response.model';
-import { MustMatch } from '../../helpers/function.share';
-import { TokenResetPass } from '../../models/TokenResetPass';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
+import { ChangeInfoService } from '../../services/ChangeInfo.service';
+import { User } from '../../models/ChangInfo.model';
 
 @Component({
   templateUrl: 'change.info.component.html',
@@ -15,7 +12,17 @@ import { config } from '../../config/application.config';
 })
 export class ChangeInfoComponent {
   changeInfoForm: FormGroup;
-  constructor(private toastrService: ToastrService, private fb: FormBuilder, private userService: UserService, private route: ActivatedRoute) {
-    
+  submitted = false;
+  user: User;
+  localUrlAvatar: any[];
+  selectFileAvatar: File;
+  constructor(private toastrService: ToastrService, private fb: FormBuilder, private changeInfoService: ChangeInfoService, private route: ActivatedRoute) {
+    this.creatForm();
+  }
+  creatForm() {
+    this.changeInfoForm = this.fb.group({
+      fileAvatar: [this.user.avatar, Validators.required],
+      Email: [this.user.email, Validators.required],
+    });
   }
 }

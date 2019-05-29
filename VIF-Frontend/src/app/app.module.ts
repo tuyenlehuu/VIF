@@ -66,6 +66,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { InvestRequestService } from './services/invest.request.service';
 import { ChangeInfoComponent } from './views/change-info/change.info.component';
+import { ChangeInfoService } from './services/ChangeInfo.service';
 
 
 @NgModule({
@@ -119,6 +120,7 @@ import { ChangeInfoComponent } from './views/change-info/change.info.component';
   AssetService,
   DashboardService,
   ShareMasterService,
+  ChangeInfoService,
   BranchService
   ],
   bootstrap: [ AppComponent ]

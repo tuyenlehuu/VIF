@@ -236,6 +236,9 @@
         "content_success": "Bạn đã thay đổi mật khẩu thành công. ",
         "old_pass": "Mật khẩu cũ"
     },
+    "change_info":{
+        "title":"Cập nhập thông tin cá nhân"
+    },
     "error_page":{
         "403": "403",
         "404": "404",
