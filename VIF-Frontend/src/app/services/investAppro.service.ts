@@ -32,6 +32,10 @@ export class InvestApproService {
             url = url + "&typeOfRequest=" + RequestCondition.typeOfRequest;
         }
 
+        if (RequestCondition.typeOfInvest) {
+            url = url + "&typeOfInvest=" + RequestCondition.typeOfInvest;
+        }
+
         if (fromDate) {
             url = url + "&fromDate=" + fromDate;
         }

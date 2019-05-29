@@ -49,15 +49,15 @@ public class InvestApproServiceImpl implements InvestApproService {
 
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, String fromDate, String toDate) {
+			Integer typeOfRequest,Integer typeOfInvest, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investApproDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, fromDate, toDate);
+		return investApproDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, typeOfInvest, fromDate, toDate);
 	}
 
 	@Override
-	public int getRowCount(Integer typeOfRequest, String fromDate, String toDate) {
+	public int getRowCount(Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investApproDao.getRowCount(typeOfRequest, fromDate, toDate);
+		return investApproDao.getRowCount(typeOfRequest, typeOfInvest, fromDate, toDate);
 	}
 
 	@Override

@@ -47,6 +47,21 @@ export class InvestApproComponent implements OnInit {
     }
   ];
 
+  typeOfInvest = [
+    {
+      name: 'Chọn kiểu đầu tư',
+      value: 0
+    },
+    {
+      name: 'CCQ',
+      value: 1
+    },
+    {
+      name: 'CCQ đảm bảo',
+      value: 2
+    }
+  ];
+
   status = [
     {
       name: 'Pending',

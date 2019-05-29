@@ -38,7 +38,7 @@ public class InvestApproDaoImpl implements InvestApproDao{
 
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, String fromDate, String toDate) {
+			Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -51,6 +51,10 @@ public class InvestApproDaoImpl implements InvestApproDao{
 
 			if (typeOfRequest != null) {
 				predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			}
+			
+			if (typeOfInvest != null) {
+				predicates.add(criteriaBuilder.equal(from.get("typeOfInvest"), typeOfInvest));
 			}
 			
 			if(fromDate != null && !fromDate.equals("")) {
@@ -82,7 +86,7 @@ public class InvestApproDaoImpl implements InvestApproDao{
 	}
 
 	@Override
-	public int getRowCount(Integer typeOfRequest, String fromDate, String toDate) {
+	public int getRowCount(Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -94,6 +98,10 @@ public class InvestApproDaoImpl implements InvestApproDao{
 
 			if (typeOfRequest != null) {
 				predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			}
+			
+			if (typeOfInvest != null) {
+				predicates.add(criteriaBuilder.equal(from.get("typeOfInvest"), typeOfInvest));
 			}
 			
 			if(fromDate != null && !fromDate.equals("")) {

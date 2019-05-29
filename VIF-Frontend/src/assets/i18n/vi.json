@@ -216,8 +216,8 @@
         "status": "Trạng thái",
         "action": "Hành động",
         "fromDate": "Từ ngày",
-        "toDate": "Đến ngày"
-
+        "toDate": "Đến ngày",
+        "typeOfInvest": "Kiểu đầu tư"
     },
     "appParam":{
         "action": "Hành động",

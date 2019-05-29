@@ -43,12 +43,13 @@ public class InvestApproController {
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "asc", required = false) Boolean asc,
 			@RequestParam(value = "typeOfRequest", required = false) Integer typeOfRequest,
+			@RequestParam(value = "typeOfInvest", required = false) Integer typeOfInvest,
 			@RequestParam(value = "fromDate", required = false) String fromDate,
 			@RequestParam(value = "toDate", required = false) String toDate){
 		ApiResponse object = new ApiResponse();
 		List<InvestRequest> list = investApproService.SearchInvestRequestByCondition(page, pageSize, asc,
-				typeOfRequest, fromDate, toDate);
-		int rowCount = investApproService.getRowCount(typeOfRequest, fromDate, toDate);
+				typeOfRequest, typeOfInvest, fromDate, toDate);
+		int rowCount = investApproService.getRowCount(typeOfRequest, typeOfInvest, fromDate, toDate);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);

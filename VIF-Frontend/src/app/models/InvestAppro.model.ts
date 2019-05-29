@@ -6,6 +6,7 @@ export class InvestAppro{
   status: number;
   customer: Customer;
   typeOfRequest: number;
+  typeOfInvest: number;
   money: number;
   price: number;
   amount: number;
@@ -13,6 +14,7 @@ export class InvestAppro{
 
   public constructor(){
     this.typeOfRequest=0;
+    this.typeOfInvest=0;
     this.customer = new Customer();
    
   }
