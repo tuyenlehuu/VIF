@@ -328,7 +328,7 @@
     },
     "default_layout":{
         "change_pass": "Đổi mật khẩu",
-        "change_info": "Đổi thông tin cá nhân",
+        "change_info": "Cập nhập profile",
         "logout": "Đăng xuất",
         "goto_dashboard": "Dashboard",
         "footer1": "VIF Investigation",
