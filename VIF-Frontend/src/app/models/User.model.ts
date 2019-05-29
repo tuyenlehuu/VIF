@@ -11,6 +11,7 @@ export class User {
     isDeleted: number;
     token: string;
     customerId: string;
+    avatar: string;
     customer: Customer
 
     public constructor() {

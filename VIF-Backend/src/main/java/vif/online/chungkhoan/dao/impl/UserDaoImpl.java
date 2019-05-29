@@ -1,5 +1,9 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.UserDao;
 //import vif.online.chungkhoan.dao.UserDao;
@@ -277,5 +282,26 @@ public class UserDaoImpl implements UserDao{
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		String path = IContaints.FILE_UPLOAD.AVATAR_UPLOAD_DIRECTORY;
+		String pathFile = "";
+		try {
+			String filename = file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			File f = new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f));
+			pathFile=f.getPath();
+			stream.write(bytes);
+			stream.flush();
+			stream.close();
+
+		} catch (IOException e) {
+			return "Something wrong";
+		}
+
+		return pathFile;
 	}
 }
