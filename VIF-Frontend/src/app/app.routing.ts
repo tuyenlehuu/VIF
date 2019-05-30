@@ -132,6 +132,10 @@ export const routes: Routes = [
       {
         path:"invest-request",
         loadChildren: './views/invest-request/invest-req.module#InvestRequestModule'
+      },
+      {
+        path:"billing-info",
+        loadChildren: './views/billing-info/billing-info.module#BillingInfoModule'
       }
     ]
   },

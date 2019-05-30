@@ -104,6 +104,7 @@
             "confirmDel1":"Bạn có thực sự muốn khóa chi nhánh?",  
             "confirmDelCustomer": "Bạn có thực sự muốn xóa khách hàng",
             "confirmDelCf": "Bạn có thực sự muốn khóa config?",
+            "confirmDelBInfo":"Bạn có thực sự muốn khóa tài tài khoản?", 
             "note": "Lưu ý",
             "previousLabel": "Trước",
             "nextLabel" :"Sau",
@@ -352,6 +353,17 @@
         "footer2" : "2019 creativeLabs.",
         "footer3" : "Powered by ",
         "footer4" : "VIF Investigation"
+    },
+    "billing_info":{
+        "title1": "Thông tin thanh toán",
+        "account_name": "Tên tài khoản",
+        "bank_name": "Tên ngân hàng",
+        "bank_branch": "Tên chi nhánh",
+        "bank_account": "Số tài khoản",
+        "bank_account_placeholder": "Nhập số tài khoản",
+        "bank_branch_placeholder" : "Nhập tên chi nhánh",
+        "bank_name_placeholder": "Nhập tên ngân hàng",
+        "account_name_placeholder": "Nhập tên tài khoản"
     }
   }
 }

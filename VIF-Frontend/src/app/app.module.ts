@@ -66,6 +66,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { InvestRequestService } from './services/invest.request.service';
 import { InvestApproService } from './services/investAppro.service';
+import { BillingInfoService } from './services/billing.service';
 
 
 @NgModule({
@@ -119,7 +120,8 @@ import { InvestApproService } from './services/investAppro.service';
   DashboardService,
   ShareMasterService,
   BranchService,
-  InvestApproService
+  InvestApproService,
+  BillingInfoService
   ],
   bootstrap: [ AppComponent ]
 })

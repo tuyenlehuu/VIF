@@ -89,6 +89,11 @@ export const navItems: NavData[] = [
     icon: 'fa fa-handshake-o'
   },
   {
+    name: 'Thông tin thanh toán',
+    url: '/billing-info',
+    icon: 'fa fa-money'
+  },
+  {
     title: true,
     name: 'Danh mục'
   },
@@ -112,4 +117,5 @@ export const navItems: NavData[] = [
     url: '/app-param',
     icon: 'fa fa-cog'
   }
+
 ];

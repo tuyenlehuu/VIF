@@ -73,4 +73,8 @@ export class CustomerService {
         return this.http.get(`${config.apiUrl}/customer/UsersById/${id}`);
     }
 
+    getBillingInfo(id: number){
+        return this.http.get(`${config.apiUrl}/customer/getBillingInfo/${id}`);
+    }
+
 }
