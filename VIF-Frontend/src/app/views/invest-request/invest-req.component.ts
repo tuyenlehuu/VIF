@@ -10,6 +10,8 @@ import { InvestRequest } from '../../models/InvestRequest.model'
 import { InvestRequestService } from '../../services/invest.request.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ValidateSellAmount, NotEqualZero } from '../../helpers/function.share';
+import { Asset } from '../../models/Asset.model';
+import { AssetService } from '../../services/asset.service';
 
 
 @Component({
@@ -29,8 +31,23 @@ export class InvestRequestComponent implements OnInit {
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
     price: number;
+    isCCQDB = false;
+    isSellCCQDB = false;
+    assetSelectedCode: string;
+    CQQDBtemp: number;
+    transType = [
+        {
+            name: 'Giao dịch CCQ',
+            value: '1'
+        },
+        {
+            name: 'Giao dịch CCQ đảm bảo',
+            value: '2'
+        }
+    ];
+    assets: Asset[] = [];
     constructor(private toastrService: ToastrService, private userService: UserService,
-        private requestService: InvestRequestService, private fb: FormBuilder) {
+        private requestService: InvestRequestService, private fb: FormBuilder,private assetService:AssetService) {
     }
 
 
@@ -38,7 +55,9 @@ export class InvestRequestComponent implements OnInit {
         this.buyForm = this.fb.group({
             bCCQ: [{ value: 0, disabled: true }, Validators.required],
             bMoney: [0, Validators.required],
-            price: [this.price, Validators.required]
+            price: [this.price, Validators.required],
+            bTransType: ['1', Validators.required],
+            bCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
                 validator: [NotEqualZero('bCCQ'), NotEqualZero('bMoney')]
             });
@@ -50,7 +69,9 @@ export class InvestRequestComponent implements OnInit {
             sCCQ: [0, Validators.required],
             sMoney: [{ value: 0, disabled: true }, Validators.required],
             sAmountCCQAvai: [this.amountCCQAvaiable],
-            price: [this.price, Validators.required]
+            price: [this.price, Validators.required],
+            sTransType: ['1', Validators.required],
+            sCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
                 validator: [ValidateSellAmount('sCCQ', 'sAmountCCQAvai'), NotEqualZero('sMoney')]
             });
@@ -59,7 +80,6 @@ export class InvestRequestComponent implements OnInit {
 
 
     ngOnInit(): void {
-
 
         this.isBuyScreen = true;
         var pager: Pager = new Pager();
@@ -83,7 +103,18 @@ export class InvestRequestComponent implements OnInit {
             this.investRequest.price = res;
             console.log("RESSSSS", res);
         })
+
+        this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
+            // console.log("data: ", respons);
+            this.assets = respons.data;
+            if(this.assets){
+                this.assetSelectedCode = this.assets[0].assetCode;
+            }
+            console.log("AS====>",respons.data);
+        });
     }
+
+   
 
     get buyCCQForm() { return this.buyForm.controls; }
 
@@ -105,12 +136,14 @@ export class InvestRequestComponent implements OnInit {
     }
 
     changeScreen(typeScreen: number) {
+        
         if (typeScreen === 1) {
             this.isBuyScreen = true;
         } else {
             this.isBuyScreen = false;
         }
         this.resetForm();
+        
     }
 
     buyCCQ() {
@@ -119,6 +152,7 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.customer = this.customer;
         this.investRequest.money = this.buyForm.value.bMoney;
         this.investRequest.createDate = this.date;
+        this.investRequest.typeOfInvest = this.buyForm.value.bTransType;
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
             if (res != null) {
@@ -137,6 +171,7 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.customer = this.customer;
         this.investRequest.amount = this.sellForm.value.sCCQ;
         this.investRequest.createDate = this.date;
+        this.investRequest.typeOfInvest = this.sellForm.value.sTransType;
         console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
 
@@ -174,6 +209,10 @@ export class InvestRequestComponent implements OnInit {
         } else {
             this.createSellForm();
         }
+
+        this.isCCQDB = false;
+        this.isSellCCQDB = false;
+    
     }
     onKeyMoney(event: any) {
         this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / (this.price * 1000));
@@ -183,10 +222,60 @@ export class InvestRequestComponent implements OnInit {
 
     onKeyCCQ(event: any) {
         this.sellCCQForm.sMoney.setValue(Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2)));
-        this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
+       
+       if(this.isSellCCQDB==false) {
+           this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
+       }else {
+        this.amountCCQAvaiable = Number((this.sellForm.value.sAmountCCQAvai - this.sellForm.value.sCCQ).toFixed(2));
+       }
         this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2));
         console.log("SELLLL", this.sellForm.value.sMoney);
 
+    }
+
+    onChangeTransType(){
+        if(this.buyForm.value.bTransType == '2'){
+            this.isCCQDB = true;
+            this.onChangeEnsureCCQ();
+        }else{
+            this.isCCQDB = false;
+            this.amountCCQAvaiable=this.customer.totalCcq;
+        }
+    }
+
+    onChangeSellTransType(){
+        // console.log("sTransType: ", this.sellForm.value.sTransType);
+        if(this.sellForm.value.sTransType == '2'){
+            this.isSellCCQDB = true;
+            this.onChangeEnsureCCQ();
+        }else{
+            this.isSellCCQDB = false;
+            this.amountCCQAvaiable=this.customer.totalCcq;
+        }
+    }
+
+    onChangeEnsureCCQ(){
+        if(this.isBuyScreen){
+            this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
+                if(respons.data){
+                    this.amountCCQAvaiable = respons.data;
+                }else{
+                    this.amountCCQAvaiable = 0.00;
+                }
+            });
+        }else{
+            this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
+                if(respons.data){
+                    this.amountCCQAvaiable = respons.data;
+                   // this.CQQDBtemp=this.amountCCQAvaiable;
+                    this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
+                    console.log("dataaaa",this.CQQDBtemp);
+                }else{
+                    this.amountCCQAvaiable = 0.00;
+                }
+            });
+        }
+        
     }
 
 

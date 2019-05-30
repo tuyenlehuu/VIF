@@ -20,7 +20,7 @@
           <!--end button buy/ sell-->
 
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && customer && price" class="buy-screen" style="text-align: center;">
+          <div *ngIf="isBuyScreen && customer && price!=null" class="buy-screen" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
@@ -38,6 +38,42 @@
                     <div class="col-md-9">
                       <div class="form-group">
                         <input currencyMask type="text" disabled class="form-control" formControlName="price">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                          <select id="select1" (change)="onChangeTransType()" name="select1" class="form-control" formControlName="bTransType">
+                            <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="bCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
                       </div>
                     </div>
                   </div>
@@ -117,6 +153,43 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                          <select id="select1" (change)="onChangeSellTransType()" name="select1" class="form-control" formControlName="sTransType">
+                            <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isSellCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="sCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">

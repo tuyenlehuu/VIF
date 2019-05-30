@@ -55,5 +55,9 @@ export class InvestRequestService{
         return this.http.put(`${config.apiUrl}/invest_request/update`, request); 
     }
 
+    getEnsureCCQByCusAsset(customerId: number, assetCode: string) {
+        return this.http.get(`${config.apiUrl}/invest_request/getEnsureCCQByCusAsset/${customerId}/${assetCode}`);
+    }
+
     
 }
