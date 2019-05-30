@@ -13,4 +13,5 @@ export class User {
     customerId: string;
     avatar: string;
     customer: Customer
+    identityDocAvatar: string[];
 }

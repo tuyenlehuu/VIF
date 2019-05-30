@@ -237,7 +237,10 @@
         "old_pass": "Mật khẩu cũ"
     },
     "change_info":{
-        "title":"Cập nhập thông tin cá nhân"
+        "title":"Cập nhập thông tin cá nhân",
+        "change_email": "Cập nhập email",
+        "change_email_placeholder": "Nhập vào email"
+
     },
     "error_page":{
         "403": "403",
