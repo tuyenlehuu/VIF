@@ -71,7 +71,7 @@ public class InvestRequestController {
 	}
 
 
-	@RequestMapping("getPriceCCQ")
+	@GetMapping("getPriceCCQ")
 	public ResponseEntity<BigDecimal> getPriceCCQ() {
 		BigDecimal asset = investRequestService.getPriceMaxDate();
 
