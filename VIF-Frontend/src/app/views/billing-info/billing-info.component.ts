@@ -21,6 +21,20 @@ export class BillingInfoComponent implements OnInit {
     p: number = 1;
     total: number;
     pageSize: number = 5;
+    status = [
+        {
+            name: 'Chọn trạng thái',
+            value: -1
+        },
+        {
+            name: 'Hoạt động',
+            value: 1
+        },
+        {
+            name: 'Ngừng hoạt động',
+            value: 0
+        }
+    ];
    
 
     constructor(private bInfoService: BillingInfoService, private modalService: BsModalService, private toastrService: ToastrService) { }

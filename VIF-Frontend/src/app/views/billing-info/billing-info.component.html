@@ -67,6 +67,24 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <label for="company">{{'vif.billing_info.status' | translate}}</label>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="form-group">
+                          <select id="select-status" name="selectStatus" class="form-control"
+                            [(ngModel)]="bInfoSearch.activeFlg">
+                            <option [ngValue]="actFlg.value" *ngFor="let actFlg of status">{{actFlg.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
           </form>
           <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
 
@@ -77,6 +95,7 @@
                 <th>{{'vif.billing_info.bank_name' | translate}}</th>
                 <th>{{'vif.billing_info.bank_branch' | translate}}</th>
                 <th>{{'vif.billing_info.bank_account' | translate}}</th>
+                <th>{{'vif.billing_info.status' | translate}}</th>
               </tr>
             </thead>
             <tbody 
@@ -87,6 +106,8 @@
                 <td>{{bInfo.bankName}}</td>
                 <td>{{bInfo.bankBranch}}</td>
                 <td>{{bInfo.bankAccount}}</td>
+                <td>{{bInfo.activeFlg==1?'Hoạt động':'Ngừng hoạt động'}}</td>
+
                 
                 <td>
                   <a [routerLink]="['/billing-info/ce-billing-info', bInfo.id]"><i class="fa fa-pencil"></i></a>

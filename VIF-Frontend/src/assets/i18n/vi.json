@@ -356,10 +356,13 @@
     },
     "billing_info":{
         "title1": "Thông tin thanh toán",
+        "title2": "Thêm mới tài khoản",
+        "title3": "Chỉnh sửa tài khoản",
         "account_name": "Tên tài khoản",
         "bank_name": "Tên ngân hàng",
         "bank_branch": "Tên chi nhánh",
         "bank_account": "Số tài khoản",
+        "status": "Trạng thái",
         "bank_account_placeholder": "Nhập số tài khoản",
         "bank_branch_placeholder" : "Nhập tên chi nhánh",
         "bank_name_placeholder": "Nhập tên ngân hàng",
