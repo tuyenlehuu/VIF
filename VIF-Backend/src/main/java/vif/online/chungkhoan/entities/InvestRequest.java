@@ -56,6 +56,9 @@ public class InvestRequest implements Serializable{
     @JoinColumn(name = "customer_id")
     private Customer customer;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 	
 	public Integer getTypeOfRequest() {
 		return typeOfRequest;
@@ -129,6 +132,15 @@ public class InvestRequest implements Serializable{
 		this.money = money;
 	}
 
+	public Asset getAsset() {
+		return asset;
+	}
+
+	public void setAsset(Asset asset) {
+		this.asset = asset;
+	}
+
+	
 	
 	
 	

@@ -46,6 +46,7 @@ export class InvestRequestComponent implements OnInit {
         }
     ];
     assets: Asset[] = [];
+    assetTransCCQ: Asset;
     constructor(private toastrService: ToastrService, private userService: UserService,
         private requestService: InvestRequestService, private fb: FormBuilder,private assetService:AssetService) {
     }
@@ -101,16 +102,18 @@ export class InvestRequestComponent implements OnInit {
         this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
             this.price = res;
             this.investRequest.price = res;
-            console.log("RESSSSS", res);
         })
 
         this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
-            // console.log("data: ", respons);
             this.assets = respons.data;
             if(this.assets){
                 this.assetSelectedCode = this.assets[0].assetCode;
             }
-            console.log("AS====>",respons.data);
+        });
+
+        this.assetService.getAssetByGroupId(5).pipe(first()).subscribe((respons: any) => {
+            this.assetTransCCQ = respons.data[0];
+            this.investRequest.asset = this.assetTransCCQ;
         });
     }
 
@@ -152,11 +155,11 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.customer = this.customer;
         this.investRequest.money = this.buyForm.value.bMoney;
         this.investRequest.createDate = this.date;
-        this.investRequest.typeOfInvest = this.buyForm.value.bTransType;
-        console.log("-------", this.investRequest);
+        this.investRequest.typeOfInvest = this.buyForm.value.bTransType; 
         this.requestService.add(this.investRequest).subscribe((res: any) => {
             if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
+                this.resetForm();
             }
             () => {
                 this.showError("Gửi yêu cầu thất bại");
@@ -166,17 +169,16 @@ export class InvestRequestComponent implements OnInit {
 
     sellCCQ() {
         this.investRequest.money = this.sellForm.value.sMoney;
-        console.log("MONEYYYYYYY", this.sellForm.value.sMoney);
         this.investRequest.typeOfRequest = 2;
         this.investRequest.customer = this.customer;
         this.investRequest.amount = this.sellForm.value.sCCQ;
         this.investRequest.createDate = this.date;
         this.investRequest.typeOfInvest = this.sellForm.value.sTransType;
-        console.log("-------", this.investRequest);
         this.requestService.add(this.investRequest).subscribe((res: any) => {
 
             if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
+                this.resetForm();
             }
             () => {
                 this.showError("Gửi yêu cầu thất bại");
@@ -203,6 +205,7 @@ export class InvestRequestComponent implements OnInit {
     }
 
     resetForm() {
+        this.investRequest.asset = this.assetTransCCQ;
         this.amountCCQAvaiable = this.customer.totalCcq;
         if (this.isBuyScreen) {
             this.createBuyForm();
@@ -217,7 +220,7 @@ export class InvestRequestComponent implements OnInit {
     onKeyMoney(event: any) {
         this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / (this.price * 1000));
         this.buyForm.value.bCCQ = Number((this.buyForm.value.bMoney / (this.price * 1000)).toFixed(2));
-        console.log("SELLLL", this.buyForm.value.bCCQ);
+        
     }
 
     onKeyCCQ(event: any) {
@@ -229,7 +232,6 @@ export class InvestRequestComponent implements OnInit {
         this.amountCCQAvaiable = Number((this.sellForm.value.sAmountCCQAvai - this.sellForm.value.sCCQ).toFixed(2));
        }
         this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2));
-        console.log("SELLLL", this.sellForm.value.sMoney);
 
     }
 
@@ -238,38 +240,46 @@ export class InvestRequestComponent implements OnInit {
             this.isCCQDB = true;
             this.onChangeEnsureCCQ();
         }else{
+            this.investRequest.asset = this.assetTransCCQ;
             this.isCCQDB = false;
             this.amountCCQAvaiable=this.customer.totalCcq;
         }
     }
 
     onChangeSellTransType(){
-        // console.log("sTransType: ", this.sellForm.value.sTransType);
         if(this.sellForm.value.sTransType == '2'){
             this.isSellCCQDB = true;
             this.onChangeEnsureCCQ();
         }else{
+            this.investRequest.asset = this.assetTransCCQ;
             this.isSellCCQDB = false;
             this.amountCCQAvaiable=this.customer.totalCcq;
         }
     }
 
     onChangeEnsureCCQ(){
+        console.log("SELECT CODE=>>",this.buyForm.value.bCCQDBSelectedCode);
         if(this.isBuyScreen){
+            this.assetService.getByCode(this.buyForm.value.bCCQDBSelectedCode).subscribe((res:any)=>{
+                this.investRequest.asset = res.data;
+            })
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
                     this.amountCCQAvaiable = respons.data;
+                    this.buyCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
+                    
                 }else{
                     this.amountCCQAvaiable = 0.00;
                 }
             });
         }else{
+            this.assetService.getByCode(this.sellForm.value.sCCQDBSelectedCode).subscribe((res:any)=>{
+                this.investRequest.asset = res.data;
+            })
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
                     this.amountCCQAvaiable = respons.data;
-                   // this.CQQDBtemp=this.amountCCQAvaiable;
                     this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
-                    console.log("dataaaa",this.CQQDBtemp);
                 }else{
                     this.amountCCQAvaiable = 0.00;
                 }
