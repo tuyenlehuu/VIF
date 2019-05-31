@@ -218,20 +218,20 @@ export class InvestRequestComponent implements OnInit {
     
     }
     onKeyMoney(event: any) {
-        this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / (this.price * 1000));
-        this.buyForm.value.bCCQ = Number((this.buyForm.value.bMoney / (this.price * 1000)).toFixed(2));
+        this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / this.price);
+        this.buyForm.value.bCCQ = Number((this.buyForm.value.bMoney / this.price).toFixed(2));
         
     }
 
     onKeyCCQ(event: any) {
-        this.sellCCQForm.sMoney.setValue(Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2)));
+        this.sellCCQForm.sMoney.setValue(Number((this.sellForm.value.sCCQ * this.price).toFixed(2)));
        
        if(this.isSellCCQDB==false) {
            this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
        }else {
         this.amountCCQAvaiable = Number((this.sellForm.value.sAmountCCQAvai - this.sellForm.value.sCCQ).toFixed(2));
        }
-        this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price * 1000).toFixed(2));
+        this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price ).toFixed(2));
 
     }
 
@@ -279,7 +279,7 @@ export class InvestRequestComponent implements OnInit {
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
                     this.amountCCQAvaiable = respons.data;
-                    this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
+                    //this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
                 }else{
                     this.amountCCQAvaiable = 0.00;
                 }
