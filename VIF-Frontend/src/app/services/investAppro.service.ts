@@ -18,8 +18,8 @@ export class InvestApproService {
         return this.http.delete(`${config.apiUrl}/invest-appro/reject/${id}`);
     }
 
-    accept(investRequest: InvestAppro) {
-        return this.http.post(`${config.apiUrl}/invest-appro/accept`, investRequest);
+    accept(investRequest: InvestRequest) {
+        return this.http.put(`${config.apiUrl}/invest-appro/accept`, investRequest);
       }
 
     getInvestApproByCondition(RequestCondition: InvestAppro, fromDate: string, toDate: string, pager: Pager) {

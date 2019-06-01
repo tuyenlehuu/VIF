@@ -69,10 +69,9 @@ public class InvestApproController {
 		investApproService.reject(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/accept", method = RequestMethod.POST, headers = "Accept=application/json")
+	@PutMapping("accept")
 	public @ResponseBody ResponseEntity<ApiResponse> accept(@RequestBody InvestRequest investRequest) {
-
+		
 		investApproService.accept(investRequest);
 		
 		return new ResponseEntity<ApiResponse>(HttpStatus.OK);

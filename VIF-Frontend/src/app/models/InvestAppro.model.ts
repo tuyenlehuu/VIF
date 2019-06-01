@@ -1,6 +1,7 @@
 import { Customer } from './Customer.model';
 
 export class InvestAppro{
+  id: number;
   fullName: string;
   code: string;
   status: number;

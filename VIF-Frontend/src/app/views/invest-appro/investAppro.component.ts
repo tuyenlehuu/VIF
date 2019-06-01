@@ -12,6 +12,8 @@ import { InvestApproService } from '../../services/investAppro.service';
 import { formatDate } from '../../helpers/function.share';
 import { CustomerService } from '../../services/customer.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { InvestRequest } from '../../models/InvestRequest.model';
+import { InvestRequestService } from '../../services/invest.request.service';
 
 @Component({
   templateUrl: 'investAppro.component.html',
@@ -31,6 +33,7 @@ export class InvestApproComponent implements OnInit {
   fromDate: Date;
   toDate: Date;
   modalRef: BsModalRef;
+  investRequest: InvestRequest;
 
   typeOfRequest = [
     {
@@ -81,7 +84,7 @@ export class InvestApproComponent implements OnInit {
     }
   ];
 
-  constructor(private investApproService: InvestApproService, private customerService: CustomerService, private modalService: BsModalService, private toastrService: ToastrService, ) {
+  constructor(private investReqService: InvestRequestService, private investApproService: InvestApproService, private customerService: CustomerService, private modalService: BsModalService, private toastrService: ToastrService, ) {
   }
 
   ngOnInit(): void {
@@ -107,6 +110,11 @@ export class InvestApproComponent implements OnInit {
   confirmDel(template: TemplateRef<any>, id: string) {
     this.modalRef = this.modalService.show(template);
     this.modalRef.content = id;
+    this.investReqService.getById(Number(id)).subscribe((res: any)=>{
+    this.investRequest = res;
+    }
+    )
+    
   }
   reject() {
     this.investApproService.reject(this.modalRef.content).subscribe(res => {
@@ -116,8 +124,8 @@ export class InvestApproComponent implements OnInit {
     this.modalRef.hide();
 
   }
-  accept() {
-    this.investApproService.accept(this.modalRef.content).subscribe(res => {
+  accept() {// Quên là t đang dùng service của investRequest hhahah
+    this.investApproService.accept(this.investRequest).subscribe(res => { 
       this.showSuccess('Chấp thuận đầu tư thành công');
       this.getPage(1);
     });
@@ -126,6 +134,12 @@ export class InvestApproComponent implements OnInit {
   }
   showSuccess(mes: string) {
     this.toastrService.success('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
+
+  showError(mes: string) {
+    this.toastrService.error('', mes, {
       timeOut: config.timeoutToast
     });
   }

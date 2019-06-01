@@ -120,15 +120,16 @@
                 </td>
                 <td style="text-align: center">
                   <a style="color: green; margin-left: 10px; cursor: pointer"
-                    (click)="confirmDel(template1, item.customer.id)" *ngIf="item.status==1">
-                    <i class="fa fa-check" title="{{'vif.global.other.appro' | translate}}"></i>
+                    (click)="confirmDel(template1, item.id)" *ngIf="item.status==1">
+                    <i class="fa fa-check" title="{{'vif.global.other.appro' | translate}}"></i> <!-- hình như chỗ này , sao lại 2 chỗ confirm del ô nhỉ ? 1 chỗ mà? chỗ nào nữa  ô?-->
                   </a>
                   <i *ngIf="item.status !=1" style="color:green; margin-left: 10px; cursor: pointer;  opacity: 0.4" class="fa fa-check" title="{{'vif.global.other.appro' | translate}}" ></i>
                   <a *ngIf="item.status==1" style="color: red; margin-left: 10px; cursor: pointer"
                     (click)="confirmDel(template, item.customer.id)">
                     <i class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i>
                   </a>
-                  <i *ngIf="item.status!=1" style="color: red; margin-left: 10px; cursor: pointer; opacity: 0.4" class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i></td>
+                  <i *ngIf="item.status!=1" style="color: red; margin-left: 10px; cursor: pointer; opacity: 0.4" class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i>
+                </td>
               </tr>
             </tbody>
           </table>

@@ -35,6 +35,7 @@ public class InvestApproServiceImpl implements InvestApproService {
 	@Autowired
 	private InvestorTransService investorTransService;
 
+
 	private BuySellDTO buyObject;
 
 	@Override
@@ -61,31 +62,16 @@ public class InvestApproServiceImpl implements InvestApproService {
 		// TODO Auto-generated method stub
 		investApproDao.reject(id);
 	}
-
+	//day nua
 	@Override
 	public void accept(InvestRequest investRequest) {
 		// TODO Auto-generated method stub
-		Integer customerId = investRequest.getCustomer().getId();
-		BigDecimal money = investRequest.getMoney();
-		BigDecimal priceCCQ = investRequest.getPrice();
-		BigDecimal amountCCQ = investRequest.getAmount();
-		buyObject.setCustomerId(investRequest.getCustomer().getId());
-		buyObject.setAmountCCQ(investRequest.getAmount());
-		buyObject.setMoney(investRequest.getMoney());
-		buyObject.setPriceCCQ(investRequest.getPrice());
-		if(investRequest.getTypeOfRequest()==1 && investRequest.getTypeOfInvest()==1) {
-			investorTransService.buyCCQ(customerId, money, priceCCQ);
-		}
-		if(investRequest.getTypeOfRequest()==1 && investRequest.getTypeOfInvest()==2) {
-			investorTransService.sellCCQ(customerId, amountCCQ, priceCCQ);
-		}
-		if(investRequest.getTypeOfRequest()==2 && investRequest.getTypeOfInvest()==1) {
-			investorTransService.buyEnsureCCQ(buyObject);
-		}
-		if(investRequest.getTypeOfRequest()==2 && investRequest.getTypeOfInvest()==2) {
-			investorTransService.sellEnsureCCQ(buyObject);
-		}
+//		
+		investRequest.setStatus(2);
 		investApproDao.accept(investRequest);
+		// hàm này để làm j nhiều vậy ô ?
+		//mấy cái if chỉ call đến thằng mua bán ccq với mua bán ccq đảm bảo a Tuyên viết rồi thôi
+	
 	}
 	
 }
