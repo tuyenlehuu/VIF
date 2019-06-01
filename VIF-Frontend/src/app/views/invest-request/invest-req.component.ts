@@ -36,6 +36,7 @@ export class InvestRequestComponent implements OnInit {
     isSellCCQDB = false;
     assetSelectedCode: string;
     CQQDBtemp: number;
+    confirm: boolean;
     transType = [
         {
             name: 'Giao dịch CCQ',
@@ -191,19 +192,24 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-        if (this.isBuyScreen) {
-            this.submitted = true;
-            if (this.buyForm.invalid) {
-                return;
+        if(confirm('Bạn có muốn gửi yêu cầu đầu tư không ?')){
+            if (this.isBuyScreen) {
+                this.submitted = true;
+                if (this.buyForm.invalid) {
+                    return;
+                }
+                this.buyCCQ();
+            } else {
+                this.submitted = true;
+                if (this.sellForm.invalid) {
+                    return;
+                }
+                this.sellCCQ();
             }
-            this.buyCCQ();
-        } else {
-            this.submitted = true;
-            if (this.sellForm.invalid) {
-                return;
-            }
-            this.sellCCQ();
+        }else{
+            this.resetForm();
         }
+       
 
     }
 

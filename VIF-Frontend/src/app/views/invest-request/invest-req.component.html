@@ -20,7 +20,7 @@
           <!--end button buy/ sell-->
 
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && customer && price!=null" class="buy-screen" style="text-align: center;">
+          <div *ngIf="isBuyScreen && customer && priceCCQTemp!=null" class="buy-screen" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
