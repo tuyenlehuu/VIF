@@ -71,7 +71,7 @@ public class InvestRequestController {
 	}
 
 
-	@RequestMapping("getPriceCCQ")
+	@GetMapping("getPriceCCQ")
 	public ResponseEntity<BigDecimal> getPriceCCQ() {
 		BigDecimal asset = investRequestService.getPriceMaxDate();
 
@@ -95,6 +95,21 @@ public class InvestRequestController {
 	public ResponseEntity<InvestRequest> updateInvestRequest(@RequestBody InvestRequest request) {
 		investRequestService.updateInvestRequest(request);
 		return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
+	}
+	
+	@GetMapping("getEnsureCCQByCusAsset/{customerId}/{assetCode}")
+	public ResponseEntity<ApiResponse> getEnsureCCQByCusAsset(@PathVariable("customerId") Integer customerId,
+			@PathVariable("assetCode") String assetCode) {
+		ApiResponse result = new ApiResponse();
+
+		if (customerId == null || assetCode == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("wrong parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+		result = investRequestService.getEnsureCCQByCusAsset(customerId, assetCode);
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 
 }

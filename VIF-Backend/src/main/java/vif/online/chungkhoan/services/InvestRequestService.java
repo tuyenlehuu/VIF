@@ -6,6 +6,7 @@ import java.util.List;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.InvestRequest;
+import vif.online.chungkhoan.helper.ApiResponse;
 
 
 
@@ -25,6 +26,8 @@ public interface InvestRequestService {
 	int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate);
 
 	BigDecimal getPriceMaxDate();
+
+	ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode);
 
 	
 

@@ -84,6 +84,11 @@ export const navItems: NavData[] = [
     icon: 'icon-calendar'
   },
   {
+    name: 'Đăng kí đầu tư',
+    url: '/invest-request',
+    icon: 'fa fa-handshake-o'
+  },
+  {
     title: true,
     name: 'Danh mục'
   },
@@ -106,10 +111,5 @@ export const navItems: NavData[] = [
     name: 'Quản lý config',
     url: '/app-param',
     icon: 'fa fa-cog'
-  },
-  {
-    name: 'Đăng kí đầu tư',
-    url: '/invest-request',
-    icon: 'fa fa-handshake-o'
   }
 ];
