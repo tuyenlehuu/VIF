@@ -9,12 +9,8 @@ import vif.online.chungkhoan.helper.ApiResponse;
 public interface InvestApproService {
 	List<InvestRequest> getAllInvestRequest();
 	List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc, Integer typeOfRequest,Integer typeOfInvest,
-			 String fromDate, String toDate);
-	int getRowCount(Integer typeOfRequest,Integer typeOfInvest, String fromDate, String toDate);
-	
+			 String fromDate, String toDate, Integer status);
+	int getRowCount(Integer typeOfRequest,Integer typeOfInvest, String fromDate, String toDate, Integer status);
+	void accept(InvestRequest investRequest);
 	void reject(Integer id);
-	void accept(Integer id); 
-	public ApiResponse buyCCQ(Integer customerId, BigDecimal money, BigDecimal priceCCQ);
-	
-	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ);
 }

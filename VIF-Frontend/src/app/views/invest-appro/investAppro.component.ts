@@ -64,16 +64,20 @@ export class InvestApproComponent implements OnInit {
 
   status = [
     {
-      name: 'Pending',
+      name: 'Chọn trạng thái',
       value: 0
     },
     {
-      name: 'approval',
+      name: 'Chờ phê duyệt',
       value: 1
     },
     {
-      name: 'reject',
+      name: 'Chấp thuận',
       value: 2
+    },
+    {
+      name: 'Từ chối',
+      value: 3
     }
   ];
 

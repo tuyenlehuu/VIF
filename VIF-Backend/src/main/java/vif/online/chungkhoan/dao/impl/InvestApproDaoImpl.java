@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.InvestApproDao;
-import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.InvestRequest;
 
 @Transactional
@@ -32,13 +31,13 @@ public class InvestApproDaoImpl implements InvestApproDao{
 	@Override
 	public List<InvestRequest> getAllInvestRequest() {
 		// TODO Auto-generated method stub
-		String hql = "FROM InvestRequest as i WHERE i.status = 1";
+		String hql = "FROM InvestRequest as i";
 		return (List<InvestRequest>) entityManager.createQuery(hql).getResultList();
 	}
 
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate) {
+			Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate, Integer status) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -65,6 +64,10 @@ public class InvestApproDaoImpl implements InvestApproDao{
 			if(toDate != null && !toDate.equals("")) {
 				Date tDate = formatter.parse(toDate);
 				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+			}
+			
+			if (status != null) {
+				predicates.add(criteriaBuilder.equal(from.get("status"), status));
 			}
 			
 			select.select(from).where(predicates.toArray(new Predicate[]{}));
@@ -86,7 +89,7 @@ public class InvestApproDaoImpl implements InvestApproDao{
 	}
 
 	@Override
-	public int getRowCount(Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate) {
+	public int getRowCount(Integer typeOfRequest, Integer typeOfInvest, String fromDate, String toDate, Integer status) {
 		// TODO Auto-generated method stub
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -112,6 +115,10 @@ public class InvestApproDaoImpl implements InvestApproDao{
 			if(toDate != null && !toDate.equals("")) {
 				Date tDate = formatter.parse(toDate);
 				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+			}
+			
+			if (status != null) {
+				predicates.add(criteriaBuilder.equal(from.get("status"), status));
 			}
 
 			select.select(from).where(predicates.toArray(new Predicate[] {}));
@@ -137,9 +144,8 @@ public class InvestApproDaoImpl implements InvestApproDao{
 	}
 
 	@Override
-	public void accept(Integer id) {
+	public void accept(InvestRequest investRequest) {
 		// TODO Auto-generated method stub
-		InvestRequest investRequest = entityManager.find(InvestRequest.class, id);
 		investRequest.setStatus(2);
 		entityManager.merge(investRequest);
 	}

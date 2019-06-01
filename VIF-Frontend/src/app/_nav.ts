@@ -56,7 +56,7 @@ export const navItems: NavData[] = [
   },
   {
     name: 'Phê duyệt đầu tư',
-    url: '/managementttttt',
+    url: '/invest-appro',
     icon: 'icon-pencil'
   },
   {
