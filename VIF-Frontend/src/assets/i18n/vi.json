@@ -344,7 +344,8 @@
         "CCQ_real": "Số CCQ hiện tại",
         "CCQ_using": "Số CCQ khả dụng",
         "CCQ_zero": "Số CCQ phải lớn hơn 0",
-        "price": "Giá CCQ"
+        "price": "Giá CCQ",
+        "confirm": "Bạn có đồng ý đăng ký đầu tư ?"
     },
     "default_layout":{
         "change_pass": "Đổi mật khẩu",

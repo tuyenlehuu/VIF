@@ -12,6 +12,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ValidateSellAmount, NotEqualZero } from '../../helpers/function.share';
 import { Asset } from '../../models/Asset.model';
 import { AssetService } from '../../services/asset.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class InvestRequestComponent implements OnInit {
     isSellCCQDB = false;
     assetSelectedCode: string;
     CQQDBtemp: number;
-    confirm: boolean;
+    modalRef: BsModalRef;
     transType = [
         {
             name: 'Giao dịch CCQ',
@@ -49,7 +50,7 @@ export class InvestRequestComponent implements OnInit {
     ];
     assets: Asset[] = [];
     assetTransCCQ: Asset;
-    constructor(private toastrService: ToastrService, private userService: UserService,
+    constructor(private toastrService: ToastrService, private userService: UserService,private modalService: BsModalService,
         private requestService: InvestRequestService, private fb: FormBuilder,private assetService:AssetService) {
     }
 
@@ -168,6 +169,7 @@ export class InvestRequestComponent implements OnInit {
                 this.showError("Gửi yêu cầu thất bại");
             }
         });
+        
     }
 
     sellCCQ() {
@@ -192,7 +194,7 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-        if(confirm('Bạn có muốn gửi yêu cầu đầu tư không ?')){
+       
             if (this.isBuyScreen) {
                 this.submitted = true;
                 if (this.buyForm.invalid) {
@@ -206,9 +208,8 @@ export class InvestRequestComponent implements OnInit {
                 }
                 this.sellCCQ();
             }
-        }else{
-            this.resetForm();
-        }
+            this.modalRef.hide();
+       
        
 
     }
@@ -224,6 +225,7 @@ export class InvestRequestComponent implements OnInit {
         } else {
             this.createSellForm();
         }
+        this.modalRef.hide();
 
        
     
@@ -316,6 +318,27 @@ export class InvestRequestComponent implements OnInit {
         
     }
 
+
+    confirm(template: TemplateRef<any>) {
+        if(this.isBuyScreen){
+            if(this.buyForm.value.bMoney==0){
+                this.showError("Số tiền không thể bằng không !")
+            }else{
+                this.modalRef = this.modalService.show(template);
+            }
+
+        }else{
+            if(this.sellForm.value.sCCQ==0){
+                this.showError("Số lượng CCQ không thể bằng không !");
+            }else if(this.amountCCQAvaiable<0){
+                this.showError("Số lượng CCQ quá giới hạn !");
+            }else{
+                this.modalRef = this.modalService.show(template);
+            }
+        }
+       
+       
+    }
 
 
 }
