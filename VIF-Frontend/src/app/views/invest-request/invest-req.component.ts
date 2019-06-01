@@ -31,6 +31,7 @@ export class InvestRequestComponent implements OnInit {
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
     price: number;
+    priceCCQTemp: number;
     isCCQDB = false;
     isSellCCQDB = false;
     assetSelectedCode: string;
@@ -56,7 +57,7 @@ export class InvestRequestComponent implements OnInit {
         this.buyForm = this.fb.group({
             bCCQ: [{ value: 0, disabled: true }, Validators.required],
             bMoney: [0, Validators.required],
-            price: [this.price, Validators.required],
+            price: [this.priceCCQTemp, Validators.required],
             bTransType: ['1', Validators.required],
             bCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
@@ -70,7 +71,7 @@ export class InvestRequestComponent implements OnInit {
             sCCQ: [0, Validators.required],
             sMoney: [{ value: 0, disabled: true }, Validators.required],
             sAmountCCQAvai: [this.amountCCQAvaiable],
-            price: [this.price, Validators.required],
+            price: [this.priceCCQTemp, Validators.required],
             sTransType: ['1', Validators.required],
             sCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
@@ -101,7 +102,7 @@ export class InvestRequestComponent implements OnInit {
 
         this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
             this.price = res;
-            this.investRequest.price = res;
+            this.priceCCQTemp = this.price;
         })
 
         this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
@@ -156,6 +157,7 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.money = this.buyForm.value.bMoney;
         this.investRequest.createDate = this.date;
         this.investRequest.typeOfInvest = this.buyForm.value.bTransType; 
+        this.investRequest.price = this.buyForm.value.price;
         this.requestService.add(this.investRequest).subscribe((res: any) => {
             if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
@@ -174,6 +176,7 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.amount = this.sellForm.value.sCCQ;
         this.investRequest.createDate = this.date;
         this.investRequest.typeOfInvest = this.sellForm.value.sTransType;
+        this.investRequest.price = this.sellForm.value.price;
         this.requestService.add(this.investRequest).subscribe((res: any) => {
 
             if (res != null) {
@@ -207,14 +210,16 @@ export class InvestRequestComponent implements OnInit {
     resetForm() {
         this.investRequest.asset = this.assetTransCCQ;
         this.amountCCQAvaiable = this.customer.totalCcq;
+        this.isCCQDB = false;
+        this.isSellCCQDB = false;
+        this.price = this.priceCCQTemp;
         if (this.isBuyScreen) {
             this.createBuyForm();
         } else {
             this.createSellForm();
         }
 
-        this.isCCQDB = false;
-        this.isSellCCQDB = false;
+       
     
     }
     onKeyMoney(event: any) {
@@ -243,6 +248,18 @@ export class InvestRequestComponent implements OnInit {
             this.investRequest.asset = this.assetTransCCQ;
             this.isCCQDB = false;
             this.amountCCQAvaiable=this.customer.totalCcq;
+            this.resetPrice();
+            
+        }
+    }
+
+
+    resetPrice(){
+        this.price = this.priceCCQTemp;
+        if(this.isBuyScreen){ 
+            this.buyCCQForm.price.setValue(this.price);
+        }else{
+            this.sellCCQForm.price.setValue(this.price);
         }
     }
 
@@ -262,12 +279,13 @@ export class InvestRequestComponent implements OnInit {
         if(this.isBuyScreen){
             this.assetService.getByCode(this.buyForm.value.bCCQDBSelectedCode).subscribe((res:any)=>{
                 this.investRequest.asset = res.data;
+                this.price = this.investRequest.asset.currentPrice;
+                this.buyCCQForm.price.setValue(this.price);
             })
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
                     this.amountCCQAvaiable = respons.data;
-                    this.buyCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
-                    
+                      
                 }else{
                     this.amountCCQAvaiable = 0.00;
                 }
@@ -275,10 +293,14 @@ export class InvestRequestComponent implements OnInit {
         }else{
             this.assetService.getByCode(this.sellForm.value.sCCQDBSelectedCode).subscribe((res:any)=>{
                 this.investRequest.asset = res.data;
+                this.price = this.investRequest.asset.currentPrice;
+                this.sellCCQForm.price.setValue(this.price);
+
             })
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
                 if(respons.data){
                     this.amountCCQAvaiable = respons.data;
+                    this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
                     //this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
                 }else{
                     this.amountCCQAvaiable = 0.00;
