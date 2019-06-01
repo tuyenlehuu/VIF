@@ -38,7 +38,7 @@ export class InvestRequestService{
     }
 
     getById(id: number) {
-        return this.http.get(`${config.apiUrl}/invest_request/${id}`);
+        return this.http.get(`${config.apiUrl}/invest_request/id/${id}`);
     }
 
     add(request: InvestRequest) {
