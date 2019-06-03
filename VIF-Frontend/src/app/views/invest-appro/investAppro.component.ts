@@ -124,8 +124,9 @@ export class InvestApproComponent implements OnInit {
     this.modalRef.hide();
 
   }
-  accept() {// Quên là t đang dùng service của investRequest hhahah
-    this.investApproService.accept(this.investRequest).subscribe(res => { 
+  accept() {
+    this.investApproService.accept(this.investRequest).subscribe((res:any) => { 
+      console.log("dataaaaaaaa:",res);
       this.showSuccess('Chấp thuận đầu tư thành công');
       this.getPage(1);
     });

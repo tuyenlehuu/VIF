@@ -71,9 +71,7 @@ public class InvestApproController {
 	}
 	@PutMapping("accept")
 	public @ResponseBody ResponseEntity<ApiResponse> accept(@RequestBody InvestRequest investRequest) {
-		
-		investApproService.accept(investRequest);
-		
+		investApproService.accept(investRequest);	
 		return new ResponseEntity<ApiResponse>(HttpStatus.OK);
 	}
 	
