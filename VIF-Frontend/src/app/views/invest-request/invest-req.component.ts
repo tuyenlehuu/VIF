@@ -31,8 +31,8 @@ export class InvestRequestComponent implements OnInit {
     sellForm: FormGroup;
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
-    price: number;
-    priceCCQTemp: number;
+    price: number = null;
+    priceCCQTemp: number = null;
     isCCQDB = false;
     isSellCCQDB = false;
     assetSelectedCode: string;
@@ -104,6 +104,7 @@ export class InvestRequestComponent implements OnInit {
 
         this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
             this.price = res;
+           // console.log("priceeeee",this.priceCCQTemp);
             this.priceCCQTemp = this.price;
         })
 
