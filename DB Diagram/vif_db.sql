@@ -1891,15 +1891,15 @@ CREATE TABLE `invest_request` (
   `status` int(11) DEFAULT 1,
   `price` decimal(19,2) DEFAULT NULL,
   `money` decimal(19,2) DEFAULT NULL,
+  `type_of_invest` int(11) DEFAULT 1,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`,`money`) VALUES
-(1,1,NULL,1,'2018-10-21 00:00:00', 3,'1000','1200000'),
-(2,2,NULL,1,'2018-10-21 00:00:00', 1,'1000','500000'),
-(3,14,'1',2,'2018-10-21 00:00:00', 2,'1000',NULL),
-(4,7,'10',2,'2018-10-21 00:00:00', 1,'1234',NULL),
-(5,10,'34',1,'2018-10-21 00:00:00', 3,'1111',NULL);
+INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`,`money`,`type_of_invest` ) VALUES
+(1,1,NULL,1,'2018-10-21 00:00:00', 3,'1000','1200000',1),
+(2,2,NULL,1,'2018-10-21 00:00:00', 1,'1000','500000',2),
+(3,4,'1',2,'2018-10-21 00:00:00', 2,'1000',NULL,1);
+
 
 
 

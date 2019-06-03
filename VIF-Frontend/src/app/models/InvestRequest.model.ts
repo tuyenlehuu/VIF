@@ -8,14 +8,18 @@ export class InvestRequest {
   amount: number;
   customer: Customer;
   typeOfRequest: number;
+  typeOfInvest: number;
   createDate: Date;
   status: number;
   price: number;
   money: number;
+  asset: Asset;
+
 
   public constructor(){
     this.status=1;
     this.customer = new Customer();
+    this.asset = new Asset();
    
   }
   

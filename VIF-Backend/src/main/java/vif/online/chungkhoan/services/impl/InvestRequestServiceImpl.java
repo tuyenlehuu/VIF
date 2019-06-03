@@ -11,8 +11,11 @@ import vif.online.chungkhoan.dao.InvestRequestDao;
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.Customer;
+import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.services.AssetService;
 import vif.online.chungkhoan.services.CustomerService;
 import vif.online.chungkhoan.services.InvestRequestService;
 
@@ -21,6 +24,12 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 
 	@Autowired
 	private InvestRequestDao investRequestDao;
+	
+	@Autowired
+	private AssetService assetService;
+	
+	@Autowired
+	private CustomerDao customerDao;
 
 	@Override
 	public List<InvestRequest> getAllInvestRequest() {
@@ -62,20 +71,44 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
-			Integer typeOfRequest, Integer status) {
+			Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status);
+		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status, fromDate, toDate);
 	}
 
 	@Override
-	public int getRowCount(Integer typeOfRequest, Integer status) {
+	public int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investRequestDao.getRowCount(typeOfRequest, status);
+		return investRequestDao.getRowCount(typeOfRequest, status, fromDate, toDate);
 	}
 	
 	@Override
 	public BigDecimal getPriceMaxDate() {
 		return  investRequestDao.getPriceMaxDate();
 	}
+	
+	
+	@Override
+	public ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode) {
+		// TODO Auto-generated method stub
+		ApiResponse resultResponse = new ApiResponse();
+		Asset myEnsureCCQ = assetService.getAssetByCode(assetCode);
+		if(myEnsureCCQ != null) {
+			CustomerAsset cusAsset = customerDao.getCusAssetByCusAndAssetId(customerId, myEnsureCCQ.getId());
+			if(cusAsset != null) {
+				resultResponse.setData(cusAsset.getAmount());
+			}else {
+				resultResponse.setData(null);
+			}
+		}else {
+			resultResponse.setData(null);
+		}
+
+		resultResponse.setCode(200);
+		resultResponse.setStatus(true);
+		resultResponse.setErrors(null);
+		return resultResponse;
+	}
+	
 
 }

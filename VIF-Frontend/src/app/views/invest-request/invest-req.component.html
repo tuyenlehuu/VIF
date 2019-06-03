@@ -20,8 +20,8 @@
           <!--end button buy/ sell-->
 
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && customer && price" class="buy-screen" style="text-align: center;">
-            <form [formGroup]="buyForm" (ngSubmit)="saveCCQ()" form.valid>
+          <div *ngIf="isBuyScreen && customer && buyForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
+            <form [formGroup]="buyForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
                   <div>{{'vif.invest_request.CCQ_real' | translate}}: {{amountCCQAvaiable}}</div>
@@ -38,6 +38,45 @@
                     <div class="col-md-9">
                       <div class="form-group">
                         <input currencyMask type="text" disabled class="form-control" formControlName="price">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <select *ngIf="assets!=null" id="select01" (change)="onChangeTransType()" name="select01" class="form-control" formControlName="bTransType">
+                          <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                        </select>
+                        <select *ngIf="assets==null" id="select02" (change)="onChangeTransType()" name="select02" class="form-control" formControlName="bTransType">
+                          <option [ngValue]="transType[0].value">{{transType[0].name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="isCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="bCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
                       </div>
                     </div>
                   </div>
@@ -96,7 +135,7 @@
           <!--end buy screen-->
 
           <div *ngIf="!isBuyScreen && customer" class="buy-screen" style="text-align: center;">
-            <form [formGroup]="sellForm" (ngSubmit)="saveCCQ()" form.valid>
+            <form [formGroup]="sellForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
                   <div>{{'vif.invest_request.CCQ_using' | translate}}: {{amountCCQAvaiable}}</div>
@@ -117,6 +156,46 @@
                   </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.transaction_type' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                          <select *ngIf="assets!=null" id="select1" (change)="onChangeSellTransType()" name="select1" class="form-control" formControlName="sTransType">
+                            <option [ngValue]="r.value" *ngFor="let r of transType">{{r.name}}</option>
+                          </select>
+                          <select *ngIf="assets==null" id="select2" (change)="onChangeSellTransType()" name="select2" class="form-control" formControlName="sTransType">
+                            <option [ngValue]="transType[0].value">{{transType[0].name}}</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="assets!=null && isSellCCQDB">
+                <div class="offset-md-3 col-md-6 col-xs-12">
+                  <div class="row">
+                    <div class="col-md-3 my-label">
+                      <label for="company">{{'vif.global.other.ccq_db' | translate}}<span
+                          class="asterisk">&#42;</span></label>
+                    </div>
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <ng-select [searchable]="true" formControlName="sCCQDBSelectedCode" (change)="onChangeEnsureCCQ()">
+                          <ng-option [value]="c.assetCode" *ngFor="let c of assets">{{c.assetCode}}</ng-option>
+                        </ng-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="offset-md-3 col-md-6 col-xs-12">
                   <div class="row">
@@ -162,19 +241,36 @@
               </div>
               <div class="row mt-3">
                 <div class="offset-md-3 col-md-6 col-xs-12 my-button">
-                  <button type="submit"
+                  <button type="submit" 
                     class="m-btn btn btn-danger">{{'vif.invest_request.register_CCQ' | translate}}</button>
                   <button type="button" class="m-btn btn btn-secondary"
-                    (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+                    (click)="resetForm()" >{{'vif.global.button.cancel' | translate}}</button>
                 </div>
               </div>
             </form>
           </div>
-
-
-
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.invest_request.confirm' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" 
+      (click)="resetForm()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary"
+      (click)="saveCCQ()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+
+</ng-template>
