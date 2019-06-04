@@ -156,6 +156,7 @@
         "create_success": "Thêm mới thành công!",
         "asset_exists": "Tài sản đã tồn tại trong hệ thống",
         "create_failed": "Thêm mới không thành công"
+        
     },
     "investor_trans":{
         "title": "Giao dịch của nhà đầu tư",
@@ -362,11 +363,15 @@
         "bank_name": "Tên ngân hàng",
         "bank_branch": "Tên chi nhánh",
         "bank_account": "Số tài khoản",
+        "update_date": "Ngày cập nhật gần nhất",
         "status": "Trạng thái",
         "bank_account_placeholder": "Nhập số tài khoản",
         "bank_branch_placeholder" : "Nhập tên chi nhánh",
         "bank_name_placeholder": "Nhập tên ngân hàng",
-        "account_name_placeholder": "Nhập tên tài khoản"
+        "account_name_placeholder": "Nhập tên tài khoản",
+        "update_date_placeholder": "Nhập ngày tạo"
+
+       
     }
   }
 }
