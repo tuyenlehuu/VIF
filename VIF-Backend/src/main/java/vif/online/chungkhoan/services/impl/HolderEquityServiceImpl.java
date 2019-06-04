@@ -46,15 +46,16 @@ public class HolderEquityServiceImpl implements HolderEquityService {
 	}
 
 	@Override
-	public List<HolderEquity> SearchHolderByCondition() {
+	public List<HolderEquity> SearchHolderByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String fromDate, String toDate, String fullName) {
 		// TODO Auto-generated method stub
-		return null;
+		return holderEquityDao.SearchHolderByCondition(page, pageSize, columnSortName, asc, fromDate, toDate, fullName);
 	}
 
 	@Override
-	public int getRowCount() {
+	public int getRowCount(String fromDate, String toDate, String fullName) {
 		// TODO Auto-generated method stub
-		return 0;
+		return holderEquityDao.getRowCount(fromDate, toDate, fullName);
 	}
 
 }

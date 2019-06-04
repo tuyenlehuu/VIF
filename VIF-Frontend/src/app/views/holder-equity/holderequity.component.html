@@ -1,0 +1,112 @@
+<div class="mainbranch">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{'vif.holder.title'|translate}}</span>
+          <button type="button" [routerLink]="['/holder-equity/ce-holderequity', 0]" style="float:right"
+            class="btn btn-primary">{{'vif.holder.add'|translate}}</button>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="company">{{'vif.holder.fromDate'|translate}}<span class="asterisk"></span></label>
+                  </div>
+                  <div class="col-md-8">
+                      <div class="form-group">
+                        <input  type="text" (keydown.enter)="enterOnSubmitDate($event.target.value)" class="form-control" name="fromDate" [bsConfig]="bsConfig"  [(ngModel)]="fromDate" bsDatepicker>
+                      </div>
+                </div>
+              </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="company">{{'vif.holder.toDate'|translate}}<span class="asterisk"></span></label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <input type="text" (keydown.enter)="enterOnSubmitDate($event.target.value)" class="form-control" name="toDate" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!--row-->
+            <div class="row">
+              <div class="col-md-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="company">{{'vif.holder.name'|translate}}<span
+                        class="asterisk"></span></label>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <input type="text" name="fullName"  (keydown.enter)="onSubmit($event.target.value)" [(ngModel)]="holderSearch.fullName" id="fullName-id" required
+                      class="form-control"  placeholder="{{'vif.holder.inputname'|translate}}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="offset-md-2 col-md-5">
+
+              </div>
+
+            </div>
+            <button type="button" (click)="search()" style="margin-bottom: 1em "
+              class="btn btn-primary">{{'vif.holder.search'|translate}}</button>
+            <table class="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th style="text-align: center" scope="col">{{'vif.holder.fullName'|translate}}</th>
+                  <th style="text-align: center" scope="col">{{'vif.holder.tel'|translate}}</th>
+                  <th style="text-align: center" scope="col" >{{'vif.holder.title'|translate}}</th>
+                  <th style="text-align: center" scope="col" >{{'vif.holder.address'|translate}}</th>
+                  <th  scope="col" >{{'vif.holder.amount'|translate}}</th>
+                  <th  scope="col" >{{'vif.holder.price'|translate}}</th>
+                  <th style="text-align: center" scope="col" >{{'vif.holder.lastDate'|translate}}</th>
+                  <th style="text-align: center" scope="col" >{{'vif.holder.action'|translate}}</th>
+                </tr>
+              </thead>
+               <tbody *ngIf="holderequity && holderequity.length>0">
+                <tr
+                  *ngFor="let item of holderequity | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total} ">
+                  <td style="text-align: center">{{item.fullName}}</td>
+                  <td style="text-align: center">{{item.tel}}</td>
+                  <td style="text-align: center">{{item.title}}</td>
+                  <td style="text-align: center">{{item.address}}</td>
+                  <td >{{item.amount}}</td>
+                  <td >{{item.price}}</td>
+                  <td style="text-align: center">{{item.lastUpdate}}</td>
+                  <td class="textCenter">
+                    <a [routerLink]="['/holder-equity/ce-holderequity', item.id]" >
+                      <i class="fa fa-pencil" title="{{'vif.global.other.title_icon_edit' | translate}}"></i></a>
+                  </td> 
+                </tr>
+              </tbody>
+              <tbody *ngIf="!holderequity || (holderequity && holderequity.length <= 0)">
+                <span>{{'vif.global.other.emptyItem' | translate}}</span>
+              </tbody> 
+
+            </table>
+            <hr />
+            <ul style="float:right;" class="pagination" *ngIf="holderequity && holderequity.length > 0">
+              <pagination-controls (pageChange)="getPage($event)" id="server"
+                previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+                nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+            </ul>
+          </form>
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>

@@ -17,8 +17,9 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-                      <input type="text" name="code" (keydown.enter)="onSubmit($event.target.value)" [(ngModel)]="branchSearch.branchCode" class="form-control"
-                        id="code-id" placeholder="{{'vif.branch.code_placeholder' | translate}}">
+                      <input type="text" name="code" (keydown.enter)="onSubmit($event.target.value)"
+                        [(ngModel)]="branchSearch.branchCode" class="form-control" id="code-id"
+                        placeholder="{{'vif.branch.code_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -30,10 +31,9 @@
                   </div>
                   <div class="col-md-9">
                     <div class="form-group">
-
-                      <input type="text" name="name" (keydown.enter)="onSubmit($event.target.value)" [(ngModel)]="branchSearch.branchName" class="form-control"
-                        id="name-id" placeholder="{{'vif.branch.name_placeholder' | translate}}">
-
+                      <input type="text" name="name" (keydown.enter)="onSubmit($event.target.value)"
+                        [(ngModel)]="branchSearch.branchName" class="form-control" id="name-id"
+                        placeholder="{{'vif.branch.name_placeholder' | translate}}">
                     </div>
                   </div>
                 </div>
@@ -80,17 +80,22 @@
                   <td>{{item.branchName}}</td>
                   <td class="textCenter">
                     <!-- {{item.activeFlg==1?'Hoạt đông':'Ngừng hoạt động'}} -->
-                    <div *ngIf="item.activeFlg==1"><i class="fa fa-check" title="{{'vif.global.other.title_active' | translate}}"
-                      style="font-size:25px;color:green"></i></div>
-                    <div *ngIf="item.activeFlg!=1"><i class="fa fa-close" title="{{'vif.global.other.title_inactive' | translate}}"
-                      style="font-size:25px;color:red"></i></div>
+                    <div *ngIf="item.activeFlg==1"><i class="fa fa-check"
+                        title="{{'vif.global.other.title_active' | translate}}" style="font-size:25px;color:green"></i>
+                    </div>
+                    <div *ngIf="item.activeFlg!=1"><i class="fa fa-close"
+                        title="{{'vif.global.other.title_inactive' | translate}}" style="font-size:25px;color:red"></i>
+                    </div>
                   </td>
                   <td class="textCenter">
-                    <a [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]" >
+                    <a [routerLink]="['/branch-managenment/ce-branch-managenment', item.id]">
                       <i class="fa fa-pencil" title="{{'vif.global.other.title_icon_edit' | translate}}"></i></a>
                     <a *ngIf=" item.activeFlg>0 " style="color: red; cursor: pointer; margin-left: 10px;"
-                      (click)="confirmDel(template, item.id)"> <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
-                    <a *ngIf=" item.activeFlg<=0 " style="color: red; opacity: 0.2; margin-left: 10px;"> <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
+                      (click)="confirmDel(template, item.id)"> <i class="fa fa-minus-circle"
+                        title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
+                    <a *ngIf=" item.activeFlg<=0 " style="color: red; opacity: 0.2; margin-left: 10px;"> <i
+                        class="fa fa-minus-circle"
+                        title="{{'vif.global.other.title_icon_supspend' | translate}}"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -133,4 +138,4 @@
     <button type="button" class="btn btn-primary"
       (click)="deleteBranch()">{{'vif.global.button.accept' | translate}}</button>
   </div>
-</ng-template> 
+</ng-template>

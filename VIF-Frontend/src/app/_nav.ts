@@ -50,18 +50,13 @@ export const navItems: NavData[] = [
     icon: 'fa fa-credit-card-alt'
   },
   {
-    name: 'Chia cổ tức',
-    url: '/invest-management/share-devidend',
-    icon: 'fa fa-money'
-  },
-  {
     name: 'Phê duyệt đầu tư',
     url: '/managementttttt',
     icon: 'icon-pencil'
   },
   {
     name: 'Lịch sử quỹ đầu tư',
-    url: '//transaction-history',
+    url: '/transaction-history',
     icon: 'icon-calendar'
   },
   {
@@ -107,5 +102,10 @@ export const navItems: NavData[] = [
     url: '/invest-request',
     icon: 'fa fa-handshake-o'
 
+  },
+  {
+    name: 'Quản lý vốn cổ đông',
+    url: '/holder-equity',
+    icon: 'fa fa-cog'
   }
 ];

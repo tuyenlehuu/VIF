@@ -23,8 +23,10 @@ public interface HolderEquityDao {
 
 //	void deleteHolderByName(String fullName);
 
-	List<HolderEquity> SearchHolderByCondition();
+	List<HolderEquity> SearchHolderByCondition(int page, int pageSize, String columnSortName, Boolean asc, String fromDate,String toDate,
+			String fullName);
 
-	int getRowCount();
+	int getRowCount( String fromDate,String toDate,
+			String fullName);
 
 }

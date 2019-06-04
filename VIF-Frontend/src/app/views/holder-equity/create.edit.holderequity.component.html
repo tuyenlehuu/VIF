@@ -1,0 +1,364 @@
+<div class="card">
+  <!--header-->
+  <div class="card-header">
+    <span *ngIf="id==0">
+      <i class='fa fa-user-plus'></i>
+      <strong>{{'vif.holder.title1'|translate}}</strong>
+    </span>
+    <span *ngIf="id>0">
+      <i class="fa fa-user"></i>
+      <strong>{{'vif.branch.title2' | translate}}</strong>
+    </span>
+  </div>
+  <!--end header-->
+  <!--start create-->
+  <div class="card-body" *ngIf="id==0">
+    <form [formGroup]="addHolderForm" (ngSubmit)="onAddSubmit()">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.name'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="aFullName" class="form-control"
+                  placeholder="{{'vif.holder.name_placeholder' | translate}}">
+                <div *ngIf="addForm.aFullName.invalid && (addForm.aFullName.dirty || addForm.aFullName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aFullName.errors.required">
+                    {{'vif.holder.name1' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.email'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="aEmail" class="form-control"
+                  placeholder="{{'vif.holder.email_placeholder' | translate}}">
+                <div *ngIf="addForm.aEmail.invalid && (addForm.aEmail.dirty || addForm.aEmail.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aEmail.errors.required">
+                    {{'vif.holder.email1' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.tel'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="aTel" class="form-control"
+                  placeholder="{{'vif.holder.tel_placeholder' | translate}}">
+                <div *ngIf="addForm.aTel.invalid && (addForm.aTel.dirty || addForm.aTel.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aTel.errors.required">
+                    {{'vif.holder.tel1' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.title'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="aTitle" class="form-control"
+                  placeholder="{{'vif.holder.title_placeholder' | translate}}">
+                <div *ngIf="addForm.aTitle.invalid && (addForm.aTitle.dirty || addForm.aTitle.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aTitle.errors.required">
+                    {{'vif.holder.title1' | translate}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.address'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="aAddress" class="form-control"
+                  placeholder="{{'vif.holder.address_placeholder' | translate}}">
+                <div *ngIf="addForm.aAddress.invalid && (addForm.aAddress.dirty || addForm.aAddress.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aAddress.errors.required">
+                    {{'vif.holder.address1' | translate}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.amount'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="aAmount" class="form-control"
+                  placeholder="{{'vif.holder.amount_placeholder' | translate}}">
+                <div *ngIf="addForm.aAmount.invalid && (addForm.aAmount.dirty || addForm.aAmount.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aAmount.errors.required">
+                    {{'vif.message.username_require1' | translate}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.price'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+
+                <input type="text" formControlName="aPrice" class="form-control"
+                  placeholder="{{'vif.holder.price_placeholder'| translate}}">
+                <div *ngIf="addForm.aPrice.invalid && ( addForm.aPrice.dirty00||addForm.aPrice.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aPrice.errors.required">
+                    {{'vif.message.username_require1' | translate}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.lastDate'|translate}}<span class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <input type="text"  formControlName="aLastUpdate" (keydown.enter)="enterOnSubmitDate($event.target.value)" class="form-control" [bsConfig]="bsConfig"  
+                    bsDatepicker placeholder="{{'vif.holder.lastUpdate_placeholder' | translate}}">
+                <div *ngIf="addForm.aLastUpdate.invalid && (addForm.aLastUpdate.dirty || addForm.aLastUpdate.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.aLastUpdate.errors.required">
+                    {{'vif.holder.lastUpdate1' | translate}}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="row">
+          <div class="col-md-5">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="company">{{'vif.holder.description'|translate}}<span class="asterisk">&#42;</span></label>
+              </div>
+              <div class="col-md-9">
+                <div class="form-group">
+  
+                  <input type="text" formControlName="aDescription" class="form-control"
+                    placeholder="{{'vif.holder.description_placeholder'| translate}}">
+                  <div *ngIf="addForm.aDescription.invalid && (addForm.aDescription.dirty || addForm.aDescription.touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="addForm.aDescription.errors.required">
+                      {{'vif.holder.description1' | translate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <button type="submit" style="margin-bottom: 1em " class="btn btn-primary">{{'vif.holder.add'|translate}}</button>
+      <button type="submit" style="margin-bottom: 1em " [routerLink]="['/holder-equity']"
+        class="btn btn-secondary">{{'vif.holder.cancer'|translate}}</button>
+    </form>
+  </div>
+  <!--end create-->
+  <!--start edit-->
+  <form *ngIf="holder && id>0" [formGroup]="editHolderForm" (ngSubmit)="onEditSubmit()">
+    <div class="card-body" *ngIf="holder && id>0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.name'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eFullName" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.email'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eEmail" class="form-control">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.tel'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eTel" class="form-control">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.title'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eTitle" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.address'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eAddress" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.amount'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eAmount" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.price'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input currencyMask type="text" formControlName="ePrice" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.holder.lastDate'|translate}}<span class="asterisk"></span></label>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <input type="text" formControlName="eLastUpdate" (keydown.enter)="enterOnSubmitDate($event.target.value)"
+                     [bsConfig]="bsConfig" class="form-control" bsDatepicker value="{{stringDate | date : 'short'}}">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.holder.description'|translate}}<span class="asterisk"></span></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input type="text" formControlName="eDescription" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="offset-md-2 col-md-5">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="company">{{'vif.holder.reason'|translate}}<span class="asterisk"></span></label>
+                  </div>
+                  <div class="col-md-9">
+                    
+                    <div class="form-group">
+                      <input type="text" formControlName="eReason" class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      <button type="submit" style="margin-bottom: 1em "
+        class="btn btn-primary">{{'vif.holder.update'|translate}}</button>
+      <button type="submit" style="margin-bottom: 1em " [routerLink]="['/holder-equity']"
+        class="btn btn-secondary">{{'vif.holder.cancer'|translate}}</button>
+    </div>
+  </form>
+  <!--end-->
+
+</div>

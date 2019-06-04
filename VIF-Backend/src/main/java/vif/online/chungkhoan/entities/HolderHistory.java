@@ -18,10 +18,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "history_equity", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "history_equity")
 public class HolderHistory implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -41,7 +41,7 @@ public class HolderHistory implements Serializable {
 	private String description;
 	
 	@Column(name = "REASON")
-	private String Resson;
+	private String Reason;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "HOLDER_ID")
@@ -88,12 +88,14 @@ public class HolderHistory implements Serializable {
 		this.description = description;
 	}
 
-	public String getResson() {
-		return Resson;
+	
+
+	public String getReason() {
+		return Reason;
 	}
 
-	public void setResson(String resson) {
-		Resson = resson;
+	public void setReason(String reason) {
+		Reason = reason;
 	}
 
 	public HolderEquity getHolderEquity() {
