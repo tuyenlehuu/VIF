@@ -49,7 +49,7 @@ export class BillingInfoService{
     }
 
     add(bInfo: BillingInfo) {
-        return this.http.post<any>(`${config.apiUrl}/billing_info/add`, bInfo).pipe(map(res => {return res;}));
+        return this.http.post(`${config.apiUrl}/billing_info/add`, bInfo);
     }
 
     update(bInfo: BillingInfo) {

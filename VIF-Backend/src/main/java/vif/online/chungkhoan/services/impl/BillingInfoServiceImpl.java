@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,9 @@ public class BillingInfoServiceImpl implements BillingInfoService {
 	@Override
 	public void deleteById(Integer id) {
 		// TODO Auto-generated method stub
-		 billingInfoDao.deleteById(id);
+		BillingInfo bi = getById(id);
+		bi.setUpdateDate(new Date());
+		billingInfoDao.deleteById(id);
 	}
 
 	@Override

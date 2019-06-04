@@ -10,11 +10,13 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BillingInfoComponent } from './billing-info.component';
 import { CEBillingInfoComponent } from './billing-info.component.create.edit';
 import { BillingInfoRoutingModule } from './billing-info-rounting';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
 @NgModule({
   imports: [
+    NgSelectModule,
     FormsModule,
     BillingInfoRoutingModule,
     CommonModule,

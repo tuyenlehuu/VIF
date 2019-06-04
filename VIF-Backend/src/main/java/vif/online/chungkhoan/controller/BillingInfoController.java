@@ -44,11 +44,9 @@ public class BillingInfoController {
 	}
 
 	@PostMapping("add")
-	public ResponseEntity<Void> add(@RequestBody BillingInfo bInfo, UriComponentsBuilder builder) {
+	public ResponseEntity<BillingInfo> add(@RequestBody BillingInfo bInfo) {
 		billingInfoService.addBillingInfo(bInfo);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/billing_info/id/{id}").buildAndExpand(bInfo.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.OK);
+		return new ResponseEntity<BillingInfo>(bInfo, HttpStatus.OK);
 	}
 
 	@PutMapping("update")

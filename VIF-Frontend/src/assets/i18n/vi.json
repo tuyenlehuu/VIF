@@ -155,7 +155,14 @@
         "update_failed": "Cập nhật không thành công",
         "create_success": "Thêm mới thành công!",
         "asset_exists": "Tài sản đã tồn tại trong hệ thống",
-        "create_failed": "Thêm mới không thành công"
+        "create_failed": "Thêm mới không thành công",
+
+        "bankName_require": "*Tên ngân hàng là bắt buộc",
+        "bankBranch_require": "*Chi nhánh là bắt buộc",
+        "bankAccount_require": "*Số tài khoản là bắt buộc",
+        "accountName_require": "*Tên tài khoản là bắt buộc",
+        "update_date_require": "*Ngày cập nhật là bắt buộc"
+
         
     },
     "investor_trans":{

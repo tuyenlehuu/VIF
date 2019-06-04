@@ -62,6 +62,8 @@ export class CEBillingInfoComponent implements OnInit {
       accountName: ['', Validators.required],
       customerControl: [this.customerSelectedId, Validators.required]
     });
+    var uDate: Date = new Date();
+    this.setTextDate(uDate.toDateString());
 
   }
 
@@ -74,9 +76,10 @@ export class CEBillingInfoComponent implements OnInit {
     this.editBInfoForm = this.fb.group({
       eBankName: [{ value: this.billingInfo.bankName, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required],
       eBankBranch: [{ value: this.billingInfo.bankBranch, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required],
-      eUpdateDate: [new Date(), Validators.required],
+      eUpdateDate: [{ value: this.billingInfo.updateDate, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required],
       eBankAccount: [{ value: this.billingInfo.bankAccount, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required],
-      eAccountName: [{ value: this.billingInfo.accountName, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required]
+      eAccountName: [{ value: this.billingInfo.accountName, disabled: (this.billingInfo.activeFlg == 1) ? false : true }, Validators.required],
+      eCustomerControl: [this.billingInfo.customer.fullName, Validators.required]
     });
     var uDate: Date = new Date(this.billingInfo.updateDate);
     this.setTextDate(uDate.toDateString());
@@ -99,6 +102,7 @@ export class CEBillingInfoComponent implements OnInit {
         // console.log(err);
       });
     } else {
+      console.log("bbbbbbbbbb==>",bInfo);
       this.bInfoService.add(bInfo).subscribe(res => {
         this.showSuccess('Thêm mới thành công');
         this.router.navigate(['/billing-info']);
