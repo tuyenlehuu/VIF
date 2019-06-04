@@ -35,6 +35,9 @@ public class InvestRequest implements Serializable{
 	
 	@Column(name = "TYPE_OF_REQUEST")
     private Integer typeOfRequest; // 1-gui tien, 2-rut tien
+	
+	@Column(name = "TYPE_OF_INVEST")
+    private Integer typeOfInvest; // 1-CCQ, 2-CCQ dam bao
 
 	@Column(name = "CREATE_DATE", columnDefinition = "DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -46,10 +49,16 @@ public class InvestRequest implements Serializable{
 	@Column(name="PRICE")
 	private BigDecimal price;
 	
+	@Column(name="MONEY")
+	private BigDecimal money;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 	
 	public Integer getTypeOfRequest() {
 		return typeOfRequest;
@@ -57,6 +66,14 @@ public class InvestRequest implements Serializable{
 
 	public void setTypeOfRequest(Integer typeOfRequest) {
 		this.typeOfRequest = typeOfRequest;
+	}
+	
+	public Integer getTypeOfInvest() {
+		return typeOfInvest;
+	}
+
+	public void setTypeOfInvest(Integer typeOfInvest) {
+		this.typeOfInvest = typeOfInvest;
 	}
 
 	public BigDecimal getAmount() {
@@ -107,6 +124,23 @@ public class InvestRequest implements Serializable{
 		this.price = price;
 	}
 
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
+
+	public Asset getAsset() {
+		return asset;
+	}
+
+	public void setAsset(Asset asset) {
+		this.asset = asset;
+	}
+
+	
 	
 	
 	

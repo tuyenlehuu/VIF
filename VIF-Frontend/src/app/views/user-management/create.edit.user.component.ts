@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
 import { TranslateService } from '@ngx-translate/core';
 import { CustomerService } from '../../services/customer.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     templateUrl: 'create.edit.user.component.html'
@@ -23,6 +24,8 @@ export class CEUserComponent implements OnInit {
     editUserForm: FormGroup;
     customers: Customer[] = [];
     customerSelectedId: number;
+    selectFileAvatar: File;
+    localUrlAvatar: any[];
 
 
     // should load from DB (Lam sau)
@@ -81,6 +84,7 @@ export class CEUserComponent implements OnInit {
 
     createForm() {
         this.addUserForm = this.fb.group({
+             fileAvatar: [''],
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(8)]],
             email: ['', Validators.required],
@@ -115,11 +119,9 @@ export class CEUserComponent implements OnInit {
                 this.translateService.get('vif.message.update_failed').subscribe((res: string) => {
                     this.showError(res);
                 });
-                console.log(err);
             });
         } else {
             this.userService.register(user).pipe(first()).subscribe((respons: any) => {
-                console.log("res", respons);
                 if(respons.code === 409){
                     this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
                         this.showError(res);
@@ -134,7 +136,6 @@ export class CEUserComponent implements OnInit {
                 this.translateService.get('vif.message.create_failed').subscribe((res: string) => {
                     this.showError(res);
                 });
-                console.log(err);
             });
         }
     }
@@ -157,8 +158,7 @@ export class CEUserComponent implements OnInit {
         let cus: Customer = new Customer();
         cus.id = this.addUserForm.value.customerControl;
         this.user.customer = cus;
-
-        this.saveUser(this.user);
+        this.loadImage();
     }
 
     onEditSubmit() {
@@ -187,4 +187,52 @@ export class CEUserComponent implements OnInit {
 
     onChangeCustomer() {
     }
+
+    loadImage() {
+   
+        let uploadDataAvatar = new FormData();
+        uploadDataAvatar.set('file', this.addUserForm.get('fileAvatar').value);
+        //const fileGroup = of(ava, front, back);
+        forkJoin(
+            this.userService.upFileAvatar(uploadDataAvatar)
+
+        )
+            .subscribe(([res1, res2]) => {
+                this.user.avatar = res1;
+                this.checkCompleteElement();
+            });
+
+
+    }
+
+
+    checkCompleteElement() {
+        if (this.user.avatar != null) {
+            this.saveUser(this.user);
+            return;
+        } else {
+            this.showError('Chưa upload ảnh ');
+
+        }
+
+
+    }
+
+    showPreviewAvatar(event: any) {
+        if (event.target.files && event.target.files[0]) {
+            var reader = new FileReader();
+            reader.onload = (event: any) => {
+                this.localUrlAvatar = event.target.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    }
+
+    onUploadAvatar(event: any) {
+        if (event.target.files.length > 0) {
+            this.selectFileAvatar = event.target.files[0];
+            this.addUserForm.get('fileAvatar').setValue(this.selectFileAvatar);
+        }
+    }
+
 }

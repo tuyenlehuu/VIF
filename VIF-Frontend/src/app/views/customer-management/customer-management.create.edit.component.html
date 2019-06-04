@@ -115,26 +115,24 @@
                 <div class="col-md-5">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="company">{{'vif.customer.avatar' | translate}}<span
+                            <label for="company">{{'vif.customer.signContractDate' | translate}}<span
                                     class="asterisk">&#42;</span></label>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <div class="form-group">
 
-                                    <input type="file"  name="profile" (change)="showPreviewAvatar($event)" class="upload"
-                                        formControlName="avatar" class="form-control" id="avatar-id"
-                                        accept=" .jpg,.jpeg,.png " ngModel (change)="onUploadAvatar($event)">
-                                        
-                                    <img [src]="localUrlAvatar" *ngIf="localUrlAvatar" class="imgPlaceholder" width="100px" height="100px" >
+                                <input #dtLanc="bsDatepicker" class="form-control " formControlName="signContractDate"
+                                    id="signContractDate-id"
+                                    placeholder="{{'vif.customer.signContractDate_placeholder' | translate}}"
+                                    bsDatepicker>
 
-                                    <div *ngIf="addForm.avatar.invalid && (addForm.avatar.dirty || addForm.avatar.touched)"
-                                        class="alert alert-danger">
-                                        <div *ngIf="addForm.avatar.errors.required">
-                                            {{'vif.message.avatar_require' | translate}}
-                                        </div>
 
+                                <div *ngIf="addForm.signContractDate.invalid && (addForm.signContractDate.dirty || addForm.signContractDate.touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="addForm.signContractDate.errors.required">
+                                        {{'vif.message.signContractDate_require' | translate}}
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -221,36 +219,7 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="company">{{'vif.customer.signContractDate' | translate}}<span
-                                    class="asterisk">&#42;</span></label>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="form-group">
-
-                                <input #dtLanc="bsDatepicker" class="form-control " formControlName="signContractDate"
-                                    id="signContractDate-id"
-                                    placeholder="{{'vif.customer.signContractDate_placeholder' | translate}}"
-                                    bsDatepicker>
-
-
-                                <div *ngIf="addForm.signContractDate.invalid && (addForm.signContractDate.dirty || addForm.signContractDate.touched)"
-                                    class="alert alert-danger">
-                                    <div *ngIf="addForm.signContractDate.errors.required">
-                                        {{'vif.message.signContractDate_require' | translate}}
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
+          
 
 
             <!---->

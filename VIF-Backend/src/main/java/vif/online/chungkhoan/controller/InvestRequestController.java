@@ -1,5 +1,6 @@
 package vif.online.chungkhoan.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.AssetHistory;
 import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
@@ -50,11 +53,13 @@ public class InvestRequestController {
 			@RequestParam(value = "pageSize", required = true) int pageSize,
 			@RequestParam(value = "asc", required = false) Boolean asc,
 			@RequestParam(value = "typeOfRequest", required = false) Integer typeOfRequest,
-			@RequestParam(value = "status", required = false) Integer status) {
+			@RequestParam(value = "status", required = false) Integer status,
+			@RequestParam(value = "fromDate", required = false) String fromDate,
+			@RequestParam(value = "toDate", required = false) String toDate){
 		ApiResponse object = new ApiResponse();
 		List<InvestRequest> list = investRequestService.SearchInvestRequestByCondition(page, pageSize, asc,
-				typeOfRequest, status);
-		int rowCount = investRequestService.getRowCount(typeOfRequest, status);
+				typeOfRequest, status, fromDate, toDate);
+		int rowCount = investRequestService.getRowCount(typeOfRequest, status, fromDate, toDate);
 		object.setCode(200);
 		object.setErrors(null);
 		object.setStatus(true);
@@ -66,6 +71,14 @@ public class InvestRequestController {
 	}
 
 
+	@GetMapping("getPriceCCQ")
+	public ResponseEntity<BigDecimal> getPriceCCQ() {
+		BigDecimal asset = investRequestService.getPriceMaxDate();
+
+		return new ResponseEntity<BigDecimal>(asset, HttpStatus.OK);
+	}
+	
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
 	public ResponseEntity<InvestRequest> add(@RequestBody InvestRequest request, UriComponentsBuilder builder) {
 	  boolean bol=investRequestService.addInvestRequest(request);
@@ -82,6 +95,21 @@ public class InvestRequestController {
 	public ResponseEntity<InvestRequest> updateInvestRequest(@RequestBody InvestRequest request) {
 		investRequestService.updateInvestRequest(request);
 		return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
+	}
+	
+	@GetMapping("getEnsureCCQByCusAsset/{customerId}/{assetCode}")
+	public ResponseEntity<ApiResponse> getEnsureCCQByCusAsset(@PathVariable("customerId") Integer customerId,
+			@PathVariable("assetCode") String assetCode) {
+		ApiResponse result = new ApiResponse();
+
+		if (customerId == null || assetCode == null) {
+			result.setCode(500);
+			result.setStatus(false);
+			result.setErrors("wrong parameters!");
+			return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+		}
+		result = investRequestService.getEnsureCCQByCusAsset(customerId, assetCode);
+		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 
 }

@@ -11,6 +11,8 @@ public class TokenResetPassDTO implements Serializable{
 	private String username;
 	private String token;
 	private String newPass;
+	private String oldPass;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -29,6 +31,10 @@ public class TokenResetPassDTO implements Serializable{
 	public void setNewPass(String newPass) {
 		this.newPass = newPass;
 	}
-	
-	
+	public String getOldPass() {
+		return oldPass;
+	}
+	public void setOldPass(String oldPass) {
+		this.oldPass = oldPass;
+	}
 }

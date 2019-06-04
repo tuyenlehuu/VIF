@@ -69,9 +69,19 @@ export const navItems: NavData[] = [
     icon: 'fa fa-credit-card-alt'
   },
   {
+    name: 'Lợi tức Công Ty',
+    url: '/c_commission',
+    icon: 'fa fa-money'
+  },
+  {
     name: 'Lịch sử NĐT',
     url: '/cus-invest-history',
     icon: 'icon-calendar'
+  },
+  {
+    name: 'Đăng kí đầu tư',
+    url: '/invest-request',
+    icon: 'fa fa-handshake-o'
   },
   {
     title: true,
@@ -96,6 +106,7 @@ export const navItems: NavData[] = [
     name: 'Quản lý config',
     url: '/app-param',
     icon: 'fa fa-cog'
+
   },
 {
     name: 'Đăng kí đầu tư',
@@ -107,5 +118,7 @@ export const navItems: NavData[] = [
     name: 'Quản lý vốn cổ đông',
     url: '/holder-equity',
     icon: 'fa fa-cog'
+
+
   }
 ];

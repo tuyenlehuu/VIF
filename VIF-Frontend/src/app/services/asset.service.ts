@@ -74,5 +74,7 @@ export class AssetService{
         return this.http.get(`${config.apiUrl}/asset/group/getAlls`);
     }
 
-    
+    getAssetByGroupId(groupId: number) {
+        return this.http.get(`${config.apiUrl}/asset/getAssetByGroupId/${groupId}`);
+    }
 }

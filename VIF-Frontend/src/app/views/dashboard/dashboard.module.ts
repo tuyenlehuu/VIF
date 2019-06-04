@@ -13,6 +13,7 @@ import { AppTranslationModule } from '../../app.translation.module';
 import { CommonModule } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DebtScreenComponent } from './debt.vif.component';
 
 
 @NgModule({
@@ -29,6 +30,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     NgSelectModule,
     BsDatepickerModule.forRoot()
   ],
-  declarations: [ DashboardComponent, GeneralScreenComponent, ReportAssetScreenComponent, NAVScreenComponent ]
+  declarations: [ 
+    DashboardComponent, 
+    GeneralScreenComponent, 
+    ReportAssetScreenComponent, 
+    NAVScreenComponent,
+    DebtScreenComponent
+  ]
 })
 export class DashboardModule { }

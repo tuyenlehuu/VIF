@@ -66,5 +66,12 @@ export class UserService{
     resetPassword(tokenResetPass: TokenResetPass) {
         return this.http.post(`${config.apiUrl}/public/reset-password`, tokenResetPass);
     }
-    
+
+    changePassword(tokenResetPass: TokenResetPass) {
+        return this.http.post(`${config.apiUrl}/public/change-password`, tokenResetPass);
+    }    
+
+    upFileAvatar(file: FormData) {
+        return this.http.post(`${config.apiUrl}/user/upFileAvatar`, file, {responseType: 'text'});
+    }
 }

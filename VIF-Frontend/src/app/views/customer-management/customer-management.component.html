@@ -9,7 +9,7 @@
             style="float: right;">{{ 'vif.global.button.add' | translate }}</button>
         </div>
         <div class="card-body">
-          <form>
+          <form (keyup.enter)="search()">
             <div class="row">
               <div class="col-md-5">
                 <div class="row">
@@ -76,7 +76,7 @@
               </div>
             </div>
           </form>
-          <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
+          <button class="btn btn-primary" (click)="search()" >{{ 'vif.global.button.search' | translate }}</button>
 
           <table class="table table-striped mt-3">
             <thead>

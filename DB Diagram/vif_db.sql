@@ -38,29 +38,13 @@ CREATE TABLE `user` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` bigint(20) DEFAULT NULL
+  `customer_id` bigint(20) DEFAULT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 -- --------asss------
-CREATE TABLE `invest_request` (
-  `id` int(11) NOT NULL AUTO_INCREMENT  ,
-  `customer_id` bigint(20) DEFAULT NULL,
-  `amount` decimal(19,2) DEFAULT NULL,
-  `type_of_request` int(11) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `status` int(11) DEFAULT 1,
-  `price` decimal(19,2) DEFAULT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`) VALUES
-(1,1,'12.00',1,'2018-10-21 00:00:00', 3,'100000000'),
-(2,2,'500.00',1,'2018-10-21 00:00:00', 1,'100000000'),
-(3,14,'67.00',2,'2018-10-21 00:00:00', 2,'100000000'),
-(4,7,'10000.00',2,'2018-10-21 00:00:00', 1,'100000000'),
-(5,10,'11110.00',1,'2018-10-21 00:00:00', 3,'100000000');
-
 
 
 
@@ -193,7 +177,6 @@ INSERT INTO `branch` (`id`, `active_flg`, `code`, `name`) VALUES
 
 CREATE TABLE `customer` (
   `id` bigint(20) NOT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_ccq` decimal(19,2) DEFAULT NULL,
@@ -212,10 +195,10 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`id`, `avatar`, `email`, `full_name`, `total_ccq`, `active_flg`, `date_of_birth`, `identity_number`, `orginal_ccq_price`, `sign_contract_date`, `code`, `identity_document_back`, `identity_document_front`, `last_ccq_price`) VALUES
-(1, NULL, 'tuyenlh@gmail.com', 'Lê Hữu Tuyên', '0.00', 1, NULL, '125343196', '0.00', '2019-03-21 00:00:00', 'VIF1A0101', '/upload/identity/VIF1A0101_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00'),
-(2, NULL, 'admin@vifonline.com.vn', 'Admin VIF', '0.00', 1, NULL, '000000000', '0.00', '2019-03-23 00:00:00', 'VIFADMIN', NULL, NULL, '0.00'),
-(3, NULL, 'hieubx@gmail.com', 'Bùi Xuân Hiếu', '0.00', 1, NULL, '123456789', '0.00', '2019-03-23 00:00:00', 'VIF1A0102', '/upload/identity/VIF1A0102_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00');
+INSERT INTO `customer` (`id`, `email`, `full_name`, `total_ccq`, `active_flg`, `date_of_birth`, `identity_number`, `orginal_ccq_price`, `sign_contract_date`, `code`, `identity_document_back`, `identity_document_front`, `last_ccq_price`) VALUES
+(1, 'tuyenlh@gmail.com', 'Lê Hữu Tuyên', '0.00', 1, NULL, '125343196', '0.00', '2019-03-21 00:00:00', 'VIF1A0101', '/upload/identity/VIF1A0101_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00'),
+(2, 'admin@vifonline.com.vn', 'Admin VIF', '0.00', 1, NULL, '000000000', '0.00', '2019-03-23 00:00:00', 'VIFADMIN', NULL, NULL, '0.00'),
+(3, 'hieubx@gmail.com', 'Bùi Xuân Hiếu', '0.00', 1, NULL, '123456789', '0.00', '2019-03-23 00:00:00', 'VIF1A0102', '/upload/identity/VIF1A0102_back.jpg', '/upload/identity/VIF1A0101_front.jpg', '0.00');
 
 -- --------------------------------------------------------
 
@@ -1884,31 +1867,38 @@ CREATE TABLE `transaction_history` (
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL,
-  `active_flg` int(11) DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_deleted` int(11) DEFAULT NULL,
-  `is_online` int(11) DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `active_flg`, `email`, `is_deleted`, `is_online`, `password`, `role`, `user_name`, `customer_id`) VALUES
-(1, 1, 'huutuyen91@gmail.com', 0, 0, '$2a$04$I9Q2sDc4QGGg5WNTLmsz0.fvGv3OjoZyj81PrSFyGOqMphqfS2qKu', 'ROLE_ADMIN', 'tuyenlh', 1),
-(2, 1, 'emvit91@gmail.com', 0, 0, '$2a$10$o84aKHVnK0FtlSyPpnUJZeS0DRTI5kdRZjaijjAqGioPZZLgjilry', 'ROLE_USER', 'emvit', 1),
-(3, 1, 'hieubx@gmail.com', 0, 0, '$2a$10$8yGf9.qQk4TdkRBIF10q7uYv7Wm/L62VCjgkLqwpbjhu9rCGZ6m7y', 'ROLE_USER', 'hieubx', 3),
-(4, 1, 'admin@vifonline.com.vn', 0, 0, '$2a$10$zGHhb8Ze.RCRkImp8siEoOvgoI7RDNjLVihHkzLyYml3JMKBd/za2', 'ROLE_ADMIN', 'admin', 2);
+INSERT INTO `user` (`id`, `active_flg`, `email`, `is_deleted`, `is_online`, `password`, `role`, `user_name`, `customer_id`,`avatar`) VALUES
+(1, 1, 'huutuyen91@gmail.com', 0, 0, '$2a$04$I9Q2sDc4QGGg5WNTLmsz0.fvGv3OjoZyj81PrSFyGOqMphqfS2qKu', 'ROLE_ADMIN', 'tuyenlh', 1,NULL),
+(2, 1, 'emvit91@gmail.com', 0, 0, '$2a$10$o84aKHVnK0FtlSyPpnUJZeS0DRTI5kdRZjaijjAqGioPZZLgjilry', 'ROLE_USER', 'emvit', 1,NULL),
+(3, 1, 'hieubx@gmail.com', 0, 0, '$2a$10$8yGf9.qQk4TdkRBIF10q7uYv7Wm/L62VCjgkLqwpbjhu9rCGZ6m7y', 'ROLE_USER', 'hieubx', 3,NULL),
+(4, 1, 'admin@vifonline.com.vn', 0, 0, '$2a$10$zGHhb8Ze.RCRkImp8siEoOvgoI7RDNjLVihHkzLyYml3JMKBd/za2', 'ROLE_ADMIN', 'admin', 2,NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+CREATE TABLE `invest_request` (
+  `id` int(11) NOT NULL AUTO_INCREMENT  ,
+  `customer_id` bigint(20) DEFAULT NULL,
+  `amount` decimal(19,2) DEFAULT NULL,
+  `type_of_request` int(11) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT 1,
+  `price` decimal(19,2) DEFAULT NULL,
+  `money` decimal(19,2) DEFAULT NULL,
+  `type_of_invest` int(11) DEFAULT 1,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, `create_date`, `status`,`price`,`money`,`type_of_invest` ) VALUES
+(1,1,NULL,1,'2018-10-21 00:00:00', 3,'1000','1200000',1),
+(2,2,NULL,1,'2018-10-21 00:00:00', 1,'1000','500000',2),
+(3,4,'1',2,'2018-10-21 00:00:00', 2,'1000',NULL,1);
 
 
 
@@ -2070,6 +2060,7 @@ ALTER TABLE `transaction_history`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `FKdptx0i3ky01svofwjytq5iry0` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

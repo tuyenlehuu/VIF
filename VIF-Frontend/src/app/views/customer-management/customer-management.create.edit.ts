@@ -30,7 +30,6 @@ export class CECustomerComponent implements OnInit {
     showDateOfBirth: string;
     showSignContractDate: string;
     colorTheme = 'theme-blue';
-    localUrlAvatar: any[];
     localUrlBack: any[];
     localUrlFront: any[];
     selectFileAvatar: File;
@@ -70,12 +69,10 @@ export class CECustomerComponent implements OnInit {
         this.addCustomerForm = this.fb.group({
             fileFront: [''],
             fileBack: [''],
-            fileAvatar: [''],
             fullName: ['', Validators.required],
             identityNumber: ['', Validators.required],
             email: ['', Validators.required],
             dateOfBirth: [new Date(), Validators.required],
-            avatar: ['', Validators.required],
             status: [{value:1,disabled: true}, Validators.required],
             identityDocFront: ['', Validators.required],
             identityDocBack: ['',Validators.required],
@@ -116,7 +113,7 @@ export class CECustomerComponent implements OnInit {
                 this.router.navigate(['/customer-management']);
             }, (err) => {
                 this.showError('Cập nhật customer không thành công!');
-                console.log(err);
+                // console.log(err);
             });
         } else {
             this.customerService.addCustomer(customer).subscribe(res => {
@@ -124,7 +121,7 @@ export class CECustomerComponent implements OnInit {
                 this.router.navigate(['/customer-management']);
             }, (err) => {
                 this.showError('Thêm mới customer không thành công!');
-                console.log(err);
+                // console.log(err);
             });
         }
     }
@@ -157,25 +154,20 @@ export class CECustomerComponent implements OnInit {
     }
 
     loadImage() {
-        let uploadDataAva = new FormData();
+   
         let uploadDataBack = new FormData();
         let uploadDataFront = new FormData();
-        uploadDataAva.set('file', this.addCustomerForm.get('fileAvatar').value);
         uploadDataBack.set('file', this.addCustomerForm.get('fileBack').value);
         uploadDataFront.set('file', this.addCustomerForm.get('fileFront').value);
         //const fileGroup = of(ava, front, back);
         forkJoin(
             this.customerService.upFileFront(uploadDataFront),
-
-            this.customerService.upFileBack(uploadDataBack),
-
-            this.customerService.upFileAvatar(uploadDataAva)
+            this.customerService.upFileBack(uploadDataBack)
 
         )
-            .subscribe(([res1, res2, res3]) => {
+            .subscribe(([res1, res2]) => {
                 this.customer.identityDocFront = res1;
                 this.customer.identityDocBack = res2;
-                this.customer.avatar = res3;
                 this.checkCompleteElement();
             });
 
@@ -184,11 +176,11 @@ export class CECustomerComponent implements OnInit {
 
 
     checkCompleteElement() {
-        if (this.customer.avatar != null && this.customer.identityDocBack != null && this.customer.identityDocFront != null) {
+        if (this.customer.identityDocBack != null && this.customer.identityDocFront != null) {
             this.saveCustomer(this.customer);
             return;
         } else {
-            if (this.customer.avatar == null) { this.showError('Chưa upload ảnh đại diện!'); }
+            
             if (this.customer.identityDocBack == null) { this.showError('Chưa upload ảnh mặt sau CMT!'); }
             if (this.customer.identityDocFront == null) { this.showError('Chưa upload ảnh mặt trước CMT!'); }
         }
@@ -224,15 +216,7 @@ export class CECustomerComponent implements OnInit {
     }
 
 
-    showPreviewAvatar(event: any) {
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-            reader.onload = (event: any) => {
-                this.localUrlAvatar = event.target.result;
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    }
+  
 
     showPreviewBack(event: any) {
         if (event.target.files && event.target.files[0]) {
@@ -254,15 +238,7 @@ export class CECustomerComponent implements OnInit {
         }
     }
 
-    onUploadAvatar(event: any) {
-        if (event.target.files.length > 0) {
-            // debugger
-            this.selectFileAvatar = event.target.files[0];
-            this.addCustomerForm.get('fileAvatar').setValue(this.selectFileAvatar);
-            //console.log("path", res);
-            console.log("path", this.customer.avatar);
-        }
-    }
+ 
 
     onUploadBack(event: any) {
         if (event.target.files.length > 0) {

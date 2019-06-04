@@ -61,9 +61,7 @@ export class CustomerService {
     }
 
 
-    upFileAvatar(file: FormData) {
-        return this.http.post(`${config.apiUrl}/customer/upFileAvatar`, file, {responseType: 'text'});
-    }
+    
     upFileFront(file: FormData) {
         return this.http.post(`${config.apiUrl}/customer/upFileDocFront`, file, {responseType: 'text'});
     }

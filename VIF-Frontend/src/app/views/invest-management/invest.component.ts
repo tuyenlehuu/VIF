@@ -112,7 +112,6 @@ export class InvestComponent implements OnInit {
         sellAssetObject.assetId = this.sellForm.value.sAssetSelectedId;
         sellAssetObject.amount = this.sellForm.value.sAmountAsset;
         sellAssetObject.price = this.sellForm.value.sPrice;
-        console.log(sellAssetObject);
 
         this.investManagementService.sellAsset(sellAssetObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;

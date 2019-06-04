@@ -113,7 +113,7 @@ public class AssetDaoImpl implements AssetDao {
 	public boolean isExists(Asset asset) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		String hql = "FROM Asset as a WHERE a.activeFlg = 1 AND a.assetCode = :assetCode";
+		String hql = "FROM Asset as a WHERE a.assetCode = :assetCode";
 		return entityManager.createQuery(hql).setParameter("assetCode", asset.getAssetCode()).getResultList().size() > 0
 				? true
 				: false;
@@ -141,7 +141,7 @@ public class AssetDaoImpl implements AssetDao {
 
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
+//		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
 
 		if (assetCode != null && !assetCode.equals("")) {
 			predicates.add(criteriaBuilder.like(from.get("assetCode"), "%"+assetCode+"%"));
@@ -184,7 +184,7 @@ public class AssetDaoImpl implements AssetDao {
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		List<Predicate> predicates = new ArrayList<Predicate>();
 
-		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
+//		predicates.add(criteriaBuilder.equal(from.get("activeFlg"), 1));
 
 		if (assetCode != null && !assetCode.equals("")) {
 			predicates.add(criteriaBuilder.like(from.get("assetCode"), assetCode));
@@ -211,6 +211,18 @@ public class AssetDaoImpl implements AssetDao {
 		// TODO Auto-generated method stub
 		String hql = "FROM Asset as a WHERE a.groupAsset = 2 ORDER BY a.branchCode desc";
 		return (List<Asset>) entityManager.createQuery(hql).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Asset> getAssetByGroupId(Integer groupId) {
+		// TODO Auto-generated method stub
+		String hql = "FROM Asset as a WHERE a.groupAsset.id = :groupId";
+		List<Asset> lstResult = entityManager.createQuery(hql).setParameter("groupId", groupId).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			return lstResult;
+		}
+		return null;
 	}
 
 }

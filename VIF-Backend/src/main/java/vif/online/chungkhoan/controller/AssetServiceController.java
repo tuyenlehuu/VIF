@@ -225,4 +225,15 @@ public class AssetServiceController {
 		object.setData(list);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
+	
+	@GetMapping("getAssetByGroupId/{groupId}")
+	public ResponseEntity<ApiResponse> getAssetByGroupId(@PathVariable("groupId") Integer groupId) {
+		ApiResponse object = new ApiResponse();
+		List<Asset> assetLst = assetService.getAssetByGroupId(groupId);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(assetLst);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
 }

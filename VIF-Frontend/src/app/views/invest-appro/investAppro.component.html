@@ -1,0 +1,153 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <span>{{ 'vif.investAppro.title1' | translate }}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.fromDate' | translate}}</label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="fromDate" bsDatepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="offset-md-2 col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.toDate' | translate}}</label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" [(ngModel)]="toDate" bsDatepicker>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.typeOfRequest' | translate}}<span
+                      class="asterisk"></span></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <select id="select" name="select" class="form-control"
+                      [(ngModel)]="investApproSearch.typeOfRequest">
+                      <option [ngValue]="tor.value" *ngFor="let tor of typeOfRequest">{{tor.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="offset-md-2 col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.typeOfInvest' | translate}}<span class="asterisk"></span></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <select id="select1" name="select1" class="form-control" [(ngModel)]="investApproSearch.typeOfInvest">
+                      <option [ngValue]="toi.value" *ngFor="let toi of typeOfInvest">{{toi.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
+            </div>
+          </div>
+          <table class="table table-striped mt-3">
+            <thead>
+              <tr>
+                <th>{{ 'vif.investAppro.customer' | translate }}</th>
+                <th>{{ 'vif.investAppro.code' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.money' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.price' | translate }}</th>
+                <th style="text-align: right">{{ 'vif.investAppro.amount' | translate }}</th>
+                <th>{{ 'vif.investAppro.typeOfRequest' | translate }}</th>
+                <th>{{ 'vif.investAppro.typeOfInvest' | translate }}</th>
+                <th>{{ 'vif.investAppro.Date' | translate }}</th>
+                <th style="text-align: center">{{ 'vif.investAppro.action' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of investAppros | paginate: {id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
+                <td>{{item.customer.fullName}}</td>
+                <td>{{item.customer.code}}</td>
+                <td style="text-align: right">{{item.money}}</td>
+                <td style="text-align: right">{{item.price}}</td>
+                <td style="text-align: right">{{item.amount}}</td>
+                <td>{{item.typeOfRequest==1?'Mua':'Bán'}}</td>
+                <td>{{item.typeOfInvest==1?'CCQ':'CCQ đảm bảo'}}</td>
+                <td>{{item.createDate | date: 'dd/MM/yyyy'}}</td>
+                <td style="text-align: center">
+                  <a style="color: green; margin-left: 10px; cursor: pointer"
+                    (click)="confirmDel(template1, item.customer.id)">
+                    <i class="fa fa-check" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                  </a>
+                  <a style="color: red; margin-left: 10px; cursor: pointer"
+                    (click)="confirmDel(template, item.customer.id)">
+                    <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                  </a></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+          <ul style="float:right;" class="pagination" *ngIf="investAppros && investAppros.length > 0">
+            <pagination-controls (pageChange)="getPage($event)" id="server"
+              previousLabel="{{'vif.global.other.previousLabel' | translate}}"
+              nextLabel="{{'vif.global.other.nextLabel' | translate}}"></pagination-controls>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.global.other.reject' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+      (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="reject()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+</ng-template>
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'vif.global.other.note' | translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{'vif.global.other.accept' | translate}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary"
+      (click)="modalRef.hide()">{{'vif.global.button.cancel' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="accept()">{{'vif.global.button.accept' | translate}}</button>
+  </div>
+</ng-template>

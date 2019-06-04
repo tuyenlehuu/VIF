@@ -40,4 +40,6 @@ public interface AssetService {
 
 	public int getRowCount(String assetCode, Integer groupAssetId, String assetName);
 
+	public List<Asset> getAssetByGroupId(Integer groupId);
+
 }

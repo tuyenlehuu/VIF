@@ -10,6 +10,10 @@ import { InvestRequest } from '../models/InvestRequest.model';
 export class InvestRequestService{
     constructor(private http: HttpClient) { }
 
+    getPriceCCQ(){
+        return this.http.get<any>(`${config.apiUrl}/invest_request/getPriceCCQ`);
+    }
+
     getAll() {
         return this.http.get<any>(`${config.apiUrl}/invest_request/getAlls`);
     }
@@ -34,7 +38,7 @@ export class InvestRequestService{
     }
 
     getById(id: number) {
-        return this.http.get(`${config.apiUrl}/invest_request/${id}`);
+        return this.http.get(`${config.apiUrl}/invest_request/id/${id}`);
     }
 
     add(request: InvestRequest) {
@@ -49,6 +53,10 @@ export class InvestRequestService{
 
     update(request: InvestRequest) {
         return this.http.put(`${config.apiUrl}/invest_request/update`, request); 
+    }
+
+    getEnsureCCQByCusAsset(customerId: number, assetCode: string) {
+        return this.http.get(`${config.apiUrl}/invest_request/getEnsureCCQByCusAsset/${customerId}/${assetCode}`);
     }
 
     

@@ -3,4 +3,5 @@ export class BuySellCCQ {
 	money: number;
 	amountCCQ: number;
 	priceCCQ: number;
+	ensureCCQCode: string;
 }

@@ -9,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.services.UserService;
 
 @Service(value = "userService")
@@ -113,5 +115,18 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 		// TODO Auto-generated method stub
 		return userDao.resetPassword(username, token, newPass);
 	}
+
+	@Override
+	public boolean changePassword(TokenResetPassDTO tokenResetDTO) {
+		// TODO Auto-generated method stub
+		return userDao.changePassword(tokenResetDTO);
+	}
+	
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return userDao.saveFileAvatar(file);
+	}
+	
 
 }

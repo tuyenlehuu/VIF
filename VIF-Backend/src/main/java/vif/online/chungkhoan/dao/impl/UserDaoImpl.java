@@ -1,5 +1,9 @@
 package vif.online.chungkhoan.dao.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,11 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import vif.online.chungkhoan.dao.UserDao;
 //import vif.online.chungkhoan.dao.UserDao;
 //import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.helper.IContaints;
+import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.helper.VifApiHelper;
 import vif.online.chungkhoan.helper.VifMailHelper;
 
@@ -216,7 +223,7 @@ public class UserDaoImpl implements UserDao{
 		User user = getUserByUserName(username);
 		if(user!=null) {
 			String tokenReset = apiHelper.generateString(20);
-			String mLink = "http://localhost:4200/#/change-pass?username="+username+"&token="+tokenReset;
+			String mLink = IContaints.CONFIG.LINK_CONFIG + "change-pass?username="+username+"&token="+tokenReset;
 			String content = "You're receiving this e-mail because you requested a password reset for your Postmates account. Please <a href='" + mLink + "'>click here</a> to choose a new password.";
 			try {
 				emailHepler.sendMailWithHTMLContent(user.getEmail(), "Reset password", content);
@@ -257,4 +264,48 @@ public class UserDaoImpl implements UserDao{
 		return false;
 	}
 
+
 }
+
+
+	@Override
+	public boolean changePassword(TokenResetPassDTO tokenResetDTO) {
+		// TODO Auto-generated method stub
+		String hql = "FROM User as u WHERE u.username = :username AND u.isDeleted=0";
+		@SuppressWarnings("unchecked")
+		List<User> lstResult = entityManager.createQuery(hql).setParameter("username", tokenResetDTO.getUsername()).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			User mUser = lstResult.get(0);
+			if(passwordEncoder.matches(tokenResetDTO.getOldPass(), mUser.getPassword())) {
+				mUser.setPassword(passwordEncoder.encode(tokenResetDTO.getNewPass()));
+				entityManager.merge(mUser);
+				// send email inform
+				emailHepler.sendMailWithSimpleText(mUser.getEmail(), "Change password Successfully", "You had change new password successfully!");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public String saveFileAvatar(MultipartFile file) {
+		String path = IContaints.FILE_UPLOAD.AVATAR_UPLOAD_DIRECTORY;
+		String pathFile = "";
+		try {
+			String filename = file.getOriginalFilename();
+			byte[] bytes = file.getBytes();
+			File f = new File(path + "_time_" + System.currentTimeMillis() + "_time_" + filename);
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f));
+			pathFile=f.getPath();
+			stream.write(bytes);
+			stream.flush();
+			stream.close();
+
+		} catch (IOException e) {
+			return "Something wrong";
+		}
+
+		return pathFile;
+	}
+}
+

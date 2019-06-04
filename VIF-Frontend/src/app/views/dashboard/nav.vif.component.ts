@@ -94,7 +94,6 @@ export class NAVScreenComponent implements OnInit {
   drawNavChart(){
     this.dashboardService.getNavChartData(this.isByMonth).pipe(first()).subscribe(res => {
       this.navChartDataLst = res;
-      console.log("this.navChartDataLst", this.navChartDataLst);
       Object.keys(this.navChartDataLst).forEach(key => {
         this.lineChartLabels.push(this.navChartDataLst[key].key);
         this.lineChartData[0].data.push(this.navChartDataLst[key].value.toFixed(2));
@@ -104,11 +103,11 @@ export class NAVScreenComponent implements OnInit {
 
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
 
   public chartHovered(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
 
   setradio(radioValue: number){

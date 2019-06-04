@@ -82,7 +82,7 @@ export class BranchComponent implements OnInit {
             });
 
         }, catchError => {
-            console.log("result: ", catchError);
+            // console.log("result: ", catchError);
         });
         this.modalRef.hide();
     }
