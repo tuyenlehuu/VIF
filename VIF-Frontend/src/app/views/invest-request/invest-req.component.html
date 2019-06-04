@@ -20,7 +20,7 @@
           <!--end button buy/ sell-->
 
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && customer && buyForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
+          <div *ngIf="isBuyScreen && amountCCQAvaiable!=null && buyForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">

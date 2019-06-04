@@ -26,7 +26,7 @@ export class InvestRequestComponent implements OnInit {
     user: User = new User();
     customer: Customer;
     submitted = false;
-    amountCCQAvaiable: number;
+    amountCCQAvaiable: number = null;
     buyForm: FormGroup;
     sellForm: FormGroup;
     investRequest: InvestRequest = new InvestRequest();

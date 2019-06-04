@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { config } from '../../config/application.config';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsDatepickerConfig} from 'ngx-bootstrap';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 //import { Observable } from 'rxjs';
 import { forkJoin } from 'rxjs';
 //import { from } from 'rxjs';
@@ -73,11 +73,11 @@ export class CECustomerComponent implements OnInit {
             identityNumber: ['', Validators.required],
             email: ['', Validators.required],
             dateOfBirth: [new Date(), Validators.required],
-            status: [{value:1,disabled: true}, Validators.required],
+            status: [{ value: 1, disabled: true }, Validators.required],
             identityDocFront: ['', Validators.required],
-            identityDocBack: ['',Validators.required],
+            identityDocBack: ['', Validators.required],
             signContractDate: [new Date(), Validators.required]
-            
+
         });
 
     }
@@ -154,7 +154,7 @@ export class CECustomerComponent implements OnInit {
     }
 
     loadImage() {
-   
+
         let uploadDataBack = new FormData();
         let uploadDataFront = new FormData();
         uploadDataBack.set('file', this.addCustomerForm.get('fileBack').value);
@@ -176,11 +176,16 @@ export class CECustomerComponent implements OnInit {
 
 
     checkCompleteElement() {
+        if (this.customer.identityDocBack == "Something wrong" || this.customer.identityDocFront == "Something wrong") {
+            this.showError("Upload file không thành công !");
+            return;
+
+        }
         if (this.customer.identityDocBack != null && this.customer.identityDocFront != null) {
             this.saveCustomer(this.customer);
             return;
         } else {
-            
+
             if (this.customer.identityDocBack == null) { this.showError('Chưa upload ảnh mặt sau CMT!'); }
             if (this.customer.identityDocFront == null) { this.showError('Chưa upload ảnh mặt trước CMT!'); }
         }
@@ -216,7 +221,7 @@ export class CECustomerComponent implements OnInit {
     }
 
 
-  
+
 
     showPreviewBack(event: any) {
         if (event.target.files && event.target.files[0]) {
@@ -238,7 +243,7 @@ export class CECustomerComponent implements OnInit {
         }
     }
 
- 
+
 
     onUploadBack(event: any) {
         if (event.target.files.length > 0) {
