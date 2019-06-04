@@ -84,7 +84,7 @@ export class CEUserComponent implements OnInit {
 
     createForm() {
         this.addUserForm = this.fb.group({
-             fileAvatar: [''],
+            fileAvatar: [''],
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(8)]],
             email: ['', Validators.required],
@@ -107,6 +107,7 @@ export class CEUserComponent implements OnInit {
     }
 
     saveUser(user: User) {
+        console.log("ussssser+>>",user.avatar);
         if (this.id > 0) {
             // update user
             this.userService.update(user).subscribe(res => {
@@ -122,6 +123,7 @@ export class CEUserComponent implements OnInit {
             });
         } else {
             this.userService.register(user).pipe(first()).subscribe((respons: any) => {
+                console.log("user===<<.<.,",user);
                 if(respons.code === 409){
                     this.translateService.get('vif.message.user_exists').subscribe((res: string) => {
                         this.showError(res);
@@ -189,20 +191,17 @@ export class CEUserComponent implements OnInit {
     }
 
     loadImage() {
-   
         let uploadDataAvatar = new FormData();
-        uploadDataAvatar.set('file', this.addUserForm.get('fileAvatar').value);
-        //const fileGroup = of(ava, front, back);
+        uploadDataAvatar.set('file', this.selectFileAvatar);
+
         forkJoin(
             this.userService.upFileAvatar(uploadDataAvatar)
 
         )
-            .subscribe(([res1, res2]) => {
-                this.user.avatar = res1;
+            .subscribe(([res]) => {
+                this.user.avatar = res;
                 this.checkCompleteElement();
             });
-
-
     }
 
 
@@ -219,20 +218,27 @@ export class CEUserComponent implements OnInit {
     }
 
     showPreviewAvatar(event: any) {
+       // this.onUploadAvatar(event);
         if (event.target.files && event.target.files[0]) {
+            this.selectFileAvatar = event.target.files[0];
+           // this.addUserForm.get('fileAvatar').setValue(this.selectFileAvatar);
             var reader = new FileReader();
             reader.onload = (event: any) => {
                 this.localUrlAvatar = event.target.result;
             }
             reader.readAsDataURL(event.target.files[0]);
+            console.log("=>>>>",event.target.files[0]);
         }
     }
 
-    onUploadAvatar(event: any) {
+    onUploadAvatar(event: any) {  
         if (event.target.files.length > 0) {
-            this.selectFileAvatar = event.target.files[0];
-            this.addUserForm.get('fileAvatar').setValue(this.selectFileAvatar);
+            
+           
         }
+        
     }
+
+   
 
 }

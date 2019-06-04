@@ -54,12 +54,12 @@ public class User implements Serializable{
     @Column(name = "TOKEN_RESET")
     private String tokenReset;
     
+    @Column(name = "AVATAR")
+	private String avatar;
+    
     @Column(name = "TOKEN_RESET_EXPRIED", columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date tokenResetExpried;
-    
-	@Column(name = "AVATAR")
-	private String avatar;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
