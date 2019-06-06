@@ -197,7 +197,7 @@ export class CEUserComponent implements OnInit {
             this.userService.upFileAvatar(uploadDataAvatar)
 
         )
-            .subscribe(([res1, res2]) => {
+            .subscribe(([res1]) => {
                 this.user.avatar = res1;
                 this.checkCompleteElement();
             });
