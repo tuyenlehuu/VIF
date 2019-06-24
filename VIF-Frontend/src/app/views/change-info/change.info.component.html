@@ -1,19 +1,29 @@
 <div class="app-body">
   <main class="main d-flex align-items-center">
     <div class="container pt-4">
-      <div class="row">
+      <div class="row" *ngIf="!isChangedInfo">
         <div class="col-md-6 mx-auto">
           <div class="card mx-4">
             <div class="card-body pt-4">
-              <form [formGroup]="changeInfoForm">
+              <form [formGroup]="changeInfoForm" (ngSubmit)="onSubmit()">
                 <h3>{{'vif.change_info.title'|translate}}</h3>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">{{'vif.change_info.change_email' | translate}}</span>
                   </div>
-                  <input type="text" class="form-control" formControlName="Email"
+                  <input type="text" class="form-control" formControlName="email"
                     placeholder="{{'vif.change_info.change_email_placeholder' | translate}}" required>
                 </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">{{'vif.change_info.choose_avatar' | translate}}</span>
+                  </div>
+                  <input type="file" formControlName="identityAvatar" class="form-control"
+                    (change)="showPreviewAvatar($event)" id="identityAvatar-id" >
+                  <img [src]="localUrlAvatar" *ngIf="localUrlAvatar" class="imgPlaceholder" width="100px"
+                    height="100px">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" >{{'vif.global.button.save'|translate}}</button>
               </form>
             </div>
           </div>

@@ -257,7 +257,10 @@
     "change_info":{
         "title":"Cập nhập thông tin cá nhân",
         "change_email": "Cập nhập email",
-        "change_email_placeholder": "Nhập vào email"
+        "change_email_placeholder": "Nhập vào email",
+        "choose_avatar": "Cập nhập Avatar",
+        "title_success": "Thay Thông tin cá nhân khẩu thành công!",
+        "content_success": "Bạn đã thay đổi thông tin cá nhân thành công. "
 
     },
     "error_page":{

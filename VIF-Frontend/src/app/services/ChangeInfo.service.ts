@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/ChangInfo.model';
+import { User } from '../models/User.model';
 import { config } from '../config/application.config';
 import { Pager } from '../models/Pager';
 import { TokenResetPass } from '../models/TokenResetPass';
