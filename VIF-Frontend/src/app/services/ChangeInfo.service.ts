@@ -16,6 +16,6 @@ export class ChangeInfoService {
     return this.http.put(`${config.apiUrl}/change-info/update`, user);
   }
   upFileAvatar(file: FormData) {
-    return this.http.post(`${config.apiUrl}/change-info/uploadAvatar`, file, { responseType: 'text' });
+    return this.http.post(`${config.apiUrl}/change-info/upFileAvatar`, file, { responseType: 'text' });
   }
 }

@@ -39,7 +39,6 @@ public class ChangeInfoDaoImpl implements ChangeInfoDao{
 
 	@Override
 	public String saveFileAvatar(MultipartFile file) {
-		// TODO Auto-generated method stub
 		String path = IContaints.FILE_UPLOAD.AVATAR_UPLOAD_DIRECTORY;
 		String pathFile = "";
 		try {

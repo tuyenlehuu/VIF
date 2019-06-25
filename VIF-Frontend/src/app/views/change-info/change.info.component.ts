@@ -42,11 +42,11 @@ export class ChangeInfoComponent implements OnInit {
       this.user = this.users[0];
       this.customer = this.user.customer;
       this.creatForm();
-  });
+    });
   }
   creatForm() {
     this.changeInfoForm = this.fb.group({
-      identityAvatar: [this.user.avatar, Validators.required],
+      identityAvatar: [''],
       email: [this.user.email, Validators.required],
     });
   }
@@ -61,21 +61,6 @@ export class ChangeInfoComponent implements OnInit {
     });
   }
 
-  loadImage() {
-    let uploadAvatar = new FormData();
-    uploadAvatar.set('file', this.selectFileAvatar);
-    forkJoin(
-      this.userService.upFileAvatar(uploadAvatar),
-
-    )
-      .subscribe((res) => {
-        this.user.identityAvatar = res;
-        if (this.user.identityAvatar != null) {
-          this.saveUser(this.user);
-          return;
-        }
-      });
-  }
 
   showSuccess(mes: string) {
     this.toastrService.success('', mes, {
@@ -88,16 +73,7 @@ export class ChangeInfoComponent implements OnInit {
       timeOut: config.timeoutToast
     });
   }
-  showPreviewAvatar(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      this.selectFileAvatar = event.target.result;
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (event: any) => {
-        this.localUrlAvatar = event.target.result;
-      }
-    }
-  }
+
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -108,5 +84,47 @@ export class ChangeInfoComponent implements OnInit {
       this.saveUser(this.user);
       this.loadImage();
     }
+  }
+
+  loadImage() {
+    let uploadDataAvatar = new FormData();
+    uploadDataAvatar.set('file', this.selectFileAvatar);
+
+    forkJoin(
+      this.changeInfoService.upFileAvatar(uploadDataAvatar)
+
+    )
+      .subscribe(([res]) => {
+        this.user.avatar = res;
+        this.checkCompleteElement();
+      });
+  }
+
+
+  checkCompleteElement() {
+    if (this.user.avatar != null) {
+      this.saveUser(this.user);
+      return;
+    } else {
+      this.showError('Chưa upload avatar ');
+
+    }
+
+
+  }
+
+  showPreviewAvatar(event: any) {
+    // this.onUploadAvatar(event);
+    if (event.target.files && event.target.files[0]) {
+      this.selectFileAvatar = event.target.files[0];
+      // this.addUserForm.get('fileAvatar').setValue(this.selectFileAvatar);
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+        this.localUrlAvatar = event.target.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+      console.log("avatarrr", event.target.files[0]);
+    }
+
   }
 }
