@@ -46,8 +46,8 @@ export class ChangeInfoComponent implements OnInit {
   }
   creatForm() {
     this.changeInfoForm = this.fb.group({
-      identityAvatar: ['', Validators.required],
-      email: ['', Validators.required],
+      identityAvatar: [this.user.avatar, Validators.required],
+      email: [this.user.email, Validators.required],
     });
   }
   saveUser(user: User) {
