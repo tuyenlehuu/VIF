@@ -17,9 +17,10 @@ export class InvestApproService {
     reject(id:number){
         return this.http.delete(`${config.apiUrl}/invest-appro/reject/${id}`);
     }
-    accept(id:number){
-        return this.http.delete(`${config.apiUrl}/invest-appro/accept/${id}`);
-    }
+
+    accept(investRequest: InvestRequest) {
+        return this.http.put(`${config.apiUrl}/invest-appro/accept`, investRequest);
+      }
 
     getInvestApproByCondition(RequestCondition: InvestAppro, fromDate: string, toDate: string, pager: Pager) {
         if (!pager) {
@@ -34,6 +35,10 @@ export class InvestApproService {
 
         if (RequestCondition.typeOfInvest) {
             url = url + "&typeOfInvest=" + RequestCondition.typeOfInvest;
+        }
+
+        if (RequestCondition.status) {
+            url = url + "&status=" + RequestCondition.status;
         }
 
         if (fromDate) {

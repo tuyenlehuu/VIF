@@ -119,7 +119,9 @@
             "accept":"Bạn chắc chắn chấp thuận đâu tư?",
             "transaction_type": "Loại giao dịch",
             "ccq_db": "Mã CCQ đảm bảo",
-            "status": "Trạng thái"
+            "status": "Trạng thái",
+            "appro": "Appro",
+            "reject1": "Reject"
         }
     },
     "message":{

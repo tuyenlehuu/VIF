@@ -91,7 +91,7 @@ export const routes: Routes = [
         loadChildren: './views/share-dividend/share-dividend.module#ShareDividendModule'
       },
       {
-        path: 'managementttttt',
+        path: 'invest-appro',
         loadChildren: './views/invest-appro/investAppro.module#InvestApproModule'
       },
       {
