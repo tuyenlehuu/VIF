@@ -36,7 +36,7 @@ public interface IContaints {
 		public int MAX_SIZE_FILE = 1024 * 1024 * 3;
 		
 		// dev env
-		public String AVATAR_UPLOAD_DIRECTORY = "C:\\Users\\admin\\Desktop\\VIF\\DB Diagram";
+		public String AVATAR_UPLOAD_DIRECTORY = "C:\\Users\\admin\\Desktop\\VIF\\VIF-Frontend\\src\\assets\\img\\avatars\\avatar";
 		public String DOC_FRONT_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_front\\";
 		public String DOC_BACK_UPLOAD_DIRECTORY = "D:\\VIF\\DB Diagram\\server\\doc_back\\";
 		

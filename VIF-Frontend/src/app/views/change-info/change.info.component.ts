@@ -52,7 +52,7 @@ export class ChangeInfoComponent implements OnInit {
   }
   saveUser(user: User) {
     this.user.email = this.changeInfoForm.value.email;
-    this.changeInfoService.update(user).subscribe(res => {
+    this.userService.update(user).subscribe(res => {
       this.showSuccess('Cập nhật thành công');
       this.router.navigate(['/change-info']);
     }, (err) => {

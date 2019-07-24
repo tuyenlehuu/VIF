@@ -23,7 +23,7 @@
                   <img [src]="localUrlAvatar" *ngIf="localUrlAvatar" class="imgPlaceholder" width="100px"
                     height="100px">
                 </div>
-                <button type="submit" class="btn btn-primary btn-block" >{{'vif.global.button.save'|translate}}</button>
+                <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('Bạn muốn cập nhập thông tin?')">{{'vif.global.button.save'|translate}}</button>
               </form>
             </div>
           </div>
