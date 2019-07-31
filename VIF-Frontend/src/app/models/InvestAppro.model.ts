@@ -1,6 +1,7 @@
 import { Customer } from './Customer.model';
 
 export class InvestAppro{
+  id: number;
   fullName: string;
   code: string;
   status: number;
@@ -15,6 +16,7 @@ export class InvestAppro{
   public constructor(){
     this.typeOfRequest=0;
     this.typeOfInvest=0;
+    this.status=0;
     this.customer = new Customer();
    
   }

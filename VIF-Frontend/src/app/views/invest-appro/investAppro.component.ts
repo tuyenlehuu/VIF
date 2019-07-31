@@ -12,6 +12,8 @@ import { InvestApproService } from '../../services/investAppro.service';
 import { formatDate } from '../../helpers/function.share';
 import { CustomerService } from '../../services/customer.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { InvestRequest } from '../../models/InvestRequest.model';
+import { InvestRequestService } from '../../services/invest.request.service';
 
 @Component({
   templateUrl: 'investAppro.component.html',
@@ -31,6 +33,7 @@ export class InvestApproComponent implements OnInit {
   fromDate: Date;
   toDate: Date;
   modalRef: BsModalRef;
+  investRequest: InvestRequest;
 
   typeOfRequest = [
     {
@@ -64,20 +67,24 @@ export class InvestApproComponent implements OnInit {
 
   status = [
     {
-      name: 'Pending',
+      name: 'Chọn trạng thái',
       value: 0
     },
     {
-      name: 'approval',
+      name: 'Chờ phê duyệt',
       value: 1
     },
     {
-      name: 'reject',
+      name: 'Chấp thuận',
       value: 2
+    },
+    {
+      name: 'Từ chối',
+      value: 3
     }
   ];
 
-  constructor(private investApproService: InvestApproService, private customerService: CustomerService, private modalService: BsModalService, private toastrService: ToastrService, ) {
+  constructor(private investReqService: InvestRequestService, private investApproService: InvestApproService, private customerService: CustomerService, private modalService: BsModalService, private toastrService: ToastrService, ) {
   }
 
   ngOnInit(): void {
@@ -103,6 +110,11 @@ export class InvestApproComponent implements OnInit {
   confirmDel(template: TemplateRef<any>, id: string) {
     this.modalRef = this.modalService.show(template);
     this.modalRef.content = id;
+    this.investReqService.getById(Number(id)).subscribe((res: any)=>{
+    this.investRequest = res;
+    }
+    )
+    
   }
   reject() {
     this.investApproService.reject(this.modalRef.content).subscribe(res => {
@@ -113,15 +125,26 @@ export class InvestApproComponent implements OnInit {
 
   }
   accept() {
-    this.investApproService.accept(this.modalRef.content).subscribe(res => {
+    this.investApproService.accept(this.investRequest).subscribe((res:any) => { 
+      //console.log("dataaaaaaaa:",res);
       this.showSuccess('Chấp thuận đầu tư thành công');
       this.getPage(1);
+      
+    }, (err) => {
+      this.showError('Chấp thuận đầu tư thất bại');
+      // console.log(err);
     });
     this.modalRef.hide();
 
   }
   showSuccess(mes: string) {
     this.toastrService.success('', mes, {
+      timeOut: config.timeoutToast
+    });
+  }
+
+  showError(mes: string) {
+    this.toastrService.error('', mes, {
       timeOut: config.timeoutToast
     });
   }

@@ -67,6 +67,22 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="company">{{'vif.investAppro.status' | translate}}<span class="asterisk"></span></label>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <select id="select1" name="select1" class="form-control" [(ngModel)]="investApproSearch.status">
+                      <option [ngValue]="stt.value" *ngFor="let stt of status">{{stt.name}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-12">
               <button class="btn btn-primary" (click)="search()">{{ 'vif.global.button.search' | translate }}</button>
             </div>
@@ -82,6 +98,7 @@
                 <th>{{ 'vif.investAppro.typeOfRequest' | translate }}</th>
                 <th>{{ 'vif.investAppro.typeOfInvest' | translate }}</th>
                 <th>{{ 'vif.investAppro.Date' | translate }}</th>
+                <th>{{ 'vif.investAppro.status' | translate }}</th>
                 <th style="text-align: center">{{ 'vif.investAppro.action' | translate }}</th>
               </tr>
             </thead>
@@ -96,15 +113,23 @@
                 <td>{{item.typeOfRequest==1?'Mua':'Bán'}}</td>
                 <td>{{item.typeOfInvest==1?'CCQ':'CCQ đảm bảo'}}</td>
                 <td>{{item.createDate | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <div *ngIf="item.status==1">Chờ phê duyệt</div>
+                  <div *ngIf="item.status==2">Chấp thuận</div>
+                  <div *ngIf="item.status==3">Từ chối</div>
+                </td>
                 <td style="text-align: center">
                   <a style="color: green; margin-left: 10px; cursor: pointer"
-                    (click)="confirmDel(template1, item.customer.id)">
-                    <i class="fa fa-check" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
+                    (click)="confirmDel(template1, item.id)" *ngIf="item.status==1">
+                    <i class="fa fa-check" title="{{'vif.global.other.appro' | translate}}"></i> <!-- hình như chỗ này , sao lại 2 chỗ confirm del ô nhỉ ? 1 chỗ mà? chỗ nào nữa  ô?-->
                   </a>
-                  <a style="color: red; margin-left: 10px; cursor: pointer"
+                  <i *ngIf="item.status !=1" style="color:green; margin-left: 10px; cursor: pointer;  opacity: 0.4" class="fa fa-check" title="{{'vif.global.other.appro' | translate}}" ></i>
+                  <a *ngIf="item.status==1" style="color: red; margin-left: 10px; cursor: pointer"
                     (click)="confirmDel(template, item.customer.id)">
-                    <i class="fa fa-minus-circle" title="{{'vif.global.other.title_icon_supspend' | translate}}"></i>
-                  </a></td>
+                    <i class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i>
+                  </a>
+                  <i *ngIf="item.status!=1" style="color: red; margin-left: 10px; cursor: pointer; opacity: 0.4" class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i>
+                </td>
               </tr>
             </tbody>
           </table>
