@@ -69,6 +69,7 @@ import { InvestRequestService } from './services/invest.request.service';
 import { ChangeInfoComponent } from './views/change-info/change.info.component';
 import { ChangeInfoService } from './services/ChangeInfo.service';
 import { InvestApproService } from './services/investAppro.service';
+import { BillingInfoService } from './services/billing.service';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { InvestApproService } from './services/investAppro.service';
   BranchService,
   TransactionService,
   HolderequityService,
-  InvestApproService
+  InvestApproService,
+  BillingInfoService
   ],
   bootstrap: [ AppComponent ]
 })

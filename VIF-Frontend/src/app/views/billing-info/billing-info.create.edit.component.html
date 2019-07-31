@@ -1,0 +1,301 @@
+<div class="card">
+  <div class="card-header">
+    <span *ngIf="id==0">
+      <i class="fa fa-customer-plus"></i>
+      <strong>{{'vif.billing_info.title2' | translate}}</strong>
+    </span>
+    <span *ngIf="id>0">
+      <i class="fa fa-customer"></i>
+      <strong>{{'vif.billing_info.title3' | translate}}</strong>
+    </span>
+
+  </div>
+  <!--[Start] Create -->
+  <form *ngIf="customers.length>0" [formGroup]="addBInfoForm" (ngSubmit)="onAddSubmit()">
+    <div class="card-body" *ngIf="id==0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.account_name' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="accountName" class="form-control" id="name-id"
+                  placeholder="{{'vif.billing_info.account_name_placeholder' | translate}}">
+                <div *ngIf="addForm.accountName.invalid && (addForm.accountName.dirty || addForm.accountName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.accountName.errors.required">
+                    {{'vif.message.accountName_require' | translate}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_name' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="bankName" class="form-control" id="bankName-id"
+                  placeholder="{{'vif.billing_info.bank_name_placeholder' | translate}}">
+                <div *ngIf="addForm.bankName.invalid && (addForm.bankName.dirty || addForm.bankName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.bankName.errors.required">
+                    {{'vif.message.bankName_require' | translate}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_branch' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="bankBranch" class="form-control" id="bankBranch-id"
+                  placeholder="{{'vif.billing_info.bank_branch_placeholder' | translate}}">
+                <div *ngIf="addForm.bankBranch.invalid && (addForm.bankBranch.dirty || addForm.bankBranch.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.bankBranch.errors.required">
+                    {{'vif.message.bankBranch_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_account' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="bankAccount" class="form-control" id="bankAccount-id"
+                  placeholder="{{'vif.billing_info.bank_account_placeholder' | translate}}">
+                <div *ngIf="addForm.bankAccount.invalid && (addForm.bankAccount.dirty || addForm.bankAccount.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="addForm.bankAccount.errors.required">
+                    {{'vif.message.bankAccount_require' | translate}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.update_date' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="updateDate"
+                  value="{{showUpdateDate | date : 'short'}}" [bsConfig]="bsConfig" bsDatepicker
+                  placeholder="{{'vif.billing_info.update_date_placeholder' | translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class=" offset-md-2  col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <ng-select [searchable]="true" formControlName="customerControl" (change)="onChangeCustomer()">
+                <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
+              </ng-select>
+              <div
+                *ngIf="addForm.customerControl.invalid && (addForm.customerControl.dirty || addForm.customerControl.touched)"
+                class="alert alert-danger">
+                <div *ngIf="addForm.customerControl.errors.required">
+                  {{'vif.investor_trans.customer_required' | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!---->
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit">{{'vif.global.button.save' | translate}}</button>
+        <button class="btn btn-secondary" routerLink="/biling-info">{{'vif.global.button.cancel' | translate}}</button>
+      </div>
+    </div>
+    <!--[End] Create-->
+  </form>
+
+
+  <!--[Start] Edit  -->
+  <form *ngIf="billingInfo && id>0" [formGroup]="editBInfoForm" (ngSubmit)="onEditSubmit()">
+    <div class="card-body" *ngIf="billingInfo && id>0">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.account_name' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eAccountName" class="form-control" id="name-id"
+                  placeholder="{{'vif.billing_info.account_name_placeholder' | translate}}">
+                <div
+                  *ngIf="editForm.eAccountName.invalid && (editForm.eAccountName.dirty || editForm.eAccountName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eAccountName.errors.required">
+                    {{'vif.message.accountName_require' | translate}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_name' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eBankName" class="form-control" id="bankName-id"
+                  placeholder="{{'vif.billing_info.bank_name_placeholder' | translate}}">
+                <div *ngIf="editForm.eBankName.invalid && (editForm.eBankName.dirty || editForm.eBankName.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eBankName.errors.required">
+                    {{'vif.message.bankName_require' | translate}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_branch' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eBankBranch" class="form-control" id="eBankBranch-id"
+                  placeholder="{{'vif.billing_info.bank_branch_placeholder' | translate}}">
+                <div
+                  *ngIf="editForm.eBankBranch.invalid && (editForm.eBankBranch.dirty || editForm.eBankBranch.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eBankBranch.errors.required">
+                    {{'vif.message.bankBranch_require' | translate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="offset-md-2 col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.bank_account' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" formControlName="eBankAccount" class="form-control" id="eBankAccount-id"
+                  placeholder="{{'vif.billing_info.bank_account_placeholder' | translate}}">
+                <div
+                  *ngIf="editForm.eBankAccount.invalid && (editForm.eBankAccount.dirty || editForm.eBankAccount.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eBankAccount.errors.required">
+                    {{'vif.message.bankAccount_require' | translate}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.billing_info.update_date' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="eUpdateDate"
+                  value="{{showUpdateDate | date : 'short'}}" [bsConfig]="bsConfig" bsDatepicker
+                  placeholder="{{updateDate}}">
+                  <div
+                  *ngIf="editForm.eUpdateDate.invalid && (editForm.eUpdateDate.dirty || editForm.eUpdateDate.touched)"
+                  class="alert alert-danger">
+                  <div *ngIf="editForm.eUpdateDate.errors.required">
+                    {{'vif.message.update_date_require' | translate}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" offset-md-2  col-md-5">
+          <div *ngIf="billingInfo.activeFlg!=1" class="row">
+            <div class="col-md-3">
+              <label for="company">{{'vif.investor_trans.customer' | translate}}<span
+                  class="asterisk">&#42;</span></label>
+            </div>
+            <div class="col-md-9">
+              <input disabled type="text" class="form-control" 
+              value="{{editBInfoForm.value.eCustomerControl}}">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Doc front / back -->
+      <div *ngIf="billingInfo.activeFlg==1" class="card-footer">
+        <button class="btn btn-primary" type="submit">{{'vif.global.button.update' | translate}}</button>
+        <button class="btn btn-secondary" routerLink="/billing-info">{{'vif.global.button.cancel' | translate}}</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+<!--[End] Edit-->

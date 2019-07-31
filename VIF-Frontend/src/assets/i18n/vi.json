@@ -203,7 +203,7 @@
                 "action": "Hành động"
             }
         },
-        "message": {
+		"message": {
             "username_require": "*Tên đăng nhập là bắt buộc",
             "username_require1": "*Mã chi nhánh là bắt buộc",
             "user_exists": "User đã tồn tại trong hệ thống",
@@ -234,7 +234,12 @@
             "update_failed": "Cập nhật không thành công",
             "create_success": "Thêm mới thành công!",
             "asset_exists": "Tài sản đã tồn tại trong hệ thống",
-            "create_failed": "Thêm mới không thành công"
+            "create_failed": "Thêm mới không thành công",
+			"bankName_require": "*Tên ngân hàng là bắt buộc",
+			"bankBranch_require": "*Chi nhánh là bắt buộc",
+			"bankAccount_require": "*Số tài khoản là bắt buộc",
+			"accountName_require": "*Tên tài khoản là bắt buộc",
+			"update_date_require": "*Ngày cập nhật là bắt buộc"
         },
 		"investor_trans":{
 			"title": "Giao dịch của nhà đầu tư",
@@ -351,66 +356,85 @@
 			"403_title": "Oops! Không có quyền!",
 			"403_content": "Bạn không có quyền để truy cập trang này!"
 		},
-		"dashboard": {
-            "debt_report": {
-                "title": "Chứng chỉ quỹ đảm bảo",
-                "ensureCCQCode": "Mã CCQ",
-                "amount": "Số lượng",
-                "current_price": "Giá hiện tại",
-                "orginal_price": "Giá vốn",
-                "rate_year": "Lãi suất năm",
-                "debt_money": "Nợ gốc",
-                "interest_money": "Tiền lãi"
-            },
-            "general_screen": {
-                "table": {
-                    "asset_code": "Mã tài sản",
-                    "amount": "Khối lượng",
-                    "orginal_price": "Giá vốn",
-                    "current_price": "Giá hiện tại",
-                    "orginal_money": "Vốn",
-                    "current_money": "Giá trị",
-                    "rate_money": "Lãi/lỗ",
-                    "total_asset": "Tổng tài sản",
-                    "total_real_asset": "Tổng tài sản ròng",
-                    "total_debt": "Tổng nợ"
-                }
-            },
-            "nav_report": {
-                "title": "NAV chi tiết",
-                "current_nav_title": "NAV hiện tại",
-                "chart_title": "Biểu đồ NAV của quỹ",
-                "table": {
-                    "cus": "Nhà đầu tư",
-                    "amountCCQ_before": "Số CCQ đầu kỳ",
-                    "priceCCQ_before": "Giá đầu kỳ",
-                    "money_before": "Vốn đầu kỳ",
-                    "amountCCQ_after": "Số CCQ cuối kỳ",
-                    "priceCCQ_after": "Giá cuối kỳ",
-                    "money_after": "Vốn cuối kỳ",
-                    "price_market": "Giá thị trường",
-                    "real_asset": "Tài sản ròng",
-                    "rate_up": "Tăng trưởng",
-                    "amount": "Tổng CCQ",
-                    "priceCCQ_market": "Giá thị trường",
-                    "priceCCQ_avg": "Giá trung bình"
-                },
-                "view_near30_day": "30 ngày gần đây",
-                "view_all": "Tất cả"
-            }
-        },
+		"dashboard":{
+			"general_screen":{
+				"table":{
+					"asset_code": "Mã tài sản",
+					"amount": "Khối lượng",
+					"orginal_price": "Giá vốn",
+					"current_price": "Giá hiện tại",
+					"orginal_price": "Giá vốn",
+					"rate_year": "Lãi suất năm",
+					"debt_money": "Nợ gốc",
+					"interest_money": "Tiền lãi",
+					"orginal_money": "Vốn",
+					"current_money": "Giá trị",
+					"rate_money": "Lãi/lỗ",
+					"total_asset": "Tổng tài sản",
+					"total_real_asset": "Tổng tài sản ròng",
+					"total_debt": "Tổng nợ"
+				},
+			},
+			"nav_report": {
+				"title": "NAV chi tiết",
+				"current_nav_title": "NAV hiện tại",
+				"chart_title": "Biểu đồ NAV của quỹ",
+				"table": {
+					"cus": "Nhà đầu tư",
+					"amountCCQ_before": "Số CCQ đầu kỳ",
+					"priceCCQ_before": "Giá đầu kỳ",
+					"money_before": "Vốn đầu kỳ",
+					"amountCCQ_after": "Số CCQ cuối kỳ",
+					"priceCCQ_after": "Giá cuối kỳ",
+					"money_after": "Vốn cuối kỳ",
+					"price_market": "Giá thị trường",
+					"real_asset": "Tài sản ròng",
+					"rate_up": "Tăng trưởng",
+					"amount": "Tổng CCQ",
+					"priceCCQ_market": "Giá thị trường",
+					"priceCCQ_avg": "Giá trung bình"
+				},
+				"view_near30_day": "30 ngày gần đây",
+				"view_all": "Tất cả"
+			},
+			"debt_report":{
+				"title": "Chứng chỉ quỹ đảm bảo",
+				"ensureCCQCode" : "Mã CCQ",
+				"amount": "Số lượng",
+				"current_price": "Giá hiện tại",
+				"orginal_price": "Giá vốn",
+				"rate_year": "Lãi suất năm",
+				"debt_money": "Nợ gốc",
+				"interest_money": "Tiền lãi" 
+			}
+		},
 		"invest_request": {
-            "title": "Đăng kí đầu tư",
-            "moneyInvest": "Tiền đầu tư",
-            "CCQTemp": "Số CCQ dự kiến",
-            "moneyTemp": "Số tiền dự kiến",
-            "register_CCQ": "Đăng ký",
-            "CCQ_real": "Số CCQ hiện tại",
-            "CCQ_using": "Số CCQ khả dụng",
-            "CCQ_zero": "Số CCQ phải lớn hơn 0",
-            "price": "Giá CCQ",
-            "confirm": "Bạn có đồng ý đăng ký đầu tư ?"
-        },
-		
+			"title": "Đăng kí đầu tư",
+			"moneyInvest": "Tiền đầu tư",
+			"CCQTemp": "Số CCQ dự kiến",
+			"moneyTemp": "Số tiền dự kiến",
+			"register_CCQ": "Đăng ký",
+			"CCQ_real": "Số CCQ hiện tại",
+			"CCQ_using": "Số CCQ khả dụng",
+			"CCQ_zero": "Số CCQ phải lớn hơn 0",
+			"price": "Giá CCQ",
+			"confirm": "Bạn có đồng ý đăng ký đầu tư ?"
+		},	
+		"billing_info":{
+			"title1": "Thông tin thanh toán",
+			"title2": "Thêm mới tài khoản",
+			"title3": "Chỉnh sửa tài khoản",
+			"account_name": "Tên tài khoản",
+			"bank_name": "Tên ngân hàng",
+			"bank_branch": "Tên chi nhánh",
+			"bank_account": "Số tài khoản",
+			"update_date": "Ngày cập nhật gần nhất",
+			"status": "Trạng thái",
+			"bank_account_placeholder": "Nhập số tài khoản",
+			"bank_branch_placeholder" : "Nhập tên chi nhánh",
+			"bank_name_placeholder": "Nhập tên ngân hàng",
+			"account_name_placeholder": "Nhập tên tài khoản",
+			"update_date_placeholder": "Nhập ngày tạo"
+		}
 	}
 }

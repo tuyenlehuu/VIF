@@ -1900,8 +1900,20 @@ INSERT INTO `invest_request` (`id`, `customer_id`, `amount`, `type_of_request`, 
 (2,2,NULL,1,'2018-10-21 00:00:00', 1,'1000','500000',2),
 (3,4,'1',2,'2018-10-21 00:00:00', 2,'1000',NULL,1);
 
+CREATE TABLE `billing_info` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`customer_id` bigint(20) DEFAULT NULL,
+`account_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`bank_name`varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`bank_branch`varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`bank_account`varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`update_date` datetime DEFAULT NULL,
+`active_flg` int(11) NOT NULL,
+ PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
+INSERT INTO `billing_info` (`id`,`customer_id` ,`account_name`,`bank_name`,`bank_branch`,`bank_account`,`update_date`,`active_flg`) VALUES 
+(1,4,'TRAN HIEU 9999','VIF_BANK','HA NOI VIF BANK','123456789','2019-10-21 00:00:00',1);
 
 
 --
