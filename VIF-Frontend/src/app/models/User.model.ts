@@ -13,7 +13,7 @@ export class User {
     customerId: string;
     avatar: string;
     customer: Customer
-
+    identityAvatar: string[];
     public constructor() {
         this.isOnline = 0;
         this.isDeleted = 0;

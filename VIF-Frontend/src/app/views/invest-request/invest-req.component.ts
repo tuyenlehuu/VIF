@@ -26,13 +26,13 @@ export class InvestRequestComponent implements OnInit {
     user: User = new User();
     customer: Customer;
     submitted = false;
-    amountCCQAvaiable: number;
+    amountCCQAvaiable: number = null;
     buyForm: FormGroup;
     sellForm: FormGroup;
     investRequest: InvestRequest = new InvestRequest();
     date = new Date();
-    price: number;
-    priceCCQTemp: number;
+    price: number = null;
+    priceCCQTemp: number = null;
     isCCQDB = false;
     isSellCCQDB = false;
     assetSelectedCode: string;
@@ -49,9 +49,9 @@ export class InvestRequestComponent implements OnInit {
         }
     ];
     assets: Asset[] = [];
-    assetTransCCQ: Asset;
-    constructor(private toastrService: ToastrService, private userService: UserService,private modalService: BsModalService,
-        private requestService: InvestRequestService, private fb: FormBuilder,private assetService:AssetService) {
+    assetTransCCQ: Asset = new Asset();
+    constructor(private toastrService: ToastrService, private userService: UserService, private modalService: BsModalService,
+        private requestService: InvestRequestService, private fb: FormBuilder, private assetService: AssetService) {
     }
 
 
@@ -109,7 +109,7 @@ export class InvestRequestComponent implements OnInit {
 
         this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
             this.assets = respons.data;
-            if(this.assets){
+            if (this.assets) {
                 this.assetSelectedCode = this.assets[0].assetCode;
             }
         });
@@ -117,10 +117,13 @@ export class InvestRequestComponent implements OnInit {
         this.assetService.getAssetByGroupId(5).pipe(first()).subscribe((respons: any) => {
             this.assetTransCCQ = respons.data[0];
             this.investRequest.asset = this.assetTransCCQ;
+            
         });
+
+
     }
 
-   
+
 
     get buyCCQForm() { return this.buyForm.controls; }
 
@@ -142,14 +145,14 @@ export class InvestRequestComponent implements OnInit {
     }
 
     changeScreen(typeScreen: number) {
-        
+
         if (typeScreen === 1) {
             this.isBuyScreen = true;
         } else {
             this.isBuyScreen = false;
         }
         this.resetForm();
-        
+
     }
 
     buyCCQ() {
@@ -158,8 +161,9 @@ export class InvestRequestComponent implements OnInit {
         this.investRequest.customer = this.customer;
         this.investRequest.money = this.buyForm.value.bMoney;
         this.investRequest.createDate = this.date;
-        this.investRequest.typeOfInvest = this.buyForm.value.bTransType; 
+        this.investRequest.typeOfInvest = this.buyForm.value.bTransType;
         this.investRequest.price = this.buyForm.value.price;
+       
         this.requestService.add(this.investRequest).subscribe((res: any) => {
             if (res != null) {
                 this.showSuccess("Gửi yêu cầu thành công");
@@ -169,7 +173,6 @@ export class InvestRequestComponent implements OnInit {
                 this.showError("Gửi yêu cầu thất bại");
             }
         });
-        
     }
 
     sellCCQ() {
@@ -194,24 +197,20 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-       
-            if (this.isBuyScreen) {
-                this.submitted = true;
-                if (this.buyForm.invalid) {
-                    return;
-                }
-                this.buyCCQ();
-            } else {
-                this.submitted = true;
-                if (this.sellForm.invalid) {
-                    return;
-                }
-                this.sellCCQ();
+        if (this.isBuyScreen) {
+            this.submitted = true;
+            if (this.buyForm.invalid) {
+                return;
             }
-            this.modalRef.hide();
-       
-       
-
+            this.buyCCQ();
+        } else {
+            this.submitted = true;
+            if (this.sellForm.invalid) {
+                return;
+            }
+            this.sellCCQ();
+        }
+        this.modalRef.hide();
     }
 
     resetForm() {
@@ -225,120 +224,131 @@ export class InvestRequestComponent implements OnInit {
         } else {
             this.createSellForm();
         }
-        this.modalRef.hide();
-
-       
-    
     }
     onKeyMoney(event: any) {
         this.buyCCQForm.bCCQ.setValue(this.buyForm.value.bMoney / this.price);
         this.buyForm.value.bCCQ = Number((this.buyForm.value.bMoney / this.price).toFixed(2));
-        
+
     }
 
     onKeyCCQ(event: any) {
         this.sellCCQForm.sMoney.setValue(Number((this.sellForm.value.sCCQ * this.price).toFixed(2)));
-       
-       if(this.isSellCCQDB==false) {
-           this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
-       }else {
-        this.amountCCQAvaiable = Number((this.sellForm.value.sAmountCCQAvai - this.sellForm.value.sCCQ).toFixed(2));
-       }
-        this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price ).toFixed(2));
+
+        if (this.isSellCCQDB == false) {
+            this.amountCCQAvaiable = Number((this.customer.totalCcq - this.sellForm.value.sCCQ).toFixed(2));
+        } else {
+            this.amountCCQAvaiable = Number((this.sellForm.value.sAmountCCQAvai - this.sellForm.value.sCCQ).toFixed(2));
+        }
+        this.sellForm.value.sMoney = Number((this.sellForm.value.sCCQ * this.price).toFixed(2));
 
     }
 
-    onChangeTransType(){
-        if(this.buyForm.value.bTransType == '2'){
+    onChangeTransType() {
+        this.resetPriceCCQ();
+        if (this.buyForm.value.bTransType == '2') {
             this.isCCQDB = true;
             this.onChangeEnsureCCQ();
-        }else{
+        } else {
             this.investRequest.asset = this.assetTransCCQ;
             this.isCCQDB = false;
-            this.amountCCQAvaiable=this.customer.totalCcq;
+            this.amountCCQAvaiable = this.customer.totalCcq;
             this.resetPrice();
-            
         }
     }
 
 
-    resetPrice(){
+    resetPrice() {
         this.price = this.priceCCQTemp;
-        if(this.isBuyScreen){ 
+        if (this.isBuyScreen) {
             this.buyCCQForm.price.setValue(this.price);
-        }else{
+        } else {
             this.sellCCQForm.price.setValue(this.price);
         }
     }
 
-    onChangeSellTransType(){
-        if(this.sellForm.value.sTransType == '2'){
-            this.isSellCCQDB = true;
-            this.onChangeEnsureCCQ();
-        }else{
-            this.investRequest.asset = this.assetTransCCQ;
-            this.isSellCCQDB = false;
-            this.amountCCQAvaiable=this.customer.totalCcq;
+
+    resetPriceCCQ() {
+        if (this.isBuyScreen) {
+            this.buyCCQForm.bMoney.setValue(0);
+            this.buyCCQForm.bCCQ.setValue(0);
+        } else {
+            this.sellCCQForm.sMoney.setValue(0);
+            this.sellCCQForm.sCCQ.setValue(0);
         }
     }
 
-    onChangeEnsureCCQ(){
-        console.log("SELECT CODE=>>",this.buyForm.value.bCCQDBSelectedCode);
-        if(this.isBuyScreen){
-            this.assetService.getByCode(this.buyForm.value.bCCQDBSelectedCode).subscribe((res:any)=>{
+    onChangeSellTransType() {
+        this.resetPriceCCQ();
+        if (this.sellForm.value.sTransType == '2') {
+            this.isSellCCQDB = true;
+            this.onChangeEnsureCCQ();
+        } else {
+            this.investRequest.asset = this.assetTransCCQ;
+            this.isSellCCQDB = false;
+            this.amountCCQAvaiable = this.customer.totalCcq;
+        }
+
+    }
+
+    onChangeEnsureCCQ() {
+        this.resetPriceCCQ();
+        if (this.isBuyScreen) {
+            this.assetService.getByCode(this.buyForm.value.bCCQDBSelectedCode).subscribe((res: any) => {
                 this.investRequest.asset = res.data;
                 this.price = this.investRequest.asset.currentPrice;
                 this.buyCCQForm.price.setValue(this.price);
             })
+
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.buyForm.value.bCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
-                if(respons.data){
+                if (respons.data) {
                     this.amountCCQAvaiable = respons.data;
-                      
-                }else{
+
+                } else {
                     this.amountCCQAvaiable = 0.00;
                 }
             });
-        }else{
-            this.assetService.getByCode(this.sellForm.value.sCCQDBSelectedCode).subscribe((res:any)=>{
+        } else {
+            this.assetService.getByCode(this.sellForm.value.sCCQDBSelectedCode).subscribe((res: any) => {
                 this.investRequest.asset = res.data;
                 this.price = this.investRequest.asset.currentPrice;
                 this.sellCCQForm.price.setValue(this.price);
-
             })
             this.requestService.getEnsureCCQByCusAsset(this.customer.id, this.sellForm.value.sCCQDBSelectedCode).pipe(first()).subscribe((respons: any) => {
-                if(respons.data){
+                if (respons.data) {
                     this.amountCCQAvaiable = respons.data;
                     this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
                     //this.sellCCQForm.sAmountCCQAvai.setValue(this.amountCCQAvaiable);
-                }else{
+                } else {
                     this.amountCCQAvaiable = 0.00;
                 }
             });
         }
-        
+
     }
 
+    resetTemplate() {
+        // this.resetForm();
+        this.modalRef.hide();
+    }
 
     confirm(template: TemplateRef<any>) {
-        if(this.isBuyScreen){
-            if(this.buyForm.value.bMoney==0){
+        if (this.isBuyScreen) {
+            if (this.buyForm.value.bMoney == 0) {
                 this.showError("Số tiền không thể bằng không !")
-            }else{
+            } else {
                 this.modalRef = this.modalService.show(template);
             }
 
-        }else{
-            if(this.sellForm.value.sCCQ==0){
+        } else {
+            if (this.sellForm.value.sCCQ == 0) {
                 this.showError("Số lượng CCQ không thể bằng không !");
-            }else if(this.amountCCQAvaiable<0){
+            } else if (this.amountCCQAvaiable < 0) {
                 this.showError("Số lượng CCQ quá giới hạn !");
-            }else{
+            } else {
                 this.modalRef = this.modalService.show(template);
             }
         }
-       
-       
-    }
 
+    }
 
 }

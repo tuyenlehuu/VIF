@@ -7,10 +7,10 @@ import { InvestRequest } from '../models/InvestRequest.model';
 
 
 @Injectable()
-export class InvestRequestService{
+export class InvestRequestService {
     constructor(private http: HttpClient) { }
 
-    getPriceCCQ(){
+    getPriceCCQ() {
         return this.http.get<any>(`${config.apiUrl}/invest_request/getPriceCCQ`);
     }
 
@@ -18,18 +18,18 @@ export class InvestRequestService{
         return this.http.get<any>(`${config.apiUrl}/invest_request/getAlls`);
     }
 
-    getInvestRequestByCondition(RequestCondition: InvestRequest, pager: Pager){
-        if(!pager){
+    getInvestRequestByCondition(RequestCondition: InvestRequest, pager: Pager) {
+        if (!pager) {
             pager = new Pager();
         }
         var url = `${config.apiUrl}/invest_request/getInvestRequestByCondition?`;
         url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
-       
-        if(RequestCondition.typeOfRequest){
+
+        if (RequestCondition.typeOfRequest) {
             url = url + "&typeOfRequest=" + RequestCondition.typeOfRequest;
         }
 
-        if(RequestCondition.status!=null){
+        if (RequestCondition.status != null) {
             url = url + "&status=" + RequestCondition.status;
         }
 
@@ -43,21 +43,18 @@ export class InvestRequestService{
 
     add(request: InvestRequest) {
         var url = `${config.apiUrl}/invest_request/add`;
-        // var currentUser = localStorage.getItem("currentUser");
-        // var token = JSON.parse(currentUser).token;
-        // url = url + "access_token=" + token;
-         console.log("APIIIIIIIII",request);
+        console.log("APIIIIIIIII", request);
         return this.http.post(`${config.apiUrl}/invest_request/add`, request);
-        
+
     }
 
     update(request: InvestRequest) {
-        return this.http.put(`${config.apiUrl}/invest_request/update`, request); 
+        return this.http.put(`${config.apiUrl}/invest_request/update`, request);
     }
 
     getEnsureCCQByCusAsset(customerId: number, assetCode: string) {
         return this.http.get(`${config.apiUrl}/invest_request/getEnsureCCQByCusAsset/${customerId}/${assetCode}`);
     }
 
-    
+
 }

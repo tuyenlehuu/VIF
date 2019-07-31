@@ -65,6 +65,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { InvestRequestService } from './services/invest.request.service';
+import { ChangeInfoComponent } from './views/change-info/change.info.component';
+import { ChangeInfoService } from './services/ChangeInfo.service';
 import { InvestApproService } from './services/investAppro.service';
 
 
@@ -99,7 +101,8 @@ import { InvestApproService } from './services/investAppro.service';
     LoginComponent,
     ResetPassComponent,
     ChangeResetPassComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ChangeInfoComponent
   ],
   providers: [{
     provide: LocationStrategy,
@@ -118,6 +121,7 @@ import { InvestApproService } from './services/investAppro.service';
   AssetService,
   DashboardService,
   ShareMasterService,
+  ChangeInfoService,
   BranchService,
   InvestApproService
   ],

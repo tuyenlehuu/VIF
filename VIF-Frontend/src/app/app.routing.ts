@@ -12,6 +12,7 @@ import { ResetPassComponent } from './views/forgot-pass/forgot.pass.component';
 import { ChangeResetPassComponent } from './views/change-reset-pass/change.reset.pass.component';
 import { ChangePasswordComponent } from './views/change-password/change.pass.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ChangeInfoComponent } from './views/change-info/change.info.component';
 
 export const routes: Routes = [
   {
@@ -53,6 +54,13 @@ export const routes: Routes = [
     component: ChangePasswordComponent,
     data: {
       title: 'Thay đổi mật khẩu'
+    }
+  },
+  {
+    path: 'change-info',
+    component: ChangeInfoComponent,
+    data: {
+      title: 'Cập nhập profile'
     }
   },
   {

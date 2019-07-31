@@ -79,7 +79,7 @@ public class InvestRequestController {
 	}
 	
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<InvestRequest> add(@RequestBody InvestRequest request, UriComponentsBuilder builder) {
 	  boolean bol=investRequestService.addInvestRequest(request);
 	  if(bol) {

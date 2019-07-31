@@ -16,12 +16,13 @@
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
-        <img src="assets/img/avatars/tuyenlh.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
+        <img src="assets\img\avatars\avatar_time_1563943221178_time_0a4dce43b0d1858a52993ea6a2b20307.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <!-- <div class="dropdown-item">{{username}}</div> -->
         <div class="divider"></div>
         <a class="dropdown-item" href="#" routerLink="/change-password"><i class="fa fa-shield"></i>{{'vif.default_layout.change_pass' | translate}}</a>
+        <a class="dropdown-item" href="#" routerLink="/change-info"><i class="fa fa-pencil"></i>{{'vif.default_layout.change_info' | translate}}</a>
         <a class="dropdown-item" href="#" (click)="logout()"><i class="fa fa-lock"></i> {{'vif.default_layout.logout' | translate}}</a>
       </div>
     </li>

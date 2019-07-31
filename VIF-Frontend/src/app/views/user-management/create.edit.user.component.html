@@ -184,10 +184,8 @@
               <div class="col-md-9">
                   <div class="form-group">
                       <input type="file" formControlName="fileAvatar" class="form-control"
-                      (change)="onUploadAvatar($event)"
-                      (change)="showPreviewAvatar($event)"
-                          id="fileAvatar-id">
-                          <img [src]="localUrlBack" *ngIf="localUrlBack" class="imgPlaceholder" width="100px" height="100px" >
+                       (change)="showPreviewAvatar($event)" id="identityDocBack-id">
+                          <img [src]="localUrlAvatar" *ngIf="localUrlAvatar" class="imgPlaceholder" width="100px" height="100px" >
                   </div>
               </div>
           </div>
