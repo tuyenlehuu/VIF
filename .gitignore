@@ -9,3 +9,5 @@ VIF-Backend/target/*.*
 *.MF
 VIF-Backend/target/classes/META-INF/MANIFEST.MF
 *.class
+VIF-Backend/src/main/resources/application.properties
+VIF-Frontend/src/app/config/application.config.ts
