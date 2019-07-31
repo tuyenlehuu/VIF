@@ -94,7 +94,7 @@ public class AppParamDaoImpl implements AppParamDao{
 		}
 		
 		if(propType != null && !propType.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("propType"), propType));
+			predicates.add(criteriaBuilder.like(from.get("propType"),"%"+propType+"%"));
 		}
 		
 		if(propValue != null && !propValue.equals("")) {

@@ -20,6 +20,7 @@ export class AppParamComponent implements OnInit {
     propKey: string;
     propValue: string;
     description: string;
+    propType: string;
 
     status = [
         {
@@ -33,21 +34,6 @@ export class AppParamComponent implements OnInit {
         {
             name: 'Ngừng hoạt động',
             value: 0 && null
-        }
-    ];
-
-    propType = [
-        {
-            name: 'Chọn loại',
-            value: '0'
-        },
-        {
-            name: 'Phí giao dịch CCQ',
-            value: '1'
-        },
-        {
-            name: 'Phí giao dịch chứng khoán',
-            value: '2'
         }
     ];
 
@@ -101,8 +87,8 @@ export class AppParamComponent implements OnInit {
         console.log(this.propKey);
         this.getPage(1);
     }
-    enterOnSubmitPropValue() {
-        console.log(this.propValue);
+	
+    enterOnSubmitPropType(){
         this.getPage(1);
     }
     enterOnSubmitDescription() {

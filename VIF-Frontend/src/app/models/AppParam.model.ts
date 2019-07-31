@@ -8,6 +8,5 @@ export class AppParam {
 
   public constructor() {
     this.activeFlg = -1;
-    this.propType = '0';
   }
 }

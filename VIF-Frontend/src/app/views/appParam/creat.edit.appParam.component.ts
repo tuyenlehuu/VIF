@@ -28,16 +28,6 @@ export class CEAppParamComponent implements OnInit {
     }
   ];
 
-  propType = [
-    {
-      name: 'Phí giao dịch CCQ',
-      value: '1'
-    },
-    {
-      name: 'Phí giao dịch chứng khoán',
-      value: '2'
-    }
-  ];
   translateService: any;
 
   constructor(private route: ActivatedRoute, private appParamService: AppParamService, private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
@@ -58,7 +48,7 @@ export class CEAppParamComponent implements OnInit {
   createForm() {
     this.addAppParamForm = this.fb.group({
       propKey: ['', Validators.required],
-      propType: ['1', Validators.required],
+      propType: ['', Validators.required],
       propValue: ['', Validators.required],
       status: [1, Validators.required],
       description: []
