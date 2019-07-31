@@ -15,10 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "transaction_history")
+@Table(name = "transaction_history" ,uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+
 public class TransactionHistory implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -53,7 +59,7 @@ public class TransactionHistory implements Serializable{
 	@Column(name = "STATUS", nullable = false)
     private Integer status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ASSET_ID")
     private Asset asset;
 

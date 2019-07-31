@@ -197,11 +197,10 @@ export class CEUserComponent implements OnInit {
         forkJoin(
             this.userService.upFileAvatar(uploadDataAvatar)
 
-        )
-            .subscribe(([res]) => {
+        ).subscribe(([res]) => {
                 this.user.avatar = res;
                 this.checkCompleteElement();
-            });
+        });
     }
 
 
@@ -213,8 +212,6 @@ export class CEUserComponent implements OnInit {
             this.showError('Chưa upload ảnh ');
 
         }
-
-
     }
 
     showPreviewAvatar(event: any) {
@@ -227,7 +224,6 @@ export class CEUserComponent implements OnInit {
                 this.localUrlAvatar = event.target.result;
             }
             reader.readAsDataURL(event.target.files[0]);
-            console.log("=>>>>",event.target.files[0]);
         }
     }
 

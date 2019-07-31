@@ -133,6 +133,14 @@ export const routes: Routes = [
         loadChildren: './views/branch-managenment/branch.module#BranchModule'
       },
       {
+        path:"transaction-history",
+        loadChildren: './views/transaction-history/transaction.module#TransactionModule'
+      },
+      {
+        path:"holder-equity",
+        loadChildren: './views/holder-equity/holderequity.module#HolderequityModule'
+      },
+      {
         path: '403',
         component: P403Component
 

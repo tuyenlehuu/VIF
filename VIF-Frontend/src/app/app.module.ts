@@ -42,7 +42,8 @@ import { InvestManagementService } from './services/invest.management.service';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ShareMasterService } from './services/sharemaster.service';
 import { BranchService } from './services/branch.service';
-
+import { TransactionService } from './services/transaction.service';
+import { HolderequityService } from './services/HolderEquity.service';
 
 
 const APP_CONTAINERS = [
@@ -123,6 +124,8 @@ import { InvestApproService } from './services/investAppro.service';
   ShareMasterService,
   ChangeInfoService,
   BranchService,
+  TransactionService,
+  HolderequityService,
   InvestApproService
   ],
   bootstrap: [ AppComponent ]

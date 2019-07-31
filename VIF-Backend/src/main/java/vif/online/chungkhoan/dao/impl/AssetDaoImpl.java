@@ -85,7 +85,7 @@ public class AssetDaoImpl implements AssetDao {
 
 	public List<Asset> getAlls() {
 		// TODO Auto-generated method stub
-		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.branchCode desc";
+		String hql = "FROM Asset as a WHERE a.activeFlg = 1 ORDER BY a.id asc";
 		return (List<Asset>) entityManager.createQuery(hql).getResultList();
 	}
 

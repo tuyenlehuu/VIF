@@ -265,6 +265,9 @@ public class UserDaoImpl implements UserDao{
 	}
 
 
+
+
+
 	@Override
 	public boolean changePassword(TokenResetPassDTO tokenResetDTO) {
 		// TODO Auto-generated method stub
@@ -305,3 +308,4 @@ public class UserDaoImpl implements UserDao{
 		return pathFile;
 	}
 }
+

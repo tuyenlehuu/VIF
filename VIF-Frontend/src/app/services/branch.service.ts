@@ -17,6 +17,37 @@ export class BranchService{
         return this.http.get<any>(`${config.apiUrl}/branch/` + id);
     }
 
+
+
+     
+    // getBranchByCondition(branchCondition: Branch,pager:Pager){
+    //     if(!pager){
+    //         pager = new Pager();
+    //     }
+    //     var url = `${config.apiUrl}/branch/getBranchByCondition?`;
+    //     url = url + "page=" + pager.page + "&pageSize=" + pager.pageSize;
+        
+    //     if(branchCondition.code){
+    //         url = url + "&code=" + branchCondition.code;
+    //     }
+
+    //     if(branchCondition.name){
+    //         url = url + "&name=" + branchCondition.name;
+    //     }
+
+    //     if(branchCondition.activeFlg !=null && branchCondition.activeFlg !== -1){
+    //         url = url + "&activeFlg=" + branchCondition.activeFlg;
+    //     }
+    //     // console.log("url: ", url);
+    //     return this.http.get<any>(url);
+    // }
+
+    
+    
+
+
+
+
     getById(id: number) {
             return this.http.get(`${config.apiUrl}/branch/${id}`);
         }

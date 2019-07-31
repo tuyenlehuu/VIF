@@ -83,7 +83,8 @@ public class BranchDaoImpl implements BranchDao {
 	}
 
 	@Override
-	public List<Branch> SearchBranchByCondition(int page, int pageSize, String columnSortName, Boolean asc, String branchCode, Integer activeFlg, String branchName) {
+	public List<Branch> SearchBranchByCondition(int page, int pageSize, String columnSortName, Boolean asc,
+			String branchCode, Integer activeFlg, String branchName) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root<Branch> from = criteriaQuery.from(Branch.class);
@@ -124,7 +125,9 @@ public class BranchDaoImpl implements BranchDao {
 
 		CriteriaQuery<Object> select = criteriaQuery.select(from);
 		List<Predicate> predicates = new ArrayList<Predicate>();
+
 		if(branchCode != null && !branchCode.equals("")) {
+
 			predicates.add(criteriaBuilder.like(from.get("branchCode"), "%" + branchCode + "%"));
 		}
 
