@@ -2,8 +2,6 @@ package vif.online.chungkhoan.controller;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import vif.online.chungkhoan.entities.HolderEquity;
 import vif.online.chungkhoan.entities.HolderHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.services.HolderEquityService;
 import vif.online.chungkhoan.services.HolderHistoryService;
 
 @Controller
@@ -25,8 +24,9 @@ import vif.online.chungkhoan.services.HolderHistoryService;
 public class HolderHistoryController {
 	@Autowired
 	private HolderHistoryService holderHistoryService;
+	
 	@Autowired
-	private EntityManager entityManager;
+	private HolderEquityService holderEquityService;
 	
 	@GetMapping("getAlls")
 	public ResponseEntity<ApiResponse> getAllsHolder() {
@@ -40,7 +40,7 @@ public class HolderHistoryController {
 	}
 	@PostMapping("/add/{id}")
 	public ResponseEntity<ApiResponse> addHolder(@RequestBody HolderHistory holderHistory,@PathVariable("id") Integer id, UriComponentsBuilder builder) {
-		HolderEquity holderEquity=entityManager.find(HolderEquity.class, id);
+		HolderEquity holderEquity= holderEquityService.getHolderbyId(id);
 		holderHistory.setHolderEquity(holderEquity);
 		boolean flag = holderHistoryService.addHolder(holderHistory);
 		ApiResponse object = new ApiResponse();

@@ -4,10 +4,7 @@ import java.util.List;
 
 import vif.online.chungkhoan.entities.BillingInfo;
 
-
-
 public interface BillingInfoDao {
-
 	List<BillingInfo> getAlls();
 
 	BillingInfo getById(int id);
@@ -18,9 +15,8 @@ public interface BillingInfoDao {
 
 	boolean addBillingInfo(BillingInfo bInfo);
 
-	List<BillingInfo> SearchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
+	List<BillingInfo> searchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
 			String bankBranch, String bankAccount, Integer activeFlg);
 
 	int getRowCount(String accountName, String bankName, String bankBranch, String bankAccount, Integer activeFlg);
-
 }

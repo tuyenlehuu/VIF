@@ -18,6 +18,11 @@ import javax.persistence.TemporalType;
 @Table(name = "billing_info")
 public class BillingInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

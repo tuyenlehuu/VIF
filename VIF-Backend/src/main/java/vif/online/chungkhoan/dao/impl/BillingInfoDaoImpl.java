@@ -4,29 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import vif.online.chungkhoan.dao.BillingInfoDao;
 import vif.online.chungkhoan.entities.BillingInfo;
-import vif.online.chungkhoan.entities.Customer;
-import vif.online.chungkhoan.entities.User;
 
 @Transactional
 @Repository
 public class BillingInfoDaoImpl implements BillingInfoDao {
-	@SuppressWarnings("unchecked")
 
-	@Autowired
+	@PersistenceContext
 	EntityManager entityManager;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<BillingInfo> getAlls() {
 		// TODO Auto-generated method stub
@@ -63,7 +61,7 @@ public class BillingInfoDaoImpl implements BillingInfoDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<BillingInfo> SearchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
+	public List<BillingInfo> searchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
 			String bankBranch, String bankAccount, Integer activeFlg) {
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

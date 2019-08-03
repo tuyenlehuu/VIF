@@ -117,16 +117,4 @@ export class TransactionComponent implements OnInit {
     //     error => console.log('Error downloading the file.'),
     //     () => console.info('OK'));
   }
-  enterOnSubmitDate(){
-    if(this.fromDate){
-      console.log("formDate",this.fromDate);
-      this.getPage(1);
-    }
-    if(this.toDate){
-      this.getPage(1);
-      console.log("toDate",this.toDate);
-    }
-
-  }
-
 }

@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import vif.online.chungkhoan.dao.BillingInfoDao;
 import vif.online.chungkhoan.entities.BillingInfo;
 import vif.online.chungkhoan.services.BillingInfoService;
 
-@Service(value = "billingInfoService")
+@Service
 public class BillingInfoServiceImpl implements BillingInfoService {
 
 	@Autowired
@@ -53,7 +52,7 @@ public class BillingInfoServiceImpl implements BillingInfoService {
 	public List<BillingInfo> SearchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
 			String bankBranch, String bankAccount, Integer activeFlg) {
 		// TODO Auto-generated method stub
-		return billingInfoDao.SearchByCondition(page, pageSize, asc, accountName, bankName, bankBranch, bankAccount, activeFlg);
+		return billingInfoDao.searchByCondition(page, pageSize, asc, accountName, bankName, bankBranch, bankAccount, activeFlg);
 	}
 
 	@Override

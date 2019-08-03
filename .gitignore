@@ -11,3 +11,14 @@ VIF-Backend/target/classes/META-INF/MANIFEST.MF
 *.class
 VIF-Backend/src/main/resources/application.properties
 VIF-Frontend/src/app/config/application.config.ts
+VIF-Backend/.settings/.jsdtscope
+VIF-Backend/.settings/org.eclipse.core.resources.prefs
+VIF-Backend/.settings/org.eclipse.jdt.core.prefs
+VIF-Backend/.settings/org.eclipse.wst.common.component
+VIF-Backend/.settings/org.eclipse.wst.common.project.facet.core.xml
+VIF-Backend/.settings/org.eclipse.wst.jsdt.ui.superType.container
+VIF-Backend/.settings/org.eclipse.wst.jsdt.ui.superType.name
+VIF-Backend/.settings/org.eclipse.wst.validation.prefs
+VIF-Backend/.settings/org.eclipse.wst.common.project.facet.core.xml
+VIF-Backend/.settings/org.eclipse.jdt.core.prefs
+VIF-Backend/.settings/org.eclipse.core.resources.prefs

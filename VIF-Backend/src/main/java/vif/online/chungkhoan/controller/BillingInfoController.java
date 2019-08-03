@@ -3,7 +3,6 @@ package vif.online.chungkhoan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,15 +15,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.BillingInfo;
-import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.services.BillingInfoService;
 
 @Controller
 @RequestMapping("billing_info")
+@CrossOrigin(origins= {"*"})
 public class BillingInfoController {
 
 	@Autowired
@@ -33,7 +31,7 @@ public class BillingInfoController {
 	@GetMapping("id/{id}")
 	public ResponseEntity<BillingInfo> getById(@PathVariable("id") int id) {
 		BillingInfo bInfo = billingInfoService.getById(id);
-		return new ResponseEntity(bInfo, HttpStatus.OK);
+		return new ResponseEntity<BillingInfo>(bInfo, HttpStatus.OK);
 	}
 
 	@GetMapping("getAlls")

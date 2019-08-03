@@ -32,8 +32,6 @@ public class InvestApproDaoImpl implements InvestApproDao {
 	@Autowired
 	private InvestorTransService investorTransService;
 
-	
-
 	@PersistenceContext
 	private EntityManager entityManager;
 	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");

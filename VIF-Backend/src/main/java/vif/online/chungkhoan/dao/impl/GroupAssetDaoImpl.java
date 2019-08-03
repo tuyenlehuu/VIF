@@ -5,13 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import vif.online.chungkhoan.dao.GroupAssetDao;
-import vif.online.chungkhoan.entities.Asset;
-import vif.online.chungkhoan.entities.GroupAsset;
-import vif.online.chungkhoan.entities.User;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import vif.online.chungkhoan.dao.GroupAssetDao;
+import vif.online.chungkhoan.entities.GroupAsset;
 
 @Transactional
 @Repository

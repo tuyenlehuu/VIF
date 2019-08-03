@@ -95,4 +95,7 @@ export class AppParamComponent implements OnInit {
         console.log(this.description);
     }
 
+    enterOnSubmitPropValue(){
+        
+    }
 }

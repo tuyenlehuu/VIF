@@ -105,5 +105,7 @@ export class HolderequityComponent implements OnInit {
         this.modalRef.hide();
     }
 
+    enterOnSubmitDate(e){
 
+    }
 }

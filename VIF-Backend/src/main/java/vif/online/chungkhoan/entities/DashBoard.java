@@ -3,10 +3,6 @@ package vif.online.chungkhoan.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.SqlResultSetMapping;
-
 public class DashBoard implements Serializable{
 	/**
 	 * 
