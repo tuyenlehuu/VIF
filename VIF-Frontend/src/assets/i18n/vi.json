@@ -14,7 +14,8 @@
             "footer1": "VIF Investigation",
             "footer2": "2019 creativeLabs.",
             "footer3": "Powered by ",
-            "footer4": "VIF Investigation"
+            "footer4": "VIF Investigation",
+            "change_info": "Cập nhật profile"
         },
         "user": {
             "title1": "Quản lý người dùng",
@@ -363,7 +364,6 @@
 					"amount": "Khối lượng",
 					"orginal_price": "Giá vốn",
 					"current_price": "Giá hiện tại",
-					"orginal_price": "Giá vốn",
 					"rate_year": "Lãi suất năm",
 					"debt_money": "Nợ gốc",
 					"interest_money": "Tiền lãi",
@@ -373,7 +373,7 @@
 					"total_asset": "Tổng tài sản",
 					"total_real_asset": "Tổng tài sản ròng",
 					"total_debt": "Tổng nợ"
-				},
+				}
 			},
 			"nav_report": {
 				"title": "NAV chi tiết",

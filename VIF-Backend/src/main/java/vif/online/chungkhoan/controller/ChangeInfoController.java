@@ -20,7 +20,7 @@ import vif.online.chungkhoan.services.ChangeInfoService;
 
 @Controller
 @RequestMapping("change-info")
-@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
+@CrossOrigin(origins = {"*"})
 public class ChangeInfoController {
 	
 	@Autowired

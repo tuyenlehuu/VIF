@@ -1,6 +1,5 @@
 package vif.online.chungkhoan.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,24 +10,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.helper.ApiResponse;
-import vif.online.chungkhoan.helper.BuySellDTO;
 import vif.online.chungkhoan.services.InvestApproService;
 
 @Controller
 @RequestMapping("invest-appro")
-@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
+@CrossOrigin(origins= {"*"})
 public class InvestApproController {
 	@Autowired
 	private InvestApproService investApproService;

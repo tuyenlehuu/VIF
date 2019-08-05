@@ -28,7 +28,7 @@ import vif.online.chungkhoan.services.CustomerService;
 
 @Controller
 @RequestMapping("customer")
-@CrossOrigin(origins = { "http://localhost:8080", "http://18.136.211.82:8080" })
+@CrossOrigin(origins = {"*"})
 public class CustomerController {
 
 	@Autowired

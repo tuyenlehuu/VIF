@@ -3,7 +3,6 @@ package vif.online.chungkhoan.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ import vif.online.chungkhoan.services.UserService;
 
 @Controller
 @RequestMapping("user")
-@CrossOrigin(origins= {"http://localhost:8080", "http://18.136.211.82:8080"})
+@CrossOrigin(origins= {"*"})
 public class UserController {
 
 	@Autowired

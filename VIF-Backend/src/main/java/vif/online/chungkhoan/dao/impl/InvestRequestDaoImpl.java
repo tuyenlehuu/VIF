@@ -169,12 +169,14 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public BigDecimal getPriceMaxDate() {
 		String hql = "SELECT a.currentPrice FROM Asset AS a WHERE a.assetCode='VIF_CCQ'";
 		List<BigDecimal> price = (List<BigDecimal>) entityManager.createQuery(hql).getResultList();
-		return  price.get(0);
-		
-		
+		if(price !=null && price.size() >0) {
+			return price.get(0);
+		}
+		return null;
 	}
 
 }

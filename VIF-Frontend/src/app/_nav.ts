@@ -79,11 +79,6 @@ export const navItems: NavData[] = [
     icon: 'icon-calendar'
   },
   {
-    name: 'Đăng kí đầu tư',
-    url: '/invest-request',
-    icon: 'fa fa-handshake-o'
-  },
-  {
     name: 'Thông tin thanh toán',
     url: '/billing-info',
     icon: 'fa fa-money'

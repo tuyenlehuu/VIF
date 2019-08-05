@@ -95,11 +95,13 @@ export class InvestRequestComponent implements OnInit {
         pager.page = 1;
 
         this.userService.getUsersByCondition(this.user, pager).pipe(first()).subscribe((res: any) => {
-            this.users = res.data;
-            this.user = this.users[0];
-            this.customer = this.user.customer;
-            this.amountCCQAvaiable = this.customer.totalCcq;
-            this.createBuyForm();
+            if(res){
+                this.users = res.data;
+                this.user = this.users[0];
+                this.customer = this.user.customer;
+                this.amountCCQAvaiable = this.customer?this.customer.totalCcq:0;
+                this.createBuyForm();
+            }
         });
 
         this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
@@ -115,9 +117,10 @@ export class InvestRequestComponent implements OnInit {
         });
 
         this.assetService.getAssetByGroupId(5).pipe(first()).subscribe((respons: any) => {
-            this.assetTransCCQ = respons.data[0];
-            this.investRequest.asset = this.assetTransCCQ;
-            
+            if(respons && respons.data){
+                this.assetTransCCQ = respons.data[0];
+                this.investRequest.asset = this.assetTransCCQ;
+            }
         });
 
 
