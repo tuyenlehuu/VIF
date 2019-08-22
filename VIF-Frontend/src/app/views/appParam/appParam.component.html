@@ -96,7 +96,7 @@
                 <th style="text-align: center">{{'vif.appParam.action' | translate}}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="appParams && appParams.length>0">
               <tr
                 *ngFor="let item of appParams | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.propKey}}</td>
@@ -119,6 +119,9 @@
                   </a>
                 </td>
               </tr>
+            </tbody>
+            <tbody *ngIf="!appParams || (appParams && appParams.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
             </tbody>
           </table>
           <hr />

@@ -102,7 +102,7 @@
                 <th style="text-align: center">{{ 'vif.investAppro.action' | translate }}</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="investAppros && investAppros.length>0">
               <tr
                 *ngFor="let item of investAppros | paginate: {id: 'server', itemsPerPage: pageSize, currentPage: p, totalItems: total}">
                 <td>{{item.customer.fullName}}</td>
@@ -131,6 +131,9 @@
                   <i *ngIf="item.status!=1" style="color: red; margin-left: 10px; cursor: pointer; opacity: 0.4" class="fa fa-minus-circle" title="{{'vif.global.other.reject1' | translate}}"></i>
                 </td>
               </tr>
+            </tbody>
+            <tbody *ngIf="!investAppros || (investAppros && investAppros.length <= 0)">
+              <span>{{'vif.global.other.emptyItem' | translate}}</span>
             </tbody>
           </table>
           <hr />

@@ -90,6 +90,7 @@ export class InvestApproComponent implements OnInit {
   ngOnInit(): void {
     this.investApproService.getAll().pipe(first()).subscribe((res: any) => {
       this.investAppros = res;
+      console.log("aaaa: ",res);
     });
     this.search();
   }
