@@ -9,6 +9,8 @@ import { CustomerService } from '../../services/customer.service';
 import { Customer } from '../../models/Customer.model';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { formatDate } from '../../helpers/function.share';
+import { ViewChild } from '@angular/core';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'nav-screen',
@@ -77,12 +79,15 @@ export class NAVScreenComponent implements OnInit {
     this.search();
   }
 
+  // @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   ngOnInit(): void {
-    this.drawNavChart();
+    
     this.assetService.getByCode('VIF_CCQ').pipe(first()).subscribe((res: any) => {
       // console.log("res: ", res);
       this.asset = res.data;
     });
+
+    this.drawNavChart();
   }
 
   search() {
@@ -94,9 +99,10 @@ export class NAVScreenComponent implements OnInit {
   drawNavChart(){
     this.dashboardService.getNavChartData(this.isByMonth).pipe(first()).subscribe(res => {
       this.navChartDataLst = res;
-      Object.keys(this.navChartDataLst).forEach(key => {
-        this.lineChartLabels.push(this.navChartDataLst[key].key);
-        this.lineChartData[0].data.push(this.navChartDataLst[key].value.toFixed(2));
+      console.log("nav data: ", this.navChartDataLst);
+      Object.keys(this.navChartDataLst).forEach(indx => {
+        this.lineChartLabels.push(this.navChartDataLst[indx].key);
+        this.lineChartData[0].data.push(this.navChartDataLst[indx].value.toFixed(2));
       });
     });
   }

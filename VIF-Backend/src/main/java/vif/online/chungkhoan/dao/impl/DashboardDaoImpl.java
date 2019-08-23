@@ -301,7 +301,7 @@ public class DashboardDaoImpl implements DashboardDao {
 		// TODO Auto-generated method stub
 		String query = "SELECT " + "    CASE"
 				+ "        WHEN last_of_month_flg = 0 THEN DATE_FORMAT(update_date, '%d/%m/%Y')"
-				+ "        ELSE DATE_FORMAT(update_date, '%m/%Y')" + "    END time," + "    orginal_price nav" + " FROM"
+				+ "        ELSE DATE_FORMAT(update_date, '%m/%Y')" + "    END time," + "    price nav" + " FROM"
 				+ " asset_history" + " WHERE code = 'VIF_CCQ'";
 
 		if (isByMonth) {
@@ -309,6 +309,8 @@ public class DashboardDaoImpl implements DashboardDao {
 		} else {
 			query = query + " AND last_of_month_flg = 0 AND update_date >= DATE_SUB(NOW(),INTERVAL 31 DAY)";
 		}
+		
+		query = query + " ORDER BY update_date";
 
 		List<Object[]> rows = entityManager.createNativeQuery(query).getResultList();
 		List<KeyNameValueDTO> navLst = new ArrayList<KeyNameValueDTO>();

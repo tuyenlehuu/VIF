@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -62,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().anonymous().disable().authorizeRequests()
 		.antMatchers("/api-docs/**").permitAll()
-		.antMatchers("/public/**").permitAll();
+		.antMatchers("/public/**").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/oauth/token").permitAll();
 		// add filter
 //		.and()
 //		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class);
@@ -72,6 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/api-docs/**");
         web.ignoring().antMatchers("/public/**");
+//        web.ignoring().antMatchers("/oauth/**");
+        web.ignoring().antMatchers("/actuator/**");
     }
 
 	@Bean
