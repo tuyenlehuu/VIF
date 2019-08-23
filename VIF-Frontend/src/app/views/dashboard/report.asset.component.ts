@@ -83,9 +83,9 @@ export class ReportAssetScreenComponent implements OnInit {
   ngOnInit(): void {
     this.dashboardService.getReportAsset().pipe(first()).subscribe(res=>{
       this.assetsReport = res;
-      Object.keys(this.assetsReport).forEach(key => {
-        this.barChartLabels.push(this.assetsReport[key].key);
-        this.barChartData[0].data.push(this.assetsReport[key].value.toFixed(2));
+      Object.keys(this.assetsReport).forEach(idx => {
+        this.barChartLabels.push(this.assetsReport[idx].key);
+        this.barChartData[0].data.push(this.assetsReport[idx].value!= null?this.assetsReport[idx].value.toFixed(2):0);
       });
     });
   }
