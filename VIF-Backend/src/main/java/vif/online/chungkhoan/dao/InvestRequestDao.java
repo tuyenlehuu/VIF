@@ -5,6 +5,7 @@ import java.util.List;
 
 import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.AssetHistory;
+import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.InvestRequest;
 import vif.online.chungkhoan.entities.User;
 
@@ -27,5 +28,7 @@ public interface InvestRequestDao {
 	int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate);
 
 	BigDecimal getPriceMaxDate();
+	
+	Customer getCustomerByUsername(String userName);
 
 }

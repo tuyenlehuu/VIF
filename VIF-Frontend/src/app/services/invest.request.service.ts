@@ -56,5 +56,9 @@ export class InvestRequestService {
         return this.http.get(`${config.apiUrl}/invest_request/getEnsureCCQByCusAsset/${customerId}/${assetCode}`);
     }
 
+    getCustomerByUsername(userName: String){
+        return this.http.get(`${config.apiUrl}/invest_request/getCustomerByUsername?userName=${userName}`);
+    }
+
 
 }
