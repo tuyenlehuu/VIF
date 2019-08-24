@@ -38,6 +38,9 @@
                     <div class="col-md-9">
                       <div class="form-group">
                         <input currencyMask type="text" disabled class="form-control" formControlName="price">
+                        <div class="alert alert-danger" *ngIf="buyForm.value.price==0">
+                          {{'vif.investor_trans.price_zero' | translate}}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -134,7 +137,7 @@
           </div>
           <!--end buy screen-->
 
-          <div *ngIf="!isBuyScreen && customer" class="buy-screen" style="text-align: center;">
+          <div *ngIf="!isBuyScreen && customer && amountCCQAvaiable!=null && sellForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
             <form [formGroup]="sellForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
@@ -151,6 +154,9 @@
                     <div class="col-md-9">
                       <div class="form-group">
                         <input currencyMask type="text" disabled class="form-control" formControlName="price">
+                        <div class="alert alert-danger" *ngIf="buyForm.value.price==0">
+                          {{'vif.investor_trans.price_zero' | translate}}
+                        </div>
                       </div>
                     </div>
                   </div>

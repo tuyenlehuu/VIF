@@ -97,7 +97,7 @@ export class InvestRequestComponent implements OnInit {
         this.requestService.getCustomerByUsername(this.user.username).pipe(first()).subscribe((res: any) => {
             if(res){
                 this.customer = res;
-                this.amountCCQAvaiable = this.customer?this.customer.totalCcq:0;
+                this.amountCCQAvaiable = this.customer?this.customer.totalCcq?this.customer.totalCcq:0:0;
                 this.createBuyForm();
             }
         });
