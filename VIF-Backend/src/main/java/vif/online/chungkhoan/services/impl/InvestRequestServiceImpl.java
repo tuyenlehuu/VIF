@@ -109,6 +109,12 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 		resultResponse.setErrors(null);
 		return resultResponse;
 	}
+
+	@Override
+	public Customer getCustomerByUsername(String userName) {
+		// TODO Auto-generated method stub
+		return investRequestDao.getCustomerByUsername(userName);
+	}
 	
 
 }

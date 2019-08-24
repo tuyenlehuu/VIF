@@ -89,16 +89,14 @@ export class InvestRequestComponent implements OnInit {
         var pager: Pager = new Pager();
         var x: string;
         var currentUser = localStorage.getItem("currentUser");
-        var u = JSON.parse(currentUser);
+        var u = JSON.parse(currentUser); console.log("usssss--->",u);
         x = u.username.toString();
         this.user.username = x;
         pager.page = 1;
 
-        this.userService.getUsersByCondition(this.user, pager).pipe(first()).subscribe((res: any) => {
+        this.requestService.getCustomerByUsername(this.user.username).pipe(first()).subscribe((res: any) => {
             if(res){
-                this.users = res.data;
-                this.user = this.users[0];
-                this.customer = this.user.customer;
+                this.customer = res;
                 this.amountCCQAvaiable = this.customer?this.customer.totalCcq:0;
                 this.createBuyForm();
             }
