@@ -66,13 +66,17 @@
             "description_placeholder": "Nhập vào mô tả",
             "reason": "Lý do",
             "reason_placeholder": "Nhập vào lý do",
-            "name1": "Tên cổ là bắt buộc",
-            "email1:": "Email bắt buộc",
+            "name1": "Tên cổ đông là bắt buộc",
             "tel1": "Số điện thoại bắt buộc",
             "title3": "Chức vụ là bắt buộc",
             "address1": "Địa chỉ bắt buộc",
             "description1": "Mô tả bắt buộc",
-            "lastUpdate1": "Ngày cập nhập là bắt buộc"
+            "lastUpdate1": "Ngày cập nhập là bắt buộc",
+            "amount":"Số lượng là bắt buộc",
+            "price":"Giá trị là bắt buộc",
+            "gmail":"Địa chỉ email là bắt buộc"
+
+
         },
         "transaction": {
             "title": "Lịch sử thay đổi giao dịch",
@@ -275,20 +279,20 @@
 			}
 		},
 		"branch":{
-			"title":"Danh sách chi nhánh",
-			"title1":"Tạo mới chi nhánh ",
-			"title2":"Sửa nhánh ",
-			"code":"Mã chi nhánh",
-			"name": "Tên chi nhánh",
+			"title":"Danh sách nghành cổ phiếu",
+			"title1":"Tạo mới nghành cổ phiếu ",
+			"title2":"Sửa nghành cổ phiếu ",
+			"code":"Mã nghành cổ phiếu",
+			"name": "Tên nghành cổ phiếu",
 			"activeFlg":"Trạng thái",
 			"action":"Hành động",
 			"add":"Thêm mới",
 			"search":"Tìm kiếm",
-			"code_placeholder": "Nhập vào mã chi nhánh",
-			"name_placeholder":"Nhập tên chi nhánh",
+			"code_placeholder": "Nhập vào mã nghành cổ phiếu",
+			"name_placeholder":"Nhập tên nghành cổ phiếu",
 			"cancer":"Huỷ bỏ",
 			"update":"Cập nhật",
-			"exit":"Mã chi nhánh bị trùng"
+			"exit":"Mã nghành cổ phiếu bị trùng"
 		},
 		"investAppro":{
 			"title1": "Phê duyệt đầu tư",
@@ -405,7 +409,7 @@
 				"orginal_price": "Giá vốn",
 				"rate_year": "Lãi suất năm",
 				"debt_money": "Nợ gốc",
-				"interest_money": "Tiền lãi" 
+				"interest_money": "Tiền lãi"
 			}
 		},
 		"invest_request": {
@@ -419,7 +423,7 @@
 			"CCQ_zero": "Số CCQ phải lớn hơn 0",
 			"price": "Giá CCQ",
 			"confirm": "Bạn có đồng ý đăng ký đầu tư ?"
-		},	
+		},
 		"billing_info":{
 			"title1": "Thông tin thanh toán",
 			"title2": "Thêm mới tài khoản",

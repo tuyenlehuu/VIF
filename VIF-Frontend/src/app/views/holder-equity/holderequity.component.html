@@ -81,16 +81,16 @@
                   <td>{{item.address}}</td>
                   <td>{{item.amount}}</td>
                   <td>{{item.price}}</td>
-                  <td>{{item.lastUpdate}}</td>
+                  <td>{{item.lastUpdate|date: 'dd/MM/yyyy'}}</td>
                   <td class="textCenter">
                     <a [routerLink]="['/holder-equity/ce-holderequity', item.id]" >
                       <i class="fa fa-pencil" title="{{'vif.global.other.title_icon_edit' | translate}}"></i></a>
-                  </td> 
+                  </td>
                 </tr>
               </tbody>
               <tbody *ngIf="!holderequity || (holderequity && holderequity.length <= 0)">
                 <span>{{'vif.global.other.emptyItem' | translate}}</span>
-              </tbody> 
+              </tbody>
 
             </table>
             <hr />

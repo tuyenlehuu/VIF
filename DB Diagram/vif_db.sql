@@ -46,7 +46,29 @@ CREATE TABLE `user` (
 
 -- --------asss------
 
+CREATE TABLE `holder_equity` (
+`id` bigint(20) NOT NULL,
+`full_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`tel` varchar(50) DEFAULT NULL,
+`title` varchar(255) DEFAULT NULL,
+`address` varchar(255) DEFAULT NULL,
+`amount` decimal(19,2) NOT NULL,
+`price` decimal(19,2) NOT NULL,
+`last_update` datetime DEFAULT NULL,
+`description` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+CREATE TABLE `history_equity` (
+`id` bigint(20) NOT NULL,
+`amount` decimal(19,2) NOT NULL,
+`price` decimal(19,2) NOT NULL,
+`last_update` datetime DEFAULT NULL,
+`description` varchar(255) DEFAULT NULL,
+`reason` varchar(255) DEFAULT NULL,
+`holder_id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `app_param` (
   `id` int(11) NOT NULL ,
@@ -1947,7 +1969,12 @@ ALTER TABLE `branch`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`);
-
+  
+  --
+-- Indexes for table `holder_equity`
+--
+ALTER TABLE `holder_equity`
+  ADD PRIMARY KEY (`id`);
 --
 -- Indexes for table `group_asset`
 --
@@ -1982,6 +2009,12 @@ ALTER TABLE `user`
   ADD KEY `FKdptx0i3ky01svofwjytq5iry0` (`customer_id`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `history_equity`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKholder` (`holder_id`);
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -2015,6 +2048,17 @@ ALTER TABLE `branch`
 ALTER TABLE `customer`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+--
+-- AUTO_INCREMENT for table `holder_equity`
+--
+ALTER TABLE `holder_equity`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `history_equity`
+--
+ALTER TABLE `history_equity`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `group_asset`
 --
@@ -2072,6 +2116,12 @@ ALTER TABLE `transaction_history`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `FKdptx0i3ky01svofwjytq5iry0` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
+--
+-- Constraints for table `user`
+--  
+ALTER TABLE `history_equity`
+  ADD CONSTRAINT `FKholder` FOREIGN KEY (`holder_id`) REFERENCES `holder_equity` (`id`);
+  
 
 COMMIT;
 

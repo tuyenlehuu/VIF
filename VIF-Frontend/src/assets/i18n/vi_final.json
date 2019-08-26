@@ -66,7 +66,7 @@
             "reason": "Lý do",
             "reason_placeholder": "Nhập vào lý do",
             "name1": "Tên cổ là bắt buộc",
-            "email1:": "Email bắt buộc",
+            "mail": "Email bắt buộc",
             "tel1": "Số điện thoại bắt buộc",
             "title3": "Chức vụ là bắt buộc",
             "address1": "Địa chỉ bắt buộc",
@@ -405,7 +405,7 @@
 				"orginal_price": "Giá vốn",
 				"rate_year": "Lãi suất năm",
 				"debt_money": "Nợ gốc",
-				"interest_money": "Tiền lãi" 
+				"interest_money": "Tiền lãi"
 			}
 		},
 		"invest_request": {
@@ -419,7 +419,7 @@
 			"CCQ_zero": "Số CCQ phải lớn hơn 0",
 			"price": "Giá CCQ",
 			"confirm": "Bạn có đồng ý đăng ký đầu tư ?"
-		},	
+		},
 		"billing_info":{
 			"title1": "Thông tin thanh toán",
 			"title2": "Thêm mới tài khoản",
