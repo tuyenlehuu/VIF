@@ -30,7 +30,6 @@ export class CEBillingInfoComponent implements OnInit {
     private router: Router, private toastrService: ToastrService, private fb: FormBuilder) {
  
     this.customerService.getAll().pipe(first()).subscribe((respons: any) => {
-      // console.log("data: ", respons);
       this.customers = respons;
       if (this.customers) {
           this.customerSelectedId = this.customers[0].id;
@@ -42,7 +41,6 @@ export class CEBillingInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    console.log("id:", this.id);
     if (this.id > 0) {
       this.bInfoService.getById(this.id).subscribe((res: any) => {
         this.billingInfo = res;
@@ -99,16 +97,14 @@ export class CEBillingInfoComponent implements OnInit {
         this.router.navigate(['/billing-info']);
       }, (err) => {
         this.showError('Cập nhật không thành công!');
-        // console.log(err);
       });
     } else {
-      console.log("bbbbbbbbbb==>",bInfo);
+
       this.bInfoService.add(bInfo).subscribe(res => {
         this.showSuccess('Thêm mới thành công');
         this.router.navigate(['/billing-info']);
       }, (err) => {
         this.showError('Thêm mới không thành công!');
-        // console.log(err);
       });
     }
   }
@@ -130,8 +126,6 @@ export class CEBillingInfoComponent implements OnInit {
       let cus: Customer = new Customer();
       cus.id = this.addBInfoForm.value.customerControl;
       this.billingInfo.customer = cus;
-
-      console.log("binfooo==", this.billingInfo);
       this.saveBInfo(this.billingInfo);
     }
 
