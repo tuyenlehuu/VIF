@@ -1,11 +1,11 @@
 package vif.online.chungkhoan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
+import vif.online.chungkhoan.helper.KeyNameValueDTO;
 import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.helper.VifMailHelper;
+import vif.online.chungkhoan.services.DashboardService;
 import vif.online.chungkhoan.services.UserService;
 
 @Controller
@@ -27,6 +29,9 @@ import vif.online.chungkhoan.services.UserService;
 public class PublicController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DashboardService dashboardService;
 	
 	@PostMapping("register")
 	public ResponseEntity<ApiResponse> addUser(@RequestBody User user, UriComponentsBuilder builder) {
@@ -112,5 +117,17 @@ public class PublicController {
 		response.setData("Chage password successfully!");
 		response.setStatus(true);
 		return new ResponseEntity<ApiResponse>(response, HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-ccq-report")
+	public ResponseEntity<List<KeyNameValueDTO>> getNavChartData() {
+		List<KeyNameValueDTO> navList = dashboardService.getNavChartData(true);
+		return new ResponseEntity<List<KeyNameValueDTO>>(navList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-ccq-nearest")
+	public ResponseEntity<List<KeyNameValueDTO>> getNavDataNearest() {
+		List<KeyNameValueDTO> navList = dashboardService.getNavDataNearest();
+		return new ResponseEntity<List<KeyNameValueDTO>>(navList, HttpStatus.OK);
 	}
 }

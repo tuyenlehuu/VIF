@@ -61,4 +61,8 @@ public interface IContaints {
 		public String ROLE_ADMIN = "ROLE_ADMIN";
 		public String ROLE_USER = "ROLE_USER";
 	}
+	
+	public interface STOCK_API{
+		public String URL = "https://finance.vietstock.vn/company/tradinginfo";
+	}
 }

@@ -13,4 +13,6 @@ public interface DashboardService {
 	List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate);
 	List<KeyNameValueDTO> getNavChartData(boolean isByMonth);
 	List<Asset> getDebtDataByUsername(String username);
+	
+	List<KeyNameValueDTO> getNavDataNearest();
 }

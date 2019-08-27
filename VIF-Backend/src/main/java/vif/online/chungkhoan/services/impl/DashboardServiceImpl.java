@@ -48,5 +48,11 @@ public class DashboardServiceImpl implements DashboardService{
 		return dashboardDao.getDebtDataByUsername(username);
 	}
 
+	@Override
+	public List<KeyNameValueDTO> getNavDataNearest() {
+		// TODO Auto-generated method stub
+		return dashboardDao.getNavDataNearest();
+	}
+
 
 }

@@ -14,4 +14,5 @@ public interface DashboardDao {
 	
 	List<KeyNameValueDTO> getNavChartData(boolean isByMonth);
 	List<Asset> getDebtDataByUsername(String username);
+	List<KeyNameValueDTO> getNavDataNearest();
 }

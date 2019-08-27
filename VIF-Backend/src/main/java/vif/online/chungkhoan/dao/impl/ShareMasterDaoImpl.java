@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import vif.online.chungkhoan.dao.ShareMasterDao;
+import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.entities.ShareMaster;
 
 @Transactional
@@ -40,7 +41,12 @@ public class ShareMasterDaoImpl implements ShareMasterDao {
 	@Override
 	public void updateCophieu(ShareMaster Cophieu) {
 		// TODO Auto-generated method stub
-		entityManager.flush();
+		ShareMaster mShare = getCophieuByCode(Cophieu.getCpCode());
+		if (mShare != null) {
+			mShare.setCpPrice(Cophieu.getCpPrice());
+			entityManager.merge(mShare);
+		}
+//		entityManager.flush();
 	}
 
 	@Override

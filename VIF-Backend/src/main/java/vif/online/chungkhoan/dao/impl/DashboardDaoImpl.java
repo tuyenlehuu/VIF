@@ -20,7 +20,6 @@ import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.Asset;
-import vif.online.chungkhoan.entities.CustomerAsset;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.IContaints;
@@ -247,7 +246,7 @@ public class DashboardDaoImpl implements DashboardDao {
 			for (Object[] row : rows) {
 				NAVDTO item = new NAVDTO();
 				if (row[0] != null && !row[0].equals("")) {
-					item.setCustomerId(((BigInteger) row[0]).intValue());
+					item.setCustomerId((Integer) row[0]);
 				}
 
 				if (row[1] != null && !row[1].equals("")) {
@@ -396,6 +395,30 @@ public class DashboardDaoImpl implements DashboardDao {
 		}
 
 		return debtLst;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KeyNameValueDTO> getNavDataNearest() {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		String query = "select DATE_FORMAT(update_date, '%d/%m/%Y') datePrice, price from asset_history where code ='VIF_CCQ' and last_of_month_flg =0 order by update_date desc limit 2";
+
+		List<Object[]> rows = entityManager.createNativeQuery(query).getResultList();
+		List<KeyNameValueDTO> navLst = new ArrayList<KeyNameValueDTO>();
+		if (rows != null && rows.size() > 0) {
+			for (Object[] row : rows) {
+				KeyNameValueDTO item = new KeyNameValueDTO();
+				if (row[0] != null && !row[0].equals("")) {
+					item.setKey(row[0].toString());
+				}
+				if (row[1] != null && !row[1].equals("")) {
+					item.setValue((BigDecimal) row[1]);
+				}
+				navLst.add(item);
+			}
+		}
+		return navLst;
 	}
 
 }
