@@ -30,7 +30,7 @@ import vif.online.chungkhoan.services.InvestRequestService;
 
 @Controller
 @RequestMapping("invest_request")
-@CrossOrigin(origins= {"*"})
+@CrossOrigin(origins = { "*" })
 public class InvestRequestController {
 
 	@Autowired
@@ -57,7 +57,7 @@ public class InvestRequestController {
 			@RequestParam(value = "typeOfRequest", required = false) Integer typeOfRequest,
 			@RequestParam(value = "status", required = false) Integer status,
 			@RequestParam(value = "fromDate", required = false) String fromDate,
-			@RequestParam(value = "toDate", required = false) String toDate){
+			@RequestParam(value = "toDate", required = false) String toDate) {
 		ApiResponse object = new ApiResponse();
 		List<InvestRequest> list = investRequestService.SearchInvestRequestByCondition(page, pageSize, asc,
 				typeOfRequest, status, fromDate, toDate);
@@ -72,25 +72,23 @@ public class InvestRequestController {
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 
-
 	@GetMapping("getPriceCCQ")
 	public ResponseEntity<BigDecimal> getPriceCCQ() {
 		BigDecimal asset = investRequestService.getPriceMaxDate();
 
 		return new ResponseEntity<BigDecimal>(asset, HttpStatus.OK);
 	}
-	
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<InvestRequest> add(@RequestBody InvestRequest request, UriComponentsBuilder builder) {
-	  boolean bol=investRequestService.addInvestRequest(request);
-	  if(bol) {
-		  return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
-	  }else {
-		  request=null;
-		  return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
-	  }
-		
+		boolean bol = investRequestService.addInvestRequest(request);
+		if (bol) {
+			return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
+		} else {
+			request = null;
+			return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
+		}
+
 	}
 
 	@PutMapping("update")
@@ -98,7 +96,7 @@ public class InvestRequestController {
 		investRequestService.updateInvestRequest(request);
 		return new ResponseEntity<InvestRequest>(request, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("getEnsureCCQByCusAsset/{customerId}/{assetCode}")
 	public ResponseEntity<ApiResponse> getEnsureCCQByCusAsset(@PathVariable("customerId") Integer customerId,
 			@PathVariable("assetCode") String assetCode) {
@@ -112,6 +110,13 @@ public class InvestRequestController {
 		}
 		result = investRequestService.getEnsureCCQByCusAsset(customerId, assetCode);
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
+	}
+
+	@GetMapping("getCustomerByUsername")
+	public ResponseEntity<Customer> getCustomerByUsername(
+			@RequestParam(value = "userName", required = true) String userName) {
+		Customer customer = investRequestService.getCustomerByUsername(userName);
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 	}
 
 }

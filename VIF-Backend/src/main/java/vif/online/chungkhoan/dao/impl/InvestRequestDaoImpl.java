@@ -29,7 +29,7 @@ import vif.online.chungkhoan.entities.User;
 public class InvestRequestDaoImpl implements InvestRequestDao {
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 
 	@SuppressWarnings("unchecked")
@@ -62,48 +62,48 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 	@Override
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
 			Integer typeOfRequest, Integer status, String fromDate, String toDate) {
-		
+
 		try {
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
-		Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+			Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
 
-		CriteriaQuery<Object> select = criteriaQuery.select(from);
+			CriteriaQuery<Object> select = criteriaQuery.select(from);
 
-		List<Predicate> predicates = new ArrayList<Predicate>();
+			List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if (typeOfRequest != null) {
-			predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			if (typeOfRequest != null) {
+				predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			}
+
+			if (status != null && !status.equals("")) {
+				predicates.add(criteriaBuilder.equal(from.get("status"), status));
+			}
+
+			if (fromDate != null && !fromDate.equals("")) {
+				Date fDate = formatter.parse(fromDate);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+			}
+
+			if (toDate != null && !toDate.equals("")) {
+				Date tDate = formatter.parse(toDate);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+			}
+
+			select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+			Query query = entityManager.createQuery(criteriaQuery);
+			if (page >= 0 && pageSize >= 0) {
+				query.setFirstResult((page - 1) * pageSize);
+				query.setMaxResults(pageSize);
+			}
+			List<InvestRequest> lstResult = query.getResultList();
+
+			return lstResult;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-
-		if (status != null && !status.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("status"), status));
-		}
-		
-		if(fromDate != null && !fromDate.equals("")) {
-			Date fDate = formatter.parse(fromDate);
-			predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
-		}
-		
-		if(toDate != null && !toDate.equals("")) {
-			Date tDate = formatter.parse(toDate);
-			predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
-		}
-			
-		select.select(from).where(predicates.toArray(new Predicate[] {}));
-
-		Query query = entityManager.createQuery(criteriaQuery);
-		if (page >= 0 && pageSize >= 0) {
-			query.setFirstResult((page - 1) * pageSize);
-			query.setMaxResults(pageSize);
-		}
-		List<InvestRequest> lstResult = query.getResultList();
-
-		return lstResult;
-	}catch (Exception e) {
-		// TODO: handle exception
-		e.printStackTrace();
-	}
 		return null;
 	}
 
@@ -130,51 +130,80 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 	public int getRowCount(Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
 		try {
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
-		Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+			Root<InvestRequest> from = criteriaQuery.from(InvestRequest.class);
 
-		CriteriaQuery<Object> select = criteriaQuery.select(from);
-		List<Predicate> predicates = new ArrayList<Predicate>();
+			CriteriaQuery<Object> select = criteriaQuery.select(from);
+			List<Predicate> predicates = new ArrayList<Predicate>();
 
-		if (typeOfRequest != null) {
-			predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			if (typeOfRequest != null) {
+				predicates.add(criteriaBuilder.equal(from.get("typeOfRequest"), typeOfRequest));
+			}
+
+			if (status != null && !status.equals("")) {
+				predicates.add(criteriaBuilder.equal(from.get("status"), status));
+			}
+
+			if (fromDate != null && !fromDate.equals("")) {
+				Date fDate = formatter.parse(fromDate);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+			}
+
+			if (toDate != null && !toDate.equals("")) {
+				Date tDate = formatter.parse(toDate);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+			}
+
+			select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+			Query query = entityManager.createQuery(select);
+
+			List<InvestRequest> lstResult = query.getResultList();
+			return lstResult.size();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-
-		if (status != null && !status.equals("")) {
-			predicates.add(criteriaBuilder.equal(from.get("status"), status));
-		}
-		
-		if(fromDate != null && !fromDate.equals("")) {
-			Date fDate = formatter.parse(fromDate);
-			predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
-		}
-		
-		if(toDate != null && !toDate.equals("")) {
-			Date tDate = formatter.parse(toDate);
-			predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
-		}
-
-		select.select(from).where(predicates.toArray(new Predicate[] {}));
-
-		Query query = entityManager.createQuery(select);
-
-		List<InvestRequest> lstResult = query.getResultList();
-		return lstResult.size();
-	}catch (Exception e) {
-		// TODO: handle exception
-		e.printStackTrace();
-	}
 		return 0;
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public BigDecimal getPriceMaxDate() {
 		String hql = "SELECT a.currentPrice FROM Asset AS a WHERE a.assetCode='VIF_CCQ'";
 		List<BigDecimal> price = (List<BigDecimal>) entityManager.createQuery(hql).getResultList();
-		if(price !=null && price.size() >0) {
+		if (price != null && price.size() > 0) {
 			return price.get(0);
+		}
+		return null;
+	}
+
+	@Override
+	public Customer getCustomerByUsername(String userName) {
+		// TODO Auto-generated method stub
+		try {
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+			Root<User> from = criteriaQuery.from(User.class);
+
+			CriteriaQuery<Object> select = criteriaQuery.select(from);
+
+			List<Predicate> predicates = new ArrayList<Predicate>();
+
+			if (userName != null) {
+				predicates.add(criteriaBuilder.equal(from.get("username"), userName));
+			}
+
+			select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+			Query query = entityManager.createQuery(criteriaQuery);
+			List<User> lstResult = query.getResultList();
+			User u = lstResult.get(0);
+			Customer c = u.getCustomer();
+			return c;
+		}catch(Exception e) {
+			
 		}
 		return null;
 	}
