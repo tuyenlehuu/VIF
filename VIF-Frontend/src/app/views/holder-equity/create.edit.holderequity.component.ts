@@ -3,15 +3,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { Branch } from '../../models/Branch.model';
+// import { Branch } from '../../models/Branch.model';
 import { MustMatch, RequireCombo } from '../../helpers/function.share';
 import { first } from 'rxjs/operators';
 import { config } from '../../config/application.config';
 import { TranslateService } from '@ngx-translate/core';
-import { pipe } from 'rxjs';
+// import { pipe } from 'rxjs';
 import { HolderEquity } from '../../models/HolderEquity';
 import { HolderequityService } from '../../services/HolderEquity.service';
 import { HolderHistory } from '../../models/holderHistory.model';
+import { empty } from 'rxjs';
 
 @Component({
     templateUrl: 'create.edit.holderequity.component.html',
@@ -28,12 +29,20 @@ export class CEHolderequityComponent implements OnInit {
     colorTheme = 'theme-blue';
     bsConfig: Partial<BsDatepickerConfig>;
     submitted = false;
+    myDate:Date;
+    eDate:Date;
+
 
     constructor(private route: ActivatedRoute, private router: Router,
         private toastrService: ToastrService, private fb: FormBuilder,
         private holderService: HolderequityService, private translateService: TranslateService) {
         this.createForm();
         this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+        this.bsConfig.dateInputFormat="DD/MM/YYYY";
+        this.myDate=new Date();
+
+
+
 
     }
 
@@ -45,7 +54,6 @@ export class CEHolderequityComponent implements OnInit {
             this.holderService.getById(this.id).subscribe((res: HolderEquity) => {
                 this.holder = res;
                 this.createEditForm();
-                // console.log("lay duoc branch qua id", this.branch);
             });
         } else {
             this.holder = new HolderEquity();
@@ -55,27 +63,31 @@ export class CEHolderequityComponent implements OnInit {
 
     get addForm() { return this.addHolderForm.controls; }
     get editForm() { return this.editHolderForm.controls; }
+
     getDateToString(dateToString: string): void {
 
         this.stringDate = dateToString;
     }
 
     createForm() {
+
         this.addHolderForm = this.fb.group({
             aFullName: ['', Validators.required],
             aEmail: ['', Validators.required],
             aTel: ['', Validators.required],
             aTitle: ['', Validators.required],
-            aAddress: ['', Validators.required],
-            aAmount: [0, Validators.required],
+            aAddress: [''],
+            aAmount: [0, [Validators.required,Validators.pattern('[0-9]*')]],
             aPrice: [0, Validators.required],
-            aLastUpdate: ['', Validators.required],
-            aDescription: ['', Validators.required]
+            aLastUpdate: [new Date()],
+            aDescription: ['']
         });
     }
 
     createEditForm() {
-        this.editHolderForm = this.fb.group({
+
+      this.editHolderForm = this.fb.group({
+
             eFullName: [{ value: this.holder.fullName, disabled: true }, Validators.required],
             eEmail: [{ value: this.holder.email, disabled: false }, Validators.required],
             eTel: [{ value: this.holder.tel, disabled: false }, Validators.required],
@@ -83,10 +95,11 @@ export class CEHolderequityComponent implements OnInit {
             eAddress: [{ value: this.holder.address, disabled: false }, Validators.required],
             eAmount: [{ value: this.holder.amount, disabled: false }, Validators.required],
             ePrice: [{ value: this.holder.price, disabled: false }, Validators.required],
-            eLastUpdate: [{ value: this.holder.lastUpdate, disabled: false }, Validators.required],
+            eLastUpdate: [{value:this.holder.lastUpdate,disabled: false}],
             eDescription: [{ value: this.holder.description, disabled: false }, Validators.required],
             eReason: ['', Validators.required]
         });
+
         var date: Date = new Date(this.holder.lastUpdate);
         this.getDateToString(date.toDateString());
 
@@ -98,7 +111,7 @@ export class CEHolderequityComponent implements OnInit {
             return;
         }
         this.submitted = true;
-
+        this.holder.lastUpdate = this.addHolderForm.value.aLastUpdate;
         this.holder.fullName = this.addHolderForm.value.aFullName;
         this.holder.email = this.addHolderForm.value.aEmail;
         this.holder.tel = this.addHolderForm.value.aTel;
@@ -106,10 +119,7 @@ export class CEHolderequityComponent implements OnInit {
         this.holder.address = this.addHolderForm.value.aAddress;
         this.holder.amount = this.addHolderForm.value.aAmount;
         this.holder.price = this.addHolderForm.value.aPrice;
-        this.holder.lastUpdate = this.addHolderForm.value.aLastUpdate;
         this.holder.description = this.addHolderForm.value.aDescription;
-
-        console.log(this.holder);
         this.saveHolderequity(this.holder);
     }
     onEditSubmit() {
@@ -139,7 +149,7 @@ export class CEHolderequityComponent implements OnInit {
         this.holderService.add(this.holderHistory, this.holderHistory.holder.id).pipe(first()).subscribe((respones: any) => {
 
         });
-    
+
 
     }
     saveHolderequity(holder: HolderEquity) {
