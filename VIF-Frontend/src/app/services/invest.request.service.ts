@@ -43,7 +43,6 @@ export class InvestRequestService {
 
     add(request: InvestRequest) {
         var url = `${config.apiUrl}/invest_request/add`;
-        console.log("APIIIIIIIII", request);
         return this.http.post(`${config.apiUrl}/invest_request/add`, request);
 
     }

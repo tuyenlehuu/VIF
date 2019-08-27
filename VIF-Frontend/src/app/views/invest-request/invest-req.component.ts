@@ -89,7 +89,7 @@ export class InvestRequestComponent implements OnInit {
         var pager: Pager = new Pager();
         var x: string;
         var currentUser = localStorage.getItem("currentUser");
-        var u = JSON.parse(currentUser); console.log("usssss--->",u);
+        var u = JSON.parse(currentUser); 
         x = u.username.toString();
         this.user.username = x;
         pager.page = 1;
@@ -198,18 +198,22 @@ export class InvestRequestComponent implements OnInit {
     }
 
     saveCCQ() {
-        if (this.isBuyScreen) {
-            this.submitted = true;
-            if (this.buyForm.invalid) {
-                return;
+        if(this.price>0&&this.customer!=null){
+            if (this.isBuyScreen) {
+                this.submitted = true;
+                if (this.buyForm.invalid) {
+                    return;
+                }
+                this.buyCCQ();
+            } else {
+                this.submitted = true;
+                if (this.sellForm.invalid) {
+                    return;
+                }
+                this.sellCCQ();
             }
-            this.buyCCQ();
-        } else {
-            this.submitted = true;
-            if (this.sellForm.invalid) {
-                return;
-            }
-            this.sellCCQ();
+        }else{
+            this.showError("Gửi yêu cầu thất bại");
         }
         this.modalRef.hide();
     }

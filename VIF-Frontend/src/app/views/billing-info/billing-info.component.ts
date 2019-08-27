@@ -49,9 +49,9 @@ export class BillingInfoComponent implements OnInit {
         pager.page = page;
         pager.pageSize = this.pageSize;
         this.bInfoService.getUsersByCondition(this.bInfoSearch, pager).pipe(first()).subscribe((respons: any) => {
-            this.bInfos = respons.data;
-            this.total = respons.totalRow;
-            this.p = page;
+                this.bInfos = respons.data;
+                this.total = respons.totalRow;
+                this.p = page;
         });
     }
 
@@ -64,12 +64,8 @@ export class BillingInfoComponent implements OnInit {
 
         this.bInfoService.deleteById(this.modalRef.content).subscribe(res => {
             this.showSuccess('Xóa thành công');
-            // this.userService.getAll().pipe(first()).subscribe((respons: any) => {
-            //     this.users = respons.data;
-            // });
             this.getPage(1);
         }, catchError => {
-            // console.log("result: ", catchError);
         });
         this.modalRef.hide();
     }
@@ -82,6 +78,5 @@ export class BillingInfoComponent implements OnInit {
 
     search() {
         this.getPage(1);
-        console.log("banhk=>>>>",this.bInfoSearch.bankName);
     }
 }

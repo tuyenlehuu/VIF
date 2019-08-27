@@ -30,5 +30,7 @@ public interface InvestRequestDao {
 	BigDecimal getPriceMaxDate();
 	
 	Customer getCustomerByUsername(String userName);
+	
+	boolean checkCustomerExist(Integer id);
 
 }

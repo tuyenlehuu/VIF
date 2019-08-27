@@ -63,45 +63,49 @@ public class BillingInfoDaoImpl implements BillingInfoDao {
 	@Override
 	public List<BillingInfo> searchByCondition(int page, int pageSize, Boolean asc, String accountName, String bankName,
 			String bankBranch, String bankAccount, Integer activeFlg) {
+		try {
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+			Root<BillingInfo> from = criteriaQuery.from(BillingInfo.class);
 
-		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
-		Root<BillingInfo> from = criteriaQuery.from(BillingInfo.class);
+			CriteriaQuery<Object> select = criteriaQuery.select(from);
 
-		CriteriaQuery<Object> select = criteriaQuery.select(from);
+			List<Predicate> predicates = new ArrayList<Predicate>();
 
-		List<Predicate> predicates = new ArrayList<Predicate>();
+			if (accountName != null && !accountName.equals("")) {
+				predicates.add(criteriaBuilder.like(from.get("accountName"), "%" + accountName + "%"));
+			}
 
-		if (accountName != null && !accountName.equals("")) {
-			predicates.add(criteriaBuilder.like(from.get("accountName"), "%" + accountName + "%"));
+			if (bankName != null && !bankName.equals("")) {
+				predicates.add(criteriaBuilder.like(from.get("bankName"), "%" + bankName + "%"));
+			}
+
+			if (activeFlg != null) {
+				predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
+			}
+
+			if (bankBranch != null && !bankBranch.equals("")) {
+				predicates.add(criteriaBuilder.like(from.get("bankBranch"), "%" + bankBranch + "%"));
+			}
+
+			if (bankAccount != null && !bankAccount.equals("")) {
+				predicates.add(criteriaBuilder.like(from.get("bankAccount"), "%" + bankAccount + "%"));
+			}
+
+			select.select(from).where(predicates.toArray(new Predicate[] {}));
+
+			Query query = entityManager.createQuery(criteriaQuery);
+			if (page >= 0 && pageSize >= 0) {
+				query.setFirstResult((page - 1) * pageSize);
+				query.setMaxResults(pageSize);
+			}
+			List<BillingInfo> lstResult = query.getResultList();
+			return lstResult;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		if (bankName != null && !bankName.equals("")) {
-			predicates.add(criteriaBuilder.like(from.get("bankName"), "%" + bankName + "%"));
-		}
-
-		if (activeFlg != null) {
-			predicates.add(criteriaBuilder.equal(from.get("activeFlg"), activeFlg));
-		}
-
-		if (bankBranch != null && !bankBranch.equals("")) {
-			predicates.add(criteriaBuilder.like(from.get("bankBranch"), "%" + bankBranch + "%"));
-		}
-
-		if (bankAccount != null && !bankAccount.equals("")) {
-			predicates.add(criteriaBuilder.like(from.get("bankAccount"), "%" + bankAccount + "%"));
-		}
-
-		select.select(from).where(predicates.toArray(new Predicate[] {}));
-
-		Query query = entityManager.createQuery(criteriaQuery);
-		if (page >= 0 && pageSize >= 0) {
-			query.setFirstResult((page - 1) * pageSize);
-			query.setMaxResults(pageSize);
-		}
-		List<BillingInfo> lstResult = query.getResultList();
-
-		return lstResult;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -40,7 +40,6 @@ export class BillingInfoService{
         if(bInFoCondition.activeFlg !=null){
             url = url + "&activeFlg=" + bInFoCondition.activeFlg;
         }
-        // console.log("url: ", url);
         return this.http.get<any>(url);
     }
 

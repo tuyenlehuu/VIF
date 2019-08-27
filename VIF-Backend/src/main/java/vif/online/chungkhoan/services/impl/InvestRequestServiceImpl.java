@@ -24,10 +24,10 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 
 	@Autowired
 	private InvestRequestDao investRequestDao;
-	
+
 	@Autowired
 	private AssetService assetService;
-	
+
 	@Autowired
 	private CustomerDao customerDao;
 
@@ -46,18 +46,20 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 	@Override
 	public boolean addInvestRequest(InvestRequest request) {
 		// TODO Auto-generated method stub
-	
-		if(request.getTypeOfRequest()==1) {
-			investRequestDao.addInvestRequest(request);
-			return true;
-		}else 
-		if (request.getTypeOfRequest()==2&&investRequestDao.logicalRequest(request)) {
-		    investRequestDao.addInvestRequest(request);
-		    return true;
-			
-		} else {
-			return false;
+		Customer customer = request.getCustomer();
+		if (investRequestDao.checkCustomerExist(customer.getId())) {
+			if (request.getTypeOfRequest() == 1) {
+				investRequestDao.addInvestRequest(request);
+				return true;
+			} else if (request.getTypeOfRequest() == 2 && investRequestDao.logicalRequest(request)) {
+				investRequestDao.addInvestRequest(request);
+				return true;
+			} else {
+				return false;
+			}
 		}
+		return false;
+			
 	}
 
 	@Override
@@ -73,7 +75,8 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 	public List<InvestRequest> SearchInvestRequestByCondition(int page, int pageSize, Boolean asc,
 			Integer typeOfRequest, Integer status, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status, fromDate, toDate);
+		return investRequestDao.SearchInvestRequestByCondition(page, pageSize, asc, typeOfRequest, status, fromDate,
+				toDate);
 	}
 
 	@Override
@@ -81,26 +84,25 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 		// TODO Auto-generated method stub
 		return investRequestDao.getRowCount(typeOfRequest, status, fromDate, toDate);
 	}
-	
+
 	@Override
 	public BigDecimal getPriceMaxDate() {
-		return  investRequestDao.getPriceMaxDate();
+		return investRequestDao.getPriceMaxDate();
 	}
-	
-	
+
 	@Override
 	public ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode) {
 		// TODO Auto-generated method stub
 		ApiResponse resultResponse = new ApiResponse();
 		Asset myEnsureCCQ = assetService.getAssetByCode(assetCode);
-		if(myEnsureCCQ != null) {
+		if (myEnsureCCQ != null) {
 			CustomerAsset cusAsset = customerDao.getCusAssetByCusAndAssetId(customerId, myEnsureCCQ.getId());
-			if(cusAsset != null) {
+			if (cusAsset != null) {
 				resultResponse.setData(cusAsset.getAmount());
-			}else {
+			} else {
 				resultResponse.setData(null);
 			}
-		}else {
+		} else {
 			resultResponse.setData(null);
 		}
 
@@ -115,6 +117,11 @@ public class InvestRequestServiceImpl implements InvestRequestService {
 		// TODO Auto-generated method stub
 		return investRequestDao.getCustomerByUsername(userName);
 	}
-	
+
+	@Override
+	public boolean checkCustomerExist(Integer id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

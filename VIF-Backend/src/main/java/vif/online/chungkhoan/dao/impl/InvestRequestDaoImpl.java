@@ -202,10 +202,20 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 			User u = lstResult.get(0);
 			Customer c = u.getCustomer();
 			return c;
-		}catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
 		return null;
+	}
+
+	@Override
+	public boolean checkCustomerExist(Integer id) {
+		// TODO Auto-generated method stub
+		Customer customer = entityManager.find(Customer.class, id);
+		if (customer != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

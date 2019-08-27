@@ -31,6 +31,8 @@ public interface InvestRequestService {
 	ApiResponse getEnsureCCQByCusAsset(Integer customerId, String assetCode);
 	
 	Customer getCustomerByUsername(String userName);
+	
+	boolean checkCustomerExist(Integer id);
 
 	
 
