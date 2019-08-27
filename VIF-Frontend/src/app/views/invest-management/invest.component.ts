@@ -132,8 +132,8 @@ export class InvestComponent implements OnInit {
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
         mAmount = mAmount.toString().replace(',', '');
-        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice * 1000);
-        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice * 1000);
+        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice);
+        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice);
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
     }
 
@@ -145,9 +145,9 @@ export class InvestComponent implements OnInit {
         var mAmount = event.target.value;
         mAmount = mAmount.toString().replace(',', '');
         currentPrice = currentPrice.toString().replace(',', '');
-        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice * 1000);
+        this.buyAssetForm.bMoney.setValue(mAmount * currentPrice);
 
-        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice * 1000);
+        this.bAmountAvaiable = (this.amountMoneyAvaiable) / (currentPrice);
         this.buyAssetForm.bAmountAvaiable.setValue(this.bAmountAvaiable);
     }
 
@@ -159,7 +159,7 @@ export class InvestComponent implements OnInit {
         var currentPrice = event.target.value;
         currentPrice = currentPrice.toString().replace(',', '');
         sAmountAsset = sAmountAsset.toString().replace(',', '');
-        this.sellAssetForm.sMoney.setValue(sAmountAsset * currentPrice * 1000);
+        this.sellAssetForm.sMoney.setValue(sAmountAsset * currentPrice);
     }
 
     onKeySAmount(event: any) {
@@ -170,7 +170,7 @@ export class InvestComponent implements OnInit {
         var currentPrice = this.sellForm.value.sPrice;
         currentPrice = currentPrice.toString().replace(',', '');
         sAmount = sAmount.toString().replace(',', '');
-        this.sellAssetForm.sMoney.setValue(sAmount * currentPrice * 1000);
+        this.sellAssetForm.sMoney.setValue(sAmount * currentPrice);
     }
 
     get buyAssetForm() { return this.buyForm.controls; }
