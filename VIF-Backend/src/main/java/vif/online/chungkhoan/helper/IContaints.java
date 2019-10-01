@@ -55,6 +55,7 @@ public interface IContaints {
 	public interface CONFIG{
 		public String LINK_CONFIG = "http://localhost:4200/#/";
 		public String INTEREST_RATE = "INTEREST_RATE";
+		public String VIF_ADMIN_CODE = "VIFADMIN";
 	}
 	
 	public interface ROLE{
@@ -64,5 +65,6 @@ public interface IContaints {
 	
 	public interface STOCK_API{
 		public String URL = "https://finance.vietstock.vn/company/tradinginfo";
+		public String SLACK_URL = "https://hooks.slack.com/services/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";
 	}
 }

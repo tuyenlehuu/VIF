@@ -6,20 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -328,6 +324,17 @@ public class CustomerDaoImpl implements CustomerDao {
 		List<CustomerAsset> cusAssetLst = (List<CustomerAsset>) entityManager.createQuery(hql).setParameter("customerId", customerId).getResultList();
 		if(cusAssetLst != null && cusAssetLst.size()>0) {
 			return cusAssetLst;
+		}
+		return null;
+	}
+	
+	@Override
+	public Customer getCustomerByUsername(String userName) {
+		// TODO Auto-generated method stub
+		String hql = "SELECT c FROM Customer as c, User as u WHERE c.id = u.customer AND u.username=:username";
+		List<Customer> lstCus = (List<Customer>) entityManager.createQuery(hql).setParameter("username", userName).getResultList();
+		if(lstCus != null && lstCus.size()>0) {
+			return lstCus.get(0);
 		}
 		return null;
 	}

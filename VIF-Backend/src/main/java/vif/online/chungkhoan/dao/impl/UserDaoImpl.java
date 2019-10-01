@@ -67,7 +67,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public User getUserByUserName(String user_name) {
 		// TODO Auto-generated method stub
-		String hql = "FROM User as u WHERE u.username = :username AND u.isDeleted=0";
+		String hql = "FROM User as u WHERE u.username = :username AND u.isDeleted=0 AND u.activeFlg = 1";
 		@SuppressWarnings("unchecked")
 		List<User> lstResult = entityManager.createQuery(hql).setParameter("username", user_name).getResultList();
 		if (lstResult != null && lstResult.size() > 0) {
@@ -280,7 +280,7 @@ public class UserDaoImpl implements UserDao{
 				mUser.setPassword(passwordEncoder.encode(tokenResetDTO.getNewPass()));
 				entityManager.merge(mUser);
 				// send email inform
-				emailHepler.sendMailWithSimpleText(mUser.getEmail(), "Change password Successfully", "You had change new password successfully!");
+//				emailHepler.sendMailWithSimpleText(mUser.getEmail(), "Change password Successfully", "You had change new password successfully!");
 				return true;
 			}
 		}

@@ -13,6 +13,7 @@ public class BuySellDTO implements Serializable{
 	BigDecimal amountCCQ;
 	BigDecimal priceCCQ;
 	String ensureCCQCode;
+	String feeSell;
 	
 	public Integer getCustomerId() {
 		return customerId;
@@ -44,5 +45,10 @@ public class BuySellDTO implements Serializable{
 	public void setEnsureCCQCode(String ensureCCQCode) {
 		this.ensureCCQCode = ensureCCQCode;
 	}
-	
+	public String getFeeSell() {
+		return feeSell;
+	}
+	public void setFeeSell(String feeSell) {
+		this.feeSell = feeSell;
+	}
 }

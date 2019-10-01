@@ -3,6 +3,7 @@ package vif.online.chungkhoan.dao.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,11 +54,19 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 			if (fromDate != null && !fromDate.equals("")) {
 				Date fDate = formatter.parse(fromDate);
-				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+				Calendar c = Calendar.getInstance();
+				c.setTime(fDate);
+				c.set(Calendar.HOUR_OF_DAY, 0);
+				c.set(Calendar.MINUTE, 0);
+				c.set(Calendar.SECOND, 0);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), c.getTime()));
 			}
 			if (toDate != null && !toDate.equals("")) {
 				Date tDate = formatter.parse(toDate);
-				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+				Calendar c = Calendar.getInstance();
+				c.setTime(tDate);
+				c.add(Calendar.DATE, 1);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), c.getTime()));
 			}
 
 			if (typeOfTransaction != null && !typeOfTransaction.equals("")) {

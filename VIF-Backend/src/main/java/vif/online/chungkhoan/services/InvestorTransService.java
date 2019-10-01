@@ -12,7 +12,7 @@ import vif.online.chungkhoan.helper.BuySellDTO;
 public interface InvestorTransService {
 	public ApiResponse buyCCQ(Integer customerId, BigDecimal money, BigDecimal priceCCQ);
 	
-	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ);
+	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ, String feeSell);
 	
 	public List<InvestorHistory> getAllInvestorHistory();
 

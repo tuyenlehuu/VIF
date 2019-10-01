@@ -1,10 +1,13 @@
 export const config = {
     session: 'session_token',
-    apiUrl: 'http://localhost:8080',
+    // apiUrl: 'http://localhost:8080',
     // apiUrl: 'http://18.136.211.82:8080',
-    // apiUrl: 'http://54.255.145.206:8080',
+    apiUrl: 'http://54.255.145.206:8080',
     requestAuthorization: 'Basic dmlmLWNsaWVudDpwYXNzd29yZA==',
     contentType: 'application/x-www-form-urlencoded',
     currentUser: 'currentUser',
-    timeoutToast: 3000
+    timeoutToast: 3000,
+    ccqName: 'VIF_CCQ',
+    roleAdmin: 'ROLE_ADMIN',
+    roleUser: 'ROLE_USER'
 }

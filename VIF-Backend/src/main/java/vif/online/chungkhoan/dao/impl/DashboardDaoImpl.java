@@ -20,6 +20,7 @@ import vif.online.chungkhoan.dao.DashboardDao;
 import vif.online.chungkhoan.dao.UserDao;
 import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.Asset;
+import vif.online.chungkhoan.entities.Customer;
 import vif.online.chungkhoan.entities.DashBoard;
 import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.IContaints;
@@ -121,7 +122,7 @@ public class DashboardDaoImpl implements DashboardDao {
 	public List<KeyNameValueDTO> getDataTotalAsset() {
 		// TODO Auto-generated method stub
 		String sql = "SELECT DATE_FORMAT(update_date, '%Y/%m') Month, "
-				+ " SUM(CASE WHEN amount = 0 AND code!='VIF_CCQ' THEN price END) + SUM(CASE WHEN amount <> 0 AND code!='VIF_CCQ' THEN amount*price END) TotalAsset "
+				+ " SUM(CASE WHEN amount = 0 AND code!='VIF_CCQ' THEN price END) + SUM(CASE WHEN amount <> 0 AND code!='VIF_CCQ' THEN amount*price*1000 END) TotalAsset "
 				+ " FROM asset_history " + " WHERE last_of_month_flg=1 AND active_flg=1 " + " GROUP BY update_date";
 
 		List<Object[]> rows = entityManager.createNativeQuery(sql).getResultList();
@@ -144,9 +145,9 @@ public class DashboardDaoImpl implements DashboardDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate) {
+	public List<NAVDTO> getNAVReport(Integer customerId, String userName, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		StringBuilder queryStr = new StringBuilder("");
+		StringBuilder queryStr = new StringBuilder("select bg.* from ( ");
 		queryStr.append(
 				" SELECT a.customer_id, a.NDT, MAX(CASE WHEN a.last_update = a.mini THEN a.CCQ_Dau_Ky END) CCQ_Dau_Ky,");
 		queryStr.append(
@@ -175,7 +176,8 @@ public class DashboardDaoImpl implements DashboardDao {
 		queryStr.append(
 				" CASE WHEN ih.type_of_transaction = 'M' THEN (ih.amount_ccq * ih.price_of_ccq + ih.amount_ccq_before * ih.price_of_ccq_before) / (ih.amount_ccq + ih.amount_ccq_before)");
 		queryStr.append(
-				" ELSE (ih.amount_ccq_before * ih.price_of_ccq_before - ih.amount_ccq * ih.price_of_ccq) / (ih.amount_ccq_before - ih.amount_ccq) END Gia_Cuoi_Ky,");
+//				" ELSE (ih.amount_ccq_before * ih.price_of_ccq_before - ih.amount_ccq * ih.price_of_ccq) / (ih.amount_ccq_before - ih.amount_ccq) END Gia_Cuoi_Ky,");
+				" ELSE ih.price_of_ccq_before END Gia_Cuoi_Ky,");
 		queryStr.append(" m.mini, m.maxi");
 		queryStr.append(" FROM investor_history ih,");
 		queryStr.append(
@@ -219,10 +221,13 @@ public class DashboardDaoImpl implements DashboardDao {
 		queryStr.append(" AND (m.maxi = ih.last_update OR m.mini = ih.last_update)");
 		queryStr.append(" AND c.id = ih.customer_id AND c.id = m.customer_id) a WHERE 1=1 ");
 
-		if (customerId != null) {
-			queryStr.append(" AND a.customer_id = :customerId");
+		if (userName != null || customerId != null) {
+			Customer mCustomer = cusDao.getCustomerByUsername(userName);
+			if(mCustomer != null) {
+				queryStr.append(" AND a.customer_id =:customerId");
+			}
 		}
-		queryStr.append(" GROUP BY a.customer_id");
+		queryStr.append(" GROUP BY a.customer_id ) bg where bg.CCQ_Cuoi_Ky >0");
 
 		if (fromDate != null && !fromDate.equals("")) {
 			Pattern p = Pattern.compile(":fromDate");
@@ -234,9 +239,18 @@ public class DashboardDaoImpl implements DashboardDao {
 			queryStr = replaceAll(queryStr, p, toDate);
 		}
 
-		if (customerId != null) {
+		if (userName != null) {
+			// get Customer by userName
+			Customer mCustomer = cusDao.getCustomerByUsername(userName);
+			if(mCustomer != null) {
+				Pattern p = Pattern.compile(":customerId");
+				queryStr = replaceAll(queryStr, p, mCustomer.getId() +"");
+			}
+		}
+		
+		if(customerId != null) {
 			Pattern p = Pattern.compile(":customerId");
-			queryStr = replaceAll(queryStr, p, customerId.toString());
+			queryStr = replaceAll(queryStr, p, customerId +"");
 		}
 
 		Query mQuery = entityManager.createNativeQuery(queryStr.toString());
@@ -306,7 +320,8 @@ public class DashboardDaoImpl implements DashboardDao {
 		if (isByMonth) {
 			query = query + " AND last_of_month_flg = 1";
 		} else {
-			query = query + " AND last_of_month_flg = 0 AND update_date >= DATE_SUB(NOW(),INTERVAL 31 DAY)";
+//			query = query + " AND last_of_month_flg = 0 AND update_date >= DATE_SUB(NOW(),INTERVAL 31 DAY)";
+			query = query + " AND update_date >= DATE_SUB(NOW(),INTERVAL 31 DAY)";
 		}
 		
 		query = query + " ORDER BY update_date";
@@ -333,7 +348,7 @@ public class DashboardDaoImpl implements DashboardDao {
 	public List<Asset> getDebtDataByUsername(String username) {
 		// TODO Auto-generated method stub
 		List<Asset> resultLst = new ArrayList<>();
-		List<Asset> tempLst;
+		List<Asset> tempLst = null;;
 		// get user by username
 		User mUser = userDao.getUserByUserName(username);
 		if (mUser != null) {
@@ -342,7 +357,9 @@ public class DashboardDaoImpl implements DashboardDao {
 				tempLst = assetService.getAssetByGroupId(3);
 			} else {
 				// user is customer => get debt of this customer in cus_asset
-				tempLst = getDebtAssetByCustomer(mUser.getCustomer().getId());
+				if(mUser.getCustomer() != null) {
+					tempLst = getDebtAssetByCustomer(mUser.getCustomer().getId());
+				}
 			}
 
 			if (tempLst != null && tempLst.size() > 0) {
@@ -402,7 +419,7 @@ public class DashboardDaoImpl implements DashboardDao {
 	public List<KeyNameValueDTO> getNavDataNearest() {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		String query = "select DATE_FORMAT(update_date, '%d/%m/%Y') datePrice, price from asset_history where code ='VIF_CCQ' and last_of_month_flg =0 order by update_date desc limit 2";
+		String query = "select DATE_FORMAT(update_date, '%d/%m/%Y') datePrice, price from asset_history where code ='VIF_CCQ' order by update_date desc limit 2";
 
 		List<Object[]> rows = entityManager.createNativeQuery(query).getResultList();
 		List<KeyNameValueDTO> navLst = new ArrayList<KeyNameValueDTO>();

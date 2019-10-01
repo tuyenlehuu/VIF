@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.User;
+import vif.online.chungkhoan.entities.VnStockHistory;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.KeyNameValueDTO;
 import vif.online.chungkhoan.helper.TokenResetPassDTO;
 import vif.online.chungkhoan.helper.VifMailHelper;
+import vif.online.chungkhoan.repositories.VnStockHistoryRepository;
 import vif.online.chungkhoan.services.DashboardService;
 import vif.online.chungkhoan.services.UserService;
 
@@ -32,6 +34,15 @@ public class PublicController {
 	
 	@Autowired
 	private DashboardService dashboardService;
+	
+	@Autowired
+	private VnStockHistoryRepository vnStockHisRepo;
+	
+	@GetMapping("getVnStockHistory")
+	public ResponseEntity<List<VnStockHistory>> getVnStockHistory() {
+		List<VnStockHistory> mVnStockHistories = vnStockHisRepo.findAll();		
+		return new ResponseEntity<List<VnStockHistory>>(mVnStockHistories, HttpStatus.OK);
+	}
 	
 	@PostMapping("register")
 	public ResponseEntity<ApiResponse> addUser(@RequestBody User user, UriComponentsBuilder builder) {

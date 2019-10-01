@@ -1,15 +1,18 @@
 import { Component, OnDestroy, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { navItems } from '../../_nav';
+import { navItems, navItemsUser } from '../../_nav';
 import { OauthService } from '../../services/oauth.service';
+import { config } from '../../config/application.config';
+import { User } from '../../models/User.model';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent implements OnDestroy {
-  public username = "huutuyen91@gmail.com"; 
-  public navItems = navItems;
+  public username; 
+  // public navItems = navItems;
+  public navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
@@ -23,6 +26,21 @@ export class DefaultLayoutComponent implements OnDestroy {
       attributes: true,
       attributeFilter: ['class']
     });
+
+    // get user login
+    let currentUser = localStorage.getItem(config.currentUser);
+    if(currentUser){
+      var mUser: User = JSON.parse(currentUser);
+      if(mUser){
+        this.username = mUser.username;
+        // console.log(this.username);
+        if(mUser.role === "ROLE_ADMIN"){
+          this.navItems = navItems;
+        }else{
+          this.navItems = navItemsUser;
+        }
+      }
+    }
   }
 
   ngOnDestroy(): void {

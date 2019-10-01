@@ -38,9 +38,10 @@ public class DashboardController {
 	
 	@GetMapping("/get-nav-report")
 	public ResponseEntity<List<NAVDTO>> getNAVReport(@RequestParam(value = "customerId", required = false) Integer customerId, 
+			@RequestParam(value = "userName", required = false) String userName, 
 			@RequestParam(value = "fromDate", required = false) String fromDate,
 			@RequestParam(value = "toDate", required = false) String toDate) {
-		List<NAVDTO> NAVList = dashboardService.getNAVReport(customerId, fromDate, toDate);
+		List<NAVDTO> NAVList = dashboardService.getNAVReport(customerId, userName, fromDate, toDate);
 		return new ResponseEntity<List<NAVDTO>>(NAVList, HttpStatus.OK);
 	}
 	

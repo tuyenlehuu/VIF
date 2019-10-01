@@ -28,7 +28,7 @@ export class ChangePasswordComponent {
     this.changePassForm = this.fb.group({
       newPass: ['', [Validators.required, Validators.minLength(8)]],
       confirmNewPass: ['', [Validators.required, Validators.minLength(8)]],
-      oldPass: ['', [Validators.required, Validators.minLength(8)]]
+      oldPass: ['', Validators.required]
     }, {
         validator: [MustMatch('newPass', 'confirmNewPass')]
       });

@@ -87,7 +87,7 @@ export const routes: Routes = [
         loadChildren: './views/invest-management/invest.module#InvestModule'
       },
       {
-        path: 'invest-management/share-devidend',
+        path: 'share-devidend',
         loadChildren: './views/share-dividend/share-dividend.module#ShareDividendModule'
       },
       {
@@ -113,6 +113,10 @@ export const routes: Routes = [
       {
         path: 'asset-management',
         loadChildren: './views/asset-management/asset.module#AssetModule'
+      },
+      {
+        path: 'stock-tracking-management',
+        loadChildren: './views/stock-tracking/stock-tracking.module#StockTrackingModule'
       },
       {
         path: 'charts',

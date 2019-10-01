@@ -10,7 +10,7 @@ import vif.online.chungkhoan.helper.NAVDTO;
 public interface DashboardDao {
 	DashBoard getData();
 	List<KeyNameValueDTO> getDataTotalAsset();
-	List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate);
+	List<NAVDTO> getNAVReport(Integer customerId, String userName, String fromDate, String toDate);
 	
 	List<KeyNameValueDTO> getNavChartData(boolean isByMonth);
 	List<Asset> getDebtDataByUsername(String username);

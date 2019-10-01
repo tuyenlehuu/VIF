@@ -2,7 +2,6 @@ package vif.online.chungkhoan.config;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -12,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
-public class CORSFilter{
-	/*public CORSFilter() {
+@Configuration
+public class CORSFilter {
+	public CORSFilter() {
 	}
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -28,11 +27,11 @@ public class CORSFilter{
 		response.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, Origin");
 
 		response.setHeader("Access-Control-Expose-Headers", "x-requested-with");
-		
+
 		response.setContentType("application/json; charset=UTF-8");
-		
+
 		response.setCharacterEncoding("UTF-8");
-		
+
 		chain.doFilter(req, res);
 	}
 
@@ -40,5 +39,5 @@ public class CORSFilter{
 	}
 
 	public void destroy() {
-	}*/
+	}
 }

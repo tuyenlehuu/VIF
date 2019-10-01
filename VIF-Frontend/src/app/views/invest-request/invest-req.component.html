@@ -7,8 +7,11 @@
           <span>{{ 'vif.invest_request.title' | translate }}</span>
         </div>
         <div class="card-body">
+          <div *ngIf="msgError" style="color: red">
+            {{msgError}}
+          </div>
           <!--start button buy/ sell-->
-          <div class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
+          <div *ngIf="!msgError" class="row" style="position: relative; overflow: hidden; padding-top: 10px;">
             <div class="col-xs-12 col-12" style="text-align: center;">
               <button type="button" [ngClass]="!isBuyScreen?'btn-secondary':'btn-success'" class="btn"
                 (click)="changeScreen(1)">{{'vif.global.button.buy_CCQ' | translate}}</button>
@@ -20,7 +23,7 @@
           <!--end button buy/ sell-->
 
           <!--start buy screen-->
-          <div *ngIf="isBuyScreen && amountCCQAvaiable!=null && buyForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
+          <div *ngIf="isBuyScreen && amountCCQAvaiable!=null && buyCCQForm && buyCCQForm.price" class="buy-screen" style="text-align: center;">
             <form [formGroup]="buyForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">
@@ -137,7 +140,7 @@
           </div>
           <!--end buy screen-->
 
-          <div *ngIf="!isBuyScreen && customer && amountCCQAvaiable!=null && sellForm.value.price!=null && price!=null" class="buy-screen" style="text-align: center;">
+          <div *ngIf="!isBuyScreen && customer && amountCCQAvaiable && sellCCQForm && sellCCQForm.price" class="buy-screen" style="text-align: center;">
             <form [formGroup]="sellForm" (ngSubmit)="confirm(template)" form.valid>
               <div class="row pt-4 ccq-avaiable">
                 <div class="offset-md-6 col-md-3">

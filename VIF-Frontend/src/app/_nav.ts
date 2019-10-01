@@ -41,12 +41,22 @@ export const navItems: NavData[] = [
     icon: 'icon-note'
   },
   {
+    name: 'Theo dõi cổ phiếu',
+    url: '/stock-tracking-management',
+    icon: 'icon-graph'
+  },
+  {
     title: true,
     name: 'Quản lý đầu tư'
   },
   {
     name: 'Giao dịch đầu tư',
     url: '/invest-management',
+    icon: 'fa fa-credit-card-alt'
+  },
+  {
+    name: 'Chia cổ tức',
+    url: '/share-devidend',
     icon: 'fa fa-credit-card-alt'
   },
   {
@@ -108,7 +118,7 @@ export const navItems: NavData[] = [
     icon: 'fa fa-cog'
 
   },
-{
+  {
     name: 'Đăng kí đầu tư',
     url: '/invest-request',
     icon: 'fa fa-handshake-o'
@@ -118,8 +128,23 @@ export const navItems: NavData[] = [
     name: 'Quản lý vốn cổ đông',
     url: '/holder-equity',
     icon: 'fa fa-cog'
-
-
   }
+];
 
+
+export const navItemsUser: NavData[] = [
+  {
+    name: 'Tổng quan',
+    url: '/dashboard',
+    icon: 'icon-speedometer'
+  },
+  {
+    title: true,
+    name: 'Quản lý NĐT'
+  },
+  {
+    name: 'Đăng kí đầu tư',
+    url: '/invest-request',
+    icon: 'fa fa-handshake-o'
+  }
 ];

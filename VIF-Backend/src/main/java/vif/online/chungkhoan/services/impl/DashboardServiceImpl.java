@@ -31,9 +31,9 @@ public class DashboardServiceImpl implements DashboardService{
 	}
 
 	@Override
-	public List<NAVDTO> getNAVReport(Integer customerId, String fromDate, String toDate) {
+	public List<NAVDTO> getNAVReport(Integer customerId, String userName, String fromDate, String toDate) {
 		// TODO Auto-generated method stub
-		return dashboardDao.getNAVReport(customerId, fromDate, toDate);
+		return dashboardDao.getNAVReport(customerId, userName, fromDate, toDate);
 	}
 
 	@Override

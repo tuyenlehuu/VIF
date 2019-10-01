@@ -41,7 +41,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	public void configure(HttpSecurity http) throws Exception {
 		http.anonymous().disable()
 		.authorizeRequests()
-		.antMatchers("/user/**").access("hasRole('ADMIN')")
+//		.antMatchers("/user/**").access("hasRole('ADMIN')")
 		.antMatchers("/investor-transaction/**").access("hasRole('ADMIN')")
 		.anyRequest().authenticated()
 //		.antMatchers("/cophieu/**").authenticated()

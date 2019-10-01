@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="row">
     <div class="col-12">
-      <tabset>
+      <tabset *ngIf="isAdmin">
         <tab>
           <ng-template tabHeading><i class="icon-calculator"></i> Tổng quan</ng-template>
           <general-screen *ngIf="dashboard" [dashboard]="dashboard"></general-screen>
@@ -18,6 +18,13 @@
             <ng-template tabHeading><i class="icon-pie-chart"></i> CCQ đảm bảo</ng-template>
             <debt-screen></debt-screen>
           </tab>
+      </tabset>
+
+      <tabset *ngIf="!isAdmin">
+        <tab>
+          <ng-template tabHeading><i class="icon-pie-chart"></i> NAV của quỹ</ng-template>
+          <nav-screen></nav-screen>
+        </tab>
       </tabset>
     </div>
   </div>

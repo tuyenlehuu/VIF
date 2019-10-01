@@ -51,4 +51,7 @@ export class AppParamService {
   register(appParam: AppParam) {
     return this.http.post(`${config.apiUrl}/app_param/add`, appParam);
   }
+  getListParamByType(appType: string){
+    return this.http.get(`${config.apiUrl}/app_param/getConfigByType/${appType}`);
+  }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import vif.online.chungkhoan.entities.AppParam;
+import vif.online.chungkhoan.entities.Asset;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.services.AppParamService;
 
@@ -97,6 +98,17 @@ public class AppParamController {
 		object.setErrors(null);
 		object.setStatus(true);
 		object.setData(list);
+		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
+	}
+	
+	@GetMapping("getConfigByType/{appType}")
+	public ResponseEntity<ApiResponse> getConfigByType(@PathVariable("appType") String appType) {
+		ApiResponse object = new ApiResponse();
+		List<AppParam> appParamList = appParamService.getConfigByType(appType);
+		object.setCode(200);
+		object.setErrors(null);
+		object.setStatus(true);
+		object.setData(appParamList);
 		return new ResponseEntity<ApiResponse>(object, HttpStatus.OK);
 	}
 }

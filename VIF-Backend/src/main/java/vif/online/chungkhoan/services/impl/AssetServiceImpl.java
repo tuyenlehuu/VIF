@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import vif.online.chungkhoan.dao.AppParamDao;
 import vif.online.chungkhoan.dao.AssetDao;
@@ -15,11 +16,7 @@ import vif.online.chungkhoan.dao.ShareMasterDao;
 import vif.online.chungkhoan.dao.TransactionHistoryDao;
 import vif.online.chungkhoan.entities.AppParam;
 import vif.online.chungkhoan.entities.Asset;
-import vif.online.chungkhoan.entities.Customer;
-import vif.online.chungkhoan.entities.GroupAsset;
-import vif.online.chungkhoan.entities.ShareMaster;
 import vif.online.chungkhoan.entities.TransactionHistory;
-import vif.online.chungkhoan.entities.User;
 import vif.online.chungkhoan.helper.ApiResponse;
 import vif.online.chungkhoan.helper.IContaints;
 import vif.online.chungkhoan.services.AssetService;
@@ -75,103 +72,133 @@ public class AssetServiceImpl implements AssetService {
 
 	@Override
 	public ApiResponse buySercurities(Integer assetId, BigDecimal amount, BigDecimal price) {
-		// TODO Auto-generated method stub
-		ApiResponse response = new ApiResponse();
-		// get asset
-		Asset sercurity = assetDao.getByAssetId(assetId);
+		try {
+			// TODO Auto-generated method stub
+			ApiResponse response = new ApiResponse();
+			AppParam buyFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.BUY_FEE);
+			// fee rate
+			BigDecimal buyFeeConfigRate;
+			if (buyFeeConfig == null) {
+				buyFeeConfigRate = new BigDecimal(0);
+			}else {
+				buyFeeConfigRate = new BigDecimal(buyFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			}
 
-		// add to asset transaction
-		TransactionHistory transHistory = new TransactionHistory();
-		transHistory.setActiveFlg(1);
-		transHistory.setAmount(amount);
-		transHistory.setAsset(sercurity);
-		transHistory.setFeeType(IContaints.INVEST.BUY_FEE);
-		transHistory.setCreateDate(new Date());
-		transHistory.setDescription("VIF mua " + amount + " cổ phiếu" + sercurity.getAssetCode());
-		transHistory.setLastUpdate(new Date());
-		transHistory.setPrice(price);
-		transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-		transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
-		transHistoryDao.addTransactionHistory(transHistory);
-		
-		AppParam buyFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.BUY_FEE);
-		// fee rate
-		BigDecimal buyFeeConfigRate = new BigDecimal(buyFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).add(buyFeeConfigRate));
 
-		BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).add(buyFeeConfigRate));
-		// subtract money
-		Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
-		if (cAsset == null) {
-			response.setCode(500);
-			response.setStatus(false);
+			// subtract money
+			Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+			if (cAsset == null) {
+				response.setCode(500);
+				response.setStatus(false);
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return response;
+			}
+
+			BigDecimal oldMoney = cAsset.getCurrentPrice();
+			cAsset.setCurrentPrice(oldMoney.subtract(money));
+			assetService.updateAsset(cAsset);
+
+			// update amount of asset
+			// get asset
+			Asset stock = assetDao.getByAssetId(assetId);
+			BigDecimal newAmount = stock.getAmount().add(amount);
+			BigDecimal oldMoneyStock = stock.getAmount().multiply(stock.getOrginalPrice()).multiply(new BigDecimal(1000));
+			BigDecimal newOriginalPrice = (money.add(oldMoneyStock)).divide(new BigDecimal(1000)).divide(newAmount, 2, RoundingMode.HALF_UP);
+			stock.setAmount(newAmount);
+			stock.setOrginalPrice(newOriginalPrice);
+			stock.setActiveFlg(IContaints.ASSET_CODE.ACTIVE);
+			assetService.updateAsset(stock);
+			
+			// add to asset transaction
+			TransactionHistory transHistory = new TransactionHistory();
+			transHistory.setActiveFlg(1);
+			transHistory.setAmount(amount);
+			transHistory.setAsset(stock);
+			transHistory.setFeeType(IContaints.INVEST.BUY_FEE);
+			transHistory.setCreateDate(new Date());
+			transHistory.setDescription("VIF mua " + amount + " cổ phiếu" + stock.getAssetCode());
+			transHistory.setLastUpdate(new Date());
+			transHistory.setPrice(price);
+			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+			transHistory.setTypeOfTransaction("M"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+			transHistoryDao.addTransactionHistory(transHistory);
+			
+			// response
+			response.setCode(200);
+			response.setStatus(true);
+			response.setErrors(null);
+			response.setData("Buy success");
+			return response;
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return null;
 		}
-		BigDecimal oldMoney = cAsset.getCurrentPrice();
-		cAsset.setCurrentPrice(oldMoney.subtract(money));
-		assetService.updateAsset(cAsset);
-		// update amount of asset
-		BigDecimal newAmount = sercurity.getAmount().add(amount);
-		BigDecimal assetOriginalValue = sercurity.getAmount().multiply(sercurity.getOrginalPrice());
-		BigDecimal newOriginalPrice = (money.add(assetOriginalValue).divide(newAmount, 2, RoundingMode.HALF_UP));
-		sercurity.setAmount(newAmount);
-		sercurity.setOrginalPrice(newOriginalPrice);
-		sercurity.setActiveFlg(IContaints.ASSET_CODE.ACTIVE);
-		assetService.updateAsset(sercurity);
-		// response
-		response.setCode(200);
-		response.setStatus(true);
-		response.setErrors(null);
-		response.setData("Buy success");
-		return response;
 	}
 
 	@Override
 	public ApiResponse sellSercurities(Integer assetId, BigDecimal amount, BigDecimal price) {
-		// TODO Auto-generated method stub
-		ApiResponse response = new ApiResponse();
+		try {
+			// TODO Auto-generated method stub
+			ApiResponse response = new ApiResponse();
+			
+			// add money
+			Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+			if (cAsset == null) {
+				response.setCode(500);
+				response.setStatus(false);
+			}
 
-		// get asset
-		Asset sercurity = assetDao.getByAssetId(assetId);
-		// add to asset transaction
-		TransactionHistory transHistory = new TransactionHistory();
-		transHistory.setActiveFlg(1);
-		transHistory.setAmount(amount);
-		transHistory.setAsset(sercurity);
-		transHistory.setFeeType(IContaints.INVEST.SELL_FEE);
-		transHistory.setCreateDate(new Date());
-		transHistory.setDescription("VIF bán " + amount + " cổ phiếu" + sercurity.getAssetCode());
-		transHistory.setLastUpdate(new Date());
-		transHistory.setPrice(price);
-		transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-		transHistory.setTypeOfTransaction("C"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
-		transHistoryDao.addTransactionHistory(transHistory);
-		// add money
-		Asset cAsset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
-		if (cAsset == null) {
-			response.setCode(500);
-			response.setStatus(false);
-		}
-		
-		BigDecimal oldMoney = cAsset.getCurrentPrice();
-//		BigDecimal money = amount.multiply(price);
-		AppParam sellFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.SELL_FEE);
-		// fee rate
-		BigDecimal sellFeeConfigRate = new BigDecimal(sellFeeConfig.getPropValue()).divide(new BigDecimal(100));
-		BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).subtract(sellFeeConfigRate));
-		cAsset.setCurrentPrice(oldMoney.add(money));
-		assetService.updateAsset(cAsset);
-		// update amount of asset, if amount is new
-		BigDecimal newAmount = sercurity.getAmount().subtract(amount);
-		if (amount.equals(sercurity.getAmount())) {
-			sercurity.setActiveFlg(IContaints.ASSET_CODE.DEACTIVE_FLAG);
-		}
-		sercurity.setAmount(newAmount);
-		assetService.updateAsset(sercurity);
+			BigDecimal oldMoney = cAsset.getCurrentPrice();
+			// BigDecimal money = amount.multiply(price);
+			AppParam sellFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.SELL_FEE);
+			BigDecimal sellFeeConfigRate;
+			if(sellFeeConfig == null) {
+				sellFeeConfigRate = new BigDecimal(0);
+			}else {
+				// fee rate
+				sellFeeConfigRate = new BigDecimal(sellFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			}
+			
+			BigDecimal money = amount.multiply(price).multiply(new BigDecimal(1).subtract(sellFeeConfigRate));
+			cAsset.setCurrentPrice(oldMoney.add(money));
+			assetService.updateAsset(cAsset);
+			
+			// update amount of asset, if amount is new
+			// get asset
+			Asset sercurity = assetDao.getByAssetId(assetId);		
+			BigDecimal newAmount = sercurity.getAmount().subtract(amount);
+			if (amount.equals(sercurity.getAmount())) {
+				sercurity.setActiveFlg(IContaints.ASSET_CODE.DEACTIVE_FLAG);
+			}
+			sercurity.setAmount(newAmount);
+			assetService.updateAsset(sercurity);
+			
+			// add to asset transaction
+			TransactionHistory transHistory = new TransactionHistory();
+			transHistory.setActiveFlg(1);
+			transHistory.setAmount(amount);
+			transHistory.setAsset(sercurity);
+			transHistory.setFeeType(IContaints.INVEST.SELL_FEE);
+			transHistory.setCreateDate(new Date());
+			transHistory.setDescription("VIF bán " + amount + " cổ phiếu " + sercurity.getAssetCode());
+			transHistory.setLastUpdate(new Date());
+			transHistory.setPrice(price);
+			transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+			transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+			transHistoryDao.addTransactionHistory(transHistory);
 
-		response.setCode(200);
-		response.setStatus(true);
-		response.setErrors(null);
-		response.setData("Sell success");
-		return response;
+			response.setCode(200);
+			response.setStatus(true);
+			response.setErrors(null);
+			response.setData("Sell success");
+			return response;
+		}catch(Exception e) {
+			// e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return null;
+		}
 	}
 
 	@Override
@@ -187,9 +214,16 @@ public class AssetServiceImpl implements AssetService {
 				response.setCode(500);
 				response.setStatus(false);
 			}
-			AppParam dividendFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.CASH_DIVIDEND_FEE);
 			// fee rate
-			BigDecimal dividenFeeRate = new BigDecimal(dividendFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			BigDecimal dividenFeeRate;
+			AppParam dividendFeeConfig = appParamDao.getAppParamByPropKey(IContaints.INVEST.CASH_DIVIDEND_FEE);
+			if(dividendFeeConfig == null) {
+				// fee rate
+				dividenFeeRate = new BigDecimal(0);
+			}else {
+				dividenFeeRate = new BigDecimal(dividendFeeConfig.getPropValue()).divide(new BigDecimal(100));
+			}
+			
 			// money after fee rate = 100% - dividenFeeRate
 			BigDecimal realMoneyRecieveRate = new BigDecimal(1).subtract(dividenFeeRate);
 			// dividend rate

@@ -5,6 +5,7 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\HolderEquityDao.j
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\repositories\InvestApproRepository.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\config\CustomTokenEnhancer.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\AssetService.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\StockTrackingDao.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\repositories\TransactionRepository.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\KeyNameValueDTO.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\VIFBackendApplication.java
@@ -16,6 +17,7 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\InvestorTran
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\BillingInfoService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\UserService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\config\RestAuthenticationFailureHandler.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\StockTrackingController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\CustomerController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\AssetServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\BranchServiceImpl.java
@@ -36,6 +38,7 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\InvestApproDao.ja
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\ShareMaster.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\ChangeInfoService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\UserController.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\SlackUtils.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\InvestRequestServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\DashboardServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\ChangeInfoController.java
@@ -55,6 +58,7 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\Transactio
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\ShareMasterService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\DividendObject.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\InvestorTransServiceImpl.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\SlackMessage.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\TransactionServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\GroupAssetServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\impl\InvestorHistoryDaoImpl.java
@@ -70,9 +74,11 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\config\RestAccessDeni
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\TransactionHistoryDao.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\repositories\CustomerRepository.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\CustomerService.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\StockTrackingServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\IContaints.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\impl\UserDaoImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\config\ResourceServerConfig.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\impl\StockTrackingDaoImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\User.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\InvestRequestService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\ServletInitializer.java
@@ -90,9 +96,12 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\NAVDTO.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\HolderEquityServiceImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\AssetServiceController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\CustomerServiceImpl.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\StockTradingService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\BranchService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\HolderHistoryController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\ChangeInfoDao.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\repositories\VnStockHistoryRepository.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\VnStockHistory.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\AppParamController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\DashboardController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\impl\HolderHistoryServiceImpl.java
@@ -122,7 +131,9 @@ D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\DashboardSer
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\services\HolderEquityService.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\controller\BranchController.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\helper\BuySellAssetObj.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\Stock.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\dao\impl\BranchDaoImpl.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\Branch.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\CustomerAsset.java
 D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\DashBoard.java
+D:\VIF\VIF\VIF-Backend\src\main\java\vif\online\chungkhoan\entities\StockTracking.java

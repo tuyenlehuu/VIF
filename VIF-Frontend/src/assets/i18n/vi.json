@@ -119,6 +119,21 @@
             "description_placeholder": "Nhập vào mô tả",
             "branch_code": "Ngành cổ phiếu"
         },
+        "stock_tracking":{
+            "title": "Theo dõi cổ phiếu",
+            "current_price": "Giá hiện tại",
+            "target_buy": "Giá mục tiêu mua",
+            "target_sell": "Giá mục tiêu bán",
+            "stock_code": "Mã cổ phiếu",
+            "stock_code_placeholder": "Nhập mã cổ phiếu",
+            "stock_name": "Tên cổ phiếu",
+            "description": "Mô tả",
+            "change": "Biến động",
+            "orginal_price": "Giá gốc",
+            "title_add": "Thêm mới cổ phiếu theo dõi",
+            "title_edit": "Sửa cổ phiếu theo dõi",
+            "target_required": "Giá mục tiêu là bắt buộc"
+        },
         "customer": {
             "title1": "Quản lý nhà đầu tư",
             "title2": "Tạo mới nhà đầu tư",
@@ -198,7 +213,8 @@
                 "ccq_db": "Mã CCQ đảm bảo",
                 "status": "Trạng thái",
 				"appro": "Appro",
-				"reject1": "Reject"
+                "reject1": "Reject",
+                "confirmDelStockTracking": "Bạn có thực sự muốn xóa cổ phiếu theo dõi?"
             },
             "label": {
                 "sercurities": "Chứng khoán",
@@ -206,6 +222,12 @@
                 "price": "Giá",
                 "total_value": "Tổng giá trị",
                 "action": "Hành động"
+            },
+            "devidend":{
+                "current_amount_sercurities": "Số lượng cổ phiếu hiện tại",
+                "sercurities" :"Cổ phiếu",
+                "devidend_type" : "Loại cổ tức",
+                "rate": "Tỉ lệ chia"
             }
         },
 		"message": {
@@ -244,7 +266,8 @@
 			"bankBranch_require": "*Chi nhánh là bắt buộc",
 			"bankAccount_require": "*Số tài khoản là bắt buộc",
 			"accountName_require": "*Tên tài khoản là bắt buộc",
-			"update_date_require": "*Ngày cập nhật là bắt buộc"
+            "update_date_require": "*Ngày cập nhật là bắt buộc",
+            "stock_exists": "Cổ phiếu đã tồn tại trong hệ thống"
         },
 		"investor_trans":{
 			"title": "Giao dịch của nhà đầu tư",
@@ -263,7 +286,9 @@
 			"customer_required": "*Nhà đầu tư không được để trống!",
 			"amount_CCQ_must_less": "*Số CCQ vượt quá số lượng đang có!",
 			"amount": "Số lượng",
-			"price": "Giá tiền"
+            "price": "Giá tiền",
+            "fee_sell": "Phí bán",
+            "has_fee": "Có tính phí?"
 		},
 		"cus_invest_history":{
 			"from_date": "Từ ngày",

@@ -40,6 +40,7 @@ export class OauthService {
             localStorage.setItem(config.session, JSON.stringify(token));
             if (token && token.access_token) {
                 var mUser: User = new User();
+                // console.log("mUser: ", mUser);
                 mUser.username = token.username;
                 mUser.role = token.authorities[0].authority;
                 mUser.token = token.access_token;

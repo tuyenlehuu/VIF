@@ -16,4 +16,5 @@ public interface AppParamDao {
 	int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description);
 	AppParam getAppParamByPropKey(String PropKey);
 	AppParam getAppParamByKeyType(String propKey, String propType);
+	List<AppParam> getConfigByType(String appType);
 }

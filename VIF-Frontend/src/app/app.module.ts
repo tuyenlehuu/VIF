@@ -70,6 +70,7 @@ import { ChangeInfoComponent } from './views/change-info/change.info.component';
 import { ChangeInfoService } from './services/ChangeInfo.service';
 import { InvestApproService } from './services/investAppro.service';
 import { BillingInfoService } from './services/billing.service';
+import { StockTrackingService } from './services/stockTracking.service';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { BillingInfoService } from './services/billing.service';
   TransactionService,
   HolderequityService,
   InvestApproService,
-  BillingInfoService
+  BillingInfoService,
+  StockTrackingService
   ],
   bootstrap: [ AppComponent ]
 })

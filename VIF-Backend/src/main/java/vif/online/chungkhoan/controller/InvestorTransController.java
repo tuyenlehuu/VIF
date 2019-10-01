@@ -47,11 +47,7 @@ public class InvestorTransController {
 		}
 
 		result = investorTransService.buyCCQ(buyObject.getCustomerId(), buyObject.getMoney(), buyObject.getPriceCCQ());
-		/*
-		 * if(isBuySuccess) { result.setCode(200); result.setStatus(true);
-		 * result.setData("Buy CCQ success!"); }else { result.setCode(500);
-		 * result.setStatus(false); result.setErrors("Buy CCQ failed!"); }
-		 */
+
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 
@@ -70,7 +66,7 @@ public class InvestorTransController {
 		}
 
 		result = investorTransService.sellCCQ(sellObject.getCustomerId(), sellObject.getAmountCCQ(),
-				sellObject.getPriceCCQ());
+				sellObject.getPriceCCQ(), sellObject.getFeeSell());
 		return new ResponseEntity<ApiResponse>(result, HttpStatus.OK);
 	}
 

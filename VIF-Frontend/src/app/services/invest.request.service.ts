@@ -59,6 +59,4 @@ export class InvestRequestService {
     getCustomerByUsername(userName: String){
         return this.http.get(`${config.apiUrl}/invest_request/getCustomerByUsername?userName=${userName}`);
     }
-
-
 }

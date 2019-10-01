@@ -14,10 +14,14 @@ export class DashboardService{
         return this.http.get<any>(`${config.apiUrl}/dashboard/get-asset-report`);
     }
 
-    getNavReport(customerId: number, fromDate: string, toDate: string) {
+    getNavReport(customerId: number, userName: string, fromDate: string, toDate: string) {
         let url: string = `${config.apiUrl}/dashboard/get-nav-report?page=1`;
         if(customerId){
             url = url + "&customerId=" + customerId;
+        }
+        
+        if(userName){
+            url = url + "&userName=" + userName; 
         }
 
         if(fromDate){
@@ -38,5 +42,9 @@ export class DashboardService{
     getDebtReportData(username: string) {
         let url: string = `${config.apiUrl}/dashboard/get-debt-report?username=` + username;
         return this.http.get<any>(url);
+    }
+
+    updatePriceFromMarket() {
+        return this.http.get<any>(`${config.apiUrl}/cophieu/get-price-from-market`);
     }
 }

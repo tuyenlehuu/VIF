@@ -157,100 +157,146 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 			resultResponse.setData("Buy successfully!");
 		}catch(Exception e) {
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return null;
 		}
 		
 		return resultResponse;
 	}
 
 	@Override
-	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ) {
+	public ApiResponse sellCCQ(Integer customerId, BigDecimal amountCCQ, BigDecimal priceCCQ, String feeSell) {
 		// TODO Auto-generated method stub
-		ApiResponse resultResponse = new ApiResponse();
-		// 1. Calculate money = amountCCQ*price CCQ
-		BigDecimal money = amountCCQ.multiply(priceCCQ);
-		Customer customer = customerDao.getCustomerById(customerId);
-		if (customer != null) {
-			// 2. Insert into table Investor History
-			InvestorHistory investorHistory = new InvestorHistory();
-			String newCodeTrans = customer.getCode() + System.currentTimeMillis();
-			investorHistory.setCode(newCodeTrans);
-			investorHistory.setAmountCCQ(amountCCQ);
-			BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq() : new BigDecimal(0);
-			investorHistory.setAmountCCQBefore(amountCCQBefore);
-			investorHistory.setCreateDate(new Date());
-			investorHistory.setCustomer(customer);
-			investorHistory.setLastUpdate(new Date());
-			investorHistory.setPriceOfCCQ(priceCCQ);
-			investorHistory.setPriceOfCCQBefore(
-					customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
-			investorHistory.setTypeOfTransaction("B");
-			investorHistoryDao.addInvestorHistory(investorHistory);
-
-			// 3. Subtract money into table Asset and insert into table Transaction_History
-			Asset asset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
-			if (asset != null) {
-				BigDecimal oldMoney = asset.getCurrentPrice();
-				asset.setCurrentPrice(oldMoney.subtract(money));
-				assetService.updateAsset(asset);
-
-				// Insert into table Transaction_History
-				TransactionHistory transHistory = new TransactionHistory();
-				transHistory.setActiveFlg(1);
-				transHistory.setAmount(money);
-				transHistory.setAsset(asset);
-				transHistory.setFeeType(null);
-				transHistory.setCreateDate(new Date());
-				transHistory.setDescription(customer.getFullName() + " sell CCQ");
-				transHistory.setLastUpdate(new Date());
-				transHistory.setPrice(new BigDecimal(0));
-				transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
-				transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
-				transHistoryDao.addTransactionHistory(transHistory);
+		try {
+			ApiResponse resultResponse = new ApiResponse();
+			BigDecimal feeSellCCQ;
+			if (feeSell != null) {
+				feeSellCCQ = new BigDecimal(feeSell).divide(new BigDecimal(100));
 			} else {
-				resultResponse.setCode(500);
-				resultResponse.setStatus(false);
-				resultResponse.setErrors("Not exist CASH asset!");
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				return resultResponse;
+				feeSellCCQ = new BigDecimal(0);
 			}
 
-			// 4. Subtract amount of CCQ in table Asset. If not exist, can not sell CCQ
-			Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
-			if (assetCCQ != null) {
-				assetCCQ.setAmount(assetCCQ.getAmount().subtract(amountCCQ));
-				assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
-				assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
-				assetService.updateAsset(assetCCQ);
-			} else {
-				resultResponse.setCode(500);
-				resultResponse.setStatus(false);
-				resultResponse.setErrors("Not exist CCQ asset!");
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				return resultResponse;
-			}
+			// 1. Calculate money = amountCCQ*price CCQ
+			BigDecimal money = amountCCQ.multiply(priceCCQ);
+			Customer customer = customerDao.getCustomerById(customerId);
+			if (customer != null) {
+				// 2. Insert into table Investor History
+				InvestorHistory investorHistory = new InvestorHistory();
+				String newCodeTrans = customer.getCode() + System.currentTimeMillis();
+				investorHistory.setCode(newCodeTrans);
+				investorHistory.setAmountCCQ(amountCCQ);
+				BigDecimal amountCCQBefore = customer.getTotalCcq() != null ? customer.getTotalCcq()
+						: new BigDecimal(0);
+				investorHistory.setAmountCCQBefore(amountCCQBefore);
+				investorHistory.setCreateDate(new Date());
+				investorHistory.setCustomer(customer);
+				investorHistory.setLastUpdate(new Date());
+				investorHistory.setPriceOfCCQ(priceCCQ);
+				investorHistory.setPriceOfCCQBefore(
+						customer.getOrginalCCQPrice() != null ? customer.getOrginalCCQPrice() : new BigDecimal(0));
+				investorHistory.setTypeOfTransaction("B");
+				investorHistoryDao.addInvestorHistory(investorHistory);
 
-			// 5. Update amount of CCQ and price of CCQ in table Customer
-			customer.setLastCCQPrice(customer.getOrginalCCQPrice());
-			BigDecimal newCCQPrice = getOrignalPriceOfCustomerSell(customer, money, amountCCQ);
-			if (newCCQPrice != null) {
-				customer.setOrginalCCQPrice(newCCQPrice);
+				// 3. Subtract money into table Asset and insert into table Transaction_History
+				Asset asset = assetService.getAssetByCode(IContaints.ASSET_CODE.CASH);
+				if (asset != null) {
+					BigDecimal oldMoney = asset.getCurrentPrice();
+					asset.setCurrentPrice(oldMoney.subtract(money.multiply(new BigDecimal(1).subtract(feeSellCCQ))));
+					assetService.updateAsset(asset);
+
+					// Insert into table Transaction_History
+					TransactionHistory transHistory = new TransactionHistory();
+					transHistory.setActiveFlg(1);
+					transHistory.setAmount(money.multiply(new BigDecimal(1).subtract(feeSellCCQ)));
+					transHistory.setAsset(asset);
+					transHistory.setFeeType(null);
+					transHistory.setCreateDate(new Date());
+					transHistory.setDescription(customer.getFullName() + " sell CCQ");
+					transHistory.setLastUpdate(new Date());
+					transHistory.setPrice(new BigDecimal(0));
+					transHistory.setStatus(2); // 1 – Pending; 2 – Approved; 3 – Rejected
+					transHistory.setTypeOfTransaction("B"); // M: Thêm B: Bớt C: cổ tức tiền S: Cổ tức cổ phiếu
+					transHistoryDao.addTransactionHistory(transHistory);
+				} else {
+					resultResponse.setCode(500);
+					resultResponse.setStatus(false);
+					resultResponse.setErrors("Not exist CASH asset!");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return resultResponse;
+				}
+
+				// 5. Update amount of CCQ and price of CCQ in table Customer
+				// customer.setLastCCQPrice(customer.getOrginalCCQPrice());
+				// BigDecimal newCCQPrice = getOrignalPriceOfCustomerSell(customer, money,
+				// amountCCQ);
+				// if (newCCQPrice != null) {
+				// customer.setOrginalCCQPrice(newCCQPrice);
+				// customer.setTotalCcq(amountCCQBefore.subtract(amountCCQ));
+				// }
+				// tru di so luong CCQ ban. Gia CCQ giu nguyen, khong can tinh lai
 				customer.setTotalCcq(amountCCQBefore.subtract(amountCCQ));
-			}
 
-			boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
-			if (!isUpdateCCQ) {
-				resultResponse.setCode(500);
-				resultResponse.setStatus(false);
-				resultResponse.setErrors("Update amount of CCQ and price of CCQ in table Customer failed!");
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				return resultResponse;
+				boolean isUpdateCCQ = customerDao.updateCCQCustomer(customer);
+				if (!isUpdateCCQ) {
+					resultResponse.setCode(500);
+					resultResponse.setStatus(false);
+					resultResponse.setErrors("Update amount of CCQ and price of CCQ in table Customer failed!");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return resultResponse;
+				}
+
+				// cong them so luong CCQ la fee cho VifAdmin
+				Customer vifAdmin = customerDao.getCustomerByCode(IContaints.CONFIG.VIF_ADMIN_CODE);
+				if (vifAdmin != null && feeSellCCQ.compareTo(new BigDecimal(0)) > 0) {
+					BigDecimal amountVIFAdminCCQBefore = vifAdmin.getTotalCcq();
+					vifAdmin.setLastCCQPrice(vifAdmin.getOrginalCCQPrice());
+					BigDecimal newCCQVifPrice = getOrignalPriceOfCustomerBuy(vifAdmin, money.multiply(feeSellCCQ),
+							amountCCQ.multiply(feeSellCCQ));
+					if (newCCQVifPrice != null) {
+						vifAdmin.setOrginalCCQPrice(newCCQVifPrice);
+						vifAdmin.setTotalCcq(amountVIFAdminCCQBefore.add(amountCCQ.multiply(feeSellCCQ)));
+					}
+
+					boolean isUpdateVIFAdmin = customerDao.updateCCQCustomer(vifAdmin);
+					if (!isUpdateVIFAdmin) {
+						resultResponse.setCode(500);
+						resultResponse.setStatus(false);
+						resultResponse.setErrors("Update amount of CCQ and price of CCQ in table Customer failed!");
+						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+						return resultResponse;
+					}
+				}
+				
+				// 4. Subtract amount of CCQ in table Asset. If not exist, can not sell CCQ
+				Asset assetCCQ = assetService.getAssetByCode(IContaints.ASSET_CODE.VIF_CCQ);
+				if (assetCCQ != null) {
+					assetCCQ.setAmount(
+							assetCCQ.getAmount().subtract(amountCCQ.multiply(new BigDecimal(1).subtract(feeSellCCQ))));
+					if(vifAdmin != null && feeSellCCQ.compareTo(new BigDecimal(0)) > 0) {
+						assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), new BigDecimal(0), false));
+					}else {
+						assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
+					}
+					assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
+					assetService.updateAsset(assetCCQ);
+				} else {
+					resultResponse.setCode(500);
+					resultResponse.setStatus(false);
+					resultResponse.setErrors("Not exist CCQ asset!");
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return resultResponse;
+				}
 			}
+			resultResponse.setCode(200);
+			resultResponse.setStatus(true);
+			resultResponse.setErrors(null);
+			resultResponse.setData("Sell successfully!");
+			return resultResponse;
+		} catch (Exception e) {
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return null;
 		}
-		resultResponse.setCode(200);
-		resultResponse.setStatus(true);
-		resultResponse.setErrors(null);
-		resultResponse.setData("Sell successfully!");
-		return resultResponse;
 	}
 
 	// tinh toan ra gia von CCQ cua NDT khi mua vao

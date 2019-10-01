@@ -190,4 +190,17 @@ public class AppParamDaoImpl implements AppParamDao{
 		}
 		return null;
 	}
+
+	@Override
+	public List<AppParam> getConfigByType(String appType) {
+		// TODO Auto-generated method stub
+		String hql = "FROM AppParam as a WHERE a.activeFlg=1 AND a.propType = :propType";
+
+		@SuppressWarnings("unchecked")
+		List<AppParam> lstResult = entityManager.createQuery(hql).setParameter("propType", appType).getResultList();
+		if (lstResult != null && lstResult.size() > 0) {
+			return lstResult;
+		}
+		return null;
+	}
 }

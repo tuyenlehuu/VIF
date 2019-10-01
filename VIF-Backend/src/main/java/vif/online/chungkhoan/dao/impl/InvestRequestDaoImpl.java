@@ -182,28 +182,10 @@ public class InvestRequestDaoImpl implements InvestRequestDao {
 	@Override
 	public Customer getCustomerByUsername(String userName) {
 		// TODO Auto-generated method stub
-		try {
-			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
-			Root<User> from = criteriaQuery.from(User.class);
-
-			CriteriaQuery<Object> select = criteriaQuery.select(from);
-
-			List<Predicate> predicates = new ArrayList<Predicate>();
-
-			if (userName != null) {
-				predicates.add(criteriaBuilder.equal(from.get("username"), userName));
-			}
-
-			select.select(from).where(predicates.toArray(new Predicate[] {}));
-
-			Query query = entityManager.createQuery(criteriaQuery);
-			List<User> lstResult = query.getResultList();
-			User u = lstResult.get(0);
-			Customer c = u.getCustomer();
-			return c;
-		}catch(Exception e) {
-			
+		String hql = "SELECT c FROM Customer as c, User as u WHERE c.id = u.customer AND u.username=:username";
+		List<Customer> lstCus = (List<Customer>) entityManager.createQuery(hql).setParameter("username", userName).getResultList();
+		if(lstCus != null && lstCus.size()>0) {
+			return lstCus.get(0);
 		}
 		return null;
 	}

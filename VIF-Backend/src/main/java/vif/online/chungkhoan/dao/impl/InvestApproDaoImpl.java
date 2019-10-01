@@ -173,7 +173,7 @@ public class InvestApproDaoImpl implements InvestApproDao {
 			api = investorTransService.buyCCQ(customerId, money, priceCCQ);
 		} 
 		if (investRequest.getTypeOfRequest().equals(2) && investRequest.getTypeOfInvest().equals(1)) {
-			api = investorTransService.sellCCQ(customerId, amountCCQ, priceCCQ);
+			api = investorTransService.sellCCQ(customerId, amountCCQ, priceCCQ, null);
 		}
 		if (investRequest.getTypeOfRequest().equals(1) && investRequest.getTypeOfInvest().equals(2)) {
 			api = investorTransService.buyEnsureCCQ(buyObject);

@@ -11,6 +11,8 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { formatDate } from '../../helpers/function.share';
 import { ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
+import { config } from '../../config/application.config';
+import { User } from '../../models/User.model';
 
 @Component({
   selector: 'nav-screen',
@@ -28,6 +30,7 @@ export class NAVScreenComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   colorTheme = "theme-blue";
   model = { options: '0' };
+  isAdmin: boolean = false;
 
   // Line NAV
   // lineChart
@@ -82,7 +85,7 @@ export class NAVScreenComponent implements OnInit {
   // @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   ngOnInit(): void {
     
-    this.assetService.getByCode('VIF_CCQ').pipe(first()).subscribe((res: any) => {
+    this.assetService.getByCode(config.ccqName).pipe(first()).subscribe((res: any) => {
       // console.log("res: ", res);
       this.asset = res.data;
     });
@@ -91,15 +94,30 @@ export class NAVScreenComponent implements OnInit {
   }
 
   search() {
-    this.dashboardService.getNavReport(this.customerSelectedId, formatDate(this.fromDate), formatDate(this.toDate)).pipe(first()).subscribe(res => {
-      this.navList = res;
-    });
+    // check role user
+    let currentUser = localStorage.getItem(config.currentUser);
+    if (currentUser) {
+      var mUser: User = JSON.parse(currentUser);
+      if (mUser) {
+        let role = mUser.role;
+        if (role === config.roleAdmin) {
+          this.isAdmin = true;
+          this.dashboardService.getNavReport(this.customerSelectedId, null, formatDate(this.fromDate), formatDate(this.toDate)).pipe(first()).subscribe(res => {
+            this.navList = res;
+          });
+        }else if(role === config.roleUser){
+          this.dashboardService.getNavReport(null, mUser.username, formatDate(this.fromDate), formatDate(this.toDate)).pipe(first()).subscribe(res => {
+            this.navList = res;
+          });
+        }
+      }
+    }
   }
 
   drawNavChart(){
     this.dashboardService.getNavChartData(this.isByMonth).pipe(first()).subscribe(res => {
       this.navChartDataLst = res;
-      console.log("nav data: ", this.navChartDataLst);
+      // console.log("nav data: ", this.navChartDataLst);
       Object.keys(this.navChartDataLst).forEach(indx => {
         this.lineChartLabels.push(this.navChartDataLst[indx].key);
         this.lineChartData[0].data.push(this.navChartDataLst[indx].value.toFixed(2));

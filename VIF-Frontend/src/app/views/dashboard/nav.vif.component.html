@@ -1,4 +1,4 @@
-<div class="row" *ngIf="asset">
+<div class="row" *ngIf="isAdmin && asset">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
@@ -62,7 +62,7 @@
             </div>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-4" *ngIf="isAdmin">
             <div class="row">
               <div class="col-md-4">
                 <label for="company">{{'vif.cus_invest_history.customer' | translate}}</label>
@@ -73,7 +73,6 @@
                     <ng-option [value]="c.id" *ngFor="let c of customers">{{c.fullName}}</ng-option>
                   </ng-select>
                 </div>
-
               </div>
             </div>
           </div>
@@ -111,7 +110,7 @@
               <td>{{item.priceCCQAfter | number:'.2-2'}}</td>
               <td>{{item.amountCCQAfter*(item.priceCCQAfter.toFixed(2)) | number:'.2-2'}}</td>
               <td>{{item.priceCCQMarket | number:'.2-2'}}</td>
-              <td>{{item.realAssetOfCus | number:'.2-2'}}</td>
+              <td>{{item.amountCCQAfter*(item.priceCCQMarket.toFixed(2)) | number:'.2-2'}}</td>
               <td [ngClass]="(item.priceCCQMarket-item.priceCCQAfter)>0?'positive':'negative'">{{100*(item.priceCCQMarket-item.priceCCQAfter)/item.priceCCQAfter
                 | number:'.2-2'}}%</td>
             </tr>

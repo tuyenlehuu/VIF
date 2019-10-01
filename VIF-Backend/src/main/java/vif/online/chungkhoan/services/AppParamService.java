@@ -14,4 +14,5 @@ public interface AppParamService {
 			Integer activeFlg, String propType, String propValue, String description);
 	int getRowCount(String propKey, Integer activeFlg, String propType, String propValue, String description);
 	public AppParam getAppParamByKeyType(String propKey, String propType);
+	List<AppParam> getConfigByType(String appType);
 }

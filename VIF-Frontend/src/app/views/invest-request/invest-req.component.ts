@@ -38,6 +38,7 @@ export class InvestRequestComponent implements OnInit {
     assetSelectedCode: string;
     CQQDBtemp: number;
     modalRef: BsModalRef;
+    msgError;
     transType = [
         {
             name: 'Giao dịch CCQ',
@@ -59,7 +60,7 @@ export class InvestRequestComponent implements OnInit {
         this.buyForm = this.fb.group({
             bCCQ: [{ value: 0, disabled: true }, Validators.required],
             bMoney: [0, Validators.required],
-            price: [this.priceCCQTemp, Validators.required],
+            price: [{value: this.priceCCQTemp, disabled: true}, Validators.required],
             bTransType: ['1', Validators.required],
             bCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
@@ -73,7 +74,7 @@ export class InvestRequestComponent implements OnInit {
             sCCQ: [0, Validators.required],
             sMoney: [{ value: 0, disabled: true }, Validators.required],
             sAmountCCQAvai: [this.amountCCQAvaiable],
-            price: [this.priceCCQTemp, Validators.required],
+            price: [{value: this.priceCCQTemp, disabled: true}, Validators.required],
             sTransType: ['1', Validators.required],
             sCCQDBSelectedCode: [this.assetSelectedCode]
         }, {
@@ -89,23 +90,31 @@ export class InvestRequestComponent implements OnInit {
         var pager: Pager = new Pager();
         var x: string;
         var currentUser = localStorage.getItem("currentUser");
-        var u = JSON.parse(currentUser); console.log("usssss--->",u);
-        x = u.username.toString();
-        this.user.username = x;
+        var mUser: User = JSON.parse(currentUser); 
+        // console.log("usssss--->",u);
+        // x = u.username.toString();
+        this.user.username = mUser.username;
+        // console.log("res", this.user.username);
         pager.page = 1;
 
         this.requestService.getCustomerByUsername(this.user.username).pipe(first()).subscribe((res: any) => {
             if(res){
                 this.customer = res;
-                this.amountCCQAvaiable = this.customer?this.customer.totalCcq?this.customer.totalCcq:0:0;
-                this.createBuyForm();
+                if(this.customer){
+                    // console.log("customer: ", this.customer);
+                    this.amountCCQAvaiable = this.customer.totalCcq?this.customer.totalCcq:0;
+
+                    this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
+                        this.price = res;
+                        this.priceCCQTemp = this.price;
+                        this.createBuyForm();
+                    });
+                    
+                }
+            }else{
+                this.msgError = "*User chưa gán với khách hàng nào!";
             }
         });
-
-        this.requestService.getPriceCCQ().pipe(first()).subscribe((res: any) => {
-            this.price = res;
-            this.priceCCQTemp = this.price;
-        })
 
         this.assetService.getAssetByGroupId(3).pipe(first()).subscribe((respons: any) => {
             this.assets = respons.data;
@@ -126,9 +135,9 @@ export class InvestRequestComponent implements OnInit {
 
 
 
-    get buyCCQForm() { return this.buyForm.controls; }
+    get buyCCQForm() { if(this.buyForm) return this.buyForm.controls; }
 
-    get sellCCQForm() { return this.sellForm.controls; }
+    get sellCCQForm() { if(this.sellForm) return this.sellForm.controls; }
 
 
 

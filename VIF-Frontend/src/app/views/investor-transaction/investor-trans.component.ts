@@ -14,6 +14,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotEqualZero, ValidateSellAmount } from '../../helpers/function.share';
 import { AssetService } from '../../services/asset.service';
 import { Asset } from '../../models/Asset.model';
+import { AppParamService } from '../../services/appParam.service';
+import { AppParam } from '../../models/AppParam.model';
 
 @Component({
     templateUrl: 'investor-trans.component.html',
@@ -42,10 +44,17 @@ export class InvestorTransComponent implements OnInit {
         }
     ];
     assets: Asset[] = [];
+    appParamLst: AppParam[] = [];
+    isFee: boolean = true;
 
     constructor(private modalService: BsModalService, private toastrService: ToastrService,
         private customerService: CustomerService, private investorTransService: InvestorTransService,
-        private fb: FormBuilder, private assetService:AssetService) {
+        private fb: FormBuilder, private assetService:AssetService, private appParamService: AppParamService) {
+        this.appParamService.getListParamByType('1').pipe(first()).subscribe((respons: any) => {
+            if(respons){
+                this.appParamLst = respons.data;
+            }
+        });
     }
 
     createBuyForm() {
@@ -70,7 +79,9 @@ export class InvestorTransComponent implements OnInit {
             sPrice: [0, Validators.required],
             sAmountCCQAvai: [this.amountCCQAvaiable],
             sTransType: ['1', Validators.required],
-            sCCQDBSelectedCode: [this.assetSelectedCode]
+            sCCQDBSelectedCode: [this.assetSelectedCode],
+            feeSell: [null],
+            hasFee: [true]
         }, {
                 validator: [ValidateSellAmount('sAmountCCQ', 'sAmountCCQAvai'), NotEqualZero('sMoney'), NotEqualZero('sPrice')]
             });
@@ -146,6 +157,8 @@ export class InvestorTransComponent implements OnInit {
         sellCCQObject.customerId = this.sellForm.value.sCustomerSelectedId;
         sellCCQObject.amountCCQ = this.sellForm.value.sAmountCCQ;
         sellCCQObject.priceCCQ = this.sellForm.value.sPrice;
+        sellCCQObject.feeSell = this.sellForm.value.feeSell != null? this.sellForm.value.feeSell:null;
+        // console.log("sellObject", sellCCQObject);
 
         this.investorTransService.sellCCQ(sellCCQObject).pipe(first()).subscribe((respons: any) => {
             this.responseObject = respons;
@@ -178,7 +191,7 @@ export class InvestorTransComponent implements OnInit {
             if (this.sellForm.invalid) {
                 return;
             }
-            if(this.sellForm.value.bTransType=='1'){
+            if(this.sellForm.value.sTransType=='1'){
                 this.sellCCQ();
             }else{
                 console.log("Ban trai phieu!");
@@ -294,7 +307,12 @@ export class InvestorTransComponent implements OnInit {
                 }
             });
         }
-        
     }
 
+    changeHasFee(){
+        // console.log("hase fee: ", this.sellForm.value.hasFee);
+        if(this.sellForm){
+            this.isFee = this.sellForm.value.hasFee;
+        }
+    }
 }

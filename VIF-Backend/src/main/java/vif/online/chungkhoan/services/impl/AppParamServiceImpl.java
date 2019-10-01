@@ -68,4 +68,10 @@ public class AppParamServiceImpl implements AppParamService{
 		// TODO Auto-generated method stub
 		return appParamDao.getAppParamByKeyType(propKey, propType);
 	}
+
+	@Override
+	public List<AppParam> getConfigByType(String appType) {
+		// TODO Auto-generated method stub
+		return appParamDao.getConfigByType(appType);
+	}
 }
