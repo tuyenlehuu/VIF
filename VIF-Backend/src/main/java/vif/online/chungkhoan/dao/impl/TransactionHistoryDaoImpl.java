@@ -116,13 +116,22 @@ public class TransactionHistoryDaoImpl implements TransactionHistoryDao {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
-			if (fromDate != null && !fromDate.equals("")) {
+			if (fromDate != null && !fromDate.equals("")) {	
 				Date fDate = formatter.parse(fromDate);
-				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), fDate));
+				Calendar c = Calendar.getInstance();
+				c.setTime(fDate);
+				c.set(Calendar.HOUR_OF_DAY, 0);
+				c.set(Calendar.MINUTE, 0);
+				c.set(Calendar.SECOND, 0);
+				predicates.add(criteriaBuilder.greaterThanOrEqualTo(from.get("createDate"), c.getTime()));
 			}
+			
 			if (toDate != null && !toDate.equals("")) {
 				Date tDate = formatter.parse(toDate);
-				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), tDate));
+				Calendar c = Calendar.getInstance();
+				c.setTime(tDate);
+				c.add(Calendar.DATE, 1);
+				predicates.add(criteriaBuilder.lessThanOrEqualTo(from.get("createDate"), c.getTime()));
 			}
 
 

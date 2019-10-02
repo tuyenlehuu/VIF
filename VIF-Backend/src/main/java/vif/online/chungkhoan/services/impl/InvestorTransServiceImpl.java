@@ -277,7 +277,7 @@ public class InvestorTransServiceImpl implements InvestorTransService {
 					}else {
 						assetCCQ.setOrginalPrice(getOrignalPriceOfCCQVif(assetCCQ.getAmount(), money, false));
 					}
-					assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
+//					assetCCQ.setCurrentPrice(assetCCQ.getOrginalPrice());
 					assetService.updateAsset(assetCCQ);
 				} else {
 					resultResponse.setCode(500);
